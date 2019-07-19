@@ -60,10 +60,6 @@
       <Project>{f45c44cf-2c70-4683-a36a-1154e2408f53}</Project>
       <Name>Common.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PhoneService\Phone.Service.csproj">
-      <Project>{5efd01a7-b43b-4a53-8f1b-1b42f0d82b75}</Project>
-      <Name>Phone.Service</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

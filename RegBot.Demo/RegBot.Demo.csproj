@@ -164,10 +164,6 @@
       <Project>{8d632bf2-bfd9-4585-a5af-7e15e8431ebb}</Project>
       <Name>AccountData.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common.Bot\Common.Bot.csproj">
-      <Project>{C7FCA1D2-28C1-4FB0-9336-3CA09543FD39}</Project>
-      <Name>Common.Bot</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common.Service\Common.Service.csproj">
       <Project>{F45C44CF-2C70-4683-A36A-1154E2408F53}</Project>
       <Name>Common.Service</Name>
@@ -183,10 +179,6 @@
     <ProjectReference Include="..\OnlineSim\OnlineSimRu.csproj">
       <Project>{fa10abd7-78b1-48dc-8f38-8d0021cc4e38}</Project>
       <Name>OnlineSimRu</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PhoneService\Phone.Service.csproj">
-      <Project>{5EFD01A7-B43B-4A53-8F1B-1B42F0D82B75}</Project>
-      <Name>Phone.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\Yandex.Bot\Yandex.Bot.csproj">
       <Project>{C1EC0956-CF76-427E-9C92-A68E2C6EBA4A}</Project>

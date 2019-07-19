@@ -51,10 +51,6 @@
       <Project>{F45C44CF-2C70-4683-A36A-1154E2408F53}</Project>
       <Name>Common.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PhoneService\Phone.Service.csproj">
-      <Project>{5EFD01A7-B43B-4A53-8F1B-1B42F0D82B75}</Project>
-      <Name>Phone.Service</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

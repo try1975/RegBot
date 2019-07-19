@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Common.Service;
+using Common.Service.Enums;
 
-namespace Phone.Service
+namespace Common.Service.Interfaces
 {
     public interface ISmsService
     {

@@ -4,13 +4,13 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AccountData.Service;
-using Common.Bot;
 using Common.Service;
+using Common.Service.Enums;
+using Common.Service.Interfaces;
 using GetSmsOnline;
 using log4net;
 using MailRu.Bot;
 using OnlineSimRu;
-using Phone.Service;
 using Yandex.Bot;
 
 namespace RegBot.RestApi.Controllers

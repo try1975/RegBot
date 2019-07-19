@@ -5,8 +5,9 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Common.Service;
+using Common.Service.Enums;
+using Common.Service.Interfaces;
 using log4net;
-using Phone.Service;
 
 namespace GetSmsOnline
 {

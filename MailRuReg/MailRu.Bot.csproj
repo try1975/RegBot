@@ -12,9 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AccountDataService\AccountData.Service.csproj" />
-    <ProjectReference Include="..\Common.Bot\Common.Bot.csproj" />
     <ProjectReference Include="..\Common.Service\Common.Service.csproj" />
-    <ProjectReference Include="..\PhoneService\Phone.Service.csproj" />
   </ItemGroup>
 
 </Project>

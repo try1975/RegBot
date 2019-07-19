@@ -1,4 +1,4 @@
-﻿namespace Common.Bot
+﻿namespace Common.Service
 {
     public static class BotMessages
     {

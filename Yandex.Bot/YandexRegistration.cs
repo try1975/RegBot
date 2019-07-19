@@ -3,11 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AccountData.Service;
-using Common.Bot;
 using Common.Service;
+using Common.Service.Enums;
+using Common.Service.Interfaces;
 using log4net;
 using Newtonsoft.Json;
-using Phone.Service;
 using PuppeteerSharp;
 
 namespace Yandex.Bot

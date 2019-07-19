@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
 using AccountData.Service;
-using Common.Bot;
 using Common.Service;
+using Common.Service.Enums;
+using Common.Service.Interfaces;
 using log4net;
 using MailRu.Bot;
 using Newtonsoft.Json;
-using Phone.Service;
 using PuppeteerSharp;
 using Yandex.Bot;
 
@@ -60,7 +60,7 @@ namespace RegBot.Demo
             tbPassword.Text = accountData.Password;
             dtpBirthDate.Value = accountData.BirthDate;
             rbMale.Checked = true;
-            if (accountData.Sex == SexEnum.Female) rbFemale.Checked = true;
+            if (accountData.Sex == SexCode.Female) rbFemale.Checked = true;
         }
 
         private EmailAccountData CreateEmailAccountDataFromUi()
@@ -70,7 +70,7 @@ namespace RegBot.Demo
                 Firstname = tbFirstName.Text,
                 Lastname = tbLastname.Text,
                 BirthDate = dtpBirthDate.Value,
-                Sex = rbMale.Checked ? SexEnum.Male : SexEnum.Female,
+                Sex = rbMale.Checked ? SexCode.Male : SexCode.Female,
                 Password = tbPassword.Text
             };
         }

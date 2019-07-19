@@ -2,11 +2,11 @@
 
 namespace Common.Service
 {
-    public class EnumLocalizeAttribite : Attribute
+    public class EnumLocalizeAttribute : Attribute
     {
         public readonly string Text;
 
-        public EnumLocalizeAttribite(string text)
+        public EnumLocalizeAttribute(string text)
         {
             Text = text;
         }

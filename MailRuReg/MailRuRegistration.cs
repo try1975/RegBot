@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountData.Service;
-using Common.Bot;
 using Common.Service;
+using Common.Service.Enums;
+using Common.Service.Interfaces;
 using log4net;
 using Newtonsoft.Json;
-using Phone.Service;
 using PuppeteerSharp;
 
 namespace MailRu.Bot
@@ -152,10 +152,10 @@ namespace MailRu.Bot
 
             switch (_data.Sex)
             {
-                case SexEnum.Male:
+                case SexCode.Male:
                     await page.ClickAsync("[value='male']");
                     break;
-                case SexEnum.Female:
+                case SexCode.Female:
                     await page.ClickAsync("[value='female']");
                     break;
             }

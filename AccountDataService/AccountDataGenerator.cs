@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Text;
-using Common.Service;
+using Common.Service.Enums;
+using Common.Service.Interfaces;
 
 namespace AccountData.Service
 {
@@ -17,10 +17,10 @@ namespace AccountData.Service
         }
         public IAccountData GetRandom(CountryCode countryCode = CountryCode.EN)
         {
-            IAccountData accountData = new EmailAccountData { Sex = SexEnum.Male };
+            IAccountData accountData = new EmailAccountData { Sex = SexCode.Male };
             var random = new Random();
-            if (random.NextDouble() > 0.5) accountData.Sex = SexEnum.Female;
-            var sex = Enum.GetName(typeof(SexEnum), accountData.Sex);
+            if (random.NextDouble() > 0.5) accountData.Sex = SexCode.Female;
+            var sex = Enum.GetName(typeof(SexCode), accountData.Sex);
 
             accountData.BirthDate = GetBirthDate(random);
 
@@ -44,9 +44,9 @@ namespace AccountData.Service
 
         public IAccountData GetRandomMale(CountryCode countryCode)
         {
-            IAccountData accountData = new EmailAccountData { Sex = SexEnum.Male };
+            IAccountData accountData = new EmailAccountData { Sex = SexCode.Male };
             var random = new Random();
-            var sex = Enum.GetName(typeof(SexEnum), accountData.Sex);
+            var sex = Enum.GetName(typeof(SexCode), accountData.Sex);
 
             accountData.BirthDate = GetBirthDate(random);
             accountData.Password = CreatePassword(10);
@@ -55,9 +55,9 @@ namespace AccountData.Service
 
         public IAccountData GetRandomFemale(CountryCode countryCode)
         {
-            IAccountData accountData = new EmailAccountData { Sex = SexEnum.Female };
+            IAccountData accountData = new EmailAccountData { Sex = SexCode.Female };
             var random = new Random();
-            var sex = Enum.GetName(typeof(SexEnum), accountData.Sex);
+            var sex = Enum.GetName(typeof(SexCode), accountData.Sex);
 
             accountData.BirthDate = GetBirthDate(random);
             accountData.Password = CreatePassword(10);

@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
-using AccountData.Service;
-using Common.Service;
+using Common.Service.Enums;
 
-namespace Common.Bot
+namespace Common.Service.Interfaces
 {
     public interface IBot
     {

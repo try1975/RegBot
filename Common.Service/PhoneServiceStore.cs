@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Common.Service;
+using Common.Service.Enums;
 
-namespace Phone.Service
+namespace Common.Service
 {
     public static class PhoneServiceStore
     {

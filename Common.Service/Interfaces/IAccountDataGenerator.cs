@@ -1,6 +1,6 @@
-﻿using Common.Service;
+﻿using Common.Service.Enums;
 
-namespace AccountData.Service
+namespace Common.Service.Interfaces
 {
     public interface IAccountDataGenerator
     {

@@ -42,10 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnumLocalizeAttribite.cs" />
-    <Compile Include="CountryCode.cs" />
+    <Compile Include="BotMessages.cs" />
+    <Compile Include="EnumLocalizeAttribute.cs" />
+    <Compile Include="Enums\CountryCode.cs" />
+    <Compile Include="Enums\MailServiceCode.cs" />
+    <Compile Include="Interfaces\IAccountData.cs" />
+    <Compile Include="Interfaces\IAccountDataGenerator.cs" />
+    <Compile Include="Interfaces\IBot.cs" />
+    <Compile Include="Interfaces\ISmsService.cs" />
+    <Compile Include="LoggingHandler.cs" />
+    <Compile Include="PhoneNumberRequest.cs" />
+    <Compile Include="PhoneNumberValidation.cs" />
+    <Compile Include="PhoneServiceStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmsServiceCode.cs" />
+    <Compile Include="Enums\SmsServiceCode.cs" />
+    <Compile Include="Enums\SexCode.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

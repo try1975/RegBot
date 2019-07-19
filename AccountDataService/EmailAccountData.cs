@@ -1,4 +1,6 @@
 ﻿using System;
+using Common.Service.Enums;
+using Common.Service.Interfaces;
 
 namespace AccountData.Service
 {
@@ -7,7 +9,7 @@ namespace AccountData.Service
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public DateTime BirthDate { get; set; }
-        public SexEnum Sex { get; set; }
+        public SexCode Sex { get; set; }
         public string AccountName { get; set; }
         public string Password { get; set; }
         public string Domain { get; set; }

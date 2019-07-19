@@ -1,4 +1,4 @@
-﻿namespace Phone.Service
+﻿namespace Common.Service
 {
     public class PhoneNumberValidation
     {

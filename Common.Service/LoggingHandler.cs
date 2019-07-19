@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Phone.Service
+namespace Common.Service
 {
     public class LoggingHandler : DelegatingHandler
     {

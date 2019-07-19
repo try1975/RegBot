@@ -1,13 +1,14 @@
 ﻿using System;
+using Common.Service.Enums;
 
-namespace AccountData.Service
+namespace Common.Service.Interfaces
 {
     public interface IAccountData
     {
         string Firstname { get; set; }
         string Lastname { get; set; }
         DateTime BirthDate { get; set; }
-        SexEnum Sex { get; set; }
+        SexCode Sex { get; set; }
         string AccountName { get; set; }
         string Password { get; set; }
         string Domain { get; set; }

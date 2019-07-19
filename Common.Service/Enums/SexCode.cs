@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace AccountData.Service
+namespace Common.Service.Enums
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum SexEnum
+    public enum SexCode
     {
         Male,
         Female
