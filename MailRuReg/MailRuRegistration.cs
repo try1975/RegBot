@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AccountData.Service;
 using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
@@ -45,11 +44,13 @@ namespace MailRu.Bot
                 }
                 Log.Info($"phoneNumberRequest: {JsonConvert.SerializeObject(phoneNumberRequest)}");
                 _requestId = phoneNumberRequest.Id;
-                _data.Phone = phoneNumberRequest.Phone;
+                _data.Phone = phoneNumberRequest.Phone.Trim();
+                if(!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
+                _data.Phone = _data.Phone.Substring(PhoneServiceStore.CountryPrefixes[countryCode].Length+1);
                 
                 var options = new LaunchOptions
                 {
-                    Headless = true,
+                    Headless = false,
                     ExecutablePath = _chromiumPath,
                     //SlowMo = 10
                     //, Args = new[] 

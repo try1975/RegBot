@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using AccountData.Service;
 using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
@@ -37,6 +36,7 @@ namespace Yandex.Bot
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
                 var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, MailServiceCode.Yandex);
+                //var phoneNumberRequest = new PhoneNumberRequest();
                 if (phoneNumberRequest == null)
                 {
                     _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
@@ -44,7 +44,8 @@ namespace Yandex.Bot
                 }
                 Log.Info($"phoneNumberRequest: {JsonConvert.SerializeObject(phoneNumberRequest)}");
                 _requestId = phoneNumberRequest.Id;
-                _data.Phone = phoneNumberRequest.Phone;
+                _data.Phone = phoneNumberRequest.Phone.Trim();
+                if(!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
 
                 var options = new LaunchOptions
                 {
@@ -165,8 +166,10 @@ namespace Yandex.Bot
 
             #region Phone
 
-            await page.ClickAsync("input[name=phone");
-            await page.TypeAsync("input[name=phone]", _data.Phone);
+            const string selPhone = "input[name=phone]";
+            await page.ClickAsync(selPhone);
+            await page.EvaluateFunctionAsync("function() {"+$"document.querySelector('{selPhone}').value = ''"+"}");
+            await page.TypeAsync(selPhone, _data.Phone);
             //await page.ClickAsync("div.registration__send-code button");
 
             #endregion

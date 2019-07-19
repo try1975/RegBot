@@ -103,7 +103,7 @@ namespace GetSmsOnline
             //"ACCESS_NUMBER:58668155:79771317953"
             //var length = 11 - PhoneServiceStore.CountryPrefixes[countryCode].Length;
             //var phone = getNumberResponse[2].Substring(getNumberResponse[2].Length - length);
-            var phone = $"+{getNumberResponse[2]}";
+            var phone = getNumberResponse[2];
             var phoneNumberRequest= new PhoneNumberRequest
             {
                 Id = getNumberResponse[1],

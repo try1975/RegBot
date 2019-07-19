@@ -96,8 +96,9 @@ namespace OnlineSimRu
             var getStateResponseItem = await GetState(id);
             if (getStateResponseItem == null) { return null; }
 
-            var length = 11 - _countries[countryCode].Length;
-            var phone = getStateResponseItem.number.Substring(getStateResponseItem.number.Length - length);
+            //var length = 11 - _countries[countryCode].Length;
+            //var phone = getStateResponseItem.number.Substring(getStateResponseItem.number.Length - length);
+            var phone = getStateResponseItem.number;
             return new PhoneNumberRequest { Id = id, Phone = phone };
         }
 
