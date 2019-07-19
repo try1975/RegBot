@@ -155,6 +155,7 @@
     <None Include="RegBot.Demo.AppSettings.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="RegBot.Demo.Connections.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

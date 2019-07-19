@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /RegBot.Demo/RegBot.Demo.AppSettings.config
 /RegBot.RestApi/RegBot.RestApi.AppSettings.config
+/RegBot.Demo/RegBot.Demo.Connections.config
