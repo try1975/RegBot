@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
 using AccountData.Service;
-using Common.Service;
+using AutoMapper;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using log4net;
 using MailRu.Bot;
 using Newtonsoft.Json;
 using PuppeteerSharp;
+using RegBot.Db.Entities;
+using RegBot.Db.Entities.QueryProcessors;
+using RegBot.Demo.Ninject;
 using Yandex.Bot;
 
 namespace RegBot.Demo
@@ -16,10 +19,14 @@ namespace RegBot.Demo
     {
         private readonly CountryCode _countryCode = CountryCode.RU;
         private static readonly ILog Log = LogManager.GetLogger(typeof(Form1));
+        private IAccountDataQuery accountDataQuery;
 
         public Form1()
         {
             InitializeComponent();
+
+            accountDataQuery = CompositionRoot.Resolve<IAccountDataQuery>();
+
             GetRandomAccountData();
             cmbSmsService.DataSource = SmsServiceItem.GetSmsServiceItems();
             cmbSmsService.DisplayMember = "Text";
@@ -63,7 +70,7 @@ namespace RegBot.Demo
             if (accountData.Sex == SexCode.Female) rbFemale.Checked = true;
         }
 
-        private EmailAccountData CreateEmailAccountDataFromUi()
+        private IAccountData CreateEmailAccountDataFromUi()
         {
             return new EmailAccountData
             {
@@ -87,15 +94,20 @@ namespace RegBot.Demo
                 var smsService = ((SmsServiceItem)cmbSmsService.SelectedItem).SmsService;
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
                 IBot iBot;
+                var accountData = CreateEmailAccountDataFromUi();
+                var accountDataEntity = Mapper.Map<AccountDataEntity>(accountData);
+                accountDataEntity = accountDataQuery.InsertEntity(accountDataEntity);
+                accountData = Mapper.Map<IAccountData>(accountDataEntity);
                 if (mailServiceCode == MailServiceCode.MailRu)
                 {
-                    iBot = new MailRuRegistration(CreateEmailAccountDataFromUi(), smsService, string.Empty);
+                    iBot = new MailRuRegistration(accountData, smsService, string.Empty);
                 }
                 else
                 {
-                    iBot = new YandexRegistration(CreateEmailAccountDataFromUi(), smsService, string.Empty);
+                    iBot = new YandexRegistration(accountData, smsService, string.Empty);
                 }
-                var accountData = await iBot.Registration(_countryCode);
+                accountData = await iBot.Registration(_countryCode);
+                accountDataQuery.UpdateEntity(Mapper.Map<AccountDataEntity>(accountData));
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
             }

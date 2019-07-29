@@ -5,6 +5,7 @@ namespace Common.Service.Interfaces
 {
     public interface IAccountData
     {
+        int Id { get; set; }
         string Firstname { get; set; }
         string Lastname { get; set; }
         DateTime BirthDate { get; set; }
