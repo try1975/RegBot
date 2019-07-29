@@ -40,7 +40,7 @@ namespace GetSmsOnline
 
             _mailServices[MailServiceCode.MailRu] = "ma";
             _mailServices[MailServiceCode.Yandex] = "ya";
-            //_mailServices[MailServiceCode.Google] = "gm/go";
+            _mailServices[MailServiceCode.Gmail] = "gm/go";
             //_mailServices[MailServiceCode.Microsoft] = "mm";
         }
 

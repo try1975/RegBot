@@ -4,6 +4,7 @@ using AccountData.Service;
 using AutoMapper;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
+using Gmail.Bot;
 using log4net;
 using MailRu.Bot;
 using Newtonsoft.Json;
@@ -93,20 +94,25 @@ namespace RegBot.Demo
             {
                 var smsService = ((SmsServiceItem)cmbSmsService.SelectedItem).SmsService;
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                IBot iBot;
+                IBot iBot = null;
                 var accountData = CreateEmailAccountDataFromUi();
                 var accountDataEntity = Mapper.Map<AccountDataEntity>(accountData);
                 accountDataEntity = accountDataQuery.InsertEntity(accountDataEntity);
                 accountData = Mapper.Map<IAccountData>(accountDataEntity);
-                if (mailServiceCode == MailServiceCode.MailRu)
+                switch (mailServiceCode)
                 {
-                    iBot = new MailRuRegistration(accountData, smsService, string.Empty);
+                    case MailServiceCode.MailRu:
+                        iBot = new MailRuRegistration(accountData, smsService, string.Empty);
+                        break;
+                    case MailServiceCode.Yandex:
+                        iBot = new YandexRegistration(accountData, smsService, string.Empty);
+                        break;
+                    case MailServiceCode.Gmail:
+                        iBot = new GmailRegistration(accountData, smsService, string.Empty);
+                        break;
                 }
-                else
-                {
-                    iBot = new YandexRegistration(accountData, smsService, string.Empty);
-                }
-                accountData = await iBot.Registration(_countryCode);
+
+                if (iBot != null) accountData = await iBot.Registration(_countryCode);
                 accountDataQuery.UpdateEntity(Mapper.Map<AccountDataEntity>(accountData));
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
@@ -120,6 +126,11 @@ namespace RegBot.Demo
         private void BtnYandex_Click(object sender, EventArgs e)
         {
             Demo(MailServiceCode.Yandex);
+        }
+
+        private void btnGmail_Click(object sender, EventArgs e)
+        {
+            Demo(MailServiceCode.Gmail);
         }
 
         private void BtnGenerate_Click(object sender, EventArgs e)

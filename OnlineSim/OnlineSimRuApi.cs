@@ -43,7 +43,7 @@ namespace OnlineSimRu
 
             _mailServices[MailServiceCode.MailRu] = "MailRu";
             _mailServices[MailServiceCode.Yandex] = "Yandex";
-            //_mailServices[MailServiceCode.Google] = "Google";
+            _mailServices[MailServiceCode.Gmail] = "Google";
             //_mailServices[MailServiceCode.Microsoft] = "Microsoft";
         }
 

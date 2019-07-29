@@ -32,6 +32,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnYandex = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cmbSmsService = new System.Windows.Forms.ComboBox();
+            this.lblSmsService = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.rbFemale = new System.Windows.Forms.RadioButton();
             this.rbMale = new System.Windows.Forms.RadioButton();
@@ -45,8 +47,7 @@
             this.tbFirstName = new System.Windows.Forms.TextBox();
             this.lblFirstName = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.lblSmsService = new System.Windows.Forms.Label();
-            this.cmbSmsService = new System.Windows.Forms.ComboBox();
+            this.btnGmail = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
@@ -83,6 +84,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnGmail);
             this.panel1.Controls.Add(this.cmbSmsService);
             this.panel1.Controls.Add(this.lblSmsService);
             this.panel1.Controls.Add(this.btnGenerate);
@@ -104,6 +106,23 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1125, 220);
             this.panel1.TabIndex = 3;
+            // 
+            // cmbSmsService
+            // 
+            this.cmbSmsService.FormattingEnabled = true;
+            this.cmbSmsService.Location = new System.Drawing.Point(934, 35);
+            this.cmbSmsService.Name = "cmbSmsService";
+            this.cmbSmsService.Size = new System.Drawing.Size(161, 28);
+            this.cmbSmsService.TabIndex = 14;
+            // 
+            // lblSmsService
+            // 
+            this.lblSmsService.AutoSize = true;
+            this.lblSmsService.Location = new System.Drawing.Point(930, 12);
+            this.lblSmsService.Name = "lblSmsService";
+            this.lblSmsService.Size = new System.Drawing.Size(95, 20);
+            this.lblSmsService.TabIndex = 13;
+            this.lblSmsService.Text = "Смс сервис";
             // 
             // btnGenerate
             // 
@@ -219,22 +238,15 @@
             this.panel3.Size = new System.Drawing.Size(1125, 439);
             this.panel3.TabIndex = 5;
             // 
-            // lblSmsService
+            // btnGmail
             // 
-            this.lblSmsService.AutoSize = true;
-            this.lblSmsService.Location = new System.Drawing.Point(930, 12);
-            this.lblSmsService.Name = "lblSmsService";
-            this.lblSmsService.Size = new System.Drawing.Size(95, 20);
-            this.lblSmsService.TabIndex = 13;
-            this.lblSmsService.Text = "Смс сервис";
-            // 
-            // cmbSmsService
-            // 
-            this.cmbSmsService.FormattingEnabled = true;
-            this.cmbSmsService.Location = new System.Drawing.Point(934, 35);
-            this.cmbSmsService.Name = "cmbSmsService";
-            this.cmbSmsService.Size = new System.Drawing.Size(161, 28);
-            this.cmbSmsService.TabIndex = 14;
+            this.btnGmail.Location = new System.Drawing.Point(33, 150);
+            this.btnGmail.Name = "btnGmail";
+            this.btnGmail.Size = new System.Drawing.Size(167, 48);
+            this.btnGmail.TabIndex = 15;
+            this.btnGmail.Text = "gmail.com";
+            this.btnGmail.UseVisualStyleBackColor = true;
+            this.btnGmail.Click += new System.EventHandler(this.btnGmail_Click);
             // 
             // Form1
             // 
@@ -275,6 +287,7 @@
         private System.Windows.Forms.Button btnGenerate;
         private System.Windows.Forms.ComboBox cmbSmsService;
         private System.Windows.Forms.Label lblSmsService;
+        private System.Windows.Forms.Button btnGmail;
     }
 }
 
