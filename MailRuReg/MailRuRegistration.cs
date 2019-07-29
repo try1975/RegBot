@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Common.Service;
@@ -36,7 +37,8 @@ namespace MailRu.Bot
             {
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
-                var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, MailServiceCode.MailRu);
+                //var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, MailServiceCode.MailRu);
+                var phoneNumberRequest = new PhoneNumberRequest{Id = "444", Phone = "79163848169"};
                 if (phoneNumberRequest == null)
                 {
                     _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
@@ -47,7 +49,8 @@ namespace MailRu.Bot
                 _data.Phone = phoneNumberRequest.Phone.Trim();
                 if(!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
                 _data.Phone = _data.Phone.Substring(PhoneServiceStore.CountryPrefixes[countryCode].Length+1);
-                
+
+               
                 var options = new LaunchOptions
                 {
                     Headless = false,
@@ -62,6 +65,8 @@ namespace MailRu.Bot
                     //https://blog.apify.com/how-to-make-headless-chrome-and-puppeteer-use-a-proxy-server-with-authentication-249a21a79212
                     //https://toster.ru/q/562104
                 };
+                // windows7 websocket https://github.com/PingmanTools/System.Net.WebSockets.Client.Managed
+                if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory;}
 
                 using (var browser = await Puppeteer.LaunchAsync(options))
                 using (var page = await browser.NewPageAsync())
@@ -125,6 +130,14 @@ namespace MailRu.Bot
                 _data.ErrMsg = exception.Message;
             }
             return _data;
+        }
+
+        private async Task<WebSocket> WebSocketFactory(Uri url, IConnectionOptions options,
+            CancellationToken cancellationToken)
+        {
+            var ws = new System.Net.WebSockets.Managed.ClientWebSocket();
+            await ws.ConnectAsync(url, cancellationToken);
+            return ws;
         }
 
         private async Task FillRegistrationData(Page page)

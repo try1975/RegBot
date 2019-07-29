@@ -8,6 +8,7 @@
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="PuppeteerSharp" Version="1.17.2" />
+    <PackageReference Include="System.Net.WebSockets.Client.Managed" Version="1.0.22" />
   </ItemGroup>
 
   <ItemGroup>
