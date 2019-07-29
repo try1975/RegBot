@@ -78,6 +78,29 @@ namespace Gmail.Bot
             await page.TypeAsync("input[name=lastName]", _data.Lastname);
 
             #endregion
+
+            #region Login
+
+            if (string.IsNullOrEmpty(_data.AccountName))
+            {
+                _data.AccountName = $"{_data.Firstname.ToLower()}.{_data.Lastname.ToLower()}";
+            }
+
+            const string selLogin = "input[name=Username]";
+            await page.ClickAsync(selLogin);
+            await page.EvaluateFunctionAsync("function() {"+$"document.querySelector('{selLogin}').value = ''"+"}");
+            await page.TypeAsync(selLogin, _data.AccountName);
+
+            #endregion
+
+            #region Password
+
+            await page.TypeAsync("input[name=Passwd]", _data.Password);
+            await page.TypeAsync("input[name=ConfirmPasswd]", _data.Password);
+
+            #endregion
+
+            //input#phoneNumberId
         }
     }
 }
