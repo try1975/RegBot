@@ -19,7 +19,7 @@ namespace RegBot.Demo
 {
     public partial class Form1 : Form
     {
-        private readonly CountryCode _countryCode = CountryCode.RU;
+        private CountryCode _countryCode = CountryCode.RU;
         private static readonly ILog Log = LogManager.GetLogger(typeof(Form1));
         private IAccountDataQuery accountDataQuery;
         private long BytesReceived { get; set; }
@@ -135,6 +135,7 @@ namespace RegBot.Demo
                         break;
                 }
 
+                //_countryCode = CountryCode.KZ;
                 if (iBot != null) accountData = await iBot.Registration(_countryCode);
                 accountDataQuery.UpdateEntity(Mapper.Map<AccountDataEntity>(accountData));
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");

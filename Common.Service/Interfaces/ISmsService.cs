@@ -8,5 +8,6 @@ namespace Common.Service.Interfaces
         Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, MailServiceCode mailServiceCode);
         Task<PhoneNumberValidation> GetSmsValidation(string id);
         Task SetSmsValidationSuccess(string id);
+        Task SetNumberFail(string id);
     }
 }

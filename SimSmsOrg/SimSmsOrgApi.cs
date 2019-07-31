@@ -9,40 +9,45 @@ using Common.Service.Enums;
 using Common.Service.Interfaces;
 using log4net;
 
-namespace GetSmsOnline
+namespace SimSmsOrg
 {
-    public class GetSmsOnlineApi : ISmsService
+    public class SimSmsOrgApi : ISmsService
     {
         #region private fields
-        private static readonly ILog Log = LogManager.GetLogger(typeof(GetSmsOnlineApi));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(SimSmsOrgApi));
 
-        private const string BaseUrl = "http://api.getsms.online/stubs/handler_api.php";
-        private readonly string _apiKeyGetSmsOnline = System.Configuration.ConfigurationManager.AppSettings[nameof(_apiKeyGetSmsOnline)];
+        private readonly string _apiKeySimSmsOrg = System.Configuration.ConfigurationManager.AppSettings[nameof(_apiKeySimSmsOrg)];
+
         private readonly HttpClient _apiHttpClient;
+        //private readonly string _endpointGetBalance;
+        //private readonly string _endpointGetNumbersStatus;
         private readonly string _endpointGetNumber;
         private readonly string _endpointSetStatus;
         private readonly string _endpointGetStatus;
 
         private readonly Dictionary<MailServiceCode, string> _mailServices = new Dictionary<MailServiceCode, string>();
+        private static readonly Dictionary<CountryCode, string> CountryParams = new Dictionary<CountryCode,string>();
         
-
         #endregion
 
-        public GetSmsOnlineApi()
+        public SimSmsOrgApi()
         {
+            var baseUrl = $"http://simsms.org/stubs/handler_api.php?api_key={_apiKeySimSmsOrg}";
             _apiHttpClient = new HttpClient(new LoggingHandler());
             _apiHttpClient.DefaultRequestHeaders.Accept.Clear();
             _apiHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            const string apiKeyParameterName = "api_key";
-            _endpointGetNumber = $"{BaseUrl}?action=getNumber&{apiKeyParameterName}={_apiKeyGetSmsOnline}";
-            _endpointSetStatus = $"{BaseUrl}?action=setStatus&{apiKeyParameterName}={_apiKeyGetSmsOnline}";
-            _endpointGetStatus = $"{BaseUrl}?action=getStatus&{apiKeyParameterName}={_apiKeyGetSmsOnline}";
+            //_endpointGetBalance = $"{BaseUrl}&action=getBalance";
+            //_endpointGetNumbersStatus = $"{BaseUrl}&action=getNumbersStatus";
+            _endpointGetNumber = $"{baseUrl}&action=getNumber";
+            _endpointSetStatus = $"{baseUrl}&action=setStatus";
+            _endpointGetStatus = $"{baseUrl}&action=getStatus";
 
             _mailServices[MailServiceCode.MailRu] = "ma";
             _mailServices[MailServiceCode.Yandex] = "ya";
-            _mailServices[MailServiceCode.Gmail] = "gm/go";
-            _mailServices[MailServiceCode.Other] = "or/ot";
-            //_mailServices[MailServiceCode.Microsoft] = "mm";
+            _mailServices[MailServiceCode.Gmail] = "go";
+            _mailServices[MailServiceCode.Other] = "ot";
+
+            CountryParams[CountryCode.RU] = "";
         }
 
         private async Task<string> GetNumber(string service, string country)
@@ -55,7 +60,7 @@ namespace GetSmsOnline
                 return result;
             }
         }
-        
+
         private async Task<string> SetStatus(string id, string status)
         {
             using (var response = await _apiHttpClient.GetAsync($"{_endpointSetStatus}&id={id}&status={status}"))
@@ -81,8 +86,7 @@ namespace GetSmsOnline
         public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, MailServiceCode mailServiceCode)
         {
             Log.Debug($"Call {nameof(GetPhoneNumber)}");
-            var service = _mailServices[mailServiceCode];
-            var getNumberResult = await GetNumber(service, Enum.GetName(typeof(CountryCode), countryCode)?.ToLower());
+            var getNumberResult = await GetNumber(_mailServices[mailServiceCode], CountryParams[countryCode]);
             var getNumberResponse = getNumberResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
             if (getNumberResponse.Length < 3) return null;
             //"ACCESS_NUMBER:58668155:79771317953"
@@ -130,7 +134,7 @@ namespace GetSmsOnline
         public async Task SetNumberFail(string id)
         {
             Log.Debug($"Call {nameof(SetNumberFail)}");
-            await SetStatus(id, "10");
+            await SetStatus(id, "8");
         }
     }
 }

@@ -35,6 +35,29 @@ namespace MailRu.Bot
         {
             try
             {
+                var options = new LaunchOptions
+                {
+                    Headless = false,
+                    ExecutablePath = _chromiumPath,
+                    //SlowMo = 10,
+                    
+                };
+
+                //options.Args = new[]
+                //{
+                //    "--proxy-server=socks4://36.67.184.157:54555"//, "--proxy-auth: userx:passx", "--proxy-type: 'meh'"
+                //};
+                //https://blog.apify.com/how-to-make-headless-chrome-and-puppeteer-use-a-proxy-server-with-authentication-249a21a79212
+                //https://toster.ru/q/562104
+
+                // windows7 websocket https://github.com/PingmanTools/System.Net.WebSockets.Client.Managed
+                if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory;}
+                //using (var browser = await Puppeteer.LaunchAsync(options))
+                //using (var page = await browser.NewPageAsync())
+                //{
+                //    await page.GoToAsync("https://yandex.ru/internet/");
+                //}
+
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
                 var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, MailServiceCode.MailRu);
@@ -49,24 +72,6 @@ namespace MailRu.Bot
                 _data.Phone = phoneNumberRequest.Phone.Trim();
                 if(!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
                 _data.Phone = _data.Phone.Substring(PhoneServiceStore.CountryPrefixes[countryCode].Length+1);
-
-               
-                var options = new LaunchOptions
-                {
-                    Headless = false,
-                    ExecutablePath = _chromiumPath,
-                    //SlowMo = 10
-                    //, Args = new[] 
-                    //    {
-                    //        "--proxy-server=socks5://myproxy:8080"
-                    //        , "--proxy-auth: userx:passx"
-                    //        , "--proxy-type: 'meh'"
-                    //    }
-                    //https://blog.apify.com/how-to-make-headless-chrome-and-puppeteer-use-a-proxy-server-with-authentication-249a21a79212
-                    //https://toster.ru/q/562104
-                };
-                // windows7 websocket https://github.com/PingmanTools/System.Net.WebSockets.Client.Managed
-                if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory;}
 
                 using (var browser = await Puppeteer.LaunchAsync(options))
                 using (var page = await browser.NewPageAsync())

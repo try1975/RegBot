@@ -3,9 +3,8 @@
     public enum MailServiceCode
     {
         MailRu,
-        Yandex,/*,
-        Google,
-        Microsoft*/
-        Gmail
+        Yandex,
+        Gmail,
+        Other
     }
 }

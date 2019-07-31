@@ -2,9 +2,11 @@
 {
     public enum SmsServiceCode
     {
-        [EnumLocalize("GetSms.Online")]
+        [EnumLocalize("GetSms.online")]
         GetSmsOnline,
-        [EnumLocalize("OnlineSim.Ru")]
-        OnlineSimRu
+        [EnumLocalize("OnlineSim.ru")]
+        OnlineSimRu,
+        [EnumLocalize("SimSms.org")]
+        SimSmsOrg
     }
 }

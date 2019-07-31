@@ -214,6 +214,10 @@
       <Project>{050A7D21-60AB-4E40-B2BD-572BBEEAE730}</Project>
       <Name>RegBot.Db.MsSql</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimSmsOrg\SimSmsOrg.csproj">
+      <Project>{be0efc1b-f2b3-4a83-8647-2d14b53dd4ad}</Project>
+      <Name>SimSmsOrg</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Yandex.Bot\Yandex.Bot.csproj">
       <Project>{C1EC0956-CF76-427E-9C92-A68E2C6EBA4A}</Project>
       <Name>Yandex.Bot</Name>

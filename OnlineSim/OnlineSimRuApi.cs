@@ -44,6 +44,7 @@ namespace OnlineSimRu
             _mailServices[MailServiceCode.MailRu] = "MailRu";
             _mailServices[MailServiceCode.Yandex] = "Yandex";
             _mailServices[MailServiceCode.Gmail] = "Google";
+            _mailServices[MailServiceCode.Other] = "other";
             //_mailServices[MailServiceCode.Microsoft] = "Microsoft";
         }
 
@@ -80,6 +81,16 @@ namespace OnlineSimRu
                 if (!response.IsSuccessStatusCode) return;
                 var result = await response.Content.ReadAsStringAsync();
                 Log.Debug($"{nameof(SetOperationOk)}... {result}");
+            }
+        }
+
+        private async Task SetOperationFail(string id)
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointSetOperationOk}&tzid={id}&ban=1"))
+            {
+                if (!response.IsSuccessStatusCode) return;
+                var result = await response.Content.ReadAsStringAsync();
+                Log.Debug($"{nameof(SetOperationFail)}... {result}");
             }
         }
 
@@ -134,6 +145,12 @@ namespace OnlineSimRu
         public async Task SetSmsValidationSuccess(string id)
         {
             await SetOperationOk(id);
+        }
+
+        public async Task SetNumberFail(string id)
+        {
+            Log.Debug($"Call {nameof(SetNumberFail)}");
+            await SetOperationFail(id);
         }
     }
 }

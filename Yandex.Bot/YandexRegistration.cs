@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net.WebSockets;
+using System.Threading;
 using System.Threading.Tasks;
 using Common.Service;
 using Common.Service.Enums;
@@ -33,10 +35,28 @@ namespace Yandex.Bot
         {
             try
             {
+
+                var options = new LaunchOptions
+                {
+                    Headless = false,
+                    ExecutablePath = _chromiumPath,
+                    //SlowMo = 10,
+
+                };
+
+                //options.Args = new[]
+                //{
+                //    "--proxy-server=socks4://36.67.184.157:54555"//, "--proxy-auth: userx:passx", "--proxy-type: 'meh'"
+                //};
+                //https://blog.apify.com/how-to-make-headless-chrome-and-puppeteer-use-a-proxy-server-with-authentication-249a21a79212
+                //https://toster.ru/q/562104
+
+                // windows7 websocket https://github.com/PingmanTools/System.Net.WebSockets.Client.Managed
+                if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory; }
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
                 var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, MailServiceCode.Yandex);
-                //var phoneNumberRequest = new PhoneNumberRequest();
+                //var phoneNumberRequest = new PhoneNumberRequest(Id=);
                 if (phoneNumberRequest == null)
                 {
                     _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
@@ -46,13 +66,6 @@ namespace Yandex.Bot
                 _requestId = phoneNumberRequest.Id;
                 _data.Phone = phoneNumberRequest.Phone.Trim();
                 if(!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
-
-                var options = new LaunchOptions
-                {
-                    Headless = false,
-                    ExecutablePath = _chromiumPath
-                    //SlowMo = 10
-                };
 
                 using (var browser = await Puppeteer.LaunchAsync(options))
                 using (var page = await browser.NewPageAsync())
@@ -183,6 +196,14 @@ namespace Yandex.Bot
 
 
             //
+        }
+
+        private async Task<WebSocket> WebSocketFactory(Uri url, IConnectionOptions options,
+            CancellationToken cancellationToken)
+        {
+            var ws = new System.Net.WebSockets.Managed.ClientWebSocket();
+            await ws.ConnectAsync(url, (CancellationToken) cancellationToken);
+            return ws;
         }
     }
 }
