@@ -44,7 +44,7 @@ namespace Gmail.Bot
                 Log.Info($"phoneNumberRequest: {JsonConvert.SerializeObject(phoneNumberRequest)}");
                 _requestId = phoneNumberRequest.Id;
                 _data.Phone = phoneNumberRequest.Phone.Trim();
-                if(!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
+                //if(!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
 
                 var options = new LaunchOptions
                 {
@@ -57,6 +57,11 @@ namespace Gmail.Bot
                 using (var page = await browser.NewPageAsync())
                 {
                     await FillRegistrationData(page);
+                    //select country div[role=listbox] span[dir by +7 and parent country name
+                    await page.TypeAsync("input#phoneNumberId", _data.Phone);
+                    await page.ClickAsync("div#gradsIdvPhoneNext span>span");
+                    //input#phoneNumberId
+                    //div#gradsIdvPhoneNext span>span
                 }
             }
             catch (Exception exception)
@@ -90,7 +95,7 @@ namespace Gmail.Bot
             await page.ClickAsync(selLogin);
             await page.EvaluateFunctionAsync("function() {"+$"document.querySelector('{selLogin}').value = ''"+"}");
             await page.TypeAsync(selLogin, _data.AccountName);
-
+                //<ul id="usernameList"
             #endregion
 
             #region Password
@@ -100,7 +105,9 @@ namespace Gmail.Bot
 
             #endregion
 
-            //input#phoneNumberId
+            await page.ClickAsync("div#accountDetailsNext span>span");
+            //check div[aria-live=assertive]
+
         }
     }
 }

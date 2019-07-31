@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Windows.Forms;
 using AccountData.Service;
 using AutoMapper;
@@ -21,6 +22,7 @@ namespace RegBot.Demo
         private readonly CountryCode _countryCode = CountryCode.RU;
         private static readonly ILog Log = LogManager.GetLogger(typeof(Form1));
         private IAccountDataQuery accountDataQuery;
+        private long BytesReceived { get; set; }
 
         public Form1()
         {
@@ -34,11 +36,22 @@ namespace RegBot.Demo
             cmbSmsService.SelectedIndex = 0;
         }
 
-        private static async void GetBrowserLastVersion()
+        private async void GetBrowserLastVersion(BrowserFetcher browserFetcher)
         {
             try
             {
-                await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+                BytesReceived = 0;
+
+                btnMailRu.Enabled = false;
+                btnYandex.Enabled = false;
+                btnGmail.Enabled = false;
+                textBox1.Text = $@"GetBrowserLastVersion() start... - {DateTime.Now} {Environment.NewLine}";
+                await browserFetcher.DownloadAsync(BrowserFetcher.DefaultRevision);
+                textBox1.AppendText($@"GetExecutablePath - {browserFetcher.GetExecutablePath(BrowserFetcher.DefaultRevision)}{Environment.NewLine}");
+                textBox1.AppendText($@"GetBrowserLastVersion() complete... - {DateTime.Now} {Environment.NewLine}");
+                btnMailRu.Enabled = true;
+                btnYandex.Enabled = true;
+                btnGmail.Enabled = true;
             }
             catch (Exception exception)
             {
@@ -48,15 +61,21 @@ namespace RegBot.Demo
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            textBox1.Text = $@"GetBrowserLastVersion() - {DateTime.Now} {Environment.NewLine}";
-            btnMailRu.Enabled = false;
-            btnYandex.Enabled = false;
-            GetBrowserLastVersion();
             var browserFetcher = new BrowserFetcher();
-            textBox1.AppendText($@"GetExecutablePath - {browserFetcher.GetExecutablePath(BrowserFetcher.DefaultRevision)}{Environment.NewLine}");
-            textBox1.AppendText($@"GetBrowserLastVersion() complete... - {DateTime.Now} {Environment.NewLine}");
-            btnMailRu.Enabled = true;
-            btnYandex.Enabled = true;
+            browserFetcher.DownloadProgressChanged += OnDownloadProgressChanged;
+            GetBrowserLastVersion(browserFetcher);
+        }
+
+        private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            if (BytesReceived == 0)
+            {
+                textBox1.AppendText($@"Download size {e.TotalBytesToReceive} - {DateTime.Now} {Environment.NewLine}");
+                BytesReceived = 1;
+            };
+            if (e.BytesReceived - BytesReceived <= 20000000) return;
+            BytesReceived = e.BytesReceived;
+            textBox1.AppendText($@"Download progress {e.BytesReceived} from {e.TotalBytesToReceive} - {DateTime.Now} {Environment.NewLine}");
         }
 
         private void GetRandomAccountData(CountryCode countryCode = CountryCode.EN)
@@ -88,6 +107,13 @@ namespace RegBot.Demo
             Demo(MailServiceCode.MailRu);
         }
 
+        private IAccountData StoreData(IAccountData accountData)
+        {
+            var accountDataEntity = Mapper.Map<AccountDataEntity>(accountData);
+            accountDataEntity = accountDataQuery.InsertEntity(accountDataEntity);
+            return Mapper.Map<IAccountData>(accountDataEntity);
+        }
+
         private async void Demo(MailServiceCode mailServiceCode)
         {
             try
@@ -95,10 +121,7 @@ namespace RegBot.Demo
                 var smsService = ((SmsServiceItem)cmbSmsService.SelectedItem).SmsService;
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
                 IBot iBot = null;
-                var accountData = CreateEmailAccountDataFromUi();
-                var accountDataEntity = Mapper.Map<AccountDataEntity>(accountData);
-                accountDataEntity = accountDataQuery.InsertEntity(accountDataEntity);
-                accountData = Mapper.Map<IAccountData>(accountDataEntity);
+                var accountData = StoreData(CreateEmailAccountDataFromUi());
                 switch (mailServiceCode)
                 {
                     case MailServiceCode.MailRu:
@@ -119,7 +142,7 @@ namespace RegBot.Demo
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
+                textBox1.AppendText($"{exception}");
             }
         }
 
