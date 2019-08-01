@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnMailRu = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnYandex = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnGmail = new System.Windows.Forms.Button();
             this.cmbSmsService = new System.Windows.Forms.ComboBox();
             this.lblSmsService = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
@@ -47,9 +49,21 @@
             this.tbFirstName = new System.Windows.Forms.TextBox();
             this.lblFirstName = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.btnGmail = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.advancedDataGridView1 = new ADGV.AdvancedDataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnMailRu
@@ -69,7 +83,7 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(1125, 439);
+            this.textBox1.Size = new System.Drawing.Size(1111, 400);
             this.textBox1.TabIndex = 1;
             // 
             // btnYandex
@@ -102,10 +116,20 @@
             this.panel1.Controls.Add(this.lblFirstName);
             this.panel1.Controls.Add(this.btnMailRu);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1125, 220);
+            this.panel1.Size = new System.Drawing.Size(1111, 220);
             this.panel1.TabIndex = 3;
+            // 
+            // btnGmail
+            // 
+            this.btnGmail.Location = new System.Drawing.Point(33, 150);
+            this.btnGmail.Name = "btnGmail";
+            this.btnGmail.Size = new System.Drawing.Size(167, 48);
+            this.btnGmail.TabIndex = 15;
+            this.btnGmail.Text = "gmail.com";
+            this.btnGmail.UseVisualStyleBackColor = true;
+            this.btnGmail.Click += new System.EventHandler(this.BtnGmail_Click);
             // 
             // cmbSmsService
             // 
@@ -233,28 +257,88 @@
             // 
             this.panel3.Controls.Add(this.textBox1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 220);
+            this.panel3.Location = new System.Drawing.Point(3, 223);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1125, 439);
+            this.panel3.Size = new System.Drawing.Size(1111, 400);
             this.panel3.TabIndex = 5;
             // 
-            // btnGmail
+            // tabControl1
             // 
-            this.btnGmail.Location = new System.Drawing.Point(33, 150);
-            this.btnGmail.Name = "btnGmail";
-            this.btnGmail.Size = new System.Drawing.Size(167, 48);
-            this.btnGmail.TabIndex = 15;
-            this.btnGmail.Text = "gmail.com";
-            this.btnGmail.UseVisualStyleBackColor = true;
-            this.btnGmail.Click += new System.EventHandler(this.btnGmail_Click);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1125, 659);
+            this.tabControl1.TabIndex = 2;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.panel3);
+            this.tabPage1.Controls.Add(this.panel1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1117, 626);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Регистрация";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.panel4);
+            this.tabPage2.Controls.Add(this.panel2);
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1117, 626);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "История";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Enter += new System.EventHandler(this.tabPage2_Enter);
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.advancedDataGridView1);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(3, 33);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(1111, 590);
+            this.panel4.TabIndex = 1;
+            // 
+            // advancedDataGridView1
+            // 
+            this.advancedDataGridView1.AllowUserToAddRows = false;
+            this.advancedDataGridView1.AllowUserToDeleteRows = false;
+            this.advancedDataGridView1.AllowUserToOrderColumns = true;
+            this.advancedDataGridView1.AutoGenerateContextFilters = true;
+            this.advancedDataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.advancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.advancedDataGridView1.DateWithTime = true;
+            this.advancedDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.advancedDataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.advancedDataGridView1.Name = "advancedDataGridView1";
+            this.advancedDataGridView1.ReadOnly = true;
+            this.advancedDataGridView1.RowTemplate.Height = 28;
+            this.advancedDataGridView1.Size = new System.Drawing.Size(1111, 590);
+            this.advancedDataGridView1.TabIndex = 1;
+            this.advancedDataGridView1.TimeFilter = false;
+            // 
+            // panel2
+            // 
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(3, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1111, 30);
+            this.panel2.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1125, 659);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "RegBot.Demo";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -262,6 +346,12 @@
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -288,6 +378,13 @@
         private System.Windows.Forms.ComboBox cmbSmsService;
         private System.Windows.Forms.Label lblSmsService;
         private System.Windows.Forms.Button btnGmail;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel panel2;
+        private ADGV.AdvancedDataGridView advancedDataGridView1;
+        private System.Windows.Forms.BindingSource bindingSource1;
     }
 }
 

@@ -6,14 +6,14 @@ namespace RegBot.Db.MsSql.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
+    [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
     public sealed partial class V01 : IMigrationMetadata
     {
         private readonly ResourceManager Resources = new ResourceManager(typeof(V01));
         
         string IMigrationMetadata.Id
         {
-            get { return "201907192220346_V01"; }
+            get { return "201908011147592_V01"; }
         }
         
         string IMigrationMetadata.Source

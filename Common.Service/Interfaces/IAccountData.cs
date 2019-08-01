@@ -17,5 +17,6 @@ namespace Common.Service.Interfaces
         string Phone { get; set; }
         bool Success { get; set; }
         string ErrMsg { get; set; }
+        DateTime CreatedAt { get; set; }
     }
 }

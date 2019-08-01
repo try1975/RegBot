@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,10 +43,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.9.7.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\packages\Z.EntityFramework.Plus.EF6.1.9.7\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
@@ -52,9 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mappings\AccountDataMap.cs" />
-    <Compile Include="Migrations\201907192220346_V01.cs" />
-    <Compile Include="Migrations\201907192220346_V01.Designer.cs">
-      <DependentUpon>201907192220346_V01.cs</DependentUpon>
+    <Compile Include="Migrations\201908011147592_V01.cs" />
+    <Compile Include="Migrations\201908011147592_V01.Designer.cs">
+      <DependentUpon>201908011147592_V01.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,7 +63,6 @@
     <Compile Include="TypedQuery.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -77,8 +76,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907192220346_V01.resx">
-      <DependentUpon>201907192220346_V01.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908011147592_V01.resx">
+      <DependentUpon>201908011147592_V01.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

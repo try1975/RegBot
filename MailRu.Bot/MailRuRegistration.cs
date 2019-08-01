@@ -40,7 +40,7 @@ namespace MailRu.Bot
                     Headless = false,
                     ExecutablePath = _chromiumPath,
                     //SlowMo = 10,
-                    
+
                 };
 
                 //options.Args = new[]
@@ -51,7 +51,7 @@ namespace MailRu.Bot
                 //https://toster.ru/q/562104
 
                 // windows7 websocket https://github.com/PingmanTools/System.Net.WebSockets.Client.Managed
-                if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory;}
+                if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory; }
                 //using (var browser = await Puppeteer.LaunchAsync(options))
                 //using (var page = await browser.NewPageAsync())
                 //{
@@ -70,8 +70,8 @@ namespace MailRu.Bot
                 Log.Info($"phoneNumberRequest: {JsonConvert.SerializeObject(phoneNumberRequest)}");
                 _requestId = phoneNumberRequest.Id;
                 _data.Phone = phoneNumberRequest.Phone.Trim();
-                if(!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
-                _data.Phone = _data.Phone.Substring(PhoneServiceStore.CountryPrefixes[countryCode].Length+1);
+                if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
+                _data.Phone = _data.Phone.Substring(PhoneServiceStore.CountryPrefixes[countryCode].Length + 1);
 
                 using (var browser = await Puppeteer.LaunchAsync(options))
                 using (var page = await browser.NewPageAsync())
@@ -114,7 +114,7 @@ namespace MailRu.Bot
                                 await _smsService.SetSmsValidationSuccess(_requestId);
                                 // ReSharper disable once StringLiteralTypo
                                 await page.ClickAsync("button[data-test-id='onboarding-button-start']");
-                                
+
                             }
                             else
                             {

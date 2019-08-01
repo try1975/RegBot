@@ -170,8 +170,12 @@
       <Project>{1D1E05C8-006D-4BB8-88C1-96B6A23E1110}</Project>
       <Name>GetSmsOnline</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MailRuReg\MailRu.Bot.csproj">
-      <Project>{1AB5228B-9B26-4D72-9FB8-81E08DC9F907}</Project>
+    <ProjectReference Include="..\Gmail.Bot\Gmail.Bot.csproj">
+      <Project>{6a78cf28-6c28-4090-a414-329fbe8a91f0}</Project>
+      <Name>Gmail.Bot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MailRu.Bot\MailRu.Bot.csproj">
+      <Project>{f1c872d7-cf9e-4e7f-ad2f-e821b67e1afa}</Project>
       <Name>MailRu.Bot</Name>
     </ProjectReference>
     <ProjectReference Include="..\OnlineSim\OnlineSimRu.csproj">

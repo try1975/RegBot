@@ -18,5 +18,6 @@ namespace AccountData.Service
         public string Phone { get; set; }
         public bool Success { get; set; }
         public string ErrMsg { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
