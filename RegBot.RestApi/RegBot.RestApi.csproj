@@ -146,6 +146,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="RegBot.RestApi.AppSettings.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.ExceptionHandling;
+using log4net;
 
 namespace RegBot.RestApi.App_Start
 {
@@ -13,6 +14,7 @@ namespace RegBot.RestApi.App_Start
     public class ApiExceptionLogger : ExceptionLogger
     {
         private const string CorrelationIdHeaderName = "CorrelationId";
+        private static readonly ILog Log = LogManager.GetLogger(nameof(ApiExceptionLogger));
 
         /// <summary>
         /// Overrides <see cref="ExceptionLogger.LogAsync"/> method with custom logger implementations.
@@ -22,6 +24,7 @@ namespace RegBot.RestApi.App_Start
         /// <returns></returns>
         public override async Task LogAsync(ExceptionLoggerContext context, CancellationToken cancellationToken)
         {
+            Log.Error(context.Exception.Message);
             GetOrSetCorrelationId(context.Request);
             var request = await CreateRequest(context.Request);
             // Use a logger of your choice to log a request.

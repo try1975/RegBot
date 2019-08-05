@@ -9,6 +9,7 @@ using Common.Service.Enums;
 using Common.Service.Interfaces;
 using log4net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PuppeteerSharp;
 
 namespace Yandex.Bot
@@ -56,7 +57,7 @@ namespace Yandex.Bot
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
                 var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, MailServiceCode.Yandex);
-                //var phoneNumberRequest = new PhoneNumberRequest(Id=);
+                //var phoneNumberRequest = new PhoneNumberRequest{Id="1", Phone = "79852985779"};
                 if (phoneNumberRequest == null)
                 {
                     _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
@@ -71,19 +72,28 @@ namespace Yandex.Bot
                 using (var page = await browser.NewPageAsync())
                 {
                     await FillRegistrationData(page);
-                    await page.ClickAsync("button[type='submit']");
-                    await page.WaitForTimeoutAsync(5000);
+                    //await page.ClickAsync("button[type='submit']");
+                    await page.ClickAsync("div.registration__send-code span");
+                    await page.WaitForTimeoutAsync(2000);
                     const string smsSendSelector = "div.reg-field__popup span.registration__pseudo-link";
-                    var smsSendExists = await page.QuerySelectorAsync(smsSendSelector);
-                    var smsCodeInput = await page.QuerySelectorAsync("input#phoneCode");
+                    ElementHandle smsCodeInput;
+                    var phoneCodeLabelTextToken =  await page.EvaluateExpressionAsync("document.querySelector('label[for=phoneCode').innerText");
+                    var isSms = false;
+                    var isVoice = false;
+                    if(phoneCodeLabelTextToken!=null)
+                    {
+                        var phoneCodeLabelText = phoneCodeLabelTextToken.ToString();
+                        if (phoneCodeLabelText.Contains("смс")) isSms = true;
+                        if (phoneCodeLabelText.Contains("голос")) isVoice = true;
+                    }
                     // ошибка превышен лимит sms
                     var err = await page.QuerySelectorAsync("div.error-message");
-                    if (smsSendExists == null && smsCodeInput == null && err ==null) await page.WaitForTimeoutAsync(20000);
-                    smsSendExists = await page.QuerySelectorAsync(smsSendSelector);
-                    if (smsSendExists != null)
+                    //if (smsSendExists == null && smsCodeInput == null && err ==null) await page.WaitForTimeoutAsync(20000);
+                    if (isVoice)
                     {
-                        var jsAltMailList = $@"Array.from(document.querySelectorAll('{smsSendSelector}')).map(a => a.innerText);";
-                        var linkList = await page.EvaluateExpressionAsync<string[]>(jsAltMailList);
+                        await page.WaitForTimeoutAsync(35000);
+                        var jsAltAction = $@"Array.from(document.querySelectorAll('{smsSendSelector}')).map(a => a.innerText);";
+                        var linkList = await page.EvaluateExpressionAsync<string[]>(jsAltAction);
                         var smsLink = linkList.FirstOrDefault(z => z.Contains("sms"));
                         if (!string.IsNullOrEmpty(smsLink))
                         {
@@ -101,7 +111,9 @@ namespace Yandex.Bot
                                     if (smsCodeInput != null)
                                     {
                                         await page.TypeAsync("input#phoneCode", phoneNumberValidation.Code);
+                                        await page.WaitForTimeoutAsync(5000);
                                         await page.ClickAsync("button[type='submit']");
+                                        await page.WaitForTimeoutAsync(5000);
                                         _data.Success = true;
                                     }
                                 }
@@ -116,9 +128,27 @@ namespace Yandex.Bot
                                 Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
                                 await page.TypeAsync("input#phoneCode", phoneNumberValidation.Code);
                                 await _smsService.SetSmsValidationSuccess(_requestId);
+                                await page.WaitForTimeoutAsync(5000);
                                 await page.ClickAsync("button[type='submit']");
+                                await page.WaitForTimeoutAsync(5000);
                                 _data.Success = true;
                             }
+                        }
+                    }
+
+                    if (isSms)
+                    {
+                        smsCodeInput = await page.QuerySelectorAsync("input#phoneCode");
+                        if (smsCodeInput != null)
+                        {
+                            var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
+                            Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
+                            await page.TypeAsync("input#phoneCode", phoneNumberValidation.Code);
+                            await _smsService.SetSmsValidationSuccess(_requestId);
+                            await page.WaitForTimeoutAsync(5000);
+                            await page.ClickAsync("button[type='submit']");
+                            await page.WaitForTimeoutAsync(5000);
+                            _data.Success = true;
                         }
                     }
                 }
@@ -154,7 +184,9 @@ namespace Yandex.Bot
 
 
             const string selAltMail = "li.registration__pseudo-link label";
-            var altMailExists = await page.WaitForSelectorAsync(selAltMail, new WaitForSelectorOptions { Timeout = 300 });
+            await page.WaitForTimeoutAsync(300);
+            var altMailExists = await page.QuerySelectorAsync(selAltMail);
+            //var altMailExists = await page.WaitForSelectorAsync(selAltMail, new WaitForSelectorOptions { Timeout = 300 });
             if (altMailExists != null)
             {
                 var selAltMailList = $"{selAltMail}";
