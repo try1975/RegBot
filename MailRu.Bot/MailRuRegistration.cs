@@ -229,14 +229,33 @@ namespace MailRu.Bot
 
             #region Phone
 
-            const string defaultPhoneCountryCode = "RU";
-            if (!string.IsNullOrEmpty(_data.PhoneCountryCode) && _data.PhoneCountryCode != defaultPhoneCountryCode)
+            //const string defaultPhoneCountryCode = "RU";
+            //if (!string.IsNullOrEmpty(_data.PhoneCountryCode) && _data.PhoneCountryCode != defaultPhoneCountryCode)
+            //{
+            const string selCountry = "div.b-phone span";
+            var elCountry = await page.QuerySelectorAsync(selCountry);
+            if (elCountry != null)
             {
-                await page.ClickAsync("div.b-phone span");
+                await elCountry.ClickAsync();
+                await page.WaitForTimeoutAsync(300);
                 await page.ClickAsync($"a[data-value='{_data.PhoneCountryCode}'] span.b-dropdown__list__item__text");
+                await page.WaitForTimeoutAsync(300);
             }
-
-            await page.TypeAsync("input[type='tel']", _data.Phone);
+            else
+            {
+                Log.Error("Country select not found");
+            }
+            //}
+            const string selPhone = "input[type='tel']";
+            var elPhone = await page.QuerySelectorAsync(selPhone);
+            if (elPhone != null)
+            {
+                await elPhone.TypeAsync(_data.Phone);
+            }
+            else
+            {
+                Log.Error("Phone input not found");
+            }
 
             #endregion
         }
