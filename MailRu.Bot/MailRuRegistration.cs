@@ -29,6 +29,7 @@ namespace MailRu.Bot
             if (string.IsNullOrEmpty(chromiumPath)) chromiumPath = Environment.CurrentDirectory;
             chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-662092\\chrome-win\\chrome.exe");
             _chromiumPath = chromiumPath;
+            Log.Debug($"_chromiumPath: {_chromiumPath}");
         }
 
         public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)
