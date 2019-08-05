@@ -141,7 +141,7 @@ namespace RegBot.Demo
                 //accountData.Domain = "list.ru";
                 if (string.IsNullOrEmpty(accountData.AccountName))
                 {
-                    accountData.AccountName=Transliteration.CyrillicToLatin($"{accountData.Firstname.ToLower()}.{accountData.Lastname.ToLower()}", Language.Russian);
+                    accountData.AccountName = Transliteration.CyrillicToLatin($"{accountData.Firstname.ToLower()}.{accountData.Lastname.ToLower()}", Language.Russian);
                 }
                 accountData = StoreAccountData(accountData);
 
@@ -159,7 +159,7 @@ namespace RegBot.Demo
                 }
 
                 //_countryCode = CountryCode.KZ;
-                if (iBot != null) accountData = await iBot.Registration(_countryCode, headless: true);
+                if (iBot != null) accountData = await iBot.Registration(_countryCode, headless: false);
                 StoreAccountData(accountData);
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");

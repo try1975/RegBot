@@ -147,6 +147,10 @@ namespace Yandex.Bot
                             await _smsService.SetSmsValidationSuccess(_requestId);
                             await page.WaitForTimeoutAsync(5000);
                             await page.ClickAsync("button[type='submit']");
+                            var selEula = "div.t-eula-accept button";
+                            var elEula = await page.QuerySelectorAsync(selEula);
+                            var eulaButtonVisible = elEula != null && await elEula.IsIntersectingViewportAsync();
+                            if (eulaButtonVisible) await elEula.ClickAsync();
                             await page.WaitForTimeoutAsync(5000);
                             _data.Success = true;
                         }

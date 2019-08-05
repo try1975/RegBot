@@ -129,7 +129,7 @@ namespace OnlineSimRu
                 return new PhoneNumberValidation { Code = getStateResponseItem.msg };
             }
             tryCount = 0;
-            while (getStateResponseItem != null && string.IsNullOrEmpty(getStateResponseItem.msg) && tryCount < 50)
+            while (getStateResponseItem != null && string.IsNullOrEmpty(getStateResponseItem.msg) && tryCount < 100)
             {
                 Thread.Sleep(1000);
                 getStateResponseItem = await GetState(id);
