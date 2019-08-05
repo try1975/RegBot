@@ -48,6 +48,7 @@ namespace SimSmsOrg
             _mailServices[MailServiceCode.Other] = "ot";
 
             CountryParams[CountryCode.RU] = "";
+            CountryParams[CountryCode.UA] = "1";
         }
 
         private async Task<string> GetNumber(string service, string country)
