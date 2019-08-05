@@ -188,7 +188,7 @@ namespace MailRu.Bot
             }
 
             await page.TypeAsync("span.b-email__name>input[type='email']", _data.AccountName);
-            const string defaultDomain = "@mail.ru";
+            const string defaultDomain = "mail.ru";
             if (string.IsNullOrEmpty(_data.Domain))
             {
                 _data.Domain = defaultDomain;
@@ -198,7 +198,7 @@ namespace MailRu.Bot
             {
                 //select domain
                 await page.ClickAsync("span.b-email__domain span");
-                await page.ClickAsync($"a[data-text='{_data.Domain}']");
+                await page.ClickAsync($"a[data-text='@{_data.Domain}']");
             }
 
             const string selAltMail = "div.b-tooltip_animate";
@@ -228,29 +228,15 @@ namespace MailRu.Bot
             #endregion
 
             #region Phone
-
-            //const string defaultPhoneCountryCode = "RU";
-            //if (!string.IsNullOrEmpty(_data.PhoneCountryCode) && _data.PhoneCountryCode != defaultPhoneCountryCode)
-            //{
-            const string selCountry = "div.b-phone span";
-            var elCountry = await page.QuerySelectorAsync(selCountry);
-            if (elCountry != null)
-            {
-                await elCountry.ClickAsync();
-                await page.WaitForTimeoutAsync(300);
-                await page.ClickAsync($"a[data-value='{_data.PhoneCountryCode}'] span.b-dropdown__list__item__text");
-                await page.WaitForTimeoutAsync(300);
-            }
-            else
-            {
-                Log.Error("Country select not found");
-            }
-            //}
-            const string selPhone = "input[type='tel']";
+       
+            const string selPhone = "input[type=tel]";
             var elPhone = await page.QuerySelectorAsync(selPhone);
             if (elPhone != null)
             {
-                await elPhone.TypeAsync(_data.Phone);
+                await page.ClickAsync(selPhone);
+                await page.EvaluateFunctionAsync("function() {" + $"document.querySelector('{selPhone}').value = ''" + "}");
+                await page.TypeAsync(selPhone, _data.Phone);
+                await page.WaitForTimeoutAsync(300);
             }
             else
             {

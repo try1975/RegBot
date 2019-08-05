@@ -136,6 +136,9 @@ namespace RegBot.Demo
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
                 IBot iBot = null;
                 var accountData = CreateEmailAccountDataFromUi();
+                //accountData.Firstname = "Иван";
+                //accountData.Lastname = "Трефилов";
+                //accountData.Domain = "list.ru";
                 if (string.IsNullOrEmpty(accountData.AccountName))
                 {
                     accountData.AccountName=Transliteration.CyrillicToLatin($"{accountData.Firstname.ToLower()}.{accountData.Lastname.ToLower()}", Language.Russian);
@@ -156,7 +159,7 @@ namespace RegBot.Demo
                 }
 
                 //_countryCode = CountryCode.KZ;
-                if (iBot != null) accountData = await iBot.Registration(_countryCode, headless: false);
+                if (iBot != null) accountData = await iBot.Registration(_countryCode, headless: true);
                 StoreAccountData(accountData);
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");

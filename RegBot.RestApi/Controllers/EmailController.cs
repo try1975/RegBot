@@ -10,6 +10,7 @@ using GetSmsOnline;
 using Gmail.Bot;
 using log4net;
 using MailRu.Bot;
+using NickBuhro.Translit;
 using OnlineSimRu;
 using SimSmsOrg;
 using Yandex.Bot;
@@ -212,6 +213,10 @@ namespace RegBot.RestApi.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(accountData.AccountName))
+                {
+                    accountData.AccountName = Transliteration.CyrillicToLatin($"{accountData.Firstname.ToLower()}.{accountData.Lastname.ToLower()}", Language.Russian);
+                }
                 ISmsService smsService;
                 switch (smsServiceCode)
                 {
