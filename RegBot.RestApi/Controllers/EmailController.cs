@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using System.IO;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -8,6 +10,7 @@ using Common.Service.Enums;
 using Common.Service.Interfaces;
 using GetSmsOnline;
 using Gmail.Bot;
+using LiteDB;
 using log4net;
 using MailRu.Bot;
 using NickBuhro.Translit;
@@ -21,6 +24,32 @@ namespace RegBot.RestApi.Controllers
     {
         private static readonly ILog Log = LogManager.GetLogger(nameof(EmailController));
         private static readonly string AppPath = HttpRuntime.BinDirectory; //HttpRuntime.AppDomainAppPath
+        private readonly string connectionString;
+
+        public EmailController()
+        {
+            connectionString = Path.Combine(AppPath, ConfigurationManager.AppSettings["DbPath"]);
+        }
+
+        private IAccountData StoreAccountData(IAccountData accountData)
+        {
+            using (var db = new LiteDatabase(connectionString))
+            {
+                // Get a collection (or create, if doesn't exist)
+                var col = db.GetCollection<IAccountData>("AccountsData");
+                if (accountData.Id != 0)
+                {
+                    col.Update(accountData);
+                }
+                else
+                {
+                    var id = col.Insert(accountData).AsInt32;
+                    accountData.Id = id;
+                    accountData.CreatedAt = DateTime.Now;
+                }
+            }
+            return accountData;
+        }
 
         [HttpGet]
         [Route(nameof(InitialAccountData))]
@@ -209,7 +238,7 @@ namespace RegBot.RestApi.Controllers
             return Ok(accountData);
         }
 
-        private static async Task<IAccountData> MailRegistration(IAccountData accountData, SmsServiceCode smsServiceCode, MailServiceCode mailServiceCode)
+        private async Task<IAccountData> MailRegistration(IAccountData accountData, SmsServiceCode smsServiceCode, MailServiceCode mailServiceCode)
         {
             try
             {
@@ -217,6 +246,7 @@ namespace RegBot.RestApi.Controllers
                 {
                     accountData.AccountName = Transliteration.CyrillicToLatin($"{accountData.Firstname.ToLower()}.{accountData.Lastname.ToLower()}", Language.Russian);
                 }
+                accountData = StoreAccountData(accountData);
                 ISmsService smsService;
                 switch (smsServiceCode)
                 {
@@ -249,6 +279,7 @@ namespace RegBot.RestApi.Controllers
                 }
 
                 accountData = await iBot.Registration(CountryCode.RU, headless: true);
+                StoreAccountData(accountData);
             }
             catch (Exception exception)
             {
