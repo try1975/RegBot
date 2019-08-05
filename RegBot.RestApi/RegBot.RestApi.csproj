@@ -183,6 +183,10 @@
       <Project>{FA10ABD7-78B1-48DC-8F38-8D0021CC4E38}</Project>
       <Name>OnlineSimRu</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimSmsOrg\SimSmsOrg.csproj">
+      <Project>{BE0EFC1B-F2B3-4A83-8647-2D14B53DD4AD}</Project>
+      <Name>SimSmsOrg</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Yandex.Bot\Yandex.Bot.csproj">
       <Project>{C1EC0956-CF76-427E-9C92-A68E2C6EBA4A}</Project>
       <Name>Yandex.Bot</Name>

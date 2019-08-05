@@ -32,14 +32,14 @@ namespace Yandex.Bot
             _chromiumPath = chromiumPath;
         }
 
-        public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)
+        public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU, bool headless = true)
         {
             try
             {
 
                 var options = new LaunchOptions
                 {
-                    Headless = false,
+                    Headless = headless,
                     ExecutablePath = _chromiumPath,
                     //SlowMo = 10,
 
@@ -66,7 +66,7 @@ namespace Yandex.Bot
                 Log.Info($"phoneNumberRequest: {JsonConvert.SerializeObject(phoneNumberRequest)}");
                 _requestId = phoneNumberRequest.Id;
                 _data.Phone = phoneNumberRequest.Phone.Trim();
-                if(!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
+                if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
 
                 using (var browser = await Puppeteer.LaunchAsync(options))
                 using (var page = await browser.NewPageAsync())
@@ -77,10 +77,10 @@ namespace Yandex.Bot
                     await page.WaitForTimeoutAsync(2000);
                     const string smsSendSelector = "div.reg-field__popup span.registration__pseudo-link";
                     ElementHandle smsCodeInput;
-                    var phoneCodeLabelTextToken =  await page.EvaluateExpressionAsync("document.querySelector('label[for=phoneCode').innerText");
+                    var phoneCodeLabelTextToken = await page.EvaluateExpressionAsync("document.querySelector('label[for=phoneCode').innerText");
                     var isSms = false;
                     var isVoice = false;
-                    if(phoneCodeLabelTextToken!=null)
+                    if (phoneCodeLabelTextToken != null)
                     {
                         var phoneCodeLabelText = phoneCodeLabelTextToken.ToString();
                         if (phoneCodeLabelText.Contains("смс")) isSms = true;
@@ -213,7 +213,7 @@ namespace Yandex.Bot
 
             const string selPhone = "input[name=phone]";
             await page.ClickAsync(selPhone);
-            await page.EvaluateFunctionAsync("function() {"+$"document.querySelector('{selPhone}').value = ''"+"}");
+            await page.EvaluateFunctionAsync("function() {" + $"document.querySelector('{selPhone}').value = ''" + "}");
             await page.TypeAsync(selPhone, _data.Phone);
             //await page.ClickAsync("div.registration__send-code button");
 
@@ -221,7 +221,9 @@ namespace Yandex.Bot
 
             #region not use yandex wallet
 
-            await page.ClickAsync("div.form__eula_money span");
+            const string selWallet = "div.form__eula_money span";
+            var elWallet = await page.QuerySelectorAsync(selWallet);
+            if (elWallet != null) await elWallet.ClickAsync();
 
             #endregion
 
@@ -234,7 +236,7 @@ namespace Yandex.Bot
             CancellationToken cancellationToken)
         {
             var ws = new System.Net.WebSockets.Managed.ClientWebSocket();
-            await ws.ConnectAsync(url, (CancellationToken) cancellationToken);
+            await ws.ConnectAsync(url, (CancellationToken)cancellationToken);
             return ws;
         }
     }

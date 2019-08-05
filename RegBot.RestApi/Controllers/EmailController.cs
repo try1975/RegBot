@@ -11,6 +11,7 @@ using Gmail.Bot;
 using log4net;
 using MailRu.Bot;
 using OnlineSimRu;
+using SimSmsOrg;
 using Yandex.Bot;
 
 namespace RegBot.RestApi.Controllers
@@ -220,6 +221,9 @@ namespace RegBot.RestApi.Controllers
                     case SmsServiceCode.OnlineSimRu:
                         smsService = new OnlineSimRuApi();
                         break;
+                    case SmsServiceCode.SimSmsOrg:
+                        smsService = new SimSmsOrgApi();
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -239,7 +243,7 @@ namespace RegBot.RestApi.Controllers
                         throw new ArgumentOutOfRangeException();
                 }
 
-                accountData = await iBot.Registration(CountryCode.RU);
+                accountData = await iBot.Registration(CountryCode.RU, headless: true);
             }
             catch (Exception exception)
             {

@@ -156,7 +156,7 @@ namespace RegBot.Demo
                 }
 
                 //_countryCode = CountryCode.KZ;
-                if (iBot != null) accountData = await iBot.Registration(_countryCode);
+                if (iBot != null) accountData = await iBot.Registration(_countryCode, headless: false);
                 StoreAccountData(accountData);
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");

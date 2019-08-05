@@ -31,13 +31,13 @@ namespace Gmail.Bot
             _chromiumPath = chromiumPath;
         }
 
-        public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)
+        public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU, bool headless = true)
         {
             try
             {
                 var options = new LaunchOptions
                 {
-                    Headless = false,
+                    Headless = headless,
                     ExecutablePath = _chromiumPath,
                     //SlowMo = 10,
 

@@ -32,13 +32,13 @@ namespace MailRu.Bot
             Log.Debug($"_chromiumPath: {_chromiumPath}");
         }
 
-        public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)
+        public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU, bool headless = true)
         {
             try
             {
                 var options = new LaunchOptions
                 {
-                    Headless = false,
+                    Headless = headless,
                     ExecutablePath = _chromiumPath,
                     //SlowMo = 10,
 
