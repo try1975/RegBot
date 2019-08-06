@@ -172,9 +172,10 @@ namespace RegBot.RestApi.Controllers
         [HttpPost]
         [Route("newMailRuEmail")]
         [ResponseType(typeof(IAccountData))]
-        public async Task<IHttpActionResult> PostNewMailRuEmail(IAccountData accountData)
+        public async Task<IHttpActionResult> PostNewMailRuEmail(EmailAccountData data)
         {
-            if (accountData == null) return BadRequest();
+            if (data == null) return BadRequest();
+            var accountData = (IAccountData)data;
             var smsServiceCode = GetRandomSmsServiceCode();
             const MailServiceCode mailServiceCode = MailServiceCode.MailRu;
 
@@ -195,9 +196,10 @@ namespace RegBot.RestApi.Controllers
         [HttpPost]
         [Route("newYandexEmail")]
         [ResponseType(typeof(IAccountData))]
-        public async Task<IHttpActionResult> PostNewYandexEmail(IAccountData accountData)
+        public async Task<IHttpActionResult> PostNewYandexEmail(EmailAccountData data)
         {
-            if (accountData == null) return BadRequest();
+            if (data == null) return BadRequest();
+            var accountData = (IAccountData)data;
             var smsServiceCode = GetRandomSmsServiceCode();
             const MailServiceCode mailServiceCode = MailServiceCode.Yandex;
 
@@ -218,9 +220,10 @@ namespace RegBot.RestApi.Controllers
         [HttpPost]
         [Route("newGmailEmail")]
         [ResponseType(typeof(IAccountData))]
-        public async Task<IHttpActionResult> PostNewGmailEmail(IAccountData accountData)
+        public async Task<IHttpActionResult> PostNewGmailEmail(EmailAccountData data)
         {
-            if (accountData == null) return BadRequest();
+            if (data == null) return BadRequest();
+            var accountData = (IAccountData)data;
             var smsServiceCode = GetRandomSmsServiceCode();
             const MailServiceCode mailServiceCode = MailServiceCode.Gmail;
 
@@ -277,8 +280,13 @@ namespace RegBot.RestApi.Controllers
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-
-                accountData = await iBot.Registration(CountryCode.RU, headless: true);
+                var countryCode = CountryCode.RU;
+                if (!string.IsNullOrEmpty(accountData.PhoneCountryCode))
+                {
+                    countryCode = (CountryCode)Enum.Parse(typeof(CountryCode), accountData.PhoneCountryCode);
+                }
+               
+                accountData = await iBot.Registration(countryCode, headless: true);
                 StoreAccountData(accountData);
             }
             catch (Exception exception)
