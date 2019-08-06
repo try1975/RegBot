@@ -277,8 +277,13 @@ namespace RegBot.RestApi.Controllers
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-
-                accountData = await iBot.Registration(CountryCode.RU, headless: true);
+                var countryCode = CountryCode.RU;
+                if (!string.IsNullOrEmpty(accountData.PhoneCountryCode))
+                {
+                    countryCode = (CountryCode)Enum.Parse(typeof(CountryCode), accountData.PhoneCountryCode);
+                }
+               
+                accountData = await iBot.Registration(countryCode, headless: true);
                 StoreAccountData(accountData);
             }
             catch (Exception exception)
