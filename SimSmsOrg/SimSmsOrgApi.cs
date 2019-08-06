@@ -47,8 +47,29 @@ namespace SimSmsOrg
             _mailServices[MailServiceCode.Gmail] = "go";
             _mailServices[MailServiceCode.Other] = "ot";
 
-            CountryParams[CountryCode.RU] = "";
+            CountryParams[CountryCode.RU] = "0";
             CountryParams[CountryCode.UA] = "1";
+            CountryParams[CountryCode.KZ] = "2";
+            CountryParams[CountryCode.CN] = "3";
+            CountryParams[CountryCode.KG] = "11";
+            CountryParams[CountryCode.PL] = "15";
+            CountryParams[CountryCode.EN] = "16";
+            /*
+             4 - Филиппины, 5 - Грузия, 
+6 - Индонезия, 7 - Белорусь, 8 - Кения, 10 - Бразилия, 
+12 - США, 13 - Израиль, 14 - Парагвай,   
+17 - США (Virtual), 18 - Финляндия, 19 - Нигерия, 20 - Макао, 21 - Египет, 
+22 - Франция, 23 - Ирландия, 24 - Камбоджа, 25 - Лаос, 26 - Гаити, 
+27 - Кот д'Ивуар, 28 - Гамбия, 29 - Сербия, 30 - Йемен, 31 - ЮАР, 
+32 - Румыния, 33 - Швеция, 34 - Эстония, 35 - Азербайджан, 36 - Канада, 
+37 - Марокко, 38 - Гана, 39 - Аргентина, 40 - Узбекистан, 41 - Камерун, 
+42 - Чад, 43 - Германия, 44 - Литва, 45 - Хорватия, 47 - Ирак, 
+48 - Нидерланды, 49 - Латвия, 50 - Австрия, 51 - Беларусь, 52 - Таиланд, 
+53 - Сауд. Аравия, 54 - Мексика, 55 - Тайвань, 56 - Испания, 57 - Иран, 
+58 - Алжир, 59 - Словения, 60 - Бангладеш, 61 - Сенегал, 62 - Турция, 
+63 - Чехия, 64 - Шри-Ланка, 65 - Перу, 66 - Пакистан, 67 - Новая Зеландия, 
+68 - Гвинея, 69 - Мали, 70 - Венесуэла, 71 - Эфиопия
+             */
         }
 
         private async Task<string> GetNumber(string service, string country)

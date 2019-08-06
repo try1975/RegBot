@@ -56,6 +56,8 @@
             this.advancedDataGridView1 = new ADGV.AdvancedDataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.cmbCountry = new System.Windows.Forms.ComboBox();
+            this.lblCountry = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -98,6 +100,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cmbCountry);
+            this.panel1.Controls.Add(this.lblCountry);
             this.panel1.Controls.Add(this.btnGmail);
             this.panel1.Controls.Add(this.cmbSmsService);
             this.panel1.Controls.Add(this.lblSmsService);
@@ -333,6 +337,23 @@
             this.panel2.Size = new System.Drawing.Size(1111, 30);
             this.panel2.TabIndex = 0;
             // 
+            // cmbCountry
+            // 
+            this.cmbCountry.FormattingEnabled = true;
+            this.cmbCountry.Location = new System.Drawing.Point(934, 102);
+            this.cmbCountry.Name = "cmbCountry";
+            this.cmbCountry.Size = new System.Drawing.Size(161, 28);
+            this.cmbCountry.TabIndex = 17;
+            // 
+            // lblCountry
+            // 
+            this.lblCountry.AutoSize = true;
+            this.lblCountry.Location = new System.Drawing.Point(930, 79);
+            this.lblCountry.Name = "lblCountry";
+            this.lblCountry.Size = new System.Drawing.Size(125, 20);
+            this.lblCountry.TabIndex = 16;
+            this.lblCountry.Text = "Страна номера";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -385,6 +406,8 @@
         private System.Windows.Forms.Panel panel2;
         private ADGV.AdvancedDataGridView advancedDataGridView1;
         private System.Windows.Forms.BindingSource bindingSource1;
+        private System.Windows.Forms.ComboBox cmbCountry;
+        private System.Windows.Forms.Label lblCountry;
     }
 }
 

@@ -181,20 +181,32 @@ namespace Gmail.Bot
             await page.ClickAsync("div#accountDetailsNext span>span");
             //check div[aria-live=assertive] and select alternate account name
 
-
+            var selAltEmail = "ul#usernameList li";
+            var elAltEmail = await page.QuerySelectorAsync(selAltEmail);
+            if (elAltEmail != null && await elAltEmail.IsIntersectingViewportAsync())
+            {
+                await elAltEmail.ClickAsync();
+                var elUsername = await page.QuerySelectorAsync(selLogin);
+                var accountName = await elUsername.EvaluateFunctionAsync<string>("node => node.value");
+                _data.AccountName = accountName;
+            }
 
             await page.WaitForNavigationAsync();
             await page.WaitForTimeoutAsync(2000);
             await page.TypeAsync("input#phoneNumberId", _data.Phone);
             await page.ClickAsync("div#gradsIdvPhoneNext span>span");
+
+            //var selEmailBusy = "div[aria-live=assertive]";
             // check div[aria-live=assertive] 
+
+
         }
 
         private async Task<WebSocket> WebSocketFactory(Uri url, IConnectionOptions options,
             CancellationToken cancellationToken)
         {
             var ws = new System.Net.WebSockets.Managed.ClientWebSocket();
-            await ws.ConnectAsync(url, (CancellationToken) cancellationToken);
+            await ws.ConnectAsync(url, (CancellationToken)cancellationToken);
             return ws;
         }
     }

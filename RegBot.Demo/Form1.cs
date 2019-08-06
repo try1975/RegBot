@@ -37,6 +37,11 @@ namespace RegBot.Demo
             cmbSmsService.DataSource = SmsServiceItem.GetSmsServiceItems();
             cmbSmsService.DisplayMember = "Text";
             cmbSmsService.SelectedIndex = 0;
+
+            cmbCountry.DataSource = CountryItem.GetCountryItems();
+            cmbCountry.DisplayMember = "Text";
+            cmbCountry.SelectedIndex = 0;
+
             connectionString = Path.Combine(Application.StartupPath, ConfigurationManager.AppSettings["DbPath"]);
         }
 
@@ -102,7 +107,8 @@ namespace RegBot.Demo
                 Lastname = tbLastname.Text,
                 BirthDate = dtpBirthDate.Value,
                 Sex = rbMale.Checked ? SexCode.Male : SexCode.Female,
-                Password = tbPassword.Text
+                Password = tbPassword.Text,
+                PhoneCountryCode = Enum.GetName(typeof(CountryCode), ((CountryItem)cmbCountry.SelectedItem).CountryCode)
             };
         }
 
@@ -136,9 +142,6 @@ namespace RegBot.Demo
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
                 IBot iBot = null;
                 var accountData = CreateEmailAccountDataFromUi();
-                //accountData.Firstname = "Иван";
-                //accountData.Lastname = "Трефилов";
-                //accountData.Domain = "list.ru";
                 if (string.IsNullOrEmpty(accountData.AccountName))
                 {
                     accountData.AccountName = Transliteration.CyrillicToLatin($"{accountData.Firstname.ToLower()}.{accountData.Lastname.ToLower()}", Language.Russian);
@@ -157,8 +160,7 @@ namespace RegBot.Demo
                         iBot = new GmailRegistration(accountData, smsService, string.Empty);
                         break;
                 }
-
-                //_countryCode = CountryCode.UA;
+                _countryCode = ((CountryItem)cmbCountry.SelectedItem).CountryCode;
                 if (iBot != null) accountData = await iBot.Registration(_countryCode, headless: false);
                 StoreAccountData(accountData);
                 textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");

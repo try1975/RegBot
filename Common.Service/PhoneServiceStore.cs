@@ -15,24 +15,21 @@ namespace Common.Service
             CountryPrefixes[CountryCode.EN] = "44";
             CountryPrefixes[CountryCode.FR] = "33";
             CountryPrefixes[CountryCode.UA] = "380";
-            CountryPrefixes[CountryCode.KZ] = "77";
-            /*
-996 - Киргизия
-998 - Узбекистан
-381 - Сербия
-373 - Молдова
-48 - Польша
-43 - Aвстрия
-371 - Латвия
-372 - Эстония
-20 - Египет
-234 - Нигерия
-509 - Гаити
-225 - Кот-д’Ивуар
-967 - Йемен
-237 - Камерун
-235 - Чад
-             */
+            CountryPrefixes[CountryCode.KG] = "996";
+            CountryPrefixes[CountryCode.UZ] = "998";
+            CountryPrefixes[CountryCode.RS] = "381";
+            CountryPrefixes[CountryCode.MD] = "373";
+            CountryPrefixes[CountryCode.PL] = "48";
+            CountryPrefixes[CountryCode.AT] = "43";
+            CountryPrefixes[CountryCode.LV] = "371";
+            CountryPrefixes[CountryCode.EE] = "372";
+            CountryPrefixes[CountryCode.EG] = "20";
+            CountryPrefixes[CountryCode.NG] = "234";
+            CountryPrefixes[CountryCode.HT] = "509";
+            CountryPrefixes[CountryCode.CI] = "225";
+            CountryPrefixes[CountryCode.YE] = "967";
+            CountryPrefixes[CountryCode.CM] = "237";
+            CountryPrefixes[CountryCode.TD] = "235";
         }
     }
 }
