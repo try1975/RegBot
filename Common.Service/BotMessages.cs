@@ -3,6 +3,5 @@
     public static class BotMessages
     {
         public const string NoPhoneNumberMessage = "No get phone from service";
-        public const string PhoneNumberNotAcceptMessage = "No accept phone number";
     }
 }
