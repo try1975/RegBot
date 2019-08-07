@@ -70,7 +70,7 @@ namespace Gmail.Bot
                 using (var page = await browser.NewPageAsync())
                 {
                     await FillRegistrationData(page, countryCode);
-
+                    await page.WaitForTimeoutAsync(2000);
                     await page.TypeAsync("input#phoneNumberId", _data.Phone);
                     await page.ClickAsync("div#gradsIdvPhoneNext span>span");
 
@@ -196,12 +196,6 @@ namespace Gmail.Bot
                 var accountName = await elUsername.EvaluateFunctionAsync<string>("node => node.value");
                 _data.AccountName = accountName;
             }
-
-            await page.WaitForNavigationAsync();
-            
-
-
-
         }
 
         private static async Task<WebSocket> WebSocketFactory(Uri url, IConnectionOptions options,
