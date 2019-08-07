@@ -181,6 +181,7 @@ namespace Gmail.Bot
             await page.ClickAsync("div#accountDetailsNext span>span");
             //check div[aria-live=assertive] and select alternate account name
 
+            await page.WaitForTimeoutAsync(1000);
             var selAltEmail = "ul#usernameList li";
             var elAltEmail = await page.QuerySelectorAsync(selAltEmail);
             if (elAltEmail != null && await elAltEmail.IsIntersectingViewportAsync())
