@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,6 +70,23 @@ namespace Gmail.Bot
                 using (var page = await browser.NewPageAsync())
                 {
                     await FillRegistrationData(page, countryCode);
+
+                    await page.TypeAsync("input#phoneNumberId", _data.Phone);
+                    await page.ClickAsync("div#gradsIdvPhoneNext span>span");
+
+                    // check phone accepted
+                    try
+                    {
+                        await page.WaitForNavigationAsync(new NavigationOptions {Timeout = 2000});
+                    }
+                    catch (Exception exception)
+                    {
+                        Log.Debug(exception);
+                        await _smsService.SetNumberFail(_requestId);
+                        _data.ErrMsg = BotMessages.PhoneNumberNotAcceptMessage;
+                        return _data;
+                    }
+
                     await page.WaitForTimeoutAsync(5000);
                     var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
                     Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
@@ -84,36 +100,25 @@ namespace Gmail.Bot
 
                         await page.WaitForNavigationAsync();
                         await page.WaitForTimeoutAsync(2000);
-                        //input#day
                         await page.TypeAsync("input#day", $"{_data.BirthDate.Day}");
-                        //select#month
                         await page.ClickAsync("select#month");
-                        // <select class="N9rVke" jsname="sC6rpf" id="month" aria-labelledby="month-label"><option value=""></option><option value="1">Январь</option><option value="2">Февраль</option><option value="3">Март</option><option value="4">Апрель</option><option value="5">Май</option><option value="6">Июнь</option><option value="7">Июль</option><option value="8">Август</option><option value="9">Сентябрь</option><option
                         await page.SelectAsync("select#month", $"{_data.BirthDate.Month}");
-                        //$('select#month').value='1'
-                        //await page.ClickAsync(selMonth);
-                        //input#year
                         await page.TypeAsync("input#year", $"{_data.BirthDate.Year}");
 
-                        //select#gender
                         await page.ClickAsync("select#gender");
-                        //<select class="N9rVke" jsname="sC6rpf" id="gender" aria-labelledby="gender-label"><option value=""></option><option value="2">Женский</option><option value="1">Мужской</option><option value="3">Не указан</option><option value="4">Дополнительно</option></select>
                         var gender = 3;
                         if (_data.Sex == SexCode.Male) gender = 1;
                         if (_data.Sex == SexCode.Female) gender = 2;
                         await page.SelectAsync("select#gender", $"{gender}");
 
-                        //click div[role=button] span>span
                         await page.ClickAsync("div[role=button] span>span");
 
                         await page.WaitForNavigationAsync();
                         await page.WaitForTimeoutAsync(2000);
-                        //click div[data-button-id-prefix=phoneUsage] button[type=button]
                         await page.ClickAsync("div[data-button-id-prefix=phoneUsage] button[type=button]");
 
                         await page.WaitForNavigationAsync();
                         await page.WaitForTimeoutAsync(2000);
-                        //div[role=presentation] div[role=button] svg
 
                         for (var i = 0; i < 5; i++)
                         {
@@ -181,8 +186,8 @@ namespace Gmail.Bot
             await page.ClickAsync("div#accountDetailsNext span>span");
             //check div[aria-live=assertive] and select alternate account name
 
-            await page.WaitForTimeoutAsync(1000);
-            var selAltEmail = "ul#usernameList li";
+            await page.WaitForTimeoutAsync(2000);
+            const string selAltEmail = "ul#usernameList li";
             var elAltEmail = await page.QuerySelectorAsync(selAltEmail);
             if (elAltEmail != null && await elAltEmail.IsIntersectingViewportAsync())
             {
@@ -193,21 +198,17 @@ namespace Gmail.Bot
             }
 
             await page.WaitForNavigationAsync();
-            await page.WaitForTimeoutAsync(2000);
-            await page.TypeAsync("input#phoneNumberId", _data.Phone);
-            await page.ClickAsync("div#gradsIdvPhoneNext span>span");
+            
 
-            //var selEmailBusy = "div[aria-live=assertive]";
-            // check div[aria-live=assertive] 
 
 
         }
 
-        private async Task<WebSocket> WebSocketFactory(Uri url, IConnectionOptions options,
+        private static async Task<WebSocket> WebSocketFactory(Uri url, IConnectionOptions options,
             CancellationToken cancellationToken)
         {
             var ws = new System.Net.WebSockets.Managed.ClientWebSocket();
-            await ws.ConnectAsync(url, (CancellationToken)cancellationToken);
+            await ws.ConnectAsync(url, cancellationToken);
             return ws;
         }
     }
