@@ -50,6 +50,7 @@
     <Compile Include="Interfaces\IAccountDataGenerator.cs" />
     <Compile Include="Interfaces\IBot.cs" />
     <Compile Include="Interfaces\ISmsService.cs" />
+    <Compile Include="SmsServiceInfo.cs" />
     <Compile Include="LoggingHandler.cs" />
     <Compile Include="PhoneNumberRequest.cs" />
     <Compile Include="PhoneNumberValidation.cs" />
@@ -60,7 +61,11 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\SmsServiceInfo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

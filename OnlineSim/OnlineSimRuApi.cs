@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -16,13 +17,14 @@ namespace OnlineSimRu
     {
         #region private fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(OnlineSimRuApi));
-        
+
         private const string BaseUrl = "https://onlinesim.ru/api";
         private readonly string _apiKeyOnlineSimRu = System.Configuration.ConfigurationManager.AppSettings[nameof(_apiKeyOnlineSimRu)];
         private readonly HttpClient _apiHttpClient;
         private readonly string _endpointGetNum;
         private readonly string _endpointGetState;
         private readonly string _endpointSetOperationOk;
+        private readonly string _endpointGetNumberStats;
 
         private readonly Dictionary<CountryCode, string> _countries = PhoneServiceStore.CountryPrefixes;
         private readonly Dictionary<MailServiceCode, string> _mailServices = new Dictionary<MailServiceCode, string>();
@@ -40,6 +42,7 @@ namespace OnlineSimRu
             _endpointGetNum = $"{BaseUrl}/getNum.php?{apiKeyParameterName}={_apiKeyOnlineSimRu}";
             _endpointGetState = $"{BaseUrl}/getState.php?{apiKeyParameterName}={_apiKeyOnlineSimRu}";
             _endpointSetOperationOk = $"{BaseUrl}/setOperationOk.php?{apiKeyParameterName}={_apiKeyOnlineSimRu}";
+            _endpointGetNumberStats = $"{BaseUrl}/getNumbersStats.php?{apiKeyParameterName}={_apiKeyOnlineSimRu}";
 
             _mailServices[MailServiceCode.MailRu] = "MailRu";
             _mailServices[MailServiceCode.Yandex] = "Yandex";
@@ -49,6 +52,17 @@ namespace OnlineSimRu
         }
 
         #region OnlineSim API
+
+        private async Task<OnlineSimRuStatResponse> GetNumbersStats(string country)
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointGetNumberStats}&country={country}"))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsStringAsync();
+                Log.Debug($"{nameof(GetNum)}... {result}");
+                return JsonConvert.DeserializeObject<OnlineSimRuStatResponse>(result);
+            }
+        }
 
         private async Task<string> GetNum(string service, string country)
         {
@@ -151,6 +165,56 @@ namespace OnlineSimRu
         {
             Log.Debug($"Call {nameof(SetNumberFail)}");
             await SetOperationFail(id);
+        }
+
+        public async Task<List<SmsServiceInfo>> GetInfo()
+        {
+            var list = new List<SmsServiceInfo>();
+            var smsServiceCode = Enum.GetName(typeof(SmsServiceCode), SmsServiceCode.OnlineSimRu);
+            var mailRu = Enum.GetName(typeof(MailServiceCode), MailServiceCode.MailRu);
+            var yandex = Enum.GetName(typeof(MailServiceCode), MailServiceCode.Yandex);
+            var gmail = Enum.GetName(typeof(MailServiceCode), MailServiceCode.Gmail);
+            foreach (var country in _countries)
+            {
+                var countryCode = Enum.GetName(typeof(CountryCode), country.Key);
+                var onlineSimRuStatResponse = await GetNumbersStats(country.Value);
+                if (onlineSimRuStatResponse == null) continue;
+                if (!onlineSimRuStatResponse.enabled) continue;
+                if (onlineSimRuStatResponse.services.mailru?.count > 0)
+                {
+                    list.Add(new SmsServiceInfo
+                    {
+                        SmsServiceCode = smsServiceCode,
+                        CountryCode = countryCode,
+                        MailServiceCode = mailRu,
+                        NumberCount = onlineSimRuStatResponse.services.mailru.count.Value,
+                        Price = onlineSimRuStatResponse.services.mailru.price
+                    });
+                }
+                if (onlineSimRuStatResponse.services.yandex?.count > 0)
+                {
+                    list.Add(new SmsServiceInfo
+                    {
+                        SmsServiceCode = smsServiceCode,
+                        CountryCode = countryCode,
+                        MailServiceCode = yandex,
+                        NumberCount = onlineSimRuStatResponse.services.yandex.count.Value,
+                        Price = onlineSimRuStatResponse.services.yandex.price
+                    });
+                }
+                if (onlineSimRuStatResponse.services.google?.count > 0)
+                {
+                    list.Add(new SmsServiceInfo
+                    {
+                        SmsServiceCode = smsServiceCode,
+                        CountryCode = countryCode,
+                        MailServiceCode = gmail,
+                        NumberCount = onlineSimRuStatResponse.services.google.count.Value,
+                        Price = onlineSimRuStatResponse.services.google.price
+                    });
+                }
+            }
+            return list;
         }
     }
 }

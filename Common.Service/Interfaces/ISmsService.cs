@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Common.Service.Enums;
 
 namespace Common.Service.Interfaces
@@ -9,5 +10,6 @@ namespace Common.Service.Interfaces
         Task<PhoneNumberValidation> GetSmsValidation(string id);
         Task SetSmsValidationSuccess(string id);
         Task SetNumberFail(string id);
+        Task<List<SmsServiceInfo>> GetInfo();
     }
 }

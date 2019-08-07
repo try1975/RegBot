@@ -202,7 +202,7 @@ namespace MailRu.Bot
             }
 
             const string selAltMail = "div.b-tooltip_animate";
-            await page.WaitForTimeoutAsync(300);
+            await page.WaitForTimeoutAsync(1000);
             var altMailExists = await page.QuerySelectorAsync(selAltMail);
             if (altMailExists != null)
             {

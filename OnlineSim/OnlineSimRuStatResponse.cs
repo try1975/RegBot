@@ -20,38 +20,20 @@
 
     public class OnlineSimRuStatResponseServiceMailru
     {
-        public int count { get; set; }
-        public bool popular { get; set; }
-        public int code { get; set; }
-        public int price { get; set; }
-        public int id { get; set; }
-        public string service { get; set; }
-        public string slug { get; set; }
-        public string image { get; set; }
+        public int? count { get; set; }
+        public double price { get; set; }
     }
 
     public class OnlineSimRuStatResponseServiceGoogle
     {
-        public int count { get; set; }
-        public bool popular { get; set; }
-        public int code { get; set; }
-        public int price { get; set; }
-        public int id { get; set; }
-        public string service { get; set; }
-        public string slug { get; set; }
-        public string image { get; set; }
+        public int? count { get; set; }
+        public double price { get; set; }
     }
 
     public class OnlineSimRuStatResponseServiceYandex
     {
-        public int count { get; set; }
-        public bool popular { get; set; }
-        public int code { get; set; }
-        public int price { get; set; }
-        public int id { get; set; }
-        public string service { get; set; }
-        public string slug { get; set; }
-        public string image { get; set; }
+        public int? count { get; set; }
+        public double price { get; set; }
     }
 
 }

@@ -180,5 +180,11 @@ namespace SimSmsOrg
             Log.Debug($"Call {nameof(SetNumberFail)}");
             await SetStatus(id, "8");
         }
+
+        public async Task<List<SmsServiceInfo>> GetInfo()
+        {
+            var list = new List<SmsServiceInfo>();
+            return list;
+        }
     }
 }

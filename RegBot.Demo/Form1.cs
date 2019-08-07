@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 using AccountData.Service;
+using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using Gmail.Bot;
@@ -34,9 +35,7 @@ namespace RegBot.Demo
             InitializeComponent();
 
             GetRandomAccountData();
-            cmbSmsService.DataSource = SmsServiceItem.GetSmsServiceItems();
-            cmbSmsService.DisplayMember = "Text";
-            cmbSmsService.SelectedIndex = 0;
+            
 
             cmbCountry.DataSource = CountryItem.GetCountryItems();
             cmbCountry.DisplayMember = "Text";
@@ -68,8 +67,21 @@ namespace RegBot.Demo
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
+            var smsServiceItems = SmsServiceItem.GetSmsServiceItems();
+            cmbSmsService.DataSource = smsServiceItems;
+            cmbSmsService.DisplayMember = "Text";
+            cmbSmsService.SelectedIndex = 0;
+
+            //var onlineSimRuApi = smsServiceItems.First(z => z.SmsServiceCode == SmsServiceCode.OnlineSimRu).SmsService;
+            //var listSmsServiceInfo = new List<SmsServiceInfo>();
+            //if (onlineSimRuApi != null)
+            //{
+            //  listSmsServiceInfo.AddRange(await onlineSimRuApi.GetInfo());  
+            //}
+            //File.AppendAllText(Path.Combine(Application.StartupPath, "Data", "SmsServiceInfo.json") ,JsonConvert.SerializeObject(listSmsServiceInfo)); 
+
             var browserFetcher = new BrowserFetcher();
             browserFetcher.DownloadProgressChanged += OnDownloadProgressChanged;
             GetBrowserLastVersion(browserFetcher);

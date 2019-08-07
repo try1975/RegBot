@@ -132,5 +132,11 @@ namespace GetSmsOnline
             Log.Debug($"Call {nameof(SetNumberFail)}");
             await SetStatus(id, "10");
         }
+
+        public async Task<List<SmsServiceInfo>> GetInfo()
+        {
+            var list = new List<SmsServiceInfo>();
+            return list;
+        }
     }
 }
