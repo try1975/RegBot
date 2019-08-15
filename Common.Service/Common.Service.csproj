@@ -45,7 +45,7 @@
     <Compile Include="BotMessages.cs" />
     <Compile Include="EnumLocalizeAttribute.cs" />
     <Compile Include="Enums\CountryCode.cs" />
-    <Compile Include="Enums\MailServiceCode.cs" />
+    <Compile Include="Enums\ServiceCode.cs" />
     <Compile Include="Interfaces\IAccountData.cs" />
     <Compile Include="Interfaces\IAccountDataGenerator.cs" />
     <Compile Include="Interfaces\IBot.cs" />

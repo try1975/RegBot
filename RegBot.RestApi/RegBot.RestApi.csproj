@@ -145,8 +145,10 @@
     <Compile Include="App_Start\ApiExceptionHandler.cs" />
     <Compile Include="App_Start\ApiExceptionLogger.cs" />
     <Compile Include="Controllers\EmailController.cs" />
+    <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\FooController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
+    <Compile Include="Controllers\SocialController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -176,6 +178,10 @@
       <Project>{F45C44CF-2C70-4683-A36A-1154E2408F53}</Project>
       <Name>Common.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Facebook.Bot\Facebook.Bot.csproj">
+      <Project>{DD86EE13-6653-491D-8726-B20692C3445C}</Project>
+      <Name>Facebook.Bot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Getsms.online\GetSmsOnline.csproj">
       <Project>{1D1E05C8-006D-4BB8-88C1-96B6A23E1110}</Project>
       <Name>GetSmsOnline</Name>
@@ -195,6 +201,10 @@
     <ProjectReference Include="..\SimSmsOrg\SimSmsOrg.csproj">
       <Project>{BE0EFC1B-F2B3-4A83-8647-2D14B53DD4AD}</Project>
       <Name>SimSmsOrg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vk.Bot\Vk.Bot.csproj">
+      <Project>{6C3FA7E0-1F96-4E49-958B-78DFBC7F0926}</Project>
+      <Name>Vk.Bot</Name>
     </ProjectReference>
     <ProjectReference Include="..\Yandex.Bot\Yandex.Bot.csproj">
       <Project>{C1EC0956-CF76-427E-9C92-A68E2C6EBA4A}</Project>

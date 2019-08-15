@@ -6,7 +6,7 @@ namespace Common.Service.Interfaces
 {
     public interface ISmsService
     {
-        Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, MailServiceCode mailServiceCode);
+        Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, ServiceCode serviceCode);
         Task<PhoneNumberValidation> GetSmsValidation(string id);
         Task SetSmsValidationSuccess(string id);
         Task SetNumberFail(string id);

@@ -27,7 +27,7 @@ namespace OnlineSimRu
         private readonly string _endpointGetNumberStats;
 
         private readonly Dictionary<CountryCode, string> _countries = PhoneServiceStore.CountryPrefixes;
-        private readonly Dictionary<MailServiceCode, string> _mailServices = new Dictionary<MailServiceCode, string>();
+        private readonly Dictionary<ServiceCode, string> _services = new Dictionary<ServiceCode, string>();
 
         #endregion
 
@@ -44,11 +44,13 @@ namespace OnlineSimRu
             _endpointSetOperationOk = $"{BaseUrl}/setOperationOk.php?{apiKeyParameterName}={_apiKeyOnlineSimRu}";
             _endpointGetNumberStats = $"{BaseUrl}/getNumbersStats.php?{apiKeyParameterName}={_apiKeyOnlineSimRu}";
 
-            _mailServices[MailServiceCode.MailRu] = "MailRu";
-            _mailServices[MailServiceCode.Yandex] = "Yandex";
-            _mailServices[MailServiceCode.Gmail] = "Google";
-            _mailServices[MailServiceCode.Other] = "other";
-            //_mailServices[MailServiceCode.Microsoft] = "Microsoft";
+            _services[ServiceCode.MailRu] = "MailRu";
+            _services[ServiceCode.Yandex] = "Yandex";
+            _services[ServiceCode.Gmail] = "Google";
+            _services[ServiceCode.Other] = "other";
+            _services[ServiceCode.Facebook] = "facebook";
+            _services[ServiceCode.Vk] = "VKcom";
+            _services[ServiceCode.Ok] = "Odklru";
         }
 
         #region OnlineSim API
@@ -110,11 +112,11 @@ namespace OnlineSimRu
 
         #endregion
 
-        public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode = CountryCode.RU, MailServiceCode mailServiceCode = MailServiceCode.MailRu)
+        public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode = CountryCode.RU, ServiceCode serviceCode = ServiceCode.MailRu)
         {
             Log.Debug($"Call {nameof(GetPhoneNumber)}");
             var country = _countries[countryCode];
-            var service = _mailServices[mailServiceCode];
+            var service = _services[serviceCode];
             var id = await GetNum(service, country);
 
             if (string.IsNullOrEmpty(id)) { return null; }
@@ -171,9 +173,9 @@ namespace OnlineSimRu
         {
             var list = new List<SmsServiceInfo>();
             var smsServiceCode = Enum.GetName(typeof(SmsServiceCode), SmsServiceCode.OnlineSimRu);
-            var mailRu = Enum.GetName(typeof(MailServiceCode), MailServiceCode.MailRu);
-            var yandex = Enum.GetName(typeof(MailServiceCode), MailServiceCode.Yandex);
-            var gmail = Enum.GetName(typeof(MailServiceCode), MailServiceCode.Gmail);
+            var mailRu = Enum.GetName(typeof(ServiceCode), ServiceCode.MailRu);
+            var yandex = Enum.GetName(typeof(ServiceCode), ServiceCode.Yandex);
+            var gmail = Enum.GetName(typeof(ServiceCode), ServiceCode.Gmail);
             foreach (var country in _countries)
             {
                 var countryCode = Enum.GetName(typeof(CountryCode), country.Key);

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Configuration;
-using System.IO;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AccountData.Service;
@@ -10,7 +7,6 @@ using Common.Service.Enums;
 using Common.Service.Interfaces;
 using GetSmsOnline;
 using Gmail.Bot;
-using LiteDB;
 using log4net;
 using MailRu.Bot;
 using NickBuhro.Translit;
@@ -20,36 +16,11 @@ using Yandex.Bot;
 
 namespace RegBot.RestApi.Controllers
 {
-    public class EmailController : ApiController
+    public class EmailController : ControllerBase
     {
         private static readonly ILog Log = LogManager.GetLogger(nameof(EmailController));
-        private static readonly string AppPath = HttpRuntime.BinDirectory; //HttpRuntime.AppDomainAppPath
-        private readonly string connectionString;
 
-        public EmailController()
-        {
-            connectionString = Path.Combine(AppPath, ConfigurationManager.AppSettings["DbPath"]);
-        }
-
-        private IAccountData StoreAccountData(IAccountData accountData)
-        {
-            using (var db = new LiteDatabase(connectionString))
-            {
-                // Get a collection (or create, if doesn't exist)
-                var col = db.GetCollection<IAccountData>("AccountsData");
-                if (accountData.Id != 0)
-                {
-                    col.Update(accountData);
-                }
-                else
-                {
-                    var id = col.Insert(accountData).AsInt32;
-                    accountData.Id = id;
-                    accountData.CreatedAt = DateTime.Now;
-                }
-            }
-            return accountData;
-        }
+        
 
         [HttpGet]
         [Route(nameof(InitialAccountData))]
@@ -59,45 +30,7 @@ namespace RegBot.RestApi.Controllers
             return Ok(GetRandomAccountData());
         }
 
-        [HttpGet]
-        [Route("newEmail")]
-        [ResponseType(typeof(IAccountData))]
-        public async Task<IHttpActionResult> GetNewEmail()
-        {
-            var accountData = GetRandomAccountData();
-            var smsServiceCode = GetRandomSmsServiceCode();
-            var mailServiceCode = GetRandomMailServiceCode();
-            try
-            {
-                Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await MailRegistration(accountData, smsServiceCode, mailServiceCode);
-            }
-            catch (Exception exception)
-            {
-                Log.Error(exception);
-                return InternalServerError();
-            }
-            Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
-            return Ok(accountData);
-        }
-
-        private static MailServiceCode GetRandomMailServiceCode()
-        {
-            var random = new Random();
-            var values = Enum.GetValues(typeof(MailServiceCode));
-            var index = random.Next(values.Length);
-            var mailServiceCode = (MailServiceCode)values.GetValue(index);
-            return mailServiceCode;
-        }
-
-        private static SmsServiceCode GetRandomSmsServiceCode()
-        {
-            var random = new Random();
-            var values = Enum.GetValues(typeof(SmsServiceCode));
-            var index = random.Next(values.Length);
-            var smsServiceCode = (SmsServiceCode)values.GetValue(index);
-            return smsServiceCode;
-        }
+        
 
         [HttpGet]
         [Route("newMailRuEmail")]
@@ -109,11 +42,11 @@ namespace RegBot.RestApi.Controllers
             {
                 accountData = GetRandomAccountData();
                 var smsServiceCode = GetRandomSmsServiceCode();
-                const MailServiceCode mailServiceCode = MailServiceCode.MailRu;
+                const ServiceCode serviceCode = ServiceCode.MailRu;
 
-                Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await MailRegistration(accountData, smsServiceCode, mailServiceCode);
-                Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
+                accountData = await MailRegistration(accountData, smsServiceCode, serviceCode);
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
             }
             catch (Exception exception)
             {
@@ -130,19 +63,19 @@ namespace RegBot.RestApi.Controllers
         {
             var accountData = GetRandomAccountData();
             var smsServiceCode = GetRandomSmsServiceCode();
-            const MailServiceCode mailServiceCode = MailServiceCode.Yandex;
+            const ServiceCode serviceCode = ServiceCode.Yandex;
 
             try
             {
-                Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await MailRegistration(accountData, smsServiceCode, mailServiceCode);
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
+                accountData = await MailRegistration(accountData, smsServiceCode, serviceCode);
             }
             catch (Exception exception)
             {
                 Log.Error(exception);
                 return InternalServerError();
             }
-            Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
+            Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
             return Ok(accountData);
         }
 
@@ -153,19 +86,19 @@ namespace RegBot.RestApi.Controllers
         {
             var accountData = GetRandomAccountData();
             var smsServiceCode = GetRandomSmsServiceCode();
-            const MailServiceCode mailServiceCode = MailServiceCode.Gmail;
+            const ServiceCode serviceCode = ServiceCode.Gmail;
 
             try
             {
-                Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await MailRegistration(accountData, smsServiceCode, mailServiceCode);
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
+                accountData = await MailRegistration(accountData, smsServiceCode, serviceCode);
             }
             catch (Exception exception)
             {
                 Log.Error(exception);
                 return InternalServerError();
             }
-            Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
+            Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
             return Ok(accountData);
         }
 
@@ -177,19 +110,19 @@ namespace RegBot.RestApi.Controllers
             if (data == null) return BadRequest();
             var accountData = (IAccountData)data;
             var smsServiceCode = GetRandomSmsServiceCode();
-            const MailServiceCode mailServiceCode = MailServiceCode.MailRu;
+            const ServiceCode serviceCode = ServiceCode.MailRu;
 
             try
             {
-                Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await MailRegistration(accountData, smsServiceCode, mailServiceCode);
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
+                accountData = await MailRegistration(accountData, smsServiceCode, serviceCode);
             }
             catch (Exception exception)
             {
                 Log.Error(exception);
                 return InternalServerError();
             }
-            Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
+            Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
             return Ok(accountData);
         }
 
@@ -201,19 +134,19 @@ namespace RegBot.RestApi.Controllers
             if (data == null) return BadRequest();
             var accountData = (IAccountData)data;
             var smsServiceCode = GetRandomSmsServiceCode();
-            const MailServiceCode mailServiceCode = MailServiceCode.Yandex;
+            const ServiceCode serviceCode = ServiceCode.Yandex;
 
             try
             {
-                Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await MailRegistration(accountData, smsServiceCode, mailServiceCode);
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
+                accountData = await MailRegistration(accountData, smsServiceCode, serviceCode);
             }
             catch (Exception exception)
             {
                 Log.Error(exception);
                 return InternalServerError();
             }
-            Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
+            Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
             return Ok(accountData);
         }
 
@@ -225,23 +158,23 @@ namespace RegBot.RestApi.Controllers
             if (data == null) return BadRequest();
             var accountData = (IAccountData)data;
             var smsServiceCode = GetRandomSmsServiceCode();
-            const MailServiceCode mailServiceCode = MailServiceCode.Gmail;
+            const ServiceCode serviceCode = ServiceCode.Gmail;
 
             try
             {
-                Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await MailRegistration(accountData, smsServiceCode, mailServiceCode);
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
+                accountData = await MailRegistration(accountData, smsServiceCode, serviceCode);
             }
             catch (Exception exception)
             {
                 Log.Error(exception);
                 return InternalServerError();
             }
-            Log.Debug($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
+            Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
             return Ok(accountData);
         }
 
-        private async Task<IAccountData> MailRegistration(IAccountData accountData, SmsServiceCode smsServiceCode, MailServiceCode mailServiceCode)
+        private async Task<IAccountData> MailRegistration(IAccountData accountData, SmsServiceCode smsServiceCode, ServiceCode serviceCode)
         {
             try
             {
@@ -266,15 +199,15 @@ namespace RegBot.RestApi.Controllers
                         throw new ArgumentOutOfRangeException();
                 }
                 IBot iBot;
-                switch (mailServiceCode)
+                switch (serviceCode)
                 {
-                    case MailServiceCode.MailRu:
+                    case ServiceCode.MailRu:
                         iBot = new MailRuRegistration(accountData, smsService, AppPath);
                         break;
-                    case MailServiceCode.Yandex:
+                    case ServiceCode.Yandex:
                         iBot = new YandexRegistration(accountData, smsService, AppPath);
                         break;
-                    case MailServiceCode.Gmail:
+                    case ServiceCode.Gmail:
                         iBot = new GmailRegistration(accountData, smsService, AppPath);
                         break;
                     default:
@@ -296,9 +229,6 @@ namespace RegBot.RestApi.Controllers
             return accountData;
         }
 
-        private static IAccountData GetRandomAccountData()
-        {
-            return new AccountDataGenerator(AppPath).GetRandom();
-        }
+        
     }
 }
