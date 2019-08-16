@@ -113,6 +113,7 @@ namespace Vk.Bot
                         await page.TypeAsync(selSmsCode, phoneNumberValidation.Code);
                         await page.ClickAsync("button#join_send_code");
                         await page.WaitForSelectorAsync("input#join_pass", new WaitForSelectorOptions{Visible = true});
+                        await page.TypeAsync("input#join_pass", _data.Password);
                         await page.ClickAsync("button#join_send_pass");
                         await page.WaitForNavigationAsync();
                         await page.ClickAsync("a.join_skip_link");
