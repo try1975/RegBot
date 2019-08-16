@@ -63,64 +63,66 @@ namespace Vk.Bot
                 using (var browser = await Puppeteer.LaunchAsync(options))
                 using (var page = await browser.NewPageAsync())
                 {
-                    await FillRegistrationData(page);
-
-                    await page.WaitForSelectorAsync("div#join_country_row");
-                    //select country
-                    await page.ClickAsync("div#join_country_row td#dropdown4");
-                    var countryPrefix = PhoneServiceStore.CountryPrefixes[countryCode];
-                    await page.WaitForTimeoutAsync(1000);
-                    await page.ClickAsync($"div#join_country_row li[title*='+{countryPrefix}']");
-
-                    await page.TypeAsync("input#join_phone", _data.Phone.Substring(countryPrefix.Length + 1));
-                    await page.ClickAsync("div#join_accept_terms_checkbox div.checkbox");
-
-                    await page.ClickAsync("div#join_phone_submit button");
-
-                    // check phone accepted
-                    var selResend = "div#join_resend";
-                    var elResend = await page.QuerySelectorAsync(selResend);
-                    if (elResend == null)
+                    try
                     {
-                        await _smsService.SetNumberFail(_requestId);
-                        _data.ErrMsg = BotMessages.PhoneNumberNotAcceptMessage;
-                        return _data;
-                    }
+                        await FillRegistrationData(page);
 
-                    if (!await elResend.IsIntersectingViewportAsync())
-                    {
-                        await _smsService.SetNumberFail(_requestId);
-                        _data.ErrMsg = BotMessages.PhoneNumberNotAcceptMessage;
-                        return _data;
-                    }
-
-                    var selCalledPhone = "input#join_called_phone";
-                    var elCalledPhone = await page.QuerySelectorAsync(selCalledPhone);
-                    if (elCalledPhone != null && await elCalledPhone.IsIntersectingViewportAsync())
-                    {
-                        var selSmsSend = "div#join_resend a#join_resend_lnk";
-                        await page.WaitForSelectorAsync(selSmsSend, new WaitForSelectorOptions{Timeout = 120000});
-                        await page.ClickAsync(selSmsSend);
-                    }
-
-                    var selSmsCode = "input#join_code";
-                    await page.ClickAsync(selSmsCode);
-                    var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
-                    Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
-                    if (phoneNumberValidation != null)
-                    {
-                        await _smsService.SetSmsValidationSuccess(_requestId);
-                        await page.TypeAsync(selSmsCode, phoneNumberValidation.Code);
-                        await page.ClickAsync("button#join_send_code");
-                        await page.WaitForSelectorAsync("input#join_pass", new WaitForSelectorOptions{Visible = true});
-                        await page.TypeAsync("input#join_pass", _data.Password);
-                        await page.ClickAsync("button#join_send_pass");
-                        await page.WaitForNavigationAsync();
-                        await page.ClickAsync("a.join_skip_link");
+                        await page.WaitForSelectorAsync("div#join_country_row");
+                        //select country
+                        await page.ClickAsync("div#join_country_row td#dropdown4");
+                        var countryPrefix = PhoneServiceStore.CountryPrefixes[countryCode];
                         await page.WaitForTimeoutAsync(1000);
-                        _data.Success = true;
+                        await page.ClickAsync($"div#join_country_row li[title*='+{countryPrefix}']");
+
+                        await page.TypeAsync("input#join_phone", _data.Phone.Substring(countryPrefix.Length + 1));
+                        await page.ClickAsync("div#join_accept_terms_checkbox div.checkbox");
+
+                        await page.ClickAsync("div#join_phone_submit button");
+
+                        // check phone accepted
+                        var selResend = "div#join_resend";
+                        await page.WaitForTimeoutAsync(1000);
+                        var elResend = await page.QuerySelectorAsync(selResend);
+                        if (!await elResend.IsIntersectingViewportAsync())
+                        {
+                            await _smsService.SetNumberFail(_requestId);
+                            _data.ErrMsg = BotMessages.PhoneNumberNotAcceptMessage;
+                            return _data;
+                        }
+
+                        var selCalledPhone = "input#join_called_phone";
+                        var elCalledPhone = await page.QuerySelectorAsync(selCalledPhone);
+                        if (elCalledPhone != null && await elCalledPhone.IsIntersectingViewportAsync())
+                        {
+                            var selSmsSend = "div#join_resend a#join_resend_lnk";
+                            await page.WaitForSelectorAsync(selSmsSend, new WaitForSelectorOptions { Timeout = 120000 });
+                            await page.ClickAsync(selSmsSend);
+                        }
+
+                        var selSmsCode = "input#join_code";
+                        await page.WaitForSelectorAsync(selSmsCode, new WaitForSelectorOptions { Visible = true });
+                        await page.ClickAsync(selSmsCode);
+                        var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
+                        Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
+                        if (phoneNumberValidation != null)
+                        {
+                            await _smsService.SetSmsValidationSuccess(_requestId);
+                            await page.TypeAsync(selSmsCode, phoneNumberValidation.Code);
+                            await page.ClickAsync("button#join_send_code");
+                            await page.WaitForSelectorAsync("input#join_pass", new WaitForSelectorOptions { Visible = true });
+                            await page.TypeAsync("input#join_pass", _data.Password);
+                            await page.ClickAsync("button#join_send_pass");
+                            await page.WaitForNavigationAsync();
+                            await page.ClickAsync("a.join_skip_link");
+                            await page.WaitForTimeoutAsync(1000);
+                            _data.Success = true;
+                        }
+                        else await _smsService.SetNumberFail(_requestId);
                     }
-                    else await _smsService.SetNumberFail(_requestId);
+                    catch (Exception exception)
+                    {
+                        throw;
+                    }
                 }
             }
             catch (Exception exception)
@@ -152,7 +154,7 @@ namespace Vk.Bot
 
             await page.ClickAsync("button#ij_submit");
 
-            await page.WaitForSelectorAsync("div#ij_sex_row", new WaitForSelectorOptions{Visible = true});
+            await page.WaitForSelectorAsync("div#ij_sex_row", new WaitForSelectorOptions { Visible = true });
             if (_data.Sex == SexCode.Female) await page.ClickAsync("div#ij_sex_row > div[tabindex='0']");
             if (_data.Sex == SexCode.Male) await page.ClickAsync("div#ij_sex_row > div[tabindex='-1']");
 
