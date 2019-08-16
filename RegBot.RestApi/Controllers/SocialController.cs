@@ -11,6 +11,7 @@ using log4net;
 using NickBuhro.Translit;
 using OnlineSimRu;
 using SimSmsOrg;
+using Vk.Bot;
 
 namespace RegBot.RestApi.Controllers
 {
@@ -42,15 +43,63 @@ namespace RegBot.RestApi.Controllers
             return Ok(accountData);
         }
 
+        [HttpGet]
+        [Route("newVkAccount")]
+        [ResponseType(typeof(IAccountData))]
+        public async Task<IHttpActionResult> GetVkAccount()
+        {
+            IAccountData accountData;
+            try
+            {
+                accountData = GetRandomAccountData();
+                var smsServiceCode = GetRandomSmsServiceCode();
+                const ServiceCode serviceCode = ServiceCode.Vk;
+
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
+                accountData = await SocialRegistration(accountData, smsServiceCode, serviceCode);
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+                return InternalServerError();
+            }
+            return Ok(accountData);
+        }
+
         [HttpPost]
         [Route("newFacebookAccount")]
         [ResponseType(typeof(IAccountData))]
-        public async Task<IHttpActionResult> PostNewMaNewFacebookAccountilRuEmail(EmailAccountData data)
+        public async Task<IHttpActionResult> PostFacebookAccount(EmailAccountData data)
         {
             if (data == null) return BadRequest();
             var accountData = (IAccountData)data;
             var smsServiceCode = GetRandomSmsServiceCode();
-            const ServiceCode serviceCode = ServiceCode.MailRu;
+            const ServiceCode serviceCode = ServiceCode.Facebook;
+
+            try
+            {
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
+                accountData = await SocialRegistration(accountData, smsServiceCode, serviceCode);
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+                return InternalServerError();
+            }
+            Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
+            return Ok(accountData);
+        }
+
+        [HttpPost]
+        [Route("newVkAccount")]
+        [ResponseType(typeof(IAccountData))]
+        public async Task<IHttpActionResult> PostNewVkAccount(EmailAccountData data)
+        {
+            if (data == null) return BadRequest();
+            var accountData = (IAccountData)data;
+            var smsServiceCode = GetRandomSmsServiceCode();
+            const ServiceCode serviceCode = ServiceCode.Vk;
 
             try
             {
@@ -96,9 +145,9 @@ namespace RegBot.RestApi.Controllers
                     case ServiceCode.Facebook:
                         iBot = new FacebookRegistration(accountData, smsService, AppPath);
                         break;
-                    //case ServiceCode.Vk:
-                    //    iBot = new VkRegistration(accountData, smsService, AppPath);
-                    //    break;
+                    case ServiceCode.Vk:
+                        iBot = new VkRegistration(accountData, smsService, AppPath);
+                        break;
                     //case ServiceCode.Ok:
                     //    iBot = new GmailRegistration(accountData, smsService, AppPath);
                     //    break;
@@ -111,7 +160,7 @@ namespace RegBot.RestApi.Controllers
                     countryCode = (CountryCode)Enum.Parse(typeof(CountryCode), accountData.PhoneCountryCode);
                 }
 
-                accountData = await iBot.Registration(countryCode, headless: false);
+                accountData = await iBot.Registration(countryCode, headless: true);
                 StoreAccountData(accountData);
             }
             catch (Exception exception)
