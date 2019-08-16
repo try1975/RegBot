@@ -30,6 +30,7 @@ namespace Common.Service
             CountryPrefixes[CountryCode.YE] = "967";
             CountryPrefixes[CountryCode.CM] = "237";
             CountryPrefixes[CountryCode.TD] = "235";
+            CountryPrefixes[CountryCode.KZ] = "77";
         }
     }
 }
