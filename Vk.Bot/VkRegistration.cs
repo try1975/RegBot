@@ -49,7 +49,7 @@ namespace Vk.Bot
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
                 var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.Vk);
-                //var phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79619183743" };
+                //var phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79777197334" };
                 if (phoneNumberRequest == null)
                 {
                     _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
@@ -69,7 +69,8 @@ namespace Vk.Bot
 
                         await page.WaitForSelectorAsync("div#join_country_row");
                         //select country
-                        await page.ClickAsync("div#join_country_row td#dropdown4");
+                        //await page.ClickAsync("div#join_country_row td#dropdown1");
+                        await page.ClickAsync("div#join_country_row td.selector_dropdown");
                         var countryPrefix = PhoneServiceStore.CountryPrefixes[countryCode];
                         await page.WaitForTimeoutAsync(1000);
                         await page.ClickAsync($"div#join_country_row li[title*='+{countryPrefix}']");

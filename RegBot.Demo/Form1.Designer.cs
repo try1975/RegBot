@@ -33,6 +33,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnYandex = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnVk = new System.Windows.Forms.Button();
             this.btnFacebook = new System.Windows.Forms.Button();
             this.cmbCountry = new System.Windows.Forms.ComboBox();
             this.lblCountry = new System.Windows.Forms.Label();
@@ -59,7 +60,6 @@
             this.advancedDataGridView1 = new ADGV.AdvancedDataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.btnVk = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -133,6 +133,17 @@
             this.panel1.Size = new System.Drawing.Size(916, 178);
             this.panel1.TabIndex = 3;
             // 
+            // btnVk
+            // 
+            this.btnVk.Location = new System.Drawing.Point(137, 97);
+            this.btnVk.Margin = new System.Windows.Forms.Padding(2);
+            this.btnVk.Name = "btnVk";
+            this.btnVk.Size = new System.Drawing.Size(111, 31);
+            this.btnVk.TabIndex = 19;
+            this.btnVk.Text = "vk.com";
+            this.btnVk.UseVisualStyleBackColor = true;
+            this.btnVk.Click += new System.EventHandler(this.btnVk_Click);
+            // 
             // btnFacebook
             // 
             this.btnFacebook.Location = new System.Drawing.Point(22, 96);
@@ -200,7 +211,7 @@
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(133, 21);
             this.btnGenerate.TabIndex = 12;
-            this.btnGenerate.Text = "Случайные данные";
+            this.btnGenerate.Text = "Сгенерировать данные";
             this.btnGenerate.UseVisualStyleBackColor = true;
             this.btnGenerate.Click += new System.EventHandler(this.BtnGenerate_Click);
             // 
@@ -353,7 +364,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(742, 402);
+            this.tabPage2.Size = new System.Drawing.Size(920, 402);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "История";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -366,7 +377,7 @@
             this.panel4.Location = new System.Drawing.Point(2, 21);
             this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(738, 379);
+            this.panel4.Size = new System.Drawing.Size(916, 379);
             this.panel4.TabIndex = 1;
             // 
             // advancedDataGridView1
@@ -384,7 +395,7 @@
             this.advancedDataGridView1.Name = "advancedDataGridView1";
             this.advancedDataGridView1.ReadOnly = true;
             this.advancedDataGridView1.RowTemplate.Height = 28;
-            this.advancedDataGridView1.Size = new System.Drawing.Size(738, 379);
+            this.advancedDataGridView1.Size = new System.Drawing.Size(916, 379);
             this.advancedDataGridView1.TabIndex = 1;
             this.advancedDataGridView1.TimeFilter = false;
             // 
@@ -394,19 +405,8 @@
             this.panel2.Location = new System.Drawing.Point(2, 2);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(738, 19);
+            this.panel2.Size = new System.Drawing.Size(916, 19);
             this.panel2.TabIndex = 0;
-            // 
-            // btnVk
-            // 
-            this.btnVk.Location = new System.Drawing.Point(137, 97);
-            this.btnVk.Margin = new System.Windows.Forms.Padding(2);
-            this.btnVk.Name = "btnVk";
-            this.btnVk.Size = new System.Drawing.Size(111, 31);
-            this.btnVk.TabIndex = 19;
-            this.btnVk.Text = "vk.com";
-            this.btnVk.UseVisualStyleBackColor = true;
-            this.btnVk.Click += new System.EventHandler(this.btnVk_Click);
             // 
             // Form1
             // 
