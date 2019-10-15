@@ -23,7 +23,7 @@ namespace GetSmsOnline
         private readonly string _endpointSetStatus;
         private readonly string _endpointGetStatus;
 
-        private readonly Dictionary<MailServiceCode, string> _mailServices = new Dictionary<MailServiceCode, string>();
+        private readonly Dictionary<ServiceCode, string> _services = new Dictionary<ServiceCode, string>();
         
 
         #endregion
@@ -38,11 +38,13 @@ namespace GetSmsOnline
             _endpointSetStatus = $"{BaseUrl}?action=setStatus&{apiKeyParameterName}={_apiKeyGetSmsOnline}";
             _endpointGetStatus = $"{BaseUrl}?action=getStatus&{apiKeyParameterName}={_apiKeyGetSmsOnline}";
 
-            _mailServices[MailServiceCode.MailRu] = "ma";
-            _mailServices[MailServiceCode.Yandex] = "ya";
-            _mailServices[MailServiceCode.Gmail] = "gm/go";
-            _mailServices[MailServiceCode.Other] = "or/ot";
-            //_mailServices[MailServiceCode.Microsoft] = "mm";
+            _services[ServiceCode.MailRu] = "ma";
+            _services[ServiceCode.Yandex] = "ya";
+            _services[ServiceCode.Gmail] = "gm/go";
+            _services[ServiceCode.Other] = "or/ot";
+            _services[ServiceCode.Facebook] = "fb";
+            _services[ServiceCode.Vk] = "vk";
+            _services[ServiceCode.Ok] = "ok";
         }
 
         private async Task<string> GetNumber(string service, string country)
@@ -78,10 +80,10 @@ namespace GetSmsOnline
             }
         }
 
-        public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, MailServiceCode mailServiceCode)
+        public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, ServiceCode serviceCode)
         {
             Log.Debug($"Call {nameof(GetPhoneNumber)}");
-            var service = _mailServices[mailServiceCode];
+            var service = _services[serviceCode];
             var getNumberResult = await GetNumber(service, Enum.GetName(typeof(CountryCode), countryCode)?.ToLower());
             var getNumberResponse = getNumberResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
             if (getNumberResponse.Length < 3) return null;
@@ -110,7 +112,7 @@ namespace GetSmsOnline
             var getStatusResponse = getStatusResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
             if (getStatusResponse.Length == 2) { return new PhoneNumberValidation{Code = getStatusResponse[1]}; }
             tryCount = 0;
-            while (getStatusResponse.Length != 2 && tryCount < 30)
+            while (getStatusResponse.Length != 2 && tryCount < 60)
             {
                 Thread.Sleep(1000);
                 getStatusResult = await GetStatus(id);

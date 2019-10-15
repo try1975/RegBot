@@ -56,7 +56,7 @@ namespace Yandex.Bot
                 if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory; }
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
-                var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, MailServiceCode.Yandex);
+                var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.Yandex);
                 //var phoneNumberRequest = new PhoneNumberRequest{Id="1", Phone = "79852985779"};
                 if (phoneNumberRequest == null)
                 {

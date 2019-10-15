@@ -26,7 +26,7 @@ namespace SimSmsOrg
         private readonly string _endpointSetStatus;
         private readonly string _endpointGetStatus;
 
-        private readonly Dictionary<MailServiceCode, string> _mailServices = new Dictionary<MailServiceCode, string>();
+        private readonly Dictionary<ServiceCode, string> _services = new Dictionary<ServiceCode, string>();
         private static readonly Dictionary<CountryCode, string> CountryParams = new Dictionary<CountryCode,string>();
         
         #endregion
@@ -43,10 +43,13 @@ namespace SimSmsOrg
             _endpointSetStatus = $"{baseUrl}&action=setStatus";
             _endpointGetStatus = $"{baseUrl}&action=getStatus";
 
-            _mailServices[MailServiceCode.MailRu] = "ma";
-            _mailServices[MailServiceCode.Yandex] = "ya";
-            _mailServices[MailServiceCode.Gmail] = "go";
-            _mailServices[MailServiceCode.Other] = "ot";
+            _services[ServiceCode.MailRu] = "ma";
+            _services[ServiceCode.Yandex] = "ya";
+            _services[ServiceCode.Gmail] = "go";
+            _services[ServiceCode.Other] = "ot";
+            _services[ServiceCode.Facebook] = "fb";
+            _services[ServiceCode.Vk] = "vk";
+            _services[ServiceCode.Ok] = "ok";
 
             CountryParams[CountryCode.RU] = "0";
             CountryParams[CountryCode.UA] = "1";
@@ -120,7 +123,7 @@ namespace SimSmsOrg
             }
         }
 
-        public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, MailServiceCode mailServiceCode)
+        public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, ServiceCode serviceCode)
         {
             Log.Debug($"Call {nameof(GetPhoneNumber)}");
             if (!CountryParams.ContainsKey(countryCode))
@@ -130,7 +133,7 @@ namespace SimSmsOrg
                 var size = CountryParams.Count;
                 countryCode = values[random.Next(size)];
             }
-            var getNumberResult = await GetNumber(_mailServices[mailServiceCode], CountryParams[countryCode]);
+            var getNumberResult = await GetNumber(_services[serviceCode], CountryParams[countryCode]);
             var getNumberResponse = getNumberResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
             if (getNumberResponse.Length < 3) return null;
             //"ACCESS_NUMBER:58668155:79771317953"
@@ -158,7 +161,7 @@ namespace SimSmsOrg
             var getStatusResponse = getStatusResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
             if (getStatusResponse.Length == 2) { return new PhoneNumberValidation{Code = getStatusResponse[1]}; }
             tryCount = 0;
-            while (getStatusResponse.Length != 2 && tryCount < 30)
+            while (getStatusResponse.Length != 2 && tryCount < 60)
             {
                 Thread.Sleep(1000);
                 getStatusResult = await GetStatus(id);

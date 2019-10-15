@@ -61,7 +61,7 @@ namespace MailRu.Bot
 
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
-                var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, MailServiceCode.MailRu);
+                var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.MailRu);
                 //var phoneNumberRequest = new PhoneNumberRequest{Id = "444", Phone = "79163848169"};
                 if (phoneNumberRequest == null)
                 {

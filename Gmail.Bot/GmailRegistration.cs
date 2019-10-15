@@ -54,7 +54,7 @@ namespace Gmail.Bot
 
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
-                var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, MailServiceCode.Gmail);
+                var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.Gmail);
                 //var phoneNumberRequest = new PhoneNumberRequest {Id="444", Phone = "79619361800"};
                 if (phoneNumberRequest == null)
                 {

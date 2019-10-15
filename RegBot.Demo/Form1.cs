@@ -12,6 +12,7 @@ using AccountData.Service;
 using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
+using Facebook.Bot;
 using Gmail.Bot;
 using LiteDB;
 using log4net;
@@ -19,6 +20,7 @@ using MailRu.Bot;
 using Newtonsoft.Json;
 using NickBuhro.Translit;
 using PuppeteerSharp;
+using Vk.Bot;
 using Yandex.Bot;
 
 namespace RegBot.Demo
@@ -146,12 +148,12 @@ namespace RegBot.Demo
             return accountData;
         }
 
-        private async void Demo(MailServiceCode mailServiceCode)
+        private async void Demo(ServiceCode serviceCode)
         {
             try
             {
                 var smsService = ((SmsServiceItem)cmbSmsService.SelectedItem).SmsService;
-                textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
+                textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)} start... - {DateTime.Now} {Environment.NewLine}");
                 IBot iBot = null;
                 var accountData = CreateEmailAccountDataFromUi();
                 if (string.IsNullOrEmpty(accountData.AccountName))
@@ -160,23 +162,29 @@ namespace RegBot.Demo
                 }
                 accountData = StoreAccountData(accountData);
 
-                switch (mailServiceCode)
+                switch (serviceCode)
                 {
-                    case MailServiceCode.MailRu:
+                    case ServiceCode.MailRu:
                         iBot = new MailRuRegistration(accountData, smsService, string.Empty);
                         break;
-                    case MailServiceCode.Yandex:
+                    case ServiceCode.Yandex:
                         iBot = new YandexRegistration(accountData, smsService, string.Empty);
                         break;
-                    case MailServiceCode.Gmail:
+                    case ServiceCode.Gmail:
                         iBot = new GmailRegistration(accountData, smsService, string.Empty);
+                        break;
+                    case ServiceCode.Facebook:
+                        iBot = new FacebookRegistration(accountData, smsService, string.Empty);
+                        break;
+                    case ServiceCode.Vk:
+                        iBot = new VkRegistration(accountData, smsService, string.Empty);
                         break;
                 }
                 _countryCode = ((CountryItem)cmbCountry.SelectedItem).CountryCode;
                 if (iBot != null) accountData = await iBot.Registration(_countryCode, headless: false);
                 StoreAccountData(accountData);
-                textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");
-                textBox1.AppendText($@"{Enum.GetName(typeof(MailServiceCode), mailServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
+                textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");
+                textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
             }
             catch (Exception exception)
             {
@@ -186,17 +194,17 @@ namespace RegBot.Demo
 
         private void BtnMailRu_Click(object sender, EventArgs e)
         {
-            Demo(MailServiceCode.MailRu);
+            Demo(ServiceCode.MailRu);
         }
         
         private void BtnYandex_Click(object sender, EventArgs e)
         {
-            Demo(MailServiceCode.Yandex);
+            Demo(ServiceCode.Yandex);
         }
 
         private void BtnGmail_Click(object sender, EventArgs e)
         {
-            Demo(MailServiceCode.Gmail);
+            Demo(ServiceCode.Gmail);
         }
 
         private void BtnGenerate_Click(object sender, EventArgs e)
@@ -244,6 +252,16 @@ namespace RegBot.Demo
                 advancedDataGridView1.DataSource = bindingSource1;
                 //ContentGridColumnSettings(advancedDataGridView1);
             }
+        }
+
+        private void btnFacebook_Click(object sender, EventArgs e)
+        {
+            Demo(ServiceCode.Facebook);
+        }
+
+        private void btnVk_Click(object sender, EventArgs e)
+        {
+            Demo(ServiceCode.Vk);
         }
     }
 }

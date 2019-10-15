@@ -1,10 +1,13 @@
 ﻿namespace Common.Service.Enums
 {
-    public enum MailServiceCode
+    public enum ServiceCode
     {
         MailRu,
         Yandex,
         Gmail,
-        Other
+        Other,
+        Facebook,
+        Vk,
+        Ok
     }
 }
