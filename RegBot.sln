@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.438
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegBot.Demo", "RegBot.Demo\RegBot.Demo.csproj", "{4B6B4652-40A6-4BB9-BA8E-8C969120897A}"
 EndProject
@@ -40,6 +40,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook.Bot", "Facebook.Bot\Facebook.Bot.csproj", "{DD86EE13-6653-491D-8726-B20692C3445C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vk.Bot", "Vk.Bot\Vk.Bot.csproj", "{6C3FA7E0-1F96-4E49-958B-78DFBC7F0926}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScenarioApp", "ScenarioApp\ScenarioApp.csproj", "{2A295617-3D0F-4045-A254-1655FF97E2A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +97,10 @@ Global
 		{6C3FA7E0-1F96-4E49-958B-78DFBC7F0926}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C3FA7E0-1F96-4E49-958B-78DFBC7F0926}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C3FA7E0-1F96-4E49-958B-78DFBC7F0926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A295617-3D0F-4045-A254-1655FF97E2A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A295617-3D0F-4045-A254-1655FF97E2A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A295617-3D0F-4045-A254-1655FF97E2A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A295617-3D0F-4045-A254-1655FF97E2A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
