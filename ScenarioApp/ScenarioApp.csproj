@@ -141,6 +141,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="DomainCheck.cs" />
+    <Compile Include="VkAuthorization.cs" />
     <Compile Include="YandexSearch.cs" />
     <Compile Include="GoogleSearch.cs" />
     <Compile Include="Program.cs" />

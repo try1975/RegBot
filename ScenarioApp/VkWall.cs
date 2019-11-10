@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using PuppeteerSharp.Input;
 using System.Diagnostics;
+using Common.Service.Interfaces;
 
 namespace ScenarioApp
 {
@@ -15,13 +16,15 @@ namespace ScenarioApp
         private static readonly ILog Log = LogManager.GetLogger(typeof(VkWall));
         private readonly string _chromiumPath;
         private readonly IProgress<string> _progress;
+        private readonly IAccountData _accountData;
 
-        public VkWall(string chromiumPath, IProgress<string> progress)
+        public VkWall(string chromiumPath, IProgress<string> progress, IAccountData accountData)
         {
             if (string.IsNullOrEmpty(chromiumPath)) chromiumPath = Environment.CurrentDirectory;
             chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-662092\\chrome-win\\chrome.exe");
             _chromiumPath = chromiumPath;
             _progress = progress;
+            _accountData = accountData;
         }
 
         private void Report(string logMessage)
@@ -49,6 +52,8 @@ namespace ScenarioApp
                 using (var browser = await Puppeteer.LaunchAsync(options))
                 using (var page = await browser.NewPageAsync())
                 {
+                    await VkAuthorization.Auth(page, _accountData);
+
                     await page.GoToAsync($"https://vk.com/{vkAccountName}");
 
 

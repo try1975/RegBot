@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ScenarioApp
@@ -27,7 +28,9 @@ namespace ScenarioApp
         {
             textBox2.Clear();
             var progress = new Progress<string>(update => textBox2.AppendText(update + Environment.NewLine));
-            var vkWall = new VkWall(chromiumPath: chromiumPath, progress: progress);
+            var accountsData = new List<IAccountData>();
+            accountsData.AddRange(GetAccountData());
+            var vkWall = new VkWall(chromiumPath: chromiumPath, progress: progress, accountData: accountsData.FirstOrDefault());
             await vkWall.Registration(vkAccountName: textBox1.Text, vkPageCount: (int)numericUpDown1.Value, headless: false);
         }
 
@@ -70,9 +73,9 @@ namespace ScenarioApp
             using (var db = new LiteDatabase(connectionString))
             {
                 return db.GetCollection<IAccountData>("AccountsData")
-                    .Find(Query.And(
+                    .Find(Query.And(Query.And(
                         Query.EQ(nameof(IAccountData.Domain), "vk.com"),
-                        Query.EQ(nameof(IAccountData.Success), true)))
+                        Query.EQ(nameof(IAccountData.Success), true)), Query.EQ(nameof(IAccountData.Sex), "Male")))
                 ;
             }
         }
