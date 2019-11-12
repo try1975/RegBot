@@ -1,9 +1,5 @@
 ﻿using log4net;
-using PuppeteerSharp;
 using System;
-using System.IO;
-using System.Net.WebSockets;
-using System.Threading;
 using System.Threading.Tasks;
 using PuppeteerSharp.Input;
 using System.Diagnostics;
@@ -11,18 +7,14 @@ using Common.Service.Interfaces;
 
 namespace ScenarioApp
 {
-    class VkWall
+    class CollectVkWall
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(VkWall));
-        private readonly string _chromiumPath;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(CollectVkWall));
         private readonly IProgress<string> _progress;
         private readonly IAccountData _accountData;
 
-        public VkWall(string chromiumPath, IProgress<string> progress, IAccountData accountData)
+        public CollectVkWall(IProgress<string> progress, IAccountData accountData)
         {
-            if (string.IsNullOrEmpty(chromiumPath)) chromiumPath = Environment.CurrentDirectory;
-            chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-662092\\chrome-win\\chrome.exe");
-            _chromiumPath = chromiumPath;
             _progress = progress;
             _accountData = accountData;
         }
@@ -34,22 +26,11 @@ namespace ScenarioApp
             _progress?.Report(logMessage);
         }
 
-        public async Task Registration(string vkAccountName, int vkPageCount, bool headless)
+        public async Task RunScenario(string chromiumPath, bool headless, string vkAccountName, int vkPageCount)
         {
             try
             {
-                var options = new LaunchOptions
-                {
-                    Headless = headless,
-                    ExecutablePath = _chromiumPath,
-                    DefaultViewport = new ViewPortOptions { IsLandscape = true }
-                };
-                options.Args = new[] { "--disable-notifications" };
-
-
-                if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory; }
-
-                using (var browser = await Puppeteer.LaunchAsync(options))
+                using (var browser = await PuppeteerBrowser.GetBrowser(chromiumPath, headless))
                 using (var page = await browser.NewPageAsync())
                 {
                     await VkAuthorization.Auth(page, _accountData);
@@ -88,14 +69,6 @@ namespace ScenarioApp
             {
                 Log.Error(exception);
             }
-        }
-
-        private static async Task<WebSocket> WebSocketFactory(Uri url, IConnectionOptions options,
-            CancellationToken cancellationToken)
-        {
-            var ws = new System.Net.WebSockets.Managed.ClientWebSocket();
-            await ws.ConnectAsync(url, cancellationToken);
-            return ws;
         }
     }
 }

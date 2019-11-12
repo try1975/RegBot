@@ -7,16 +7,17 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using ScenarioApp.Scenario;
 
 namespace ScenarioApp
 {
-    public partial class Form1 : Form
+    public partial class ScenarioMain : Form
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(Form1));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(ScenarioMain));
         private readonly string chromiumPath = null;
         private readonly string connectionString;
 
-        public Form1()
+        public ScenarioMain()
         {
             InitializeComponent();
 
@@ -30,8 +31,8 @@ namespace ScenarioApp
             var progress = new Progress<string>(update => textBox2.AppendText(update + Environment.NewLine));
             var accountsData = new List<IAccountData>();
             accountsData.AddRange(GetAccountData());
-            var vkWall = new VkWall(chromiumPath: chromiumPath, progress: progress, accountData: accountsData.FirstOrDefault());
-            await vkWall.Registration(vkAccountName: textBox1.Text, vkPageCount: (int)numericUpDown1.Value, headless: false);
+            var vkWall = new CollectVkWall(progress, accountsData.FirstOrDefault());
+            await vkWall.RunScenario(chromiumPath: chromiumPath, headless: false, vkAccountName: textBox1.Text, vkPageCount: (int)numericUpDown1.Value);
         }
 
         private async void button2_Click(object sender, EventArgs e)
@@ -54,8 +55,8 @@ namespace ScenarioApp
         {
             textBox7.Clear();
             var progress = new Progress<string>(update => textBox7.AppendText(update + Environment.NewLine));
-            var domainCheck = new DomainCheck(chromiumPath: chromiumPath, progress: progress);
-            await domainCheck.Registration(domainName: textBox8.Text, headless: false);
+            var domainCheck = new NicRuWhois(progress);
+            await domainCheck.RunScenario(chromiumPath: chromiumPath, headless: false, domainName: textBox8.Text);
         }
 
         private void tabPage2_Enter(object sender, EventArgs e)
@@ -78,6 +79,16 @@ namespace ScenarioApp
                         Query.EQ(nameof(IAccountData.Success), true)), Query.EQ(nameof(IAccountData.Sex), "Male")))
                 ;
             }
+        }
+
+        private async void button5_Click(object sender, EventArgs e)
+        {
+            textBox9.Clear();
+            var progress = new Progress<string>(update => textBox9.AppendText(update + Environment.NewLine));
+            var accountsData = new List<IAccountData>();
+            accountsData.AddRange(GetAccountData());
+            var postVk = new PostVk(progress);
+            await postVk.RunScenario(chromiumPath: chromiumPath, headless: false, accountsData.FirstOrDefault(), postText: textBox10.Text);
         }
     }
 }
