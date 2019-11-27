@@ -1,4 +1,5 @@
-﻿using PuppeteerService;
+﻿using MailRu.Bot;
+using PuppeteerService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace ScenarioService
             try
             {
 
-                foreach (var email in emails.Select(x=>x.ToLower()).Distinct().ToArray())
+                foreach (var email in emails.Select(x => x.ToLower()).Distinct().ToArray())
                 {
                     MailAddress mailAddress;
                     try
@@ -35,6 +36,7 @@ namespace ScenarioService
                     if (mailAddress != null)
                     {
                         listMailAddress[mailAddress.Address] = mailAddress;
+                        result.Add(mailAddress.Address);
                         Info($"{email} - успешная проверка написания");
                     }
                     else
@@ -42,18 +44,28 @@ namespace ScenarioService
                         Info($"{email} - ошибка написания");
                     }
                 }
-                // проверка попыткой регистрации
-                //using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
-                //using (var page = await browser.NewPageAsync())
-                //{
-                //    foreach (var item in listMailAddress)
-                //    {
-                //        if(item.Value.Host.Equals("mail.ru")|| item.Value.Host.Equals("list.ru"))
-                //        {
-                //            ;
-                //        }
-                //    }
-                //}
+                //проверка попыткой регистрации
+                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
+                    foreach (var item in listMailAddress)
+                    {
+                        if (item.Value.Host.Equals("mail.ru") || item.Value.Host.Equals("list.ru"))
+                        {
+                            using (var page = await browser.NewPageAsync())
+                            {
+                                await page.GoToAsync("https://account.mail.ru/signup");
+                                var emailAlreadyRegistered = await MailRuRegistration.EmailAlreadyRegistered(item.Value.User, item.Value.Host, page);
+                                if (emailAlreadyRegistered)
+                                {
+                                    Info($"{item.Value.Address} - проверка регистрацией - адрес существует");
+                                }
+                                else
+                                {
+                                    Info($"{item.Value.Address} - проверка регистрацией - адрес не существует");
+                                    result.Remove(item.Value.Address);
+                                }
+                            }
+                        }
+                    }
             }
             catch (Exception exception)
             {

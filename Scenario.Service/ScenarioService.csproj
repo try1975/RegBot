@@ -153,6 +153,10 @@
       <Project>{f45c44cf-2c70-4683-a36a-1154e2408f53}</Project>
       <Name>Common.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MailRu.Bot\MailRu.Bot.csproj">
+      <Project>{f1c872d7-cf9e-4e7f-ad2f-e821b67e1afa}</Project>
+      <Name>MailRu.Bot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PuppeteerService\PuppeteerService.csproj">
       <Project>{d0103587-ca50-4eb7-bed4-99e2277f9001}</Project>
       <Name>PuppeteerService</Name>

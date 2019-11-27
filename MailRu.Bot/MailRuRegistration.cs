@@ -187,24 +187,26 @@ namespace MailRu.Bot
                 _data.AccountName = $"{_data.Firstname.ToLower()}.{_data.Lastname.ToLower()}";
             }
 
-            await page.TypeAsync("span.b-email__name>input[type='email']", _data.AccountName);
-            const string defaultDomain = "mail.ru";
-            if (string.IsNullOrEmpty(_data.Domain))
-            {
-                _data.Domain = defaultDomain;
-            }
+            //await page.TypeAsync("span.b-email__name>input[type='email']", _data.AccountName);
+            //const string defaultDomain = "mail.ru";
+            //if (string.IsNullOrEmpty(_data.Domain))
+            //{
+            //    _data.Domain = defaultDomain;
+            //}
 
-            if (!_data.Domain.ToLower().Equals(defaultDomain))
-            {
-                //select domain
-                await page.ClickAsync("span.b-email__domain span");
-                await page.ClickAsync($"a[data-text='@{_data.Domain}']");
-            }
+            //if (!_data.Domain.ToLower().Equals(defaultDomain))
+            //{
+            //    //select domain
+            //    await page.ClickAsync("span.b-email__domain span");
+            //    await page.ClickAsync($"a[data-text='@{_data.Domain}']");
+            //}
 
             const string selAltMail = "div.b-tooltip_animate";
-            await page.WaitForTimeoutAsync(1000);
-            var altMailExists = await page.QuerySelectorAsync(selAltMail);
-            if (altMailExists != null)
+            //await page.WaitForTimeoutAsync(1000);
+            //var altMailExists = await page.QuerySelectorAsync(selAltMail);
+            var emailAlreadyRegistered = await EmailAlreadyRegistered(_data.AccountName, _data.Domain, page);
+            //if (altMailExists != null)
+            if (emailAlreadyRegistered)
             {
                 var selAltMailList = $"{selAltMail} div.b-list__item__content";
                 var jsAltMailList = $@"Array.from(document.querySelectorAll('{selAltMailList}')).map(a => a.innerText);";
@@ -244,6 +246,37 @@ namespace MailRu.Bot
             }
 
             #endregion
+        }
+
+        public async static Task<bool> EmailAlreadyRegistered(string accountName, string host, Page page)
+        {
+
+            try
+            {
+                await page.TypeAsync("span.b-email__name>input[type='email']", accountName);
+                const string defaultDomain = "mail.ru";
+                if (string.IsNullOrEmpty(host))
+                {
+                    host = defaultDomain;
+                }
+
+                if (!host.ToLower().Equals(defaultDomain))
+                {
+                    //select domain
+                    await page.ClickAsync("span.b-email__domain span");
+                    await page.ClickAsync($"a[data-text='@{host}']");
+                }
+
+                const string selAltMail = "div.b-tooltip_animate";
+                await page.WaitForTimeoutAsync(1000);
+                var altMailExists = await page.QuerySelectorAsync(selAltMail);
+                if (altMailExists == null) return false;
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+            }
+            return true;
         }
     }
 }

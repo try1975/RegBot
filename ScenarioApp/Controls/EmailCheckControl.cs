@@ -20,7 +20,8 @@ namespace ScenarioApp.Controls
             textBox3.Clear();
             var progressLog = new Progress<string>(update => textBox3.AppendText(update + Environment.NewLine));
             var engine = new EmailCheck(chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>(), progressLog: progressLog);
-            await engine.RunScenario(emails: textBox1.Lines);
+            var result = await engine.RunScenario(emails: textBox1.Lines);
+            textBox2.Lines = result.ToArray();
         }
     }
 }
