@@ -43,13 +43,16 @@ namespace SimSmsOrg
             _endpointSetStatus = $"{baseUrl}&action=setStatus";
             _endpointGetStatus = $"{baseUrl}&action=getStatus";
 
-            _services[ServiceCode.MailRu] = "ma";
+            _services[ServiceCode.MailRu] = "mg";
+            //_services[ServiceCode.MailRu] = "ma";
             _services[ServiceCode.Yandex] = "ya";
             _services[ServiceCode.Gmail] = "go";
             _services[ServiceCode.Other] = "ot";
             _services[ServiceCode.Facebook] = "fb";
-            _services[ServiceCode.Vk] = "vk";
-            _services[ServiceCode.Ok] = "ok";
+            _services[ServiceCode.Vk] = "mg";
+            //_services[ServiceCode.Vk] = "vk";
+            _services[ServiceCode.Ok] = "mg";
+            //_services[ServiceCode.Ok] = "ok";
 
             CountryParams[CountryCode.RU] = "0";
             CountryParams[CountryCode.UA] = "1";

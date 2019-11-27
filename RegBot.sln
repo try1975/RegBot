@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegBot.Demo", "RegBot.Demo\RegBot.Demo.csproj", "{4B6B4652-40A6-4BB9-BA8E-8C969120897A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineSimRu", "OnlineSim\OnlineSimRu.csproj", "{FA10ABD7-78B1-48DC-8F38-8D0021CC4E38}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountData.Service", "AccountDataService\AccountData.Service.csproj", "{8D632BF2-BFD9-4585-A5AF-7E15E8431EBB}"
@@ -29,8 +27,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		todo.txt = todo.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{5B85D29A-8867-4649-A158-95E2877E4DA2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gmail.Bot", "Gmail.Bot\Gmail.Bot.csproj", "{6A78CF28-6C28-4090-A414-329FBE8A91F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimSmsOrg", "SimSmsOrg\SimSmsOrg.csproj", "{BE0EFC1B-F2B3-4A83-8647-2D14B53DD4AD}"
@@ -43,16 +39,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vk.Bot", "Vk.Bot\Vk.Bot.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScenarioApp", "ScenarioApp\ScenarioApp.csproj", "{2A295617-3D0F-4045-A254-1655FF97E2A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScenarioService", "Scenario.Service\ScenarioService.csproj", "{D3429939-A8BF-4B4B-BFCD-18A3F6C69BC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppeteerService", "PuppeteerService\PuppeteerService.csproj", "{D0103587-CA50-4EB7-BED4-99E2277F9001}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4B6B4652-40A6-4BB9-BA8E-8C969120897A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B6B4652-40A6-4BB9-BA8E-8C969120897A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B6B4652-40A6-4BB9-BA8E-8C969120897A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B6B4652-40A6-4BB9-BA8E-8C969120897A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FA10ABD7-78B1-48DC-8F38-8D0021CC4E38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA10ABD7-78B1-48DC-8F38-8D0021CC4E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA10ABD7-78B1-48DC-8F38-8D0021CC4E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -101,6 +97,14 @@ Global
 		{2A295617-3D0F-4045-A254-1655FF97E2A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A295617-3D0F-4045-A254-1655FF97E2A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A295617-3D0F-4045-A254-1655FF97E2A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3429939-A8BF-4B4B-BFCD-18A3F6C69BC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3429939-A8BF-4B4B-BFCD-18A3F6C69BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3429939-A8BF-4B4B-BFCD-18A3F6C69BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3429939-A8BF-4B4B-BFCD-18A3F6C69BC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0103587-CA50-4EB7-BED4-99E2277F9001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0103587-CA50-4EB7-BED4-99E2277F9001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0103587-CA50-4EB7-BED4-99E2277F9001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0103587-CA50-4EB7-BED4-99E2277F9001}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +120,8 @@ Global
 		{F1C872D7-CF9E-4E7F-AD2F-E821B67E1AFA} = {DF67A5F2-A00F-4D18-AFE1-24DC1BA82825}
 		{DD86EE13-6653-491D-8726-B20692C3445C} = {DF67A5F2-A00F-4D18-AFE1-24DC1BA82825}
 		{6C3FA7E0-1F96-4E49-958B-78DFBC7F0926} = {DF67A5F2-A00F-4D18-AFE1-24DC1BA82825}
+		{D3429939-A8BF-4B4B-BFCD-18A3F6C69BC9} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
+		{D0103587-CA50-4EB7-BED4-99E2277F9001} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BFA7B51-BBAA-46FB-A909-78364E794607}

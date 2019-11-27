@@ -6,6 +6,7 @@ using System.Web.Http.Description;
 using Common.Service.Interfaces;
 using LiteDB;
 using log4net;
+using PuppeteerService;
 
 namespace RegBot.RestApi.Controllers
 {
@@ -13,6 +14,9 @@ namespace RegBot.RestApi.Controllers
     {
         private static readonly ILog Log = LogManager.GetLogger(nameof(EmailController));
 
+        public HistoryController(IChromiumSettings chromiumSettings) : base(chromiumSettings)
+        {
+        }
 
         [HttpGet]
         [Route("History")]

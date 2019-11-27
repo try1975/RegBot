@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using log4net;
+﻿using log4net;
 using log4net.Config;
+using ScenarioApp.Controls.Interfaces;
+using ScenarioApp.Ninject;
+using System;
+using System.Windows.Forms;
 
 [assembly: XmlConfigurator(Watch = true)]
 
@@ -19,9 +18,11 @@ namespace ScenarioApp
         [STAThread]
         static void Main()
         {
+            CompositionRoot.Wire(new ApplicationModule());
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ScenarioMain());
+            Application.Run(new ScenarioMain(CompositionRoot.Resolve<IScenarioControl>()));
         }
     }
 }

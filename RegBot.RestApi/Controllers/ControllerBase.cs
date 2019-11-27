@@ -7,16 +7,20 @@ using AccountData.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using LiteDB;
+using PuppeteerService;
 
 namespace RegBot.RestApi.Controllers
 {
     public class ControllerBase : ApiController
     {
-        protected static readonly string AppPath = HttpRuntime.BinDirectory; //HttpRuntime.AppDomainAppPath
+        protected readonly string AppPath;// = HttpRuntime.BinDirectory; //HttpRuntime.AppDomainAppPath
         protected readonly string ConnectionString;
+        protected readonly IChromiumSettings _chromiumSettings;
 
-        public ControllerBase()
+        public ControllerBase(IChromiumSettings chromiumSettings)
         {
+            _chromiumSettings = chromiumSettings;
+            AppPath = _chromiumSettings.GetPath();
             ConnectionString = Path.Combine(AppPath, ConfigurationManager.AppSettings["DbPath"]);
         }
 
@@ -58,7 +62,7 @@ namespace RegBot.RestApi.Controllers
         //    return mailServiceCode;
         //}
 
-        protected static IAccountData GetRandomAccountData()
+        protected IAccountData GetRandomAccountData()
         {
             return new AccountDataGenerator(AppPath).GetRandom();
         }

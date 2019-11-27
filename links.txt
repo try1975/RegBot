@@ -22,3 +22,15 @@ https://medium.com/swlh/an-introduction-to-web-scraping-with-puppeteer-3d35a51fd
 https://medium.com/@jsoverson/bypassing-captchas-with-headless-chrome-93f294518337
 https://blog.phantombuster.com/web-scraping-in-2017-headless-chrome-tips-tricks-4d6521d695e8
 https://gist.github.com/hlaueriksson/4a4199f0802681b06f0f508a2916164d
+
+https://blog.zennolab.com/create-templates/other/%d0%bf%d1%80%d0%be%d0%b2%d0%b5%d1%80%d0%ba%d0%b0-e-mail-%d0%bd%d0%b0-%d1%81%d1%83%d1%89%d0%b5%d1%81%d1%82%d0%b2%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5.html
+https://ivit.pro/services/email-valid/
+https://esputnik.com/blog/15-luchshih-servisov-dlya-chistki-kontaktnoy-bazy
+https://2ip.ru/mail-checker/
+
+http://www.mimekit.net/#
+https://www.youtube.com/watch?v=wsDRkAD6lPs
+https://zennolab.com/discussion/threads/how-to-use-anti-captcha-antigate-com-for-google-recaptcha.33593/
+https://zennolab.com/wiki/en:addons:capmonster:rc-audio
+https://www.aymen-loukil.com/en/blog-en/google-puppeteer-tutorial-with-examples/
+http://www.hardkoded.com/blog/creating-whatsapp-bot-puppteer-sharp

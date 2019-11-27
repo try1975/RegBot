@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdvancedDataGridView, Version=0.1.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ADGV.0.1.0.10\lib\net40\AdvancedDataGridView.dll</HintPath>
+    </Reference>
     <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
@@ -63,6 +66,12 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NickBuhro.Translit, Version=1.4.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NickBuhro.Translit.1.4.5\lib\net45\NickBuhro.Translit.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="PuppeteerSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PuppeteerSharp.1.17.2\lib\netstandard2.0\PuppeteerSharp.dll</HintPath>
     </Reference>
@@ -82,9 +91,6 @@
       <HintPath>..\packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.WebSockets.Client.Managed, Version=1.0.22.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.WebSockets.Client.Managed.1.0.22\lib\net45\System.Net.WebSockets.Client.Managed.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -134,21 +140,137 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastucture\PuppeteerBrowser.cs" />
+    <Compile Include="Controls\CheckVkAccountControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CheckVkAccountControl.Designer.cs">
+      <DependentUpon>CheckVkAccountControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CountryItem.cs" />
+    <Compile Include="Controls\EmailCheckControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EmailCheckControl.Designer.cs">
+      <DependentUpon>EmailCheckControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Interfaces\IEmailCheckControl.cs" />
+    <Compile Include="Controls\Interfaces\IRegBotControl.cs" />
+    <Compile Include="Controls\RegBotControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RegBotControl.Designer.cs">
+      <DependentUpon>RegBotControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SmsServiceItem.cs" />
+    <Compile Include="Controls\CheckVkCredentialControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CheckVkCredentialControl.Designer.cs">
+      <DependentUpon>CheckVkCredentialControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CollectVkWallControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CollectVkWallControl.Designer.cs">
+      <DependentUpon>CollectVkWallControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GoogleSearchControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GoogleSearchControl.Designer.cs">
+      <DependentUpon>GoogleSearchControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Interfaces\ICheckVkAccountControl.cs" />
+    <Compile Include="Controls\Interfaces\ICheckVkCredentialControl.cs" />
+    <Compile Include="Controls\Interfaces\IGoogleSearchControl.cs" />
+    <Compile Include="Controls\Interfaces\IPostVkControl.cs" />
+    <Compile Include="Controls\Interfaces\IScenarioControl.cs" />
+    <Compile Include="Controls\Interfaces\ICollectVkWallControl.cs" />
+    <Compile Include="Controls\Interfaces\IWhoisControl.cs" />
+    <Compile Include="Controls\Interfaces\IYandexSearchControl.cs" />
+    <Compile Include="Controls\PostVkControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PostVkControl.Designer.cs">
+      <DependentUpon>PostVkControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ScenarioControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ScenarioControl.Designer.cs">
+      <DependentUpon>ScenarioControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VkAuthorizationCheck.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\VkAuthorizationCheck.Designer.cs">
+      <DependentUpon>VkAuthorizationCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WhoisControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WhoisControl.Designer.cs">
+      <DependentUpon>WhoisControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\YandexSearchControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\YandexSearchControl.Designer.cs">
+      <DependentUpon>YandexSearchControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AccountDataLoader.cs" />
+    <Compile Include="Data\DataSettings.cs" />
+    <Compile Include="Data\IAccountDataLoader.cs" />
+    <Compile Include="Data\IDataSettings.cs" />
+    <Compile Include="Forms\ChildForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChildForm.Designer.cs">
+      <DependentUpon>ChildForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ninject\ApplicationModule.cs" />
+    <Compile Include="Ninject\CompositionRoot.cs" />
     <Compile Include="ScenarioMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ScenarioMain.Designer.cs">
       <DependentUpon>ScenarioMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Scenario\NicRuWhois.cs" />
-    <Compile Include="Action\VkAuthorization.cs" />
-    <Compile Include="Scenario\PostVk.cs" />
-    <Compile Include="Scenario\YandexSearch.cs" />
-    <Compile Include="Scenario\GoogleSearch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenario\CollectVkWall.cs" />
+    <EmbeddedResource Include="Controls\CheckVkAccountControl.resx">
+      <DependentUpon>CheckVkAccountControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CheckVkCredentialControl.resx">
+      <DependentUpon>CheckVkCredentialControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CollectVkWallControl.resx">
+      <DependentUpon>CollectVkWallControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EmailCheckControl.resx">
+      <DependentUpon>EmailCheckControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GoogleSearchControl.resx">
+      <DependentUpon>GoogleSearchControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PostVkControl.resx">
+      <DependentUpon>PostVkControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RegBotControl.resx">
+      <DependentUpon>RegBotControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ScenarioControl.resx">
+      <DependentUpon>ScenarioControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\VkAuthorizationCheck.resx">
+      <DependentUpon>VkAuthorizationCheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WhoisControl.resx">
+      <DependentUpon>WhoisControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\YandexSearchControl.resx">
+      <DependentUpon>YandexSearchControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ScenarioMain.resx">
       <DependentUpon>ScenarioMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -187,6 +309,47 @@
       <Project>{F45C44CF-2C70-4683-A36A-1154E2408F53}</Project>
       <Name>Common.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Facebook.Bot\Facebook.Bot.csproj">
+      <Project>{dd86ee13-6653-491d-8726-b20692c3445c}</Project>
+      <Name>Facebook.Bot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Getsms.online\GetSmsOnline.csproj">
+      <Project>{1d1e05c8-006d-4bb8-88c1-96b6a23e1110}</Project>
+      <Name>GetSmsOnline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gmail.Bot\Gmail.Bot.csproj">
+      <Project>{6a78cf28-6c28-4090-a414-329fbe8a91f0}</Project>
+      <Name>Gmail.Bot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MailRu.Bot\MailRu.Bot.csproj">
+      <Project>{f1c872d7-cf9e-4e7f-ad2f-e821b67e1afa}</Project>
+      <Name>MailRu.Bot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OnlineSim\OnlineSimRu.csproj">
+      <Project>{fa10abd7-78b1-48dc-8f38-8d0021cc4e38}</Project>
+      <Name>OnlineSimRu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PuppeteerService\PuppeteerService.csproj">
+      <Project>{d0103587-ca50-4eb7-bed4-99e2277f9001}</Project>
+      <Name>PuppeteerService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scenario.Service\ScenarioService.csproj">
+      <Project>{d3429939-a8bf-4b4b-bfcd-18a3f6c69bc9}</Project>
+      <Name>ScenarioService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimSmsOrg\SimSmsOrg.csproj">
+      <Project>{be0efc1b-f2b3-4a83-8647-2d14b53dd4ad}</Project>
+      <Name>SimSmsOrg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vk.Bot\Vk.Bot.csproj">
+      <Project>{6c3fa7e0-1f96-4e49-958b-78dfbc7f0926}</Project>
+      <Name>Vk.Bot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yandex.Bot\Yandex.Bot.csproj">
+      <Project>{c1ec0956-cf76-427e-9c92-a68e2c6eba4a}</Project>
+      <Name>Yandex.Bot</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

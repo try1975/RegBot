@@ -18,6 +18,8 @@ using Owin;
 using Swashbuckle.Application;
 using Swashbuckle.Examples;
 using RegBot.RestApi.Controllers;
+using ScenarioService;
+using PuppeteerService;
 
 namespace RegBot.RestApi.App_Start
 {
@@ -131,6 +133,10 @@ namespace RegBot.RestApi.App_Start
             var builder = new ContainerBuilder();
 
             builder.RegisterType<FooService>().As<IFooService>();
+            
+            //builder.RegisterType<YandexSearch>().As<IYandexSearch>();
+            builder.RegisterType<ChromiumSettings>().As<IChromiumSettings>().WithParameter("chromiumPath", HttpRuntime.BinDirectory);
+
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 

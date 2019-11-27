@@ -148,6 +148,7 @@
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\FooController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
+    <Compile Include="Controllers\ScenarioController.cs" />
     <Compile Include="Controllers\SocialController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -197,6 +198,14 @@
     <ProjectReference Include="..\OnlineSim\OnlineSimRu.csproj">
       <Project>{FA10ABD7-78B1-48DC-8F38-8D0021CC4E38}</Project>
       <Name>OnlineSimRu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PuppeteerService\PuppeteerService.csproj">
+      <Project>{d0103587-ca50-4eb7-bed4-99e2277f9001}</Project>
+      <Name>PuppeteerService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scenario.Service\ScenarioService.csproj">
+      <Project>{d3429939-a8bf-4b4b-bfcd-18a3f6c69bc9}</Project>
+      <Name>ScenarioService</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimSmsOrg\SimSmsOrg.csproj">
       <Project>{BE0EFC1B-F2B3-4A83-8647-2D14B53DD4AD}</Project>

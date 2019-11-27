@@ -11,6 +11,7 @@ using log4net;
 using MailRu.Bot;
 using NickBuhro.Translit;
 using OnlineSimRu;
+using PuppeteerService;
 using SimSmsOrg;
 using Yandex.Bot;
 
@@ -20,7 +21,9 @@ namespace RegBot.RestApi.Controllers
     {
         private static readonly ILog Log = LogManager.GetLogger(nameof(EmailController));
 
-        
+        public EmailController(IChromiumSettings chromiumSettings) : base(chromiumSettings)
+        {
+        }
 
         [HttpGet]
         [Route(nameof(InitialAccountData))]
