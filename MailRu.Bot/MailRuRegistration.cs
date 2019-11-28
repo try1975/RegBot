@@ -1,15 +1,14 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net.WebSockets;
-using System.Threading;
-using System.Threading.Tasks;
-using Common.Service;
+﻿using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using log4net;
 using Newtonsoft.Json;
+using PuppeteerService;
 using PuppeteerSharp;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MailRu.Bot
 {
@@ -20,45 +19,19 @@ namespace MailRu.Bot
         private readonly IAccountData _data;
         private readonly ISmsService _smsService;
         private string _requestId;
-        private readonly string _chromiumPath;
+        private readonly IChromiumSettings _chromiumSettings;
 
-        public MailRuRegistration(IAccountData data, ISmsService smsService, string chromiumPath)
+        public MailRuRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
         {
             _data = data;
             _smsService = smsService;
-            if (string.IsNullOrEmpty(chromiumPath)) chromiumPath = Environment.CurrentDirectory;
-            chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-662092\\chrome-win\\chrome.exe");
-            _chromiumPath = chromiumPath;
-            Log.Debug($"_chromiumPath: {_chromiumPath}");
+            _chromiumSettings = chromiumSettings;
         }
 
-        public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU, bool headless = true)
+        public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)
         {
             try
             {
-                var options = new LaunchOptions
-                {
-                    Headless = headless,
-                    ExecutablePath = _chromiumPath,
-                    //SlowMo = 10,
-
-                };
-
-                //options.Args = new[]
-                //{
-                //    "--proxy-server=socks4://36.67.184.157:54555"//, "--proxy-auth: userx:passx", "--proxy-type: 'meh'"
-                //};
-                //https://blog.apify.com/how-to-make-headless-chrome-and-puppeteer-use-a-proxy-server-with-authentication-249a21a79212
-                //https://toster.ru/q/562104
-
-                // windows7 websocket https://github.com/PingmanTools/System.Net.WebSockets.Client.Managed
-                if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory; }
-                //using (var browser = await Puppeteer.LaunchAsync(options))
-                //using (var page = await browser.NewPageAsync())
-                //{
-                //    await page.GoToAsync("https://yandex.ru/internet/");
-                //}
-
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
                 var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.MailRu);
@@ -74,7 +47,7 @@ namespace MailRu.Bot
                 if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
                 _data.Phone = _data.Phone.Substring(PhoneServiceStore.CountryPrefixes[countryCode].Length + 1);
 
-                using (var browser = await Puppeteer.LaunchAsync(options))
+                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
                 using (var page = await browser.NewPageAsync())
                 {
                     await FillRegistrationData(page);
@@ -83,13 +56,11 @@ namespace MailRu.Bot
                     // TODO check captcha
                     // check phone call
                     await page.WaitForTimeoutAsync(500);
-                    // ReSharper disable once StringLiteralTypo
                     var phoneCall = await page.QuerySelectorAsync("#callui-container");
                     //if (phoneCall == null) await page.WaitForTimeoutAsync(120000);
                     if (phoneCall != null)
                     {
                         Thread.Sleep(1000);
-                        // ReSharper disable once StringLiteralTypo
                         await page.ClickAsync("#callui-container a"); // I haven't received a call - click link for sms
 
                     }
@@ -136,14 +107,6 @@ namespace MailRu.Bot
                 _data.ErrMsg = exception.Message;
             }
             return _data;
-        }
-
-        private async Task<WebSocket> WebSocketFactory(Uri url, IConnectionOptions options,
-            CancellationToken cancellationToken)
-        {
-            var ws = new System.Net.WebSockets.Managed.ClientWebSocket();
-            await ws.ConnectAsync(url, cancellationToken);
-            return ws;
         }
 
         private async Task FillRegistrationData(Page page)
@@ -230,7 +193,7 @@ namespace MailRu.Bot
             #endregion
 
             #region Phone
-       
+
             const string selPhone = "input[type=tel]";
             var elPhone = await page.QuerySelectorAsync(selPhone);
             if (elPhone != null)
@@ -250,7 +213,6 @@ namespace MailRu.Bot
 
         public async static Task<bool> EmailAlreadyRegistered(string accountName, string host, Page page)
         {
-
             try
             {
                 await page.TypeAsync("span.b-email__name>input[type='email']", accountName);

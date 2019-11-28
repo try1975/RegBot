@@ -3,11 +3,9 @@ using Common.Service.Enums;
 using Common.Service.Interfaces;
 using log4net;
 using Newtonsoft.Json;
+using PuppeteerService;
 using PuppeteerSharp;
 using System;
-using System.IO;
-using System.Net.WebSockets;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Vk.Bot
@@ -19,33 +17,20 @@ namespace Vk.Bot
         private readonly IAccountData _data;
         private readonly ISmsService _smsService;
         private string _requestId;
-        private readonly string _chromiumPath;
+        private readonly IChromiumSettings _chromiumSettings;
 
-        public VkRegistration(IAccountData data, ISmsService smsService, string chromiumPath)
+        public VkRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
         {
             _data = data;
             _data.Domain = "vk.com";
             _smsService = smsService;
-            if (string.IsNullOrEmpty(chromiumPath)) chromiumPath = Environment.CurrentDirectory;
-            chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-662092\\chrome-win\\chrome.exe");
-            _chromiumPath = chromiumPath;
+            _chromiumSettings = chromiumSettings;
         }
 
-        public async Task<IAccountData> Registration(CountryCode countryCode, bool headless)
+        public async Task<IAccountData> Registration(CountryCode countryCode)
         {
             try
             {
-                var options = new LaunchOptions
-                {
-                    Headless = headless,
-                    ExecutablePath = _chromiumPath,
-                    DefaultViewport = new ViewPortOptions { IsLandscape = true }
-                };
-                options.Args = new[] { "--disable-notifications" };
-
-
-                if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory; }
-
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
                 var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.Vk);
@@ -60,7 +45,7 @@ namespace Vk.Bot
                 _data.Phone = phoneNumberRequest.Phone.Trim();
                 if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
 
-                using (var browser = await Puppeteer.LaunchAsync(options))
+                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
                 using (var page = await browser.NewPageAsync())
                 {
                     try
@@ -162,12 +147,5 @@ namespace Vk.Bot
             await page.ClickAsync("button#ij_submit");
         }
 
-        private static async Task<WebSocket> WebSocketFactory(Uri url, IConnectionOptions options,
-            CancellationToken cancellationToken)
-        {
-            var ws = new System.Net.WebSockets.Managed.ClientWebSocket();
-            await ws.ConnectAsync(url, cancellationToken);
-            return ws;
-        }
     }
 }

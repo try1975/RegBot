@@ -8,8 +8,10 @@ using log4net;
 using MailRu.Bot;
 using Newtonsoft.Json;
 using NickBuhro.Translit;
+using PuppeteerService;
 using PuppeteerSharp;
 using ScenarioApp.Controls.Interfaces;
+using ScenarioApp.Ninject;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -113,27 +115,27 @@ namespace ScenarioApp.Controls
                     accountData.AccountName = Transliteration.CyrillicToLatin($"{accountData.Firstname.ToLower()}.{accountData.Lastname.ToLower()}", Language.Russian);
                 }
                 accountData = StoreAccountData(accountData);
-
+                var chromiumSettings = CompositionRoot.Resolve<IChromiumSettings>();
                 switch (serviceCode)
                 {
                     case ServiceCode.MailRu:
-                        iBot = new MailRuRegistration(accountData, smsService, string.Empty);
+                        iBot = new MailRuRegistration(accountData, smsService, chromiumSettings);
                         break;
                     case ServiceCode.Yandex:
-                        iBot = new YandexRegistration(accountData, smsService, string.Empty);
+                        iBot = new YandexRegistration(accountData, smsService, chromiumSettings);
                         break;
                     case ServiceCode.Gmail:
-                        iBot = new GmailRegistration(accountData, smsService, string.Empty);
+                        iBot = new GmailRegistration(accountData, smsService, chromiumSettings);
                         break;
                     case ServiceCode.Facebook:
-                        iBot = new FacebookRegistration(accountData, smsService, string.Empty);
+                        iBot = new FacebookRegistration(accountData, smsService, chromiumSettings);
                         break;
                     case ServiceCode.Vk:
-                        iBot = new VkRegistration(accountData, smsService, string.Empty);
+                        iBot = new VkRegistration(accountData, smsService, chromiumSettings);
                         break;
                 }
                 _countryCode = ((CountryItem)cmbCountry.SelectedItem).CountryCode;
-                if (iBot != null) accountData = await iBot.Registration(_countryCode, headless: false);
+                if (iBot != null) accountData = await iBot.Registration(_countryCode);
                 StoreAccountData(accountData);
                 textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");
                 textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)} finish... - {DateTime.Now} {Environment.NewLine}");

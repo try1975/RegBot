@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
-using AccountData.Service;
+﻿using AccountData.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using GetSmsOnline;
@@ -13,6 +9,10 @@ using NickBuhro.Translit;
 using OnlineSimRu;
 using PuppeteerService;
 using SimSmsOrg;
+using System;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
 using Yandex.Bot;
 
 namespace RegBot.RestApi.Controllers
@@ -33,7 +33,7 @@ namespace RegBot.RestApi.Controllers
             return Ok(GetRandomAccountData());
         }
 
-        
+
 
         [HttpGet]
         [Route("newMailRuEmail")]
@@ -205,13 +205,13 @@ namespace RegBot.RestApi.Controllers
                 switch (serviceCode)
                 {
                     case ServiceCode.MailRu:
-                        iBot = new MailRuRegistration(accountData, smsService, AppPath);
+                        iBot = new MailRuRegistration(accountData, smsService, _chromiumSettings);
                         break;
                     case ServiceCode.Yandex:
-                        iBot = new YandexRegistration(accountData, smsService, AppPath);
+                        iBot = new YandexRegistration(accountData, smsService, _chromiumSettings);
                         break;
                     case ServiceCode.Gmail:
-                        iBot = new GmailRegistration(accountData, smsService, AppPath);
+                        iBot = new GmailRegistration(accountData, smsService, _chromiumSettings);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -221,8 +221,8 @@ namespace RegBot.RestApi.Controllers
                 {
                     countryCode = (CountryCode)Enum.Parse(typeof(CountryCode), accountData.PhoneCountryCode);
                 }
-               
-                accountData = await iBot.Registration(countryCode, headless: true);
+
+                accountData = await iBot.Registration(countryCode);
                 StoreAccountData(accountData);
             }
             catch (Exception exception)
@@ -232,6 +232,6 @@ namespace RegBot.RestApi.Controllers
             return accountData;
         }
 
-        
+
     }
 }

@@ -5,6 +5,6 @@ namespace Common.Service.Interfaces
 {
     public interface IBot
     {
-        Task<IAccountData> Registration(CountryCode countryCode, bool headless);
+        Task<IAccountData> Registration(CountryCode countryCode);
     }
 }

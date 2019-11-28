@@ -1,12 +1,11 @@
-﻿using System.Configuration;
-using System.Web.Http;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
 using RegBot.RestApi.App_Start;
+using System.Configuration;
 
-[assembly: OwinStartup(typeof(RegBot.RestApi.Template.Startup))]
+[assembly: OwinStartup(typeof(RegBot.RestApi.Startup))]
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
-namespace RegBot.RestApi.Template
+namespace RegBot.RestApi
 {
     /// <summary>
     /// Represents the entry point into an application.

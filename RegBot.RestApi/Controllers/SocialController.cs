@@ -222,10 +222,10 @@ namespace RegBot.RestApi.Controllers
                 switch (serviceCode)
                 {
                     case ServiceCode.Facebook:
-                        iBot = new FacebookRegistration(accountData, smsService, AppPath);
+                        iBot = new FacebookRegistration(accountData, smsService, _chromiumSettings);
                         break;
                     case ServiceCode.Vk:
-                        iBot = new VkRegistration(accountData, smsService, AppPath);
+                        iBot = new VkRegistration(accountData, smsService, _chromiumSettings);
                         break;
                     //case ServiceCode.Ok:
                     //    iBot = new GmailRegistration(accountData, smsService, AppPath);
@@ -239,7 +239,7 @@ namespace RegBot.RestApi.Controllers
                     countryCode = (CountryCode)Enum.Parse(typeof(CountryCode), accountData.PhoneCountryCode);
                 }
 
-                accountData = await iBot.Registration(countryCode, headless: true);
+                accountData = await iBot.Registration(countryCode);
                 StoreAccountData(accountData);
             }
             catch (Exception exception)

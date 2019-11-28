@@ -1,13 +1,12 @@
-﻿using System;
-using System.Configuration;
-using System.IO;
-using System.Web;
-using System.Web.Http;
-using AccountData.Service;
+﻿using AccountData.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using LiteDB;
 using PuppeteerService;
+using System;
+using System.Configuration;
+using System.IO;
+using System.Web.Http;
 
 namespace RegBot.RestApi.Controllers
 {

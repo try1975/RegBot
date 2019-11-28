@@ -1,14 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Net.WebSockets;
-using System.Threading;
-using System.Threading.Tasks;
-using Common.Service;
+﻿using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using log4net;
 using Newtonsoft.Json;
+using PuppeteerService;
 using PuppeteerSharp;
+using System;
+using System.Threading.Tasks;
 
 namespace Gmail.Bot
 {
@@ -18,40 +16,20 @@ namespace Gmail.Bot
         private readonly IAccountData _data;
         private readonly ISmsService _smsService;
         private string _requestId;
-        private readonly string _chromiumPath;
+        private readonly IChromiumSettings _chromiumSettings;
 
-        public GmailRegistration(IAccountData data, ISmsService smsService, string chromiumPath)
+        public GmailRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
         {
             _data = data;
             _data.Domain = "gmail.com";
             _smsService = smsService;
-            if (string.IsNullOrEmpty(chromiumPath)) chromiumPath = Environment.CurrentDirectory;
-            chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-662092\\chrome-win\\chrome.exe");
-            _chromiumPath = chromiumPath;
+            _chromiumSettings = chromiumSettings;
         }
 
-        public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU, bool headless = true)
+        public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)
         {
             try
             {
-                var options = new LaunchOptions
-                {
-                    Headless = headless,
-                    ExecutablePath = _chromiumPath,
-                    //SlowMo = 10,
-
-                };
-
-                //options.Args = new[]
-                //{
-                //    "--proxy-server=socks4://36.67.184.157:54555"//, "--proxy-auth: userx:passx", "--proxy-type: 'meh'"
-                //};
-                //https://blog.apify.com/how-to-make-headless-chrome-and-puppeteer-use-a-proxy-server-with-authentication-249a21a79212
-                //https://toster.ru/q/562104
-
-                // windows7 websocket https://github.com/PingmanTools/System.Net.WebSockets.Client.Managed
-                if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory; }
-
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
                 Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
                 var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.Gmail);
@@ -66,7 +44,7 @@ namespace Gmail.Bot
                 _data.Phone = phoneNumberRequest.Phone.Trim();
                 if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
 
-                using (var browser = await Puppeteer.LaunchAsync(options))
+                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
                 using (var page = await browser.NewPageAsync())
                 {
                     await FillRegistrationData(page, countryCode);
@@ -77,7 +55,7 @@ namespace Gmail.Bot
                     // check phone accepted
                     try
                     {
-                        await page.WaitForNavigationAsync(new NavigationOptions {Timeout = 2000});
+                        await page.WaitForNavigationAsync(new NavigationOptions { Timeout = 2000 });
                     }
                     catch (Exception exception)
                     {
@@ -196,14 +174,6 @@ namespace Gmail.Bot
                 var accountName = await elUsername.EvaluateFunctionAsync<string>("node => node.value");
                 _data.AccountName = accountName;
             }
-        }
-
-        private static async Task<WebSocket> WebSocketFactory(Uri url, IConnectionOptions options,
-            CancellationToken cancellationToken)
-        {
-            var ws = new System.Net.WebSockets.Managed.ClientWebSocket();
-            await ws.ConnectAsync(url, cancellationToken);
-            return ws;
         }
     }
 }
