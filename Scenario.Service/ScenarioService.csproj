@@ -125,6 +125,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DnsLite.cs" />
     <Compile Include="EmailCheck.cs" />
     <Compile Include="Fb\CheckFbAccount.cs" />
     <Compile Include="Fb\CheckFbCredential.cs" />

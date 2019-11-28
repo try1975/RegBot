@@ -1,4 +1,5 @@
-﻿using Gmail.Bot;
+﻿using EmailValidation;
+using Gmail.Bot;
 using MailRu.Bot;
 using PuppeteerService;
 using System;
@@ -7,6 +8,8 @@ using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Yandex.Bot;
+using DnsLib;
+using System.Collections;
 
 namespace ScenarioService
 {
@@ -23,6 +26,19 @@ namespace ScenarioService
             var listMailAddress = new Dictionary<string, MailAddress>(emails.Length);
             try
             {
+                var dnsLite = new DnsLite();
+                var dnslist = new List<string>();
+                // https://developers.google.com/speed/public-dns/
+                dnslist.Add("8.8.8.8");
+                dnslist.Add("8.8.4.4");
+
+                //http://www.opendns.com/opendns-ip-addresses/
+                dnslist.Add("208.67.222.222");
+                dnslist.Add("208.67.220.220");
+                var oldStyleList = new ArrayList();
+                foreach (var s in dnslist)
+                    oldStyleList.Add(s);
+                dnsLite.setDnsServers(oldStyleList);
 
                 foreach (var email in emails.Where(x => !string.IsNullOrEmpty(x)).Select(x => x.ToLower()).Distinct().ToArray())
                 {
@@ -38,16 +54,32 @@ namespace ScenarioService
 
                     if (mailAddress != null)
                     {
-                        listMailAddress[mailAddress.Address] = mailAddress;
-                        result.Add(mailAddress.Address);
-                        Info($"{email} - успешная проверка написания");
+                        if (EmailValidator.Validate(mailAddress.Address))
+                        {
+                            var servers = dnsLite.getMXRecords(mailAddress.Host).OfType<MXRecord>().OrderBy(record => record.preference).Select(x => "smtp://" + x.exchange).Distinct().ToList();
+                            //var servers = dnsLite.getMXRecords(mailAddress.Host).OfType<MXRecord>().Distinct().ToList();
+                            if (servers.Count > 0)
+                            {
+
+                                listMailAddress[mailAddress.Address] = mailAddress;
+                                result.Add(mailAddress.Address);
+                                Info($"{email} - успешная проверка написания");
+                            }
+                            else {
+                                Info($"{email} - ошибка Mx records");
+                            }
+                        }
+                        else
+                        {
+                            Info($"{email} - ошибка rfc653x");
+                        }
                     }
                     else
                     {
                         Info($"{email} - ошибка написания");
                     }
                 }
-                
+
                 //проверка попыткой регистрации
                 using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
                     foreach (var item in listMailAddress)
