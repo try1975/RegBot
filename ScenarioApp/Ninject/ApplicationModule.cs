@@ -26,6 +26,9 @@ namespace ScenarioApp.Ninject
             Bind<ICheckVkAccountControl>().To<CheckVkAccountControl>();
             Bind<ICheckVkCredentialControl>().To<CheckVkCredentialControl>();
             Bind<IEmailCheckControl>().To<EmailCheckControl>();
+            Bind<ICheckFbAccountControl>().To<CheckFbAccountControl>();
+            Bind<ICheckFbCredentialControl>().To<CheckFbCredentialControl>();
+            
         }
     }
 }

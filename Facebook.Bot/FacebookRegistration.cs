@@ -98,7 +98,7 @@ namespace Facebook.Bot
             await page.GoToAsync("https://www.facebook.com/?_rdc=1&_rdr");
 
             #region Name
-
+            await page.WaitForSelectorAsync("input[name=firstname]", new WaitForSelectorOptions { Visible = true });
             await page.ClickAsync("input[name=firstname]");
             await page.TypeAsync("input[name=firstname]", _data.Firstname);
             await page.TypeAsync("input[name=lastname]", _data.Lastname);

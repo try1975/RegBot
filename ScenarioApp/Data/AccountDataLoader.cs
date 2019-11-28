@@ -12,7 +12,22 @@ namespace ScenarioApp.Data
             _dataSettings = dataSettings;
         }
 
-        public IList<IAccountData> GetAccountData()
+        public IList<IAccountData> GetFbAccountData()
+        {
+            using (var db = new LiteDatabase(_dataSettings.GetConnectionString()))
+            {
+                var data = db.GetCollection<IAccountData>("AccountsData")
+                    .Find(Query.And(Query.EQ(nameof(IAccountData.Domain), "facebook.com"),
+                    Query.EQ(nameof(IAccountData.Success), true)
+                    ))
+                ;
+                var list = new List<IAccountData>();
+                list.AddRange(data);
+                return list;
+            }
+        }
+
+        public IList<IAccountData> GetVkAccountData()
         {
             using (var db = new LiteDatabase(_dataSettings.GetConnectionString()))
             {

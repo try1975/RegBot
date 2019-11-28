@@ -145,7 +145,7 @@ namespace Yandex.Bot
 
         private async Task FillRegistrationData(Page page)
         {
-            await page.GoToAsync("https://passport.yandex.ru/registration/mail?from=mail&origin=home_desktop_ru&retpath=https%3A%2F%2Fmail.yandex.ru%2F");
+            await page.GoToAsync(GetRegistrationUrl());
 
             #region Name
 
@@ -161,14 +161,11 @@ namespace Yandex.Bot
                 _data.AccountName = $"{_data.Firstname.ToLower()}.{_data.Lastname.ToLower()}";
             }
 
-            await page.TypeAsync("input[name=login]", _data.AccountName);
-
-
+            //await page.TypeAsync("input[name=login]", _data.AccountName);
             const string selAltMail = "li.registration__pseudo-link label";
-            await page.WaitForTimeoutAsync(300);
-            var altMailExists = await page.QuerySelectorAsync(selAltMail);
-            //var altMailExists = await page.WaitForSelectorAsync(selAltMail, new WaitForSelectorOptions { Timeout = 300 });
-            if (altMailExists != null)
+            //await page.WaitForTimeoutAsync(300);
+            //var altMailExists = await page.QuerySelectorAsync(selAltMail);
+            if (await EmailAlreadyRegistered(_data.AccountName, page))
             {
                 var selAltMailList = $"{selAltMail}";
                 var jsAltMailList = $@"Array.from(document.querySelectorAll('{selAltMailList}')).map(a => a.innerText);";
@@ -207,6 +204,28 @@ namespace Yandex.Bot
             if (elWallet != null) await elWallet.ClickAsync();
 
             #endregion
+        }
+
+        public static string GetRegistrationUrl()
+        {
+            return @"https://passport.yandex.ru/registration/mail?from=mail&origin=home_desktop_ru&retpath=https%3A%2F%2Fmail.yandex.ru%2F";
+        }
+
+        public static async Task<bool> EmailAlreadyRegistered(string accountName, Page page)
+        {
+            try
+            {
+                await page.TypeAsync("input[name=login]", accountName);
+                const string selAltMail = "div[data-t='login-error']";
+                await page.WaitForTimeoutAsync(1000);
+                var altMailExists = await page.QuerySelectorAsync(selAltMail);
+                if (altMailExists == null) return false;
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+            }
+            return true;
         }
     }
 }

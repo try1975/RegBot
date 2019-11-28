@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using PuppeteerService;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace ScenarioService
@@ -12,7 +11,7 @@ namespace ScenarioService
     {
         private readonly IProgress<CheckVkAccountOutput> _progressResult;
 
-        public CheckVkAccount(IChromiumSettings chromiumSettings, IProgress<string> progressLog =null, IProgress<CheckVkAccountOutput> progressResult = null)
+        public CheckVkAccount(IChromiumSettings chromiumSettings, IProgress<string> progressLog = null, IProgress<CheckVkAccountOutput> progressResult = null)
             : base(typeof(CheckVkAccount), chromiumSettings, progressLog)
         {
             _progressResult = progressResult;
@@ -41,8 +40,8 @@ namespace ScenarioService
                         var response = await page.GoToAsync($"https://vk.com/{vkAccountName}");
                         var checkVkAccountResult = new CheckVkAccountOutput
                         {
-                            VkAccountName = vkAccountName,
-                            Available = (response.Status == HttpStatusCode.OK)
+                            AccountName = vkAccountName,
+                            Available = response.Ok
                         };
                         _progressResult?.Report(checkVkAccountResult);
                         var text = JsonConvert.SerializeObject(checkVkAccountResult);

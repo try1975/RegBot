@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnCheckFbCredentialControl = new System.Windows.Forms.Button();
+            this.btnCheckFbAccountControl = new System.Windows.Forms.Button();
             this.btnEmailCheckControl = new System.Windows.Forms.Button();
             this.btnRegBotControl = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -42,11 +45,13 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.pnlWorkArea = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.btnEmailCheckControl);
             this.panel1.Controls.Add(this.btnRegBotControl);
             this.panel1.Controls.Add(this.groupBox1);
@@ -58,6 +63,35 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(234, 523);
             this.panel1.TabIndex = 0;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnCheckFbCredentialControl);
+            this.groupBox2.Controls.Add(this.btnCheckFbAccountControl);
+            this.groupBox2.Location = new System.Drawing.Point(17, 346);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(196, 147);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Фейсбук";
+            // 
+            // btnCheckFbCredentialControl
+            // 
+            this.btnCheckFbCredentialControl.Location = new System.Drawing.Point(29, 117);
+            this.btnCheckFbCredentialControl.Name = "btnCheckFbCredentialControl";
+            this.btnCheckFbCredentialControl.Size = new System.Drawing.Size(138, 24);
+            this.btnCheckFbCredentialControl.TabIndex = 6;
+            this.btnCheckFbCredentialControl.Text = "проверка логин/пароль";
+            this.btnCheckFbCredentialControl.UseVisualStyleBackColor = true;
+            // 
+            // btnCheckFbAccountControl
+            // 
+            this.btnCheckFbAccountControl.Location = new System.Drawing.Point(29, 87);
+            this.btnCheckFbAccountControl.Name = "btnCheckFbAccountControl";
+            this.btnCheckFbAccountControl.Size = new System.Drawing.Size(138, 24);
+            this.btnCheckFbAccountControl.TabIndex = 5;
+            this.btnCheckFbAccountControl.Text = "проверка аккаунта";
+            this.btnCheckFbAccountControl.UseVisualStyleBackColor = true;
             // 
             // btnEmailCheckControl
             // 
@@ -179,6 +213,7 @@
             this.Name = "ScenarioControl";
             this.Size = new System.Drawing.Size(1027, 523);
             this.panel1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -199,5 +234,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnRegBotControl;
         private System.Windows.Forms.Button btnEmailCheckControl;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnCheckFbCredentialControl;
+        private System.Windows.Forms.Button btnCheckFbAccountControl;
     }
 }

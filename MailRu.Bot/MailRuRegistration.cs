@@ -111,7 +111,7 @@ namespace MailRu.Bot
 
         private async Task FillRegistrationData(Page page)
         {
-            await page.GoToAsync("https://account.mail.ru/signup");
+            await page.GoToAsync(GetRegistrationUrl());
 
             #region Name
 
@@ -209,6 +209,11 @@ namespace MailRu.Bot
             }
 
             #endregion
+        }
+
+        public static string GetRegistrationUrl()
+        {
+            return @"https://account.mail.ru/signup";
         }
 
         public async static Task<bool> EmailAlreadyRegistered(string accountName, string host, Page page)

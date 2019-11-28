@@ -27,13 +27,13 @@ namespace ScenarioApp.Controls
             var progressResult = new Progress<CheckVkAccountOutput>(checkVkAccountResult => ProgressResultMethod(checkVkAccountResult));
             var progressLog = new Progress<string>(update => ProgressLogMethod(update));
             var scenario = new CheckVkAccount(progressLog: progressLog, progressResult: progressResult, chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>());
-            await scenario.RunScenario(accountData: _accountDataLoader.GetAccountData().FirstOrDefault(), vkAccountNames: textBox1.Lines);
+            await scenario.RunScenario(accountData: _accountDataLoader.GetVkAccountData().FirstOrDefault(), vkAccountNames: textBox1.Lines);
         }
 
         private void ProgressResultMethod(CheckVkAccountOutput checkVkAccountResult)
         {
             var available = checkVkAccountResult.Available ? "доступен" : "недоступен";
-            textBox2.AppendText($"{checkVkAccountResult.CheckDate} {checkVkAccountResult.VkAccountName} - {available} - {checkVkAccountResult.VkAccountUrl}{Environment.NewLine}");
+            textBox2.AppendText($"{checkVkAccountResult.CheckDate} {checkVkAccountResult.AccountName} - {available} - {checkVkAccountResult.AccountUrl}{Environment.NewLine}");
         }
 
         private void ProgressLogMethod(string update)

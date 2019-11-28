@@ -1,4 +1,5 @@
-﻿using Common.Service;
+﻿using AccountData.Service;
+using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using log4net;
@@ -131,7 +132,7 @@ namespace Gmail.Bot
 
         private async Task FillRegistrationData(Page page, CountryCode countryCode)
         {
-            await page.GoToAsync("https://accounts.google.com/signup/v2/webcreateaccount?service=mail&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ltmpl=default&gmb=exp&biz=false&flowName=GlifWebSignIn&flowEntry=SignUp");
+            await page.GoToAsync(GetRegistrationUrl());
 
             #region Name
 
@@ -148,10 +149,7 @@ namespace Gmail.Bot
             }
 
             const string selLogin = "input[name=Username]";
-            await page.ClickAsync(selLogin);
-            await page.EvaluateFunctionAsync("function() {" + $"document.querySelector('{selLogin}').value = ''" + "}");
-            await page.TypeAsync(selLogin, _data.AccountName);
-            //<ul id="usernameList"
+
             #endregion
 
             #region Password
@@ -161,19 +159,53 @@ namespace Gmail.Bot
 
             #endregion
 
-            await page.ClickAsync("div#accountDetailsNext span>span");
-            //check div[aria-live=assertive] and select alternate account name
-
-            await page.WaitForTimeoutAsync(2000);
-            const string selAltEmail = "ul#usernameList li";
-            var elAltEmail = await page.QuerySelectorAsync(selAltEmail);
-            if (elAltEmail != null && await elAltEmail.IsIntersectingViewportAsync())
+            if (await EmailAlreadyRegistered(_data.AccountName, page))
             {
+                const string selAltEmail = "ul#usernameList li";
+                var elAltEmail = await page.QuerySelectorAsync(selAltEmail);
                 await elAltEmail.ClickAsync();
                 var elUsername = await page.QuerySelectorAsync(selLogin);
                 var accountName = await elUsername.EvaluateFunctionAsync<string>("node => node.value");
                 _data.AccountName = accountName;
             }
+        }
+
+        public static string GetRegistrationUrl()
+        {
+            return @"https://accounts.google.com/signup/v2/webcreateaccount?service=mail&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ltmpl=default&gmb=exp&biz=false&flowName=GlifWebSignIn&flowEntry=SignUp";
+        }
+
+        public async static Task<bool> EmailAlreadyRegistered(string accountName, Page page, string path = null)
+        {
+            try
+            {
+                if (path != null)
+                {
+                    var _data = new AccountDataGenerator(path).GetRandom();
+                    await page.TypeAsync("input[name=firstName]", _data.Firstname);
+                    await page.TypeAsync("input[name=lastName]", _data.Lastname);
+
+                    await page.TypeAsync("input[name=Passwd]", _data.Password);
+                    await page.TypeAsync("input[name=ConfirmPasswd]", _data.Password);
+                }
+
+                const string selLogin = "input[name=Username]";
+                await page.ClickAsync(selLogin);
+                await page.EvaluateFunctionAsync("function() {" + $"document.querySelector('{selLogin}').value = ''" + "}");
+                await page.TypeAsync(selLogin, accountName);
+
+                await page.ClickAsync("div#accountDetailsNext span>span");
+
+                await page.WaitForTimeoutAsync(2000);
+                const string selAltEmail = "ul#usernameList li";
+                var elAltEmail = await page.QuerySelectorAsync(selAltEmail);
+                if (!(elAltEmail != null && await elAltEmail.IsIntersectingViewportAsync())) return false;
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+            }
+            return true;
         }
     }
 }

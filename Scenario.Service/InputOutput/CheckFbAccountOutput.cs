@@ -2,7 +2,7 @@
 
 namespace ScenarioService
 {
-    public class CheckVkAccountOutput
+    public class CheckFbAccountOutput
     {
         private string _accountName;
 
@@ -12,7 +12,7 @@ namespace ScenarioService
             set
             {
                 _accountName = value;
-                AccountUrl = $"https://vk.com/{_accountName}";
+                AccountUrl = $"https://www.facebook.com/{_accountName}";
                 CheckDate = DateTime.Now;
             }
         }

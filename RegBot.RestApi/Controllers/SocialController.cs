@@ -184,7 +184,6 @@ namespace RegBot.RestApi.Controllers
         {
             try
             {
-                //var scenario = new CheckVkCredential(chromiumSettings: _chromiumSettings);
                 return Ok(await new CheckVkCredential(chromiumSettings: _chromiumSettings).RunScenario(listCheckVkCredentialInput));
             }
             catch (Exception exception)

@@ -140,6 +140,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CheckFbAccountControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CheckFbAccountControl.Designer.cs">
+      <DependentUpon>CheckFbAccountControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CheckVkAccountControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -153,6 +159,8 @@
     <Compile Include="Controls\EmailCheckControl.Designer.cs">
       <DependentUpon>EmailCheckControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Interfaces\ICheckFbCredentialControl.cs" />
+    <Compile Include="Controls\Interfaces\ICheckFbAccountControl.cs" />
     <Compile Include="Controls\Interfaces\IEmailCheckControl.cs" />
     <Compile Include="Controls\Interfaces\IRegBotControl.cs" />
     <Compile Include="Controls\RegBotControl.cs">
@@ -200,11 +208,11 @@
     <Compile Include="Controls\ScenarioControl.Designer.cs">
       <DependentUpon>ScenarioControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\VkAuthorizationCheck.cs">
+    <Compile Include="Controls\CheckFbCredentialControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\VkAuthorizationCheck.Designer.cs">
-      <DependentUpon>VkAuthorizationCheck.cs</DependentUpon>
+    <Compile Include="Controls\CheckFbCredentialControl.Designer.cs">
+      <DependentUpon>CheckFbCredentialControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\WhoisControl.cs">
       <SubType>UserControl</SubType>
@@ -238,6 +246,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\CheckFbAccountControl.resx">
+      <DependentUpon>CheckFbAccountControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CheckVkAccountControl.resx">
       <DependentUpon>CheckVkAccountControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -262,8 +273,8 @@
     <EmbeddedResource Include="Controls\ScenarioControl.resx">
       <DependentUpon>ScenarioControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\VkAuthorizationCheck.resx">
-      <DependentUpon>VkAuthorizationCheck.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\CheckFbCredentialControl.resx">
+      <DependentUpon>CheckFbCredentialControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\WhoisControl.resx">
       <DependentUpon>WhoisControl.cs</DependentUpon>

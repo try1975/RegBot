@@ -8,8 +8,10 @@ using MailRu.Bot;
 using NickBuhro.Translit;
 using OnlineSimRu;
 using PuppeteerService;
+using ScenarioService;
 using SimSmsOrg;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -176,6 +178,25 @@ namespace RegBot.RestApi.Controllers
             Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
             return Ok(accountData);
         }
+
+        [HttpPost]
+        [Route("checkEmail")]
+        [ResponseType(typeof(List<string>))]
+        public async Task<IHttpActionResult> PostCheckEmail([FromBody]string[] emails)
+        {
+            if (emails == null) return BadRequest();
+            try
+            {
+                return Ok(await new EmailCheck(chromiumSettings: _chromiumSettings, progressLog: null).RunScenario(emails: emails));
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+            }
+            return InternalServerError();
+        }
+
+
 
         private async Task<IAccountData> MailRegistration(IAccountData accountData, SmsServiceCode smsServiceCode, ServiceCode serviceCode)
         {

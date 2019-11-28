@@ -5,6 +5,7 @@ namespace ScenarioApp.Data
 {
     public interface IAccountDataLoader
     {
-        IList<IAccountData> GetAccountData();
+        IList<IAccountData> GetVkAccountData();
+        IList<IAccountData> GetFbAccountData();
     }
 }

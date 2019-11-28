@@ -126,6 +126,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmailCheck.cs" />
+    <Compile Include="Fb\CheckFbAccount.cs" />
+    <Compile Include="Fb\CheckFbCredential.cs" />
+    <Compile Include="InputOutput\CheckFbCredentialInput.cs" />
+    <Compile Include="InputOutput\CheckFbCredentialOutput.cs" />
+    <Compile Include="InputOutput\CheckFbAccountOutput.cs" />
+    <Compile Include="Fb\FbAuthorization.cs" />
     <Compile Include="Vk\CheckVkAccount.cs" />
     <Compile Include="Vk\CheckVkCredential.cs" />
     <Compile Include="Vk\CollectVkWall.cs" />
@@ -153,6 +159,10 @@
       <Project>{f45c44cf-2c70-4683-a36a-1154e2408f53}</Project>
       <Name>Common.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gmail.Bot\Gmail.Bot.csproj">
+      <Project>{6A78CF28-6C28-4090-A414-329FBE8A91F0}</Project>
+      <Name>Gmail.Bot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MailRu.Bot\MailRu.Bot.csproj">
       <Project>{f1c872d7-cf9e-4e7f-ad2f-e821b67e1afa}</Project>
       <Name>MailRu.Bot</Name>
@@ -161,6 +171,11 @@
       <Project>{d0103587-ca50-4eb7-bed4-99e2277f9001}</Project>
       <Name>PuppeteerService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Yandex.Bot\Yandex.Bot.csproj">
+      <Project>{C1EC0956-CF76-427E-9C92-A68E2C6EBA4A}</Project>
+      <Name>Yandex.Bot</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

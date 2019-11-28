@@ -17,12 +17,14 @@ namespace ScenarioApp.Controls
         private ICheckVkCredentialControl _checkVkCredentialControl;
         private IRegBotControl _regBotControl;
         private IEmailCheckControl _emailCheckControl;
+        private ICheckFbAccountControl _checkFbAccountControl;
+        private ICheckFbCredentialControl _checkFbCredentialControl;
 
         public ScenarioControl()
         {
             InitializeComponent();
 
-            btnRegBotControl.Click += btnRegBotControl_Click;
+            btnRegBotControl.Click += BtnRegBotControl_Click;
             btnGoogleSearchControl.Click += BtnGoogleSearchControl_Click;
             btnYandexSearchControl.Click += BtnYandexSearchControl_Click;
             btnWhoisControl.Click += BtnWhoisControl_Click;
@@ -33,6 +35,8 @@ namespace ScenarioApp.Controls
             btnCheckVkCredential.Click += BtnCheckVkCredential_Click;
 
             btnEmailCheckControl.Click += BtnEmailCheckControl_Click;
+            btnCheckFbAccountControl.Click += BtnCheckFbAccountControl_Click;
+            btnCheckFbCredentialControl.Click += BtnCheckFbCredentialControl_Click;
         }
 
 
@@ -50,6 +54,28 @@ namespace ScenarioApp.Controls
             childForm.Show();
         }
 
+        private void BtnCheckFbCredentialControl_Click(object sender, EventArgs e)
+        {
+            if (!ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (_checkFbCredentialControl == null) _checkFbCredentialControl = CompositionRoot.Resolve<ICheckFbCredentialControl>();
+                AddControlToWorkArea((Control)_checkFbCredentialControl, false);
+                return;
+            }
+            AddControlToWorkArea((Control)CompositionRoot.Resolve<ICheckFbCredentialControl>(), true);
+        }
+
+        private void BtnCheckFbAccountControl_Click(object sender, EventArgs e)
+        {
+            if (!ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (_checkFbAccountControl == null) _checkFbAccountControl = CompositionRoot.Resolve<ICheckFbAccountControl>();
+                AddControlToWorkArea((Control)_checkFbAccountControl, false);
+                return;
+            }
+            AddControlToWorkArea((Control)CompositionRoot.Resolve<ICheckFbAccountControl>(), true);
+        }
+
         private void BtnEmailCheckControl_Click(object sender, EventArgs e)
         {
             if (!ModifierKeys.HasFlag(Keys.Control))
@@ -61,7 +87,6 @@ namespace ScenarioApp.Controls
             AddControlToWorkArea((Control)CompositionRoot.Resolve<IEmailCheckControl>(), true);
         }
 
-        
         private void BtnCollectVkWallControl_Click(object sender, EventArgs e)
         {
             if (!ModifierKeys.HasFlag(Keys.Control))
@@ -73,7 +98,7 @@ namespace ScenarioApp.Controls
             AddControlToWorkArea((Control)CompositionRoot.Resolve<ICollectVkWallControl>(), true);
         }
 
-        private void btnRegBotControl_Click(object sender, EventArgs e)
+        private void BtnRegBotControl_Click(object sender, EventArgs e)
         {
             if (!ModifierKeys.HasFlag(Keys.Control))
             {

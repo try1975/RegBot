@@ -26,7 +26,7 @@ namespace ScenarioApp.Controls
             textBox9.Clear();
             var progress = new Progress<string>(update => textBox9.AppendText(update + Environment.NewLine));
             var postVk = new PostVk(chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>(), progressLog: progress);
-            await postVk.RunScenario(accountData:_accountDataLoader.GetAccountData().FirstOrDefault(), vkGroups: new[] { "club188446341" }, message: textBox10.Text);
+            await postVk.RunScenario(accountData:_accountDataLoader.GetVkAccountData().FirstOrDefault(), vkGroups: new[] { "club188446341" }, message: textBox10.Text);
         }
     }
 }

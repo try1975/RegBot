@@ -126,6 +126,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AccountDataService\AccountData.Service.csproj">
+      <Project>{8D632BF2-BFD9-4585-A5AF-7E15E8431EBB}</Project>
+      <Name>AccountData.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common.Service\Common.Service.csproj">
       <Project>{F45C44CF-2C70-4683-A36A-1154E2408F53}</Project>
       <Name>Common.Service</Name>
