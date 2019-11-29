@@ -34,7 +34,8 @@ namespace ScenarioApp.Controls
         {
             var selectedVkAccount = _accountDataLoader.VkAccount;
             FillVkAccount();
-            cmbVkAccounts.SelectedItem = selectedVkAccount;
+            cmbVkAccounts.SelectedIndex = cmbVkAccounts.FindStringExact(selectedVkAccount.AccountName);
+            //cmbVkAccounts.SelectedItem = selectedVkAccount;
 
 
             FillFbAccount();
