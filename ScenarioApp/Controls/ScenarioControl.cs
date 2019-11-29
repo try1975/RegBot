@@ -8,6 +8,7 @@ namespace ScenarioApp.Controls
 {
     public partial class ScenarioControl : UserControl, IScenarioControl
     {
+        #region private
         private IGoogleSearchControl _googleSearchControl;
         private ICollectVkWallControl _collectVkWallControl;
         private IYandexSearchControl _yandexSearchControl;
@@ -19,6 +20,9 @@ namespace ScenarioApp.Controls
         private IEmailCheckControl _emailCheckControl;
         private ICheckFbAccountControl _checkFbAccountControl;
         private ICheckFbCredentialControl _checkFbCredentialControl;
+        private ICreateVkGroupControl _createVkGroupControl;
+        private ISelectPersonControl _selectPersonControl;
+        #endregion
 
         public ScenarioControl()
         {
@@ -31,27 +35,38 @@ namespace ScenarioApp.Controls
 
             btnCollectVkWallControl.Click += BtnCollectVkWallControl_Click;
             btnPostVkControl.Click += BtnPostVkControl_Click;
-            btnCheckVkAccount.Click+=BtnCheckVkAccount_Click;
+            btnCheckVkAccount.Click += BtnCheckVkAccount_Click;
             btnCheckVkCredential.Click += BtnCheckVkCredential_Click;
 
             btnEmailCheckControl.Click += BtnEmailCheckControl_Click;
             btnCheckFbAccountControl.Click += BtnCheckFbAccountControl_Click;
             btnCheckFbCredentialControl.Click += BtnCheckFbCredentialControl_Click;
+            btnCreateVkGroupControl.Click += BtnCreateVkGroupControl_Click;
+            btnSelectPersonControl.Click += BtnSelectPersonControl_Click;
+
+            Load += ScenarioControl_Load;
         }
 
-
-        private void AddControlToWorkArea(Control control, bool ctrlPressed = false)
+        private void ScenarioControl_Load(object sender, EventArgs e)
         {
-            if (!ctrlPressed)
+            BtnSelectPersonControl_Click(btnSelectPersonControl, EventArgs.Empty);
+        }
+
+        private void BtnSelectPersonControl_Click(object sender, EventArgs e)
+        {
+            if (_selectPersonControl == null) _selectPersonControl = CompositionRoot.Resolve<ISelectPersonControl>();
+            AddControlToWorkArea((Control)_selectPersonControl, false);
+        }
+
+        private void BtnCreateVkGroupControl_Click(object sender, EventArgs e)
+        {
+            if (!ModifierKeys.HasFlag(Keys.Control))
             {
-                control.Dock = DockStyle.Fill;
-                pnlWorkArea.Controls.Clear();
-                pnlWorkArea.Controls.Add(control);
+                if (_createVkGroupControl == null) _createVkGroupControl = CompositionRoot.Resolve<ICreateVkGroupControl>();
+                AddControlToWorkArea((Control)_createVkGroupControl, false);
                 return;
             }
-            var childForm = new ChildForm { Text = control.Name };
-            childForm.AddControlToWorkArea(control);
-            childForm.Show();
+            AddControlToWorkArea((Control)CompositionRoot.Resolve<ICreateVkGroupControl>(), true);
         }
 
         private void BtnCheckFbCredentialControl_Click(object sender, EventArgs e)
@@ -173,6 +188,20 @@ namespace ScenarioApp.Controls
                 return;
             }
             AddControlToWorkArea((Control)CompositionRoot.Resolve<ICheckVkCredentialControl>(), true);
+        }
+
+        private void AddControlToWorkArea(Control control, bool ctrlPressed = false)
+        {
+            if (!ctrlPressed)
+            {
+                control.Dock = DockStyle.Fill;
+                pnlWorkArea.Controls.Clear();
+                pnlWorkArea.Controls.Add(control);
+                return;
+            }
+            var childForm = new ChildForm { Text = control.Name };
+            childForm.AddControlToWorkArea(control);
+            childForm.Show();
         }
     }
 }

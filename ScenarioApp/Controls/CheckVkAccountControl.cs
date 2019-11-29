@@ -27,7 +27,7 @@ namespace ScenarioApp.Controls
             var progressResult = new Progress<CheckVkAccountOutput>(checkVkAccountResult => ProgressResultMethod(checkVkAccountResult));
             var progressLog = new Progress<string>(update => ProgressLogMethod(update));
             var scenario = new CheckVkAccount(progressLog: progressLog, progressResult: progressResult, chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>());
-            await scenario.RunScenario(accountData: _accountDataLoader.GetVkAccountData().FirstOrDefault(), vkAccountNames: textBox1.Lines);
+            await scenario.RunScenario(accountData: _accountDataLoader.VkAccount, vkAccountNames: textBox1.Lines);
         }
 
         private void ProgressResultMethod(CheckVkAccountOutput checkVkAccountResult)

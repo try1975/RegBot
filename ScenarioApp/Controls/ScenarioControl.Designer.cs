@@ -35,6 +35,7 @@
             this.btnEmailCheckControl = new System.Windows.Forms.Button();
             this.btnRegBotControl = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnCreateVkGroupControl = new System.Windows.Forms.Button();
             this.btnCollectVkWallControl = new System.Windows.Forms.Button();
             this.btnCheckVkCredential = new System.Windows.Forms.Button();
             this.btnPostVkControl = new System.Windows.Forms.Button();
@@ -44,6 +45,7 @@
             this.btnGoogleSearchControl = new System.Windows.Forms.Button();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.pnlWorkArea = new System.Windows.Forms.Panel();
+            this.btnSelectPersonControl = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -51,6 +53,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnSelectPersonControl);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.btnEmailCheckControl);
             this.panel1.Controls.Add(this.btnRegBotControl);
@@ -61,23 +64,23 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(234, 523);
+            this.panel1.Size = new System.Drawing.Size(234, 573);
             this.panel1.TabIndex = 0;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnCheckFbCredentialControl);
             this.groupBox2.Controls.Add(this.btnCheckFbAccountControl);
-            this.groupBox2.Location = new System.Drawing.Point(17, 346);
+            this.groupBox2.Location = new System.Drawing.Point(17, 341);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(196, 147);
+            this.groupBox2.Size = new System.Drawing.Size(196, 89);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Фейсбук";
             // 
             // btnCheckFbCredentialControl
             // 
-            this.btnCheckFbCredentialControl.Location = new System.Drawing.Point(29, 117);
+            this.btnCheckFbCredentialControl.Location = new System.Drawing.Point(29, 49);
             this.btnCheckFbCredentialControl.Name = "btnCheckFbCredentialControl";
             this.btnCheckFbCredentialControl.Size = new System.Drawing.Size(138, 24);
             this.btnCheckFbCredentialControl.TabIndex = 6;
@@ -86,7 +89,7 @@
             // 
             // btnCheckFbAccountControl
             // 
-            this.btnCheckFbAccountControl.Location = new System.Drawing.Point(29, 87);
+            this.btnCheckFbAccountControl.Location = new System.Drawing.Point(29, 19);
             this.btnCheckFbAccountControl.Name = "btnCheckFbAccountControl";
             this.btnCheckFbAccountControl.Size = new System.Drawing.Size(138, 24);
             this.btnCheckFbAccountControl.TabIndex = 5;
@@ -95,7 +98,7 @@
             // 
             // btnEmailCheckControl
             // 
-            this.btnEmailCheckControl.Location = new System.Drawing.Point(17, 316);
+            this.btnEmailCheckControl.Location = new System.Drawing.Point(17, 436);
             this.btnEmailCheckControl.Name = "btnEmailCheckControl";
             this.btnEmailCheckControl.Size = new System.Drawing.Size(196, 24);
             this.btnEmailCheckControl.TabIndex = 9;
@@ -113,16 +116,26 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnCreateVkGroupControl);
             this.groupBox1.Controls.Add(this.btnCollectVkWallControl);
             this.groupBox1.Controls.Add(this.btnCheckVkCredential);
             this.groupBox1.Controls.Add(this.btnPostVkControl);
             this.groupBox1.Controls.Add(this.btnCheckVkAccount);
             this.groupBox1.Location = new System.Drawing.Point(17, 163);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(196, 147);
+            this.groupBox1.Size = new System.Drawing.Size(196, 172);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "ВКонтакте";
+            // 
+            // btnCreateVkGroupControl
+            // 
+            this.btnCreateVkGroupControl.Location = new System.Drawing.Point(29, 139);
+            this.btnCreateVkGroupControl.Name = "btnCreateVkGroupControl";
+            this.btnCreateVkGroupControl.Size = new System.Drawing.Size(138, 24);
+            this.btnCreateVkGroupControl.TabIndex = 7;
+            this.btnCreateVkGroupControl.Text = "создание группы";
+            this.btnCreateVkGroupControl.UseVisualStyleBackColor = true;
             // 
             // btnCollectVkWallControl
             // 
@@ -130,7 +143,7 @@
             this.btnCollectVkWallControl.Name = "btnCollectVkWallControl";
             this.btnCollectVkWallControl.Size = new System.Drawing.Size(138, 24);
             this.btnCollectVkWallControl.TabIndex = 0;
-            this.btnCollectVkWallControl.Text = "стена";
+            this.btnCollectVkWallControl.Text = "сбор стены";
             this.btnCollectVkWallControl.UseVisualStyleBackColor = true;
             // 
             // btnCheckVkCredential
@@ -191,7 +204,7 @@
             // 
             this.splitter1.Location = new System.Drawing.Point(234, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 523);
+            this.splitter1.Size = new System.Drawing.Size(3, 573);
             this.splitter1.TabIndex = 1;
             this.splitter1.TabStop = false;
             // 
@@ -200,8 +213,17 @@
             this.pnlWorkArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlWorkArea.Location = new System.Drawing.Point(237, 0);
             this.pnlWorkArea.Name = "pnlWorkArea";
-            this.pnlWorkArea.Size = new System.Drawing.Size(790, 523);
+            this.pnlWorkArea.Size = new System.Drawing.Size(972, 573);
             this.pnlWorkArea.TabIndex = 2;
+            // 
+            // btnSelectPersonControl
+            // 
+            this.btnSelectPersonControl.Location = new System.Drawing.Point(17, 527);
+            this.btnSelectPersonControl.Name = "btnSelectPersonControl";
+            this.btnSelectPersonControl.Size = new System.Drawing.Size(196, 24);
+            this.btnSelectPersonControl.TabIndex = 11;
+            this.btnSelectPersonControl.Text = "Выбор пользователя";
+            this.btnSelectPersonControl.UseVisualStyleBackColor = true;
             // 
             // ScenarioControl
             // 
@@ -211,7 +233,7 @@
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel1);
             this.Name = "ScenarioControl";
-            this.Size = new System.Drawing.Size(1027, 523);
+            this.Size = new System.Drawing.Size(1209, 573);
             this.panel1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -237,5 +259,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnCheckFbCredentialControl;
         private System.Windows.Forms.Button btnCheckFbAccountControl;
+        private System.Windows.Forms.Button btnCreateVkGroupControl;
+        private System.Windows.Forms.Button btnSelectPersonControl;
     }
 }

@@ -15,6 +15,7 @@ namespace ScenarioApp.Ninject
             Bind<IAccountDataLoader>().To<AccountDataLoader>().InSingletonScope();
             Bind<IDataSettings>().To<DataSettings>().InSingletonScope();
             Bind<IChromiumSettings>().To<ChromiumSettings>().InSingletonScope().WithConstructorArgument("chromiumPath", Environment.CurrentDirectory);
+            Bind<ISelectPersonControl>().To<SelectPersonControl>().InSingletonScope();
 
             Bind<IRegBotControl>().To<RegBotControl>();
 
@@ -28,7 +29,7 @@ namespace ScenarioApp.Ninject
             Bind<IEmailCheckControl>().To<EmailCheckControl>();
             Bind<ICheckFbAccountControl>().To<CheckFbAccountControl>();
             Bind<ICheckFbCredentialControl>().To<CheckFbCredentialControl>();
-            
+            Bind<ICreateVkGroupControl>().To<CreateVkGroupControl>();
         }
     }
 }

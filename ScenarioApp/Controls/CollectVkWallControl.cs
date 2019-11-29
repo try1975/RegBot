@@ -25,7 +25,7 @@ namespace ScenarioApp.Controls
                 textBox2.Clear();
                 var progressLog = new Progress<string>(update => textBox2.AppendText(update + Environment.NewLine));
                 var vkWall = new CollectVkWall(progressLog: progressLog, chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>());
-                await vkWall.RunScenario(accountData: _accountDataLoader.GetVkAccountData().FirstOrDefault(), vkAccountNames: textBox1.Lines, pageCount: (int)numericUpDown1.Value);
+                await vkWall.RunScenario(accountData: _accountDataLoader.VkAccount, vkAccountNames: textBox1.Lines, pageCount: (int)numericUpDown1.Value);
         }
     }
 }

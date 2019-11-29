@@ -153,6 +153,12 @@
       <DependentUpon>CheckVkAccountControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CountryItem.cs" />
+    <Compile Include="Controls\CreateVkGroupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CreateVkGroupControl.Designer.cs">
+      <DependentUpon>CreateVkGroupControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\EmailCheckControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -161,13 +167,21 @@
     </Compile>
     <Compile Include="Controls\Interfaces\ICheckFbCredentialControl.cs" />
     <Compile Include="Controls\Interfaces\ICheckFbAccountControl.cs" />
+    <Compile Include="Controls\Interfaces\ICreateVkGroupControl.cs" />
     <Compile Include="Controls\Interfaces\IEmailCheckControl.cs" />
     <Compile Include="Controls\Interfaces\IRegBotControl.cs" />
+    <Compile Include="Controls\Interfaces\ISelectPersonControl.cs" />
     <Compile Include="Controls\RegBotControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\RegBotControl.Designer.cs">
       <DependentUpon>RegBotControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SelectPersonControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SelectPersonControl.Designer.cs">
+      <DependentUpon>SelectPersonControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SmsServiceItem.cs" />
     <Compile Include="Controls\CheckVkCredentialControl.cs">
@@ -258,6 +272,9 @@
     <EmbeddedResource Include="Controls\CollectVkWallControl.resx">
       <DependentUpon>CollectVkWallControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CreateVkGroupControl.resx">
+      <DependentUpon>CreateVkGroupControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\EmailCheckControl.resx">
       <DependentUpon>EmailCheckControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -275,6 +292,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\CheckFbCredentialControl.resx">
       <DependentUpon>CheckFbCredentialControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SelectPersonControl.resx">
+      <DependentUpon>SelectPersonControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\WhoisControl.resx">
       <DependentUpon>WhoisControl.cs</DependentUpon>

@@ -27,7 +27,7 @@ namespace ScenarioApp.Controls
             var progressResult = new Progress<CheckFbAccountOutput>(checkfbAccountResult => ProgressResultMethod(checkfbAccountResult));
             var progressLog = new Progress<string>(update => ProgressLogMethod(update));
             var scenario = new CheckFbAccount(progressLog: progressLog, progressResult: progressResult, chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>());
-            await scenario.RunScenario(accountData: _accountDataLoader.GetFbAccountData().FirstOrDefault(), fbAccountNames: textBox1.Lines);
+            await scenario.RunScenario(accountData: _accountDataLoader.FbAccount, fbAccountNames: textBox1.Lines);
         }
 
         private void ProgressResultMethod(CheckFbAccountOutput checkfbAccountResult)
