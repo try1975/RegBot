@@ -11,6 +11,9 @@ namespace ScenarioApp.Data
         private static readonly string CollectionName = "AccountsData";
         private IAccountData vkAccount;
         private IAccountData fbAccount;
+        private IAccountData mailruAccount;
+        private IAccountData yandexAccount;
+        private IAccountData gmailAccount;
 
         public AccountDataLoader(IDataSettings dataSettings)
         {
@@ -34,6 +37,35 @@ namespace ScenarioApp.Data
                 return fbAccount;
             }
             set => fbAccount = value;
+        }
+
+        public IAccountData MailruAccount {
+            get
+            {
+                if (mailruAccount == null) mailruAccount = GetMailruAccountData()?.FirstOrDefault();
+                return mailruAccount;
+            }
+            set => mailruAccount = value;
+        }
+
+        public IAccountData YandexAccount
+        {
+            get
+            {
+                if (yandexAccount == null) yandexAccount = GetYandexAccountData()?.FirstOrDefault();
+                return yandexAccount;
+            }
+            set => yandexAccount = value;
+        }
+
+        public IAccountData GmailAccount
+        {
+            get
+            {
+                if (gmailAccount == null) gmailAccount = GetGmailAccountData()?.FirstOrDefault();
+                return gmailAccount;
+            }
+            set => gmailAccount = value;
         }
 
         public IList<IAccountData> GetFbAccountData()
@@ -60,8 +92,53 @@ namespace ScenarioApp.Data
                 //        Query.EQ(nameof(IAccountData.Domain), "vk.com"),
                 //        Query.EQ(nameof(IAccountData.Success), true)), Query.EQ(nameof(IAccountData.Sex), "Male")))
                 //;
-                var data = db.GetCollection<IAccountData>("AccountsData")
+                var data = db.GetCollection<IAccountData>(CollectionName)
                     .Find(Query.And(Query.EQ(nameof(IAccountData.Domain), "vk.com"),
+                    Query.EQ(nameof(IAccountData.Success), true)
+                    ))
+                ;
+                var list = new List<IAccountData>();
+                list.AddRange(data);
+                return list;
+            }
+        }
+
+        public IList<IAccountData> GetMailruAccountData()
+        {
+            using (var db = new LiteDatabase(_dataSettings.GetConnectionString()))
+            {
+                var data = db.GetCollection<IAccountData>(CollectionName)
+                    .Find(Query.And(Query.EQ(nameof(IAccountData.Domain), "mail.ru"),
+                    Query.EQ(nameof(IAccountData.Success), true)
+                    ))
+                ;
+                var list = new List<IAccountData>();
+                list.AddRange(data);
+                return list;
+            }
+        }
+
+        public IList<IAccountData> GetYandexAccountData()
+        {
+            using (var db = new LiteDatabase(_dataSettings.GetConnectionString()))
+            {
+                var data = db.GetCollection<IAccountData>(CollectionName)
+                    .Find(Query.And(Query.EQ(nameof(IAccountData.Domain), "yandex.ru"),
+                    Query.EQ(nameof(IAccountData.Success), true)
+                    ))
+                ;
+                var list = new List<IAccountData>();
+                list.AddRange(data);
+                return list;
+            }
+        }
+
+        public IList<IAccountData> GetGmailAccountData()
+        {
+            using (var db = new LiteDatabase(_dataSettings.GetConnectionString()))
+            {
+                var data = db.GetCollection<IAccountData>(CollectionName)
+                    .Find(Query.And(Query.EQ(nameof(IAccountData.Domain), "gmail.com"),
                     Query.EQ(nameof(IAccountData.Success), true)
                     ))
                 ;

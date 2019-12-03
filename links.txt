@@ -34,3 +34,5 @@ https://zennolab.com/discussion/threads/how-to-use-anti-captcha-antigate-com-for
 https://zennolab.com/wiki/en:addons:capmonster:rc-audio
 https://www.aymen-loukil.com/en/blog-en/google-puppeteer-tutorial-with-examples/
 http://www.hardkoded.com/blog/creating-whatsapp-bot-puppteer-sharp
+
+https://peter.sh/experiments/chromium-command-line-switches/

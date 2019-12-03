@@ -34,10 +34,10 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.splitter5 = new System.Windows.Forms.Splitter();
             this.panel15 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel13.SuspendLayout();
             this.panel14.SuspendLayout();
             this.panel15.SuspendLayout();
@@ -101,6 +101,24 @@
             this.panel15.Size = new System.Drawing.Size(382, 396);
             this.panel15.TabIndex = 10;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(45, 207);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Сообщение";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(48, 43);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(295, 152);
+            this.textBox1.TabIndex = 2;
+            this.textBox1.Text = "club188446341\r\nclub189328504\r\nclub18844634";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -119,24 +137,6 @@
             this.textBox10.TabIndex = 0;
             this.textBox10.Text = "Кролики – это не только ценный мех, но и 3-4 килограмма диетического, легкоусвояе" +
     "мого мяса";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(48, 43);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(295, 152);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.Text = "club188446341";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(45, 207);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Сообщение";
             // 
             // PostVkControl
             // 

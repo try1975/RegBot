@@ -15,7 +15,6 @@ namespace Facebook.Bot
         private static readonly ILog Log = LogManager.GetLogger(typeof(FacebookRegistration));
         private readonly IAccountData _data;
         private readonly ISmsService _smsService;
-        private string _requestId;
         private readonly IChromiumSettings _chromiumSettings;
 
         public FacebookRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
@@ -29,6 +28,7 @@ namespace Facebook.Bot
 
         public async Task<IAccountData> Registration(CountryCode countryCode)
         {
+            var _requestId = string.Empty;
             try
             {
                 _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();

@@ -358,7 +358,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(899, 526);
+            this.tabPage2.Size = new System.Drawing.Size(950, 518);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "История";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -367,10 +367,10 @@
             // 
             this.panel4.Controls.Add(this.advancedDataGridView1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(2, 21);
+            this.panel4.Location = new System.Drawing.Point(2, 35);
             this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(895, 503);
+            this.panel4.Size = new System.Drawing.Size(946, 481);
             this.panel4.TabIndex = 1;
             // 
             // advancedDataGridView1
@@ -388,7 +388,7 @@
             this.advancedDataGridView1.Name = "advancedDataGridView1";
             this.advancedDataGridView1.ReadOnly = true;
             this.advancedDataGridView1.RowTemplate.Height = 28;
-            this.advancedDataGridView1.Size = new System.Drawing.Size(895, 503);
+            this.advancedDataGridView1.Size = new System.Drawing.Size(946, 481);
             this.advancedDataGridView1.TabIndex = 1;
             this.advancedDataGridView1.TimeFilter = false;
             // 
@@ -398,7 +398,7 @@
             this.panel2.Location = new System.Drawing.Point(2, 2);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(895, 19);
+            this.panel2.Size = new System.Drawing.Size(946, 33);
             this.panel2.TabIndex = 0;
             // 
             // RegBotControl

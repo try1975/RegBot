@@ -7,7 +7,14 @@ namespace ScenarioApp.Data
     {
         IAccountData VkAccount { get; set; }
         IAccountData FbAccount { get; set; }
+        IAccountData MailruAccount { get; set; }
+        IAccountData YandexAccount { get; set; }
+        IAccountData GmailAccount { get; set; }
+
         IList<IAccountData> GetVkAccountData();
         IList<IAccountData> GetFbAccountData();
+        IList<IAccountData> GetMailruAccountData();
+        IList<IAccountData> GetYandexAccountData();
+        IList<IAccountData> GetGmailAccountData();
     }
 }
