@@ -133,12 +133,13 @@
     <Compile Include="InputOutput\CheckFbCredentialOutput.cs" />
     <Compile Include="InputOutput\CheckFbAccountOutput.cs" />
     <Compile Include="Fb\FbAuthorization.cs" />
+    <Compile Include="EmailSend.cs" />
     <Compile Include="Vk\CheckVkAccount.cs" />
     <Compile Include="Vk\CheckVkCredential.cs" />
     <Compile Include="Vk\CollectVkWall.cs" />
     <Compile Include="GoogleSearch.cs" />
     <Compile Include="InputOutput\CheckVkAccountOutput.cs" />
-    <Compile Include="InputOutput\CheckVkCredentialInput.cs" />
+    <Compile Include="InputOutput\LoginPasswordInput.cs" />
     <Compile Include="InputOutput\CheckVkCredentialOutput.cs" />
     <Compile Include="NicRuWhois.cs" />
     <Compile Include="Vk\PostVk.cs" />

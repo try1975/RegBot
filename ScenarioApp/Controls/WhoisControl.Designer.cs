@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel10 = new System.Windows.Forms.Panel();
+            this.btnSave = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.panel11 = new System.Windows.Forms.Panel();
             this.textBox7 = new System.Windows.Forms.TextBox();
@@ -43,12 +44,24 @@
             // 
             // panel10
             // 
+            this.panel10.Controls.Add(this.btnSave);
             this.panel10.Controls.Add(this.button4);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel10.Location = new System.Drawing.Point(0, 465);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(784, 47);
             this.panel10.TabIndex = 4;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(644, 12);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btnSave.Size = new System.Drawing.Size(127, 23);
+            this.btnSave.TabIndex = 3;
+            this.btnSave.Text = "Сохранить";
+            this.btnSave.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
@@ -109,10 +122,11 @@
             // textBox8
             // 
             this.textBox8.Location = new System.Drawing.Point(48, 43);
+            this.textBox8.Multiline = true;
             this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(111, 20);
+            this.textBox8.Size = new System.Drawing.Size(190, 244);
             this.textBox8.TabIndex = 0;
-            this.textBox8.Text = "meduza.io";
+            this.textBox8.Text = "meduza.io\r\nhabr.com\r\naddd.fro";
             // 
             // WhoisControl
             // 
@@ -143,5 +157,6 @@
         private System.Windows.Forms.Panel panel12;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.Button btnSave;
     }
 }

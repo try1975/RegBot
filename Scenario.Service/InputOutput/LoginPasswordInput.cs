@@ -1,6 +1,6 @@
 ﻿namespace ScenarioService
 {
-    public class CheckVkCredentialInput
+    public class LoginPasswordInput
     {
         public string Login;
         public string Password;

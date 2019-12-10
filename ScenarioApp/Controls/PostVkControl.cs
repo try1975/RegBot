@@ -1,10 +1,10 @@
-﻿using PuppeteerService;
+﻿using Common.Service;
+using PuppeteerService;
 using ScenarioApp.Controls.Interfaces;
 using ScenarioApp.Data;
 using ScenarioApp.Ninject;
 using ScenarioService;
 using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace ScenarioApp.Controls
@@ -19,6 +19,12 @@ namespace ScenarioApp.Controls
             _accountDataLoader = accountDataLoader;
             InitializeComponent();
             button5.Click += button5_Click;
+            btnSave.Click += BtnSave_Click;
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            Utils.SaveLinesToFile(textBox9.Lines);
         }
 
         private async void button5_Click(object sender, EventArgs e)

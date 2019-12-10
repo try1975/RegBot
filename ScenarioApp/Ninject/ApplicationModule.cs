@@ -30,6 +30,7 @@ namespace ScenarioApp.Ninject
             Bind<ICheckFbAccountControl>().To<CheckFbAccountControl>();
             Bind<ICheckFbCredentialControl>().To<CheckFbCredentialControl>();
             Bind<ICreateVkGroupControl>().To<CreateVkGroupControl>();
+            Bind<ISendMailControl>().To<SendMailControl>();
         }
     }
 }

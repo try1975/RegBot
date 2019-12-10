@@ -38,6 +38,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
+            this.btnSave = new System.Windows.Forms.Button();
             this.panel13.SuspendLayout();
             this.panel14.SuspendLayout();
             this.panel15.SuspendLayout();
@@ -45,6 +46,7 @@
             // 
             // panel13
             // 
+            this.panel13.Controls.Add(this.btnSave);
             this.panel13.Controls.Add(this.button5);
             this.panel13.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel13.Location = new System.Drawing.Point(0, 396);
@@ -138,6 +140,17 @@
             this.textBox10.Text = "Кролики – это не только ценный мех, но и 3-4 килограмма диетического, легкоусвояе" +
     "мого мяса";
             // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(562, 12);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btnSave.Size = new System.Drawing.Size(127, 23);
+            this.btnSave.TabIndex = 3;
+            this.btnSave.Text = "Сохранить";
+            this.btnSave.UseVisualStyleBackColor = true;
+            // 
             // PostVkControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -169,5 +182,6 @@
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btnSave;
     }
 }

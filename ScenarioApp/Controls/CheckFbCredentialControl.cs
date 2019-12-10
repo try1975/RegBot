@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Common.Service;
+using Newtonsoft.Json;
 using PuppeteerService;
 using ScenarioApp.Controls.Interfaces;
 using ScenarioApp.Ninject;
@@ -15,6 +16,12 @@ namespace ScenarioApp.Controls
         {
             InitializeComponent();
             button1.Click += Button1_Click;
+            btnSave.Click += BtnSave_Click;
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            Utils.SaveLinesToFile(textBox2.Lines);
         }
 
         private async void Button1_Click(object sender, EventArgs e)

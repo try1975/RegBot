@@ -143,6 +143,52 @@ namespace Yandex.Bot
             return _data;
         }
 
+        public static async Task<bool> Login(string accountName, string password, Page page)
+        {
+            try
+            {
+                await page.TypeAsync("input[name=login]", accountName);
+                await page.WaitForTimeoutAsync(500);
+                await page.ClickAsync("button[type=submit]");
+                //await page.WaitForNavigationAsync();
+                await page.WaitForTimeoutAsync(500);
+                await page.TypeAsync("input[type=password]", password);
+                await page.ClickAsync("button[type=submit]");
+                await page.WaitForNavigationAsync();
+
+
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+                return false;
+            }
+            return true;
+        }
+
+        public static async Task<bool> SendEmail(string to, string subject, string[] text, Page page)
+        {
+            try
+            {
+                await page.GoToAsync("https://mail.yandex.ru/");
+                await page.WaitForNavigationAsync();
+                await page.ClickAsync("span.mail-ComposeButton-Text");
+                await page.ClickAsync("div[name=to]");
+                await page.TypeAsync("div[name=to]", to);
+                //input[name ^= subj]
+                //div[role=textbox]
+                //CTRL+ENTER button[type=submit]
+                await page.WaitForNavigationAsync();
+
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+                return false;
+            }
+            return true;
+        }
+
         private async Task FillRegistrationData(Page page)
         {
             await page.GoToAsync(GetRegistrationUrl());
@@ -209,6 +255,11 @@ namespace Yandex.Bot
         public static string GetRegistrationUrl()
         {
             return @"https://passport.yandex.ru/registration/mail?from=mail&origin=home_desktop_ru&retpath=https%3A%2F%2Fmail.yandex.ru%2F";
+        }
+
+        public static string GetLoginUrl()
+        {
+            return @"https://passport.yandex.ru/auth";
         }
 
         public static async Task<bool> EmailAlreadyRegistered(string accountName, Page page)

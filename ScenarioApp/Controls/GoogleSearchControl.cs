@@ -1,4 +1,5 @@
-﻿using PuppeteerService;
+﻿using Common.Service;
+using PuppeteerService;
 using ScenarioApp.Controls.Interfaces;
 using ScenarioApp.Ninject;
 using ScenarioService;
@@ -13,6 +14,12 @@ namespace ScenarioApp.Controls
         {
             InitializeComponent();
             button2.Click += button2_Click;
+            btnSave.Click += BtnSave_Click;
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            Utils.SaveLinesToFile(textBox3.Lines);
         }
 
         private async void button2_Click(object sender, EventArgs e)

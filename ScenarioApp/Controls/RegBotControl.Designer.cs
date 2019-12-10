@@ -57,7 +57,7 @@
             this.btnMailRu = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.advancedDataGridView1 = new ADGV.AdvancedDataGridView();
+            this.dgvItems = new ADGV.AdvancedDataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
@@ -66,7 +66,7 @@
             this.panel1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -365,7 +365,7 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.advancedDataGridView1);
+            this.panel4.Controls.Add(this.dgvItems);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(2, 35);
             this.panel4.Margin = new System.Windows.Forms.Padding(2);
@@ -373,24 +373,22 @@
             this.panel4.Size = new System.Drawing.Size(946, 481);
             this.panel4.TabIndex = 1;
             // 
-            // advancedDataGridView1
+            // dgvItems
             // 
-            this.advancedDataGridView1.AllowUserToAddRows = false;
-            this.advancedDataGridView1.AllowUserToDeleteRows = false;
-            this.advancedDataGridView1.AllowUserToOrderColumns = true;
-            this.advancedDataGridView1.AutoGenerateContextFilters = true;
-            this.advancedDataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.advancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.advancedDataGridView1.DateWithTime = true;
-            this.advancedDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.advancedDataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.advancedDataGridView1.Margin = new System.Windows.Forms.Padding(2);
-            this.advancedDataGridView1.Name = "advancedDataGridView1";
-            this.advancedDataGridView1.ReadOnly = true;
-            this.advancedDataGridView1.RowTemplate.Height = 28;
-            this.advancedDataGridView1.Size = new System.Drawing.Size(946, 481);
-            this.advancedDataGridView1.TabIndex = 1;
-            this.advancedDataGridView1.TimeFilter = false;
+            this.dgvItems.AllowUserToAddRows = false;
+            this.dgvItems.AllowUserToOrderColumns = true;
+            this.dgvItems.AutoGenerateContextFilters = true;
+            this.dgvItems.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvItems.DateWithTime = true;
+            this.dgvItems.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvItems.Location = new System.Drawing.Point(0, 0);
+            this.dgvItems.Margin = new System.Windows.Forms.Padding(2);
+            this.dgvItems.Name = "dgvItems";
+            this.dgvItems.RowTemplate.Height = 28;
+            this.dgvItems.Size = new System.Drawing.Size(946, 481);
+            this.dgvItems.TabIndex = 1;
+            this.dgvItems.TimeFilter = false;
             // 
             // panel2
             // 
@@ -416,7 +414,7 @@
             this.panel1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
@@ -453,7 +451,7 @@
         private System.Windows.Forms.Button btnMailRu;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Panel panel4;
-        private ADGV.AdvancedDataGridView advancedDataGridView1;
+        private ADGV.AdvancedDataGridView dgvItems;
         private System.Windows.Forms.Panel panel2;
     }
 }

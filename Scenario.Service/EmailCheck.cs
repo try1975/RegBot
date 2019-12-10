@@ -27,14 +27,16 @@ namespace ScenarioService
             try
             {
                 var dnsLite = new DnsLite();
-                var dnslist = new List<string>();
                 // https://developers.google.com/speed/public-dns/
-                dnslist.Add("8.8.8.8");
-                dnslist.Add("8.8.4.4");
-
                 //http://www.opendns.com/opendns-ip-addresses/
-                dnslist.Add("208.67.222.222");
-                dnslist.Add("208.67.220.220");
+                var dnslist = new List<string>
+                {
+                    "8.8.8.8",
+                    "8.8.4.4",
+                    "208.67.222.222",
+                    "208.67.220.220"
+                };
+
                 var oldStyleList = new ArrayList();
                 foreach (var s in dnslist)
                     oldStyleList.Add(s);

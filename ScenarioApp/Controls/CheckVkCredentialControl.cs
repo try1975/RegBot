@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Common.Service;
+using Newtonsoft.Json;
 using PuppeteerService;
 using ScenarioApp.Controls.Interfaces;
 using ScenarioApp.Ninject;
@@ -15,6 +16,12 @@ namespace ScenarioApp.Controls
         {
             InitializeComponent();
             button1.Click += Button1_Click;
+            btnSave.Click += BtnSave_Click;
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            Utils.SaveLinesToFile(textBox2.Lines);
         }
 
         private async void Button1_Click(object sender, EventArgs e)
@@ -24,13 +31,13 @@ namespace ScenarioApp.Controls
             var progressResult = new Progress<CheckVkCredentialOutput>(checkVkAccountResult => ProgressResultMethod(checkVkAccountResult));
             var progressLog = new Progress<string>(update => ProgressLogMethod(update));
             var scenario = new CheckVkCredential(progressLog: progressLog, progressResult: progressResult, chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>());
-            var listCheckVkCredentialInput = new List<CheckVkCredentialInput>(textBox1.Lines.Length);
+            var listLoginPasswordInput = new List<LoginPasswordInput>(textBox1.Lines.Length);
             foreach (var line in textBox1.Lines)
             {
                 var loginPassword = line.Split(' ');
-                listCheckVkCredentialInput.Add(new CheckVkCredentialInput { Login = loginPassword[0], Password = loginPassword[1] });
+                listLoginPasswordInput.Add(new LoginPasswordInput { Login = loginPassword[0], Password = loginPassword[1] });
             }
-            await scenario.RunScenario(listCheckVkCredentialInput);
+            await scenario.RunScenario(listLoginPasswordInput);
         }
 
         private void ProgressResultMethod(CheckVkCredentialOutput checkVkAccountResult)

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace Common.Service
 {
@@ -12,6 +14,15 @@ namespace Common.Service
             if (memInfo.Length <= 0) return en.ToString();
             var attrs = memInfo[0].GetCustomAttributes(typeof(EnumLocalizeAttribute), false);
             return attrs.Length > 0 ? ((EnumLocalizeAttribute)attrs[0]).Text : en.ToString();
+        }
+
+        public static void SaveLinesToFile(string[] lines)
+        {
+            var saveDialog = new SaveFileDialog();
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllLines(saveDialog.FileName, lines);
+            }
         }
     }
 }

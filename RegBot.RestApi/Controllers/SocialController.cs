@@ -179,12 +179,12 @@ namespace RegBot.RestApi.Controllers
 
         [HttpPost]
         [Route("checkVkCredential")]
-        [ResponseType(typeof(List<CheckVkCredentialInput>))]
-        public async Task<IHttpActionResult> PostCheckVkCredential([FromBody]List<CheckVkCredentialInput> listCheckVkCredentialInput)
+        [ResponseType(typeof(List<LoginPasswordInput>))]
+        public async Task<IHttpActionResult> PostCheckVkCredential([FromBody]List<LoginPasswordInput> listLoginPasswordInput)
         {
             try
             {
-                return Ok(await new CheckVkCredential(chromiumSettings: _chromiumSettings).RunScenario(listCheckVkCredentialInput));
+                return Ok(await new CheckVkCredential(chromiumSettings: _chromiumSettings).RunScenario(listLoginPasswordInput));
             }
             catch (Exception exception)
             {

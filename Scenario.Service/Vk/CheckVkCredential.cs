@@ -17,10 +17,10 @@ namespace ScenarioService
             _progressResult = progressResult;
         }
 
-        public async Task<List<CheckVkCredentialOutput>> RunScenario(IList<CheckVkCredentialInput> listCheckVkCredentialInput)
+        public async Task<List<CheckVkCredentialOutput>> RunScenario(IList<LoginPasswordInput> listLoginPasswordInput)
         {
-            var listCheckVkCredentialOutput = new List<CheckVkCredentialOutput>(listCheckVkCredentialInput.Count);
-            foreach (var credential in listCheckVkCredentialInput)
+            var listCheckVkCredentialOutput = new List<CheckVkCredentialOutput>(listLoginPasswordInput.Count);
+            foreach (var credential in listLoginPasswordInput)
             {
                 try
                 {

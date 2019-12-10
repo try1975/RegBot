@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
+using Common.Service;
 using PuppeteerService;
 using ScenarioApp.Controls.Interfaces;
 using ScenarioApp.Data;
@@ -18,6 +18,12 @@ namespace ScenarioApp.Controls
             _accountDataLoader = accountDataLoader;
             InitializeComponent();
             button1.Click += button1_Click;
+            btnSave.Click += BtnSave_Click;
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            Utils.SaveLinesToFile(textBox2.Lines);
         }
 
         private async void button1_Click(object sender, EventArgs e)

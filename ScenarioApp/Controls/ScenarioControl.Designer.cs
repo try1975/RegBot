@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSelectPersonControl = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnCheckFbCredentialControl = new System.Windows.Forms.Button();
             this.btnCheckFbAccountControl = new System.Windows.Forms.Button();
@@ -45,7 +46,7 @@
             this.btnGoogleSearchControl = new System.Windows.Forms.Button();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.pnlWorkArea = new System.Windows.Forms.Panel();
-            this.btnSelectPersonControl = new System.Windows.Forms.Button();
+            this.btnSendMailControl = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -53,6 +54,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnSendMailControl);
             this.panel1.Controls.Add(this.btnSelectPersonControl);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.btnEmailCheckControl);
@@ -66,6 +68,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(234, 573);
             this.panel1.TabIndex = 0;
+            // 
+            // btnSelectPersonControl
+            // 
+            this.btnSelectPersonControl.Location = new System.Drawing.Point(17, 527);
+            this.btnSelectPersonControl.Name = "btnSelectPersonControl";
+            this.btnSelectPersonControl.Size = new System.Drawing.Size(196, 24);
+            this.btnSelectPersonControl.TabIndex = 11;
+            this.btnSelectPersonControl.Text = "Выбор пользователя";
+            this.btnSelectPersonControl.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -216,14 +227,14 @@
             this.pnlWorkArea.Size = new System.Drawing.Size(972, 573);
             this.pnlWorkArea.TabIndex = 2;
             // 
-            // btnSelectPersonControl
+            // btnSendMailControl
             // 
-            this.btnSelectPersonControl.Location = new System.Drawing.Point(17, 527);
-            this.btnSelectPersonControl.Name = "btnSelectPersonControl";
-            this.btnSelectPersonControl.Size = new System.Drawing.Size(196, 24);
-            this.btnSelectPersonControl.TabIndex = 11;
-            this.btnSelectPersonControl.Text = "Выбор пользователя";
-            this.btnSelectPersonControl.UseVisualStyleBackColor = true;
+            this.btnSendMailControl.Location = new System.Drawing.Point(17, 466);
+            this.btnSendMailControl.Name = "btnSendMailControl";
+            this.btnSendMailControl.Size = new System.Drawing.Size(196, 24);
+            this.btnSendMailControl.TabIndex = 12;
+            this.btnSendMailControl.Text = "Отправка почты";
+            this.btnSendMailControl.UseVisualStyleBackColor = true;
             // 
             // ScenarioControl
             // 
@@ -261,5 +272,6 @@
         private System.Windows.Forms.Button btnCheckFbAccountControl;
         private System.Windows.Forms.Button btnCreateVkGroupControl;
         private System.Windows.Forms.Button btnSelectPersonControl;
+        private System.Windows.Forms.Button btnSendMailControl;
     }
 }

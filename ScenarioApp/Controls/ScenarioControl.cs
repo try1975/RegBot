@@ -22,6 +22,7 @@ namespace ScenarioApp.Controls
         private ICheckFbCredentialControl _checkFbCredentialControl;
         private ICreateVkGroupControl _createVkGroupControl;
         private ISelectPersonControl _selectPersonControl;
+        private ISendMailControl _sendMailControl;
         #endregion
 
         public ScenarioControl()
@@ -43,8 +44,20 @@ namespace ScenarioApp.Controls
             btnCheckFbCredentialControl.Click += BtnCheckFbCredentialControl_Click;
             btnCreateVkGroupControl.Click += BtnCreateVkGroupControl_Click;
             btnSelectPersonControl.Click += BtnSelectPersonControl_Click;
+            btnSendMailControl.Click += BtnSendMailControl_Click;
 
             Load += ScenarioControl_Load;
+        }
+
+        private void BtnSendMailControl_Click(object sender, EventArgs e)
+        {
+            if (!ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (_sendMailControl == null) _sendMailControl = CompositionRoot.Resolve<ISendMailControl>();
+                AddControlToWorkArea((Control)_sendMailControl, false);
+                return;
+            }
+            AddControlToWorkArea((Control)CompositionRoot.Resolve<ISendMailControl>(), true);
         }
 
         private void ScenarioControl_Load(object sender, EventArgs e)

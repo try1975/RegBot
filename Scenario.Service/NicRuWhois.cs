@@ -14,7 +14,7 @@ namespace ScenarioService
         {
         }
 
-        public async Task<List<string>> RunScenario(string domain)
+        public async Task<List<string>> RunScenario(string[] domains)
         {
             var result = new List<string>();
             try
@@ -22,17 +22,20 @@ namespace ScenarioService
                 using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
                 using (var page = await browser.NewPageAsync())
                 {
-                    await page.GoToAsync($"https://www.nic.ru/whois");
+                    foreach (var domain in domains)
+                    {
+                        Report($"Проверка {domain}");
+                        await page.GoToAsync($"https://www.nic.ru/whois");
+                        await page.TypeAsync("input", domain, new TypeOptions { Delay = 50 });
+                        await page.Keyboard.PressAsync($"{nameof(Key.Enter)}");
 
-                    await page.TypeAsync("input", domain, new TypeOptions { Delay = 50 });
-                    await page.Keyboard.PressAsync($"{nameof(Key.Enter)}");
-
-                    var contentSelector = "div[data-qa='Whois-card']";
-                    var data = await page.WaitForSelectorAsync(contentSelector, new WaitForSelectorOptions { Timeout = 5000 });
-                    var text = (await (await data.GetPropertyAsync("innerText")).JsonValueAsync()).ToString();
-                    text = text.Remove(text.IndexOf("<<<"));
-                    Report($"{text}");
-                    result.Add(text);
+                        var contentSelector = "div[data-qa='Whois-card']";
+                        var data = await page.WaitForSelectorAsync(contentSelector, new WaitForSelectorOptions { Timeout = 5000 });
+                        var text = (await (await data.GetPropertyAsync("innerText")).JsonValueAsync()).ToString();
+                        text = text.Remove(text.IndexOf("<<<"));
+                        Report($"{text}");
+                        result.Add(text);
+                    }
                 }
             }
             catch (Exception exception)

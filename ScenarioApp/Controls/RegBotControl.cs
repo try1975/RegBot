@@ -34,6 +34,7 @@ namespace ScenarioApp.Controls
         private long BytesReceived { get; set; }
         private readonly string connectionString;
 
+
         public RegBotControl()
         {
             InitializeComponent();
@@ -55,6 +56,33 @@ namespace ScenarioApp.Controls
             btnFacebook.Click += btnFacebook_Click;
             btnVk.Click += BtnVk_Click;
             btnGenerate.Click += BtnGenerate_Click;
+
+            dgvItems.FilterStringChanged += dgvItems_FilterStringChanged;
+            dgvItems.SortStringChanged += dgvItems_SortStringChanged;
+            dgvItems.UserDeletingRow += DgvItems_UserDeletingRow;
+        }
+
+        private void DgvItems_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            if (e.Row.Index == -1) return;
+            using (var db = new LiteDatabase(connectionString))
+            {
+                // Get a collection (or create, if doesn't exist)
+                var col = db.GetCollection<IAccountData>("AccountsData");
+                col.Delete(x => x.Id == (int)e.Row.Cells["Id"].Value);
+            }
+        }
+
+        private void dgvItems_SortStringChanged(object sender, EventArgs e)
+        {
+            bindingSource1.Sort = dgvItems.SortString;
+            bindingSource1.ResetBindings(false);
+        }
+
+        private void dgvItems_FilterStringChanged(object sender, EventArgs e)
+        {
+            bindingSource1.Filter = dgvItems.FilterString;
+            bindingSource1.ResetBindings(false);
         }
 
         private void GetRandomAccountData(CountryCode countryCode = CountryCode.EN)
@@ -240,7 +268,7 @@ namespace ScenarioApp.Controls
             {
                 var dataTable = ConvertToDataTable(db.GetCollection<IAccountData>("AccountsData").FindAll().OrderByDescending(z => z.Id));
                 bindingSource1.DataSource = dataTable;
-                advancedDataGridView1.DataSource = bindingSource1;
+                dgvItems.DataSource = bindingSource1;
                 //ContentGridColumnSettings(advancedDataGridView1);
             }
         }
