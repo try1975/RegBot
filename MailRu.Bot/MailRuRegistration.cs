@@ -5,6 +5,8 @@ using log4net;
 using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
+using PuppeteerSharp.Input;
+using PuppeteerSharp.Mobile;
 using System;
 using System.Linq;
 using System.Threading;
@@ -50,6 +52,7 @@ namespace MailRu.Bot
                 using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
                 using (var page = await browser.NewPageAsync())
                 {
+                    //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]);
                     await FillRegistrationData(page);
                     await page.ClickAsync("div.b-form__control>button");
 
@@ -107,6 +110,77 @@ namespace MailRu.Bot
                 _data.ErrMsg = exception.Message;
             }
             return _data;
+        }
+
+        public static async Task<bool> SendEmail(string to, string subject, string[] text, Page page)
+        {
+
+            try
+            {
+                var typeOptions = new TypeOptions { Delay = 50 };
+                var selNewLetter = "span.compose-button__txt";
+                if (await page.QuerySelectorAsync(selNewLetter) == null) selNewLetter = "a[data-name=compose] span";
+                await page.ClickAsync(selNewLetter);
+                await page.WaitForTimeoutAsync(1500);
+                var selTo = "div[data-type=to] input";
+                if (await page.QuerySelectorAsync(selTo) == null) selTo = "div[data-blockid='compose_to']";
+                await page.ClickAsync(selTo);
+                await page.TypeAsync(selTo, to, typeOptions);
+
+                var selSubject = "input[name=Subject]";
+                await page.ClickAsync("label[data-for=Subject]") ;
+                await page.TypeAsync(selSubject, subject, typeOptions);
+                var selText = "div[role=textbox]";
+                if (await page.QuerySelectorAsync(selText) == null) {
+                    var elText = await page.QuerySelectorAsync("span.mceEditor iframe");
+                    var frame = await elText.ContentFrameAsync();
+                    var elBody = await frame.QuerySelectorAsync("body");
+                    await elBody.TypeAsync(string.Join(Environment.NewLine, text), typeOptions);
+                }
+                else {
+                    await page.ClickAsync(selText);
+                    await page.TypeAsync(selText, string.Join(Environment.NewLine, text), typeOptions);
+                }
+                // or CTRL+ENTER 
+                
+                var selSend = "span[data-title-shortcut='Ctrl+Enter']";
+                if (await page.QuerySelectorAsync(selSend)==null) selSend = "div[data-name=send]";
+                await page.ClickAsync(selSend);
+                await page.WaitForNavigationAsync();
+
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+                return false;
+            }
+            return true;
+        }
+
+        public static async Task<bool> Login(string accountName, string password, Page page)
+        {
+            //page.EmulateAsync(DeviceDescriptors.Get(DeviceDescriptorName.IPhone6);
+            try
+            {
+                await page.TypeAsync("input[name=Login]", accountName);
+                await page.WaitForTimeoutAsync(500);
+                await page.ClickAsync("button[type=submit]");
+                await page.WaitForTimeoutAsync(500);
+
+                await page.TypeAsync("input[name=Password]", password);
+                await page.ClickAsync("button[type=submit]");
+                var navigationOptions = new NavigationOptions
+                {
+                    WaitUntil = new[] { WaitUntilNavigation.DOMContentLoaded}
+                };
+                await page.WaitForNavigationAsync(navigationOptions);
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+                return false;
+            }
+            return true;
         }
 
         private async Task FillRegistrationData(Page page)
@@ -214,6 +288,11 @@ namespace MailRu.Bot
         public static string GetRegistrationUrl()
         {
             return @"https://account.mail.ru/signup";
+        }
+
+        public static string GetLoginUrl()
+        {
+            return @"https://account.mail.ru/login";
         }
 
         public async static Task<bool> EmailAlreadyRegistered(string accountName, string host, Page page)

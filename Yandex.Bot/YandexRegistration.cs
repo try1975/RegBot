@@ -5,6 +5,7 @@ using log4net;
 using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
+using PuppeteerSharp.Input;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -170,14 +171,24 @@ namespace Yandex.Bot
         {
             try
             {
+                var typeOptions = new TypeOptions { Delay = 50 };
                 await page.GoToAsync("https://mail.yandex.ru/");
-                await page.WaitForNavigationAsync();
-                await page.ClickAsync("span.mail-ComposeButton-Text");
-                await page.ClickAsync("div[name=to]");
-                await page.TypeAsync("div[name=to]", to);
-                //input[name ^= subj]
-                //div[role=textbox]
-                //CTRL+ENTER button[type=submit]
+                var selNewLetter = "span.mail-ComposeButton-Text";
+                await page.WaitForSelectorAsync(selNewLetter);
+                await page.ClickAsync(selNewLetter);
+                await page.WaitForTimeoutAsync(1500);
+                var selTo = "div[name=to]";
+                await page.ClickAsync(selTo);
+                await page.TypeAsync(selTo, to, typeOptions);
+                var selSubject = "input[name ^= subj]";
+                await page.ClickAsync(selSubject);
+                await page.TypeAsync(selSubject, subject, typeOptions);
+                var selText = "div[role=textbox]";
+                await page.ClickAsync(selText);
+                await page.TypeAsync(selText, string.Join(Environment.NewLine, text), typeOptions);
+                // or CTRL+ENTER 
+                await page.ClickAsync("button[type=submit]");
+                
                 await page.WaitForNavigationAsync();
 
             }

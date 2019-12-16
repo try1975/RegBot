@@ -212,7 +212,7 @@
             this.tbTo.Name = "tbTo";
             this.tbTo.Size = new System.Drawing.Size(312, 20);
             this.tbTo.TabIndex = 2;
-            this.tbTo.Text = "keiran.nitkowski@gmail.com";
+            this.tbTo.Text = "try400@mail.ru";
             // 
             // label1
             // 
@@ -231,7 +231,7 @@
             this.tbMailAccounts.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbMailAccounts.Size = new System.Drawing.Size(312, 108);
             this.tbMailAccounts.TabIndex = 0;
-            this.tbMailAccounts.Text = "jameison.witwer@yandex.ru n4e#D*gd6u\r\nkeiran.nitkowski@gmail.com gGSoqX5XFe";
+            this.tbMailAccounts.Text = "jameison.witwer@yandex.ru n4e#D*gd6u\r\nzyah.brisson@mail.ru 3$d5P&hCps";
             this.tbMailAccounts.WordWrap = false;
             // 
             // SendMailControl

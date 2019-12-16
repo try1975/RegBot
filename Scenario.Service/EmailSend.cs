@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using MailRu.Bot;
 using PuppeteerService;
 using Yandex.Bot;
 
@@ -25,36 +26,41 @@ namespace ScenarioService
             using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
                 foreach (var emailAndPassword in listEmailAndPassword)
                 {
-                    MailAddress mailAddress;
                     try
                     {
-                        mailAddress = new MailAddress(emailAndPassword.Login);
+                        var login = emailAndPassword.Login.Trim().ToLower();
+                        var mailAddress = new MailAddress(login);
+                        if (mailAddress != null)
+                        {
+                            if (MailRuDomains.Contains(mailAddress.Host))
+                            {
+                                using (var page = await browser.NewPageAsync())
+                                {
+                                    await page.GoToAsync(MailRuRegistration.GetLoginUrl());
+                                    var isLoginSuccess = await MailRuRegistration.Login(accountName: login, password: emailAndPassword.Password, page: page);
+                                    await MailRuRegistration.SendEmail(to: to, subject: subject, text: emailText, page: page);
+                                    Info($"Почта отправлена {mailAddress.Address}");
+                                }
+                            }
+                            if (mailAddress.Host.Equals("yandex.ru"))
+                            {
+                                using (var page = await browser.NewPageAsync())
+                                {
+                                    await page.GoToAsync(YandexRegistration.GetLoginUrl());
+                                    var isLoginSuccess = await YandexRegistration.Login(accountName: login, password: emailAndPassword.Password, page: page);
+                                    await YandexRegistration.SendEmail(to: to, subject: subject, text: emailText, page: page);
+                                    Info($"Почта отправлена {mailAddress.Address}");
+                                }
+                            }
+                            if (mailAddress.Host.Equals("gmail.com"))
+                            {
+                                Info($"gmail {mailAddress.Address} {emailAndPassword.Password}");
+                            }
+                        }
                     }
                     catch (FormatException)
                     {
-                        mailAddress = null;
-                    }
-
-                    if (mailAddress != null)
-                    {
-                        if (MailRuDomains.Contains(mailAddress.Host))
-                        {
-                            Info($"mailru {mailAddress.Address} {emailAndPassword.Password}");
-                        }
-                        if (mailAddress.Host.Equals("yandex.ru"))
-                        {
-                            Info($"yandex {mailAddress.Address} {emailAndPassword.Password}");
-                            using (var page = await browser.NewPageAsync())
-                            {
-                                await page.GoToAsync(YandexRegistration.GetLoginUrl());
-                                var isLoginSuccess = await YandexRegistration.Login(accountName: emailAndPassword.Login, password: emailAndPassword.Password, page: page);
-                                await YandexRegistration.SendEmail(to: to, subject: subject, text: emailText, page: page);
-                            }
-                        }
-                        if (mailAddress.Host.Equals("gmail.com"))
-                        {
-                            Info($"gmail {mailAddress.Address} {emailAndPassword.Password}");
-                        }
+                        Error($"Некорректный адрес {emailAndPassword.Login}");
                     }
                 }
         }
