@@ -171,11 +171,18 @@
     <Compile Include="Controls\ForumSearchControl.Designer.cs">
       <DependentUpon>ForumSearchControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\GenerateAccountDataControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GenerateAccountDataControl.Designer.cs">
+      <DependentUpon>GenerateAccountDataControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Interfaces\ICheckFbCredentialControl.cs" />
     <Compile Include="Controls\Interfaces\ICheckFbAccountControl.cs" />
     <Compile Include="Controls\Interfaces\ICreateVkGroupControl.cs" />
     <Compile Include="Controls\Interfaces\IEmailCheckControl.cs" />
     <Compile Include="Controls\Interfaces\IForumSearchControl.cs" />
+    <Compile Include="Controls\Interfaces\IGenerateAccountDataControl.cs" />
     <Compile Include="Controls\Interfaces\IRegBotControl.cs" />
     <Compile Include="Controls\Interfaces\ISelectPersonControl.cs" />
     <Compile Include="Controls\Interfaces\ISendMailControl.cs" />
@@ -300,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ForumSearchControl.resx">
       <DependentUpon>ForumSearchControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GenerateAccountDataControl.resx">
+      <DependentUpon>GenerateAccountDataControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\GoogleSearchControl.resx">
       <DependentUpon>GoogleSearchControl.cs</DependentUpon>

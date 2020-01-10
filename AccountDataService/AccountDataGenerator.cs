@@ -1,24 +1,26 @@
-﻿using System;
+﻿using Common.Service.Enums;
+using Common.Service.Interfaces;
+using System;
 using System.IO;
 using System.Text;
-using Common.Service.Enums;
-using Common.Service.Interfaces;
 
 namespace AccountData.Service
 {
     public class AccountDataGenerator : IAccountDataGenerator
     {
         private readonly string _path;
+        private readonly Random random;
 
         public AccountDataGenerator(string path)
         {
             if (string.IsNullOrEmpty(path)) path = Environment.CurrentDirectory;
             _path = path;
+            random = new Random();
         }
         public IAccountData GetRandom(CountryCode countryCode = CountryCode.EN)
         {
             IAccountData accountData = new EmailAccountData { Sex = SexCode.Male };
-            var random = new Random();
+
             if (random.NextDouble() > 0.5) accountData.Sex = SexCode.Female;
             var sex = Enum.GetName(typeof(SexCode), accountData.Sex);
 
@@ -45,7 +47,7 @@ namespace AccountData.Service
         public IAccountData GetRandomMale(CountryCode countryCode)
         {
             IAccountData accountData = new EmailAccountData { Sex = SexCode.Male };
-            var random = new Random();
+
             var sex = Enum.GetName(typeof(SexCode), accountData.Sex);
 
             accountData.BirthDate = GetBirthDate(random);
@@ -56,14 +58,14 @@ namespace AccountData.Service
         public IAccountData GetRandomFemale(CountryCode countryCode)
         {
             IAccountData accountData = new EmailAccountData { Sex = SexCode.Female };
-            var random = new Random();
+
             var sex = Enum.GetName(typeof(SexCode), accountData.Sex);
 
             accountData.BirthDate = GetBirthDate(random);
             accountData.Password = CreatePassword(10);
             return accountData;
         }
-        
+
         private static DateTime GetBirthDate(Random random)
         {
             var year = DateTime.Today.Year - random.Next(19, 40);
@@ -88,15 +90,14 @@ namespace AccountData.Service
             return new DateTime(year, month, day);
         }
 
-        private static string CreatePassword(int length)
+        private string CreatePassword(int length)
         {
             // ReSharper disable once StringLiteralTypo
             const string valid = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+";
             var res = new StringBuilder();
-            var rnd = new Random();
             while (0 < length--)
             {
-                res.Append(valid[rnd.Next(valid.Length)]);
+                res.Append(valid[random.Next(valid.Length)]);
             }
             return res.ToString();
         }

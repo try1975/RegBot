@@ -24,6 +24,7 @@ namespace ScenarioApp.Controls
         private ICreateVkGroupControl _createVkGroupControl;
         private ISelectPersonControl _selectPersonControl;
         private ISendMailControl _sendMailControl;
+        private IGenerateAccountDataControl _generateAccountDataControl;
         #endregion
 
         public ScenarioControl()
@@ -47,11 +48,12 @@ namespace ScenarioApp.Controls
             btnCreateVkGroupControl.Click += BtnCreateVkGroupControl_Click;
             btnSelectPersonControl.Click += BtnSelectPersonControl_Click;
             btnSendMailControl.Click += BtnSendMailControl_Click;
+            btnGenerateAccountDataControl.Click += BtnGenerateAccountDataControl_Click;
 
             Load += ScenarioControl_Load;
         }
 
-        
+       
 
         private void BtnSendMailControl_Click(object sender, EventArgs e)
         {
@@ -216,6 +218,17 @@ namespace ScenarioApp.Controls
                 return;
             }
             AddControlToWorkArea((Control)CompositionRoot.Resolve<ICheckVkCredentialControl>(), true);
+        }
+
+        private void BtnGenerateAccountDataControl_Click(object sender, EventArgs e)
+        {
+            if (!ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (_generateAccountDataControl == null) _generateAccountDataControl = CompositionRoot.Resolve<IGenerateAccountDataControl>();
+                AddControlToWorkArea((Control)_generateAccountDataControl, false);
+                return;
+            }
+            AddControlToWorkArea((Control)CompositionRoot.Resolve<IGenerateAccountDataControl>(), true);
         }
 
         private void AddControlToWorkArea(Control control, bool ctrlPressed = false)
