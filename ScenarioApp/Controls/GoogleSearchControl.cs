@@ -25,9 +25,9 @@ namespace ScenarioApp.Controls
         private async void button2_Click(object sender, EventArgs e)
         {
             textBox3.Clear();
-            var progressLog = new Progress<string>(update => textBox3.AppendText(update + Environment.NewLine));
-            var googleSearch = new GoogleSearch(chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>(), progressLog: progressLog);
-            await googleSearch.RunScenario(queries: textBox4.Lines, pageCount: (int)numericUpDown2.Value);
+            var progress = new Progress<string>(update => textBox3.AppendText(update + Environment.NewLine));
+            var googleSearch = new GoogleSearch(chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>(), progressLog: progress);
+            await googleSearch.RunScenario(queries: textBox6.Lines, pageCount: (int)udPageCount.Value);
         }
     }
 }

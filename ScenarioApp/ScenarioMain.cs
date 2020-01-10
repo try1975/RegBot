@@ -1,5 +1,6 @@
 ﻿using log4net;
 using ScenarioApp.Controls.Interfaces;
+using System;
 using System.Windows.Forms;
 
 namespace ScenarioApp
@@ -14,6 +15,12 @@ namespace ScenarioApp
             var control = (Control)scenarioControl;
             control.Dock = DockStyle.Fill;
             panel1.Controls.Add(control);
+            FormClosed += ScenarioMain_FormClosed;
+        }
+
+        private void ScenarioMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

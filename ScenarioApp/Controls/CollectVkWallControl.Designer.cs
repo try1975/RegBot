@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnSave = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -38,7 +39,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.btnSave = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -54,6 +54,17 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(689, 47);
             this.panel2.TabIndex = 1;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(554, 12);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btnSave.Size = new System.Drawing.Size(127, 23);
+            this.btnSave.TabIndex = 2;
+            this.btnSave.Text = "Сохранить";
+            this.btnSave.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -140,9 +151,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(45, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(24, 13);
+            this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "ИД";
+            this.label1.Text = "id (ссылка)";
             // 
             // textBox1
             // 
@@ -153,17 +164,6 @@
             this.textBox1.Size = new System.Drawing.Size(186, 162);
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = "rospil\r\nlisamonetka";
-            // 
-            // btnSave
-            // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(554, 12);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.btnSave.Size = new System.Drawing.Size(127, 23);
-            this.btnSave.TabIndex = 2;
-            this.btnSave.Text = "Сохранить";
-            this.btnSave.UseVisualStyleBackColor = true;
             // 
             // CollectVkWallControl
             // 

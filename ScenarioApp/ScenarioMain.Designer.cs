@@ -46,7 +46,7 @@
             this.ClientSize = new System.Drawing.Size(1030, 580);
             this.Controls.Add(this.panel1);
             this.Name = "ScenarioMain";
-            this.Text = "Сценарии";
+            this.Text = "Спецбраузер";
             this.ResumeLayout(false);
 
         }

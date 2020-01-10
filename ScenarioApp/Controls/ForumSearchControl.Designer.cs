@@ -1,6 +1,6 @@
 ﻿namespace ScenarioApp.Controls
 {
-    partial class YandexSearchControl
+    partial class ForumSearchControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -50,15 +50,15 @@
             this.panel7.Controls.Add(this.btnSave);
             this.panel7.Controls.Add(this.button3);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel7.Location = new System.Drawing.Point(0, 422);
+            this.panel7.Location = new System.Drawing.Point(0, 545);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(656, 47);
-            this.panel7.TabIndex = 3;
+            this.panel7.Size = new System.Drawing.Size(650, 47);
+            this.panel7.TabIndex = 4;
             // 
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(510, 12);
+            this.btnSave.Location = new System.Drawing.Point(504, 12);
             this.btnSave.Name = "btnSave";
             this.btnSave.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.btnSave.Size = new System.Drawing.Size(127, 23);
@@ -79,10 +79,10 @@
             // 
             this.panel8.Controls.Add(this.textBox5);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel8.Location = new System.Drawing.Point(286, 0);
+            this.panel8.Location = new System.Drawing.Point(280, 0);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(370, 422);
-            this.panel8.TabIndex = 4;
+            this.panel8.Size = new System.Drawing.Size(370, 545);
+            this.panel8.TabIndex = 5;
             // 
             // textBox5
             // 
@@ -91,16 +91,16 @@
             this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
             this.textBox5.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox5.Size = new System.Drawing.Size(370, 422);
+            this.textBox5.Size = new System.Drawing.Size(370, 545);
             this.textBox5.TabIndex = 0;
             // 
             // splitter3
             // 
             this.splitter3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter3.Location = new System.Drawing.Point(283, 0);
+            this.splitter3.Location = new System.Drawing.Point(277, 0);
             this.splitter3.Name = "splitter3";
-            this.splitter3.Size = new System.Drawing.Size(3, 422);
-            this.splitter3.TabIndex = 7;
+            this.splitter3.Size = new System.Drawing.Size(3, 545);
+            this.splitter3.TabIndex = 8;
             this.splitter3.TabStop = false;
             // 
             // panel9
@@ -112,8 +112,8 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(283, 422);
-            this.panel9.TabIndex = 8;
+            this.panel9.Size = new System.Drawing.Size(277, 545);
+            this.panel9.TabIndex = 9;
             // 
             // udPageCount
             // 
@@ -163,9 +163,9 @@
             this.textBox6.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox6.Size = new System.Drawing.Size(146, 125);
             this.textBox6.TabIndex = 0;
-            this.textBox6.Text = "vk rospil";
+            this.textBox6.Text = "продать ноутбук\r\nкотята манчкин";
             // 
-            // YandexSearchControl
+            // ForumSearchControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -173,8 +173,8 @@
             this.Controls.Add(this.splitter3);
             this.Controls.Add(this.panel8);
             this.Controls.Add(this.panel7);
-            this.Name = "YandexSearchControl";
-            this.Size = new System.Drawing.Size(656, 469);
+            this.Name = "ForumSearchControl";
+            this.Size = new System.Drawing.Size(650, 592);
             this.panel7.ResumeLayout(false);
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
@@ -188,6 +188,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.TextBox textBox5;
@@ -197,6 +198,5 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.Button btnSave;
     }
 }

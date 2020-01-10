@@ -1,9 +1,9 @@
 ﻿using log4net;
 using log4net.Config;
-using ScenarioApp.Controls.Interfaces;
 using ScenarioApp.Ninject;
 using System;
 using System.Windows.Forms;
+using Topol.UseApi.Forms;
 
 [assembly: XmlConfigurator(Watch = true)]
 
@@ -22,7 +22,7 @@ namespace ScenarioApp
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ScenarioMain(CompositionRoot.Resolve<IScenarioControl>()));
+            Application.Run(new AuthenticationForm());
         }
     }
 }

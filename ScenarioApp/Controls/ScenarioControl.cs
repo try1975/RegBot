@@ -12,6 +12,7 @@ namespace ScenarioApp.Controls
         private IGoogleSearchControl _googleSearchControl;
         private ICollectVkWallControl _collectVkWallControl;
         private IYandexSearchControl _yandexSearchControl;
+        private IForumSearchControl _forumSearchControl;
         private IWhoisControl _whoisControl;
         private IPostVkControl _postVkControl;
         private ICheckVkAccountControl _checkVkAccountControl;
@@ -32,6 +33,7 @@ namespace ScenarioApp.Controls
             btnRegBotControl.Click += BtnRegBotControl_Click;
             btnGoogleSearchControl.Click += BtnGoogleSearchControl_Click;
             btnYandexSearchControl.Click += BtnYandexSearchControl_Click;
+            btnForumSearchControl.Click += BtnForumSearchControl_Click;
             btnWhoisControl.Click += BtnWhoisControl_Click;
 
             btnCollectVkWallControl.Click += BtnCollectVkWallControl_Click;
@@ -48,6 +50,8 @@ namespace ScenarioApp.Controls
 
             Load += ScenarioControl_Load;
         }
+
+        
 
         private void BtnSendMailControl_Click(object sender, EventArgs e)
         {
@@ -157,6 +161,17 @@ namespace ScenarioApp.Controls
                 return;
             }
             AddControlToWorkArea((Control)CompositionRoot.Resolve<IYandexSearchControl>(), true);
+        }
+
+        private void BtnForumSearchControl_Click(object sender, EventArgs e)
+        {
+            if (!ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (_forumSearchControl == null) _forumSearchControl = CompositionRoot.Resolve<IForumSearchControl>();
+                AddControlToWorkArea((Control)_forumSearchControl, false);
+                return;
+            }
+            AddControlToWorkArea((Control)CompositionRoot.Resolve<IForumSearchControl>(), true);
         }
 
         private void BtnWhoisControl_Click(object sender, EventArgs e)

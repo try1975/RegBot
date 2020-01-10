@@ -165,10 +165,17 @@
     <Compile Include="Controls\EmailCheckControl.Designer.cs">
       <DependentUpon>EmailCheckControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ForumSearchControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ForumSearchControl.Designer.cs">
+      <DependentUpon>ForumSearchControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Interfaces\ICheckFbCredentialControl.cs" />
     <Compile Include="Controls\Interfaces\ICheckFbAccountControl.cs" />
     <Compile Include="Controls\Interfaces\ICreateVkGroupControl.cs" />
     <Compile Include="Controls\Interfaces\IEmailCheckControl.cs" />
+    <Compile Include="Controls\Interfaces\IForumSearchControl.cs" />
     <Compile Include="Controls\Interfaces\IRegBotControl.cs" />
     <Compile Include="Controls\Interfaces\ISelectPersonControl.cs" />
     <Compile Include="Controls\Interfaces\ISendMailControl.cs" />
@@ -251,6 +258,12 @@
     <Compile Include="Data\DataSettings.cs" />
     <Compile Include="Data\IAccountDataLoader.cs" />
     <Compile Include="Data\IDataSettings.cs" />
+    <Compile Include="Forms\AuthenticationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AuthenticationForm.designer.cs">
+      <DependentUpon>AuthenticationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ChildForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -285,6 +298,9 @@
     <EmbeddedResource Include="Controls\EmailCheckControl.resx">
       <DependentUpon>EmailCheckControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ForumSearchControl.resx">
+      <DependentUpon>ForumSearchControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\GoogleSearchControl.resx">
       <DependentUpon>GoogleSearchControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -311,6 +327,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\YandexSearchControl.resx">
       <DependentUpon>YandexSearchControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AuthenticationForm.resx">
+      <DependentUpon>AuthenticationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ScenarioMain.resx">
       <DependentUpon>ScenarioMain.cs</DependentUpon>

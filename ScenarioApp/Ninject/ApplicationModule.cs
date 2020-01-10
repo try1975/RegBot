@@ -11,6 +11,7 @@ namespace ScenarioApp.Ninject
     {
         public override void Load()
         {
+            Bind<ScenarioMain>().To<ScenarioMain>().InSingletonScope();
             Bind<IScenarioControl>().To<ScenarioControl>().InSingletonScope();
             Bind<IAccountDataLoader>().To<AccountDataLoader>().InSingletonScope();
             Bind<IDataSettings>().To<DataSettings>().InSingletonScope();
@@ -22,6 +23,7 @@ namespace ScenarioApp.Ninject
             Bind<ICollectVkWallControl>().To<CollectVkWallControl>();
             Bind<IGoogleSearchControl>().To<GoogleSearchControl>();
             Bind<IYandexSearchControl>().To<YandexSearchControl>();
+            Bind<IForumSearchControl>().To<ForumSearchControl>();
             Bind<IWhoisControl>().To<WhoisControl>();
             Bind<IPostVkControl>().To<PostVkControl>();
             Bind<ICheckVkAccountControl>().To<CheckVkAccountControl>();

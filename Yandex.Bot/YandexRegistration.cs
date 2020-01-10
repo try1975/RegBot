@@ -155,9 +155,8 @@ namespace Yandex.Bot
                 await page.WaitForTimeoutAsync(500);
                 await page.TypeAsync("input[type=password]", password);
                 await page.ClickAsync("button[type=submit]");
-                await page.WaitForNavigationAsync();
-
-
+                var navigationOptions = new NavigationOptions { WaitUntil = new[] { WaitUntilNavigation.DOMContentLoaded } };
+                await page.WaitForNavigationAsync(navigationOptions);
             }
             catch (Exception exception)
             {
@@ -188,7 +187,7 @@ namespace Yandex.Bot
                 await page.TypeAsync(selText, string.Join(Environment.NewLine, text), typeOptions);
                 // or CTRL+ENTER 
                 await page.ClickAsync("button[type=submit]");
-                
+
                 await page.WaitForNavigationAsync();
 
             }

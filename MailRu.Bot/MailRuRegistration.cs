@@ -118,7 +118,8 @@ namespace MailRu.Bot
             try
             {
                 var typeOptions = new TypeOptions { Delay = 50 };
-                var selNewLetter = "span.compose-button__txt";
+                await page.WaitForTimeoutAsync(1500);
+                var selNewLetter = "span.compose-button>span>span";
                 if (await page.QuerySelectorAsync(selNewLetter) == null) selNewLetter = "a[data-name=compose] span";
                 await page.ClickAsync(selNewLetter);
                 await page.WaitForTimeoutAsync(1500);
@@ -128,9 +129,9 @@ namespace MailRu.Bot
                 await page.TypeAsync(selTo, to, typeOptions);
 
                 var selSubject = "input[name=Subject]";
-                await page.ClickAsync("label[data-for=Subject]") ;
+                //await page.ClickAsync("label[data-for=Subject]") ;
                 await page.TypeAsync(selSubject, subject, typeOptions);
-                var selText = "div[role=textbox]";
+                var selText = "div[role=textbox] div div";
                 if (await page.QuerySelectorAsync(selText) == null) {
                     var elText = await page.QuerySelectorAsync("span.mceEditor iframe");
                     var frame = await elText.ContentFrameAsync();
@@ -166,13 +167,9 @@ namespace MailRu.Bot
                 await page.WaitForTimeoutAsync(500);
                 await page.ClickAsync("button[type=submit]");
                 await page.WaitForTimeoutAsync(500);
-
                 await page.TypeAsync("input[name=Password]", password);
                 await page.ClickAsync("button[type=submit]");
-                var navigationOptions = new NavigationOptions
-                {
-                    WaitUntil = new[] { WaitUntilNavigation.DOMContentLoaded}
-                };
+                var navigationOptions = new NavigationOptions { WaitUntil = new[] { WaitUntilNavigation.DOMContentLoaded } };
                 await page.WaitForNavigationAsync(navigationOptions);
             }
             catch (Exception exception)

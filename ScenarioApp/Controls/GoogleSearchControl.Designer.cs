@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnSave = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.udPageCount = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.btnSave = new System.Windows.Forms.Button();
+            this.textBox6 = new System.Windows.Forms.TextBox();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udPageCount)).BeginInit();
             this.SuspendLayout();
             // 
             // panel4
@@ -54,6 +54,17 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(766, 47);
             this.panel4.TabIndex = 2;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(622, 12);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btnSave.Size = new System.Drawing.Size(127, 23);
+            this.btnSave.TabIndex = 3;
+            this.btnSave.Text = "Сохранить";
+            this.btnSave.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
@@ -94,33 +105,33 @@
             // 
             // panel6
             // 
-            this.panel6.Controls.Add(this.numericUpDown2);
+            this.panel6.Controls.Add(this.udPageCount);
             this.panel6.Controls.Add(this.label3);
             this.panel6.Controls.Add(this.label4);
-            this.panel6.Controls.Add(this.textBox4);
+            this.panel6.Controls.Add(this.textBox6);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(393, 471);
             this.panel6.TabIndex = 7;
             // 
-            // numericUpDown2
+            // udPageCount
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(52, 277);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
+            this.udPageCount.Location = new System.Drawing.Point(52, 277);
+            this.udPageCount.Maximum = new decimal(new int[] {
             50,
             0,
             0,
             0});
-            this.numericUpDown2.Minimum = new decimal(new int[] {
+            this.udPageCount.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(53, 20);
-            this.numericUpDown2.TabIndex = 3;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.udPageCount.Name = "udPageCount";
+            this.udPageCount.Size = new System.Drawing.Size(53, 20);
+            this.udPageCount.TabIndex = 3;
+            this.udPageCount.Value = new decimal(new int[] {
             3,
             0,
             0,
@@ -144,26 +155,15 @@
             this.label4.TabIndex = 1;
             this.label4.Text = "Поисковой запрос";
             // 
-            // textBox4
+            // textBox6
             // 
-            this.textBox4.Location = new System.Drawing.Point(48, 43);
-            this.textBox4.Multiline = true;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox4.Size = new System.Drawing.Size(209, 215);
-            this.textBox4.TabIndex = 0;
-            this.textBox4.Text = "vk rospil";
-            // 
-            // btnSave
-            // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(622, 12);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.btnSave.Size = new System.Drawing.Size(127, 23);
-            this.btnSave.TabIndex = 3;
-            this.btnSave.Text = "Сохранить";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.textBox6.Location = new System.Drawing.Point(48, 43);
+            this.textBox6.Multiline = true;
+            this.textBox6.Name = "textBox6";
+            this.textBox6.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox6.Size = new System.Drawing.Size(209, 215);
+            this.textBox6.TabIndex = 0;
+            this.textBox6.Text = "vk rospil";
             // 
             // GoogleSearchControl
             // 
@@ -180,7 +180,7 @@
             this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udPageCount)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -193,10 +193,10 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown udPageCount;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Button btnSave;
     }
 }
