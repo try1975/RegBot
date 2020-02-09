@@ -65,7 +65,7 @@ namespace RegBot.RestApi.Controllers
             try
             {
                 var engine = new NicRuWhois(_chromiumSettings);
-                results = await engine.RunScenario(domain);
+                results = await engine.RunScenario(new[] { domain });
             }
             catch (Exception exception)
             {

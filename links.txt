@@ -36,3 +36,22 @@ https://www.aymen-loukil.com/en/blog-en/google-puppeteer-tutorial-with-examples/
 http://www.hardkoded.com/blog/creating-whatsapp-bot-puppteer-sharp
 
 https://peter.sh/experiments/chromium-command-line-switches/
+
+anticaptcha
+http://l2-ip.com/antigate.net/examples.html
+https://github.com/chancity/CSharp.AntiCaptcha
+https://github.com/AdminAnticaptcha/anticaptcha-csharp
+
+https://www.npmjs.com/package/puppeteer-extra-plugin-recaptcha
+https://medium.com/@jsoverson/bypassing-captchas-with-headless-chrome-93f294518337
+https://meta.stackexchange.com/questions/246432/how-to-pass-im-not-a-robot
+https://2captcha.com/recaptchav2_eng_instruction
+https://www.dotnet4techies.com/2016/12/how-to-integrate-googles-im-not-robot.html
+http://www.codingfusion.com/Post/Google-New-reCaptcha-I-am-not-a-robot-using-asp-n
+https://recaptcha-demo.appspot.com/
+
+puppeteer and Playwright
+https://habr.com/ru/company/ruvds/blog/486688/
+https://habr.com/ru/company/jugru/blog/487294/
+https://github.com/microsoft/playwright
+https://www.youtube.com/watch?v=qpW69uD0w8o

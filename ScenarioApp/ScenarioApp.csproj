@@ -63,8 +63,8 @@
     <Reference Include="Microsoft.Net.Http.Headers, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.Headers.2.0.2\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NickBuhro.Translit, Version=1.4.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NickBuhro.Translit.1.4.5\lib\net45\NickBuhro.Translit.dll</HintPath>
@@ -73,7 +73,7 @@
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="PuppeteerSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PuppeteerSharp.1.17.2\lib\netstandard2.0\PuppeteerSharp.dll</HintPath>
+      <HintPath>..\packages\PuppeteerSharp.2.0.0\lib\netstandard2.0\PuppeteerSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -374,6 +374,10 @@
     <ProjectReference Include="..\AccountDataService\AccountData.Service.csproj">
       <Project>{8d632bf2-bfd9-4585-a5af-7e15e8431ebb}</Project>
       <Name>AccountData.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Anticaptcha\AnticaptchaOnline.csproj">
+      <Project>{e2bf8c89-3408-4cf2-b6fa-2a6c31228f06}</Project>
+      <Name>AnticaptchaOnline</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common.Service\Common.Service.csproj">
       <Project>{F45C44CF-2C70-4683-A36A-1154E2408F53}</Project>

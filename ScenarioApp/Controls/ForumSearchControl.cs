@@ -29,9 +29,19 @@ namespace ScenarioApp.Controls
             //var progress = new Progress<string>(update => textBox5.AppendText(update + Environment.NewLine));
             var progress = new Progress<string>(update => ProgressChangedEventHandler(update));
             var queries = textBox6.Lines.Select(z => $"{z} доска объявлений форум").ToArray();
-            var yandexSearch = new YandexSearch(chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>(), progressLog: progress);
+            var chromiumSettings = CompositionRoot.Resolve<IChromiumSettings>();
+            if (!string.IsNullOrEmpty(tbYandexProxy.Text))
+            {
+                chromiumSettings.Proxy = tbYandexProxy.Text;
+            }
+            var yandexSearch = new YandexSearch(chromiumSettings: chromiumSettings, progressLog: progress);
             await yandexSearch.RunScenario(queries: queries, pageCount: (int)udPageCount.Value);
-            var googleSearch = new GoogleSearch(chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>(), progressLog: progress);
+            chromiumSettings = CompositionRoot.Resolve<IChromiumSettings>();
+            if (!string.IsNullOrEmpty(tbGoogleProxy.Text))
+            {
+                chromiumSettings.Proxy = tbGoogleProxy.Text;
+            }
+            var googleSearch = new GoogleSearch(chromiumSettings: chromiumSettings, progressLog: progress);
             await googleSearch.RunScenario(queries: queries, pageCount: (int)udPageCount.Value);
         }
 

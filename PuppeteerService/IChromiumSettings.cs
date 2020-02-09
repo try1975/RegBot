@@ -4,5 +4,8 @@
     {
         string GetPath();
         bool GetHeadless();
+        string Proxy { get; set; }
+
+        string GetUserAgent();
     }
 }

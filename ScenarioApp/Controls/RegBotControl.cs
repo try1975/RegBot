@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Windows.Forms;
 using Vk.Bot;
 using Yandex.Bot;
@@ -33,7 +34,6 @@ namespace ScenarioApp.Controls
         private static readonly ILog Log = LogManager.GetLogger(typeof(RegBotControl));
         private long BytesReceived { get; set; }
         private readonly string connectionString;
-
 
         public RegBotControl()
         {
@@ -62,14 +62,21 @@ namespace ScenarioApp.Controls
             dgvItems.UserDeletingRow += DgvItems_UserDeletingRow;
         }
 
+        private void DataTable_ColumnChanged(object sender, DataColumnChangeEventArgs e)
+        {
+            var accountdata = CreateItemFromRow<EmailAccountData>(e.Row);
+            StoreAccountData(accountdata);
+        }
+
         private void DgvItems_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
             if (e.Row.Index == -1) return;
+            var id = (int)e.Row.Cells["Id"].Value;
             using (var db = new LiteDatabase(connectionString))
             {
                 // Get a collection (or create, if doesn't exist)
                 var col = db.GetCollection<IAccountData>("AccountsData");
-                col.Delete(x => x.Id == (int)e.Row.Cells["Id"].Value);
+                col.Delete(x => x.Id == id);
             }
         }
 
@@ -129,6 +136,8 @@ namespace ScenarioApp.Controls
             }
             return accountData;
         }
+
+       
 
         private async void Demo(ServiceCode serviceCode)
         {
@@ -267,6 +276,7 @@ namespace ScenarioApp.Controls
             using (var db = new LiteDatabase(connectionString))
             {
                 var dataTable = ConvertToDataTable(db.GetCollection<IAccountData>("AccountsData").FindAll().OrderByDescending(z => z.Id));
+                dataTable.ColumnChanged += DataTable_ColumnChanged;
                 bindingSource1.DataSource = dataTable;
                 dgvItems.DataSource = bindingSource1;
                 //ContentGridColumnSettings(advancedDataGridView1);
@@ -303,5 +313,34 @@ namespace ScenarioApp.Controls
             GetBrowserLastVersion(browserFetcher);
         }
         #endregion Event handlers
+
+        public static void SetItemFromRow<T>(T item, DataRow row) where T : new()
+        {
+            // go through each column
+            foreach (DataColumn c in row.Table.Columns)
+            {
+                // find the property for the column
+                PropertyInfo p = item.GetType().GetProperty(c.ColumnName);
+
+                // if exists, set the value
+                if (p != null && row[c] != DBNull.Value)
+                {
+                    p.SetValue(item, row[c], null);
+                }
+            }
+        }
+
+        // function that creates an object from the given data row
+        public static T CreateItemFromRow<T>(DataRow row) where T : new()
+        {
+            // create a new object
+            T item = new T();
+
+            // set the item
+            SetItemFromRow(item, row);
+
+            // return 
+            return item;
+        }
     }
 }

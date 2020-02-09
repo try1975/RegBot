@@ -26,7 +26,12 @@ namespace ScenarioApp.Controls
         {
             textBox3.Clear();
             var progress = new Progress<string>(update => textBox3.AppendText(update + Environment.NewLine));
-            var googleSearch = new GoogleSearch(chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>(), progressLog: progress);
+            var chromiumSettings = CompositionRoot.Resolve<IChromiumSettings>();
+            if (!string.IsNullOrEmpty(tbGoogleProxy.Text))
+            {
+                chromiumSettings.Proxy = tbGoogleProxy.Text;
+            }
+            var googleSearch = new GoogleSearch(chromiumSettings: chromiumSettings, progressLog: progress);
             await googleSearch.RunScenario(queries: textBox6.Lines, pageCount: (int)udPageCount.Value);
         }
     }

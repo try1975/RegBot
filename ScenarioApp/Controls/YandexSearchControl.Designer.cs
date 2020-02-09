@@ -39,6 +39,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
+            this.tbYandexProxy = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel7.SuspendLayout();
             this.panel8.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -105,6 +107,8 @@
             // 
             // panel9
             // 
+            this.panel9.Controls.Add(this.label1);
+            this.panel9.Controls.Add(this.tbYandexProxy);
             this.panel9.Controls.Add(this.udPageCount);
             this.panel9.Controls.Add(this.label5);
             this.panel9.Controls.Add(this.label6);
@@ -165,6 +169,23 @@
             this.textBox6.TabIndex = 0;
             this.textBox6.Text = "vk rospil";
             // 
+            // tbYandexProxy
+            // 
+            this.tbYandexProxy.Location = new System.Drawing.Point(48, 243);
+            this.tbYandexProxy.Name = "tbYandexProxy";
+            this.tbYandexProxy.Size = new System.Drawing.Size(218, 20);
+            this.tbYandexProxy.TabIndex = 4;
+            this.tbYandexProxy.Text = "DX6dhTrx:Fzopzxfc@62.109.28.144:35898";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(47, 227);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Прокси";
+            // 
             // YandexSearchControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -198,5 +219,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox tbYandexProxy;
     }
 }

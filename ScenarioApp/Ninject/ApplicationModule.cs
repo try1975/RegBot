@@ -9,13 +9,16 @@ namespace ScenarioApp.Ninject
 {
     public class ApplicationModule : NinjectModule
     {
+        private readonly string userAgent = System.Configuration.ConfigurationManager.AppSettings[nameof(userAgent)];
         public override void Load()
         {
             Bind<ScenarioMain>().To<ScenarioMain>().InSingletonScope();
             Bind<IScenarioControl>().To<ScenarioControl>().InSingletonScope();
             Bind<IAccountDataLoader>().To<AccountDataLoader>().InSingletonScope();
             Bind<IDataSettings>().To<DataSettings>().InSingletonScope();
-            Bind<IChromiumSettings>().To<ChromiumSettings>().InSingletonScope().WithConstructorArgument("chromiumPath", Environment.CurrentDirectory);
+            Bind<IChromiumSettings>().To<ChromiumSettings>()/*.InSingletonScope()*/
+                .WithConstructorArgument("chromiumPath", Environment.CurrentDirectory)
+                .WithConstructorArgument("userAgent", userAgent);
             Bind<ISelectPersonControl>().To<SelectPersonControl>().InSingletonScope();
 
             Bind<IRegBotControl>().To<RegBotControl>();

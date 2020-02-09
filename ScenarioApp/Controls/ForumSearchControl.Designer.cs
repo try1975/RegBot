@@ -35,10 +35,14 @@
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.splitter3 = new System.Windows.Forms.Splitter();
             this.panel9 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tbYandexProxy = new System.Windows.Forms.TextBox();
             this.udPageCount = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbGoogleProxy = new System.Windows.Forms.TextBox();
             this.panel7.SuspendLayout();
             this.panel8.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -105,6 +109,10 @@
             // 
             // panel9
             // 
+            this.panel9.Controls.Add(this.label2);
+            this.panel9.Controls.Add(this.tbGoogleProxy);
+            this.panel9.Controls.Add(this.label1);
+            this.panel9.Controls.Add(this.tbYandexProxy);
             this.panel9.Controls.Add(this.udPageCount);
             this.panel9.Controls.Add(this.label5);
             this.panel9.Controls.Add(this.label6);
@@ -114,6 +122,23 @@
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(277, 545);
             this.panel9.TabIndex = 9;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(45, 232);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Прокси Яндекс";
+            // 
+            // tbYandexProxy
+            // 
+            this.tbYandexProxy.Location = new System.Drawing.Point(46, 248);
+            this.tbYandexProxy.Name = "tbYandexProxy";
+            this.tbYandexProxy.Size = new System.Drawing.Size(218, 20);
+            this.tbYandexProxy.TabIndex = 6;
+            this.tbYandexProxy.Text = "DX6dhTrx:Fzopzxfc@62.109.28.144:35898";
             // 
             // udPageCount
             // 
@@ -165,6 +190,23 @@
             this.textBox6.TabIndex = 0;
             this.textBox6.Text = "продать ноутбук\r\nкотята манчкин";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(43, 271);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Прокси Гугл";
+            // 
+            // tbGoogleProxy
+            // 
+            this.tbGoogleProxy.Location = new System.Drawing.Point(46, 287);
+            this.tbGoogleProxy.Name = "tbGoogleProxy";
+            this.tbGoogleProxy.Size = new System.Drawing.Size(218, 20);
+            this.tbGoogleProxy.TabIndex = 8;
+            this.tbGoogleProxy.Text = "Ik2MIbTe:o4nVS4GA@62.109.28.144:43417";
+            // 
             // ForumSearchControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -198,5 +240,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox tbYandexProxy;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbGoogleProxy;
     }
 }

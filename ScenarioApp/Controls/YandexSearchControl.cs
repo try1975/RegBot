@@ -26,7 +26,12 @@ namespace ScenarioApp.Controls
         {
             textBox5.Clear();
             var progress = new Progress<string>(update => textBox5.AppendText(update + Environment.NewLine));
-            var yandexSearch = new YandexSearch(chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>(), progressLog: progress);
+            var chromiumSettings = CompositionRoot.Resolve<IChromiumSettings>();
+            if (!string.IsNullOrEmpty(tbYandexProxy.Text))
+            {
+                chromiumSettings.Proxy = tbYandexProxy.Text;
+            }
+            var yandexSearch = new YandexSearch(chromiumSettings: chromiumSettings, progressLog: progress);
             await yandexSearch.RunScenario(queries: textBox6.Lines, pageCount: (int)udPageCount.Value);
         }
     }

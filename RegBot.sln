@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScenarioService", "Scenario
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppeteerService", "PuppeteerService\PuppeteerService.csproj", "{D0103587-CA50-4EB7-BED4-99E2277F9001}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnticaptchaOnline", "Anticaptcha\AnticaptchaOnline.csproj", "{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{D0103587-CA50-4EB7-BED4-99E2277F9001}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0103587-CA50-4EB7-BED4-99E2277F9001}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0103587-CA50-4EB7-BED4-99E2277F9001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +124,7 @@ Global
 		{6C3FA7E0-1F96-4E49-958B-78DFBC7F0926} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
 		{D3429939-A8BF-4B4B-BFCD-18A3F6C69BC9} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
 		{D0103587-CA50-4EB7-BED4-99E2277F9001} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
+		{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BFA7B51-BBAA-46FB-A909-78364E794607}
