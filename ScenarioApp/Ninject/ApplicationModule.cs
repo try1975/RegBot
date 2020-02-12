@@ -37,6 +37,7 @@ namespace ScenarioApp.Ninject
             Bind<ICreateVkGroupControl>().To<CreateVkGroupControl>();
             Bind<ISendMailControl>().To<SendMailControl>();
             Bind<IGenerateAccountDataControl>().To<GenerateAccountDataControl>();
+            Bind<ICaptchaControl>().To<CaptchaControl>();
         }
     }
 }

@@ -25,6 +25,7 @@ namespace ScenarioApp.Controls
         private ISelectPersonControl _selectPersonControl;
         private ISendMailControl _sendMailControl;
         private IGenerateAccountDataControl _generateAccountDataControl;
+        private ICaptchaControl _captchaControl;
         #endregion
 
         public ScenarioControl()
@@ -49,11 +50,10 @@ namespace ScenarioApp.Controls
             btnSelectPersonControl.Click += BtnSelectPersonControl_Click;
             btnSendMailControl.Click += BtnSendMailControl_Click;
             btnGenerateAccountDataControl.Click += BtnGenerateAccountDataControl_Click;
+            btnCaptchaControl.Click += BtnCaptchaControl_Click;
 
             Load += ScenarioControl_Load;
         }
-
-       
 
         private void BtnSendMailControl_Click(object sender, EventArgs e)
         {
@@ -229,6 +229,17 @@ namespace ScenarioApp.Controls
                 return;
             }
             AddControlToWorkArea((Control)CompositionRoot.Resolve<IGenerateAccountDataControl>(), true);
+        }
+
+        private void BtnCaptchaControl_Click(object sender, EventArgs e)
+        {
+            if (!ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (_captchaControl == null) _captchaControl = CompositionRoot.Resolve<ICaptchaControl>();
+                AddControlToWorkArea((Control)_captchaControl, false);
+                return;
+            }
+            AddControlToWorkArea((Control)CompositionRoot.Resolve<ICaptchaControl>(), true);
         }
 
         private void AddControlToWorkArea(Control control, bool ctrlPressed = false)

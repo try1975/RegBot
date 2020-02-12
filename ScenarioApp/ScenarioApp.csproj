@@ -140,6 +140,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CaptchaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CaptchaControl.Designer.cs">
+      <DependentUpon>CaptchaControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CheckFbAccountControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -177,6 +183,7 @@
     <Compile Include="Controls\GenerateAccountDataControl.Designer.cs">
       <DependentUpon>GenerateAccountDataControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Interfaces\ICaptchaControl.cs" />
     <Compile Include="Controls\Interfaces\ICheckFbCredentialControl.cs" />
     <Compile Include="Controls\Interfaces\ICheckFbAccountControl.cs" />
     <Compile Include="Controls\Interfaces\ICreateVkGroupControl.cs" />
@@ -287,6 +294,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\CaptchaControl.resx">
+      <DependentUpon>CaptchaControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CheckFbAccountControl.resx">
       <DependentUpon>CheckFbAccountControl.cs</DependentUpon>
     </EmbeddedResource>

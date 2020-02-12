@@ -55,3 +55,12 @@ https://habr.com/ru/company/ruvds/blog/486688/
 https://habr.com/ru/company/jugru/blog/487294/
 https://github.com/microsoft/playwright
 https://www.youtube.com/watch?v=qpW69uD0w8o
+https://www.youtube.com/watch?v=MbnATLCuKI4
+https://pptr.dev/
+https://intoli.com/blog/saving-images/
+https://www.youtube.com/watch?v=-SY5PP50aw0
+https://docs.browserless.io/docs/chrome-flags.html
+https://www.youtube.com/watch?v=aRXzW-o-zqs
+https://github.com/CheshireCaat/AntiCaptchaNET
+https://github.com/Shifu462/AnticaptchaNet
+https://github.com/Zaczero/AntiCaptcha

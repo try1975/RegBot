@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnGenerateAccountDataControl = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnForumSearchControl = new System.Windows.Forms.Button();
             this.btnGoogleSearchControl = new System.Windows.Forms.Button();
@@ -50,7 +51,7 @@
             this.btnCheckVkAccount = new System.Windows.Forms.Button();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.pnlWorkArea = new System.Windows.Forms.Panel();
-            this.btnGenerateAccountDataControl = new System.Windows.Forms.Button();
+            this.btnCaptchaControl = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -60,6 +61,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnCaptchaControl);
             this.panel1.Controls.Add(this.btnGenerateAccountDataControl);
             this.panel1.Controls.Add(this.groupBox4);
             this.panel1.Controls.Add(this.groupBox3);
@@ -72,6 +74,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(234, 699);
             this.panel1.TabIndex = 0;
+            // 
+            // btnGenerateAccountDataControl
+            // 
+            this.btnGenerateAccountDataControl.Location = new System.Drawing.Point(17, 628);
+            this.btnGenerateAccountDataControl.Name = "btnGenerateAccountDataControl";
+            this.btnGenerateAccountDataControl.Size = new System.Drawing.Size(196, 24);
+            this.btnGenerateAccountDataControl.TabIndex = 6;
+            this.btnGenerateAccountDataControl.Text = "Генерация данных для аккаунтов";
+            this.btnGenerateAccountDataControl.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
@@ -273,14 +284,15 @@
             this.pnlWorkArea.Size = new System.Drawing.Size(972, 699);
             this.pnlWorkArea.TabIndex = 2;
             // 
-            // btnGenerateAccountDataControl
+            // btnCaptchaControl
             // 
-            this.btnGenerateAccountDataControl.Location = new System.Drawing.Point(17, 628);
-            this.btnGenerateAccountDataControl.Name = "btnGenerateAccountDataControl";
-            this.btnGenerateAccountDataControl.Size = new System.Drawing.Size(196, 24);
-            this.btnGenerateAccountDataControl.TabIndex = 6;
-            this.btnGenerateAccountDataControl.Text = "Генерация данных для аккаунтов";
-            this.btnGenerateAccountDataControl.UseVisualStyleBackColor = true;
+            this.btnCaptchaControl.Location = new System.Drawing.Point(17, 658);
+            this.btnCaptchaControl.Name = "btnCaptchaControl";
+            this.btnCaptchaControl.Size = new System.Drawing.Size(196, 24);
+            this.btnCaptchaControl.TabIndex = 7;
+            this.btnCaptchaControl.Text = "Решение капчи";
+            this.btnCaptchaControl.UseMnemonic = false;
+            this.btnCaptchaControl.UseVisualStyleBackColor = true;
             // 
             // ScenarioControl
             // 
@@ -325,5 +337,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnForumSearchControl;
         private System.Windows.Forms.Button btnGenerateAccountDataControl;
+        private System.Windows.Forms.Button btnCaptchaControl;
     }
 }

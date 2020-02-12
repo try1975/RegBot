@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace MailRu.Bot
 {
@@ -71,22 +72,30 @@ namespace MailRu.Bot
                         //};
                         //await page.SetExtraHttpHeadersAsync(headers);
 
+                        await page.SetRequestInterceptionAsync(true);
+                        page.Request += Page_Request;
+
 
                         await FillRegistrationData(page);
+                        await page.WaitForTimeoutAsync(1500);
                         await page.WaitForSelectorAsync("div.b-form__control>button");
                         //await page.WaitForTimeoutAsync(500);
                         await page.ClickAsync("div.b-form__control>button");
 
-                        await page.WaitForSelectorAsync("img.js-captcha-img");
-                        var svgImage = await page.QuerySelectorAsync("img.js-captcha-img");
-                        await svgImage.ScreenshotAsync(@"C:\Temp\6.jpg", new ScreenshotOptions { OmitBackground = true });
 
-                        // TODO check captcha
-                        var antiCaptchaOnlineApi = new AntiCaptchaOnlineApi();
-                        var antiCaptchaResult = antiCaptchaOnlineApi.SolveIm(await svgImage.ScreenshotBase64Async(new ScreenshotOptions { OmitBackground = true }));
-                        if (antiCaptchaResult.Success) {
-                            await page.TypeAsync("input[name='capcha']", antiCaptchaResult.Response);
-                            await page.ClickAsync("button[data-name='submit']");
+                        var elImgage = await page.WaitForSelectorAsync("img.js-captcha-img");
+                        //= await page.QuerySelectorAsync("img.js-captcha-img");
+                        if (elImgage != null)
+                        {
+                            //await elImgage.ScreenshotAsync(@"C:\Temp\6.jpg", new ScreenshotOptions { OmitBackground = true });
+                            // TODO check captcha
+                            var antiCaptchaOnlineApi = new AntiCaptchaOnlineApi();
+                            var antiCaptchaResult = antiCaptchaOnlineApi.SolveIm(await elImgage.ScreenshotBase64Async(new ScreenshotOptions { OmitBackground = true }));
+                            if (antiCaptchaResult.Success)
+                            {
+                                await page.TypeAsync("input[name='capcha']", antiCaptchaResult.Response);
+                                await page.ClickAsync("button[data-name='submit']");
+                            }
                         }
 
 
@@ -109,30 +118,30 @@ namespace MailRu.Bot
                         ////File.WriteAllText(filename, content);
                         //if (sendSms != null)
                         //{
-                            //var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
-                            //Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
-                            //if (phoneNumberValidation != null)
-                            //{
-                            //    // enter sms code
-                            //    await page.TypeAsync("form input[type='number']", phoneNumberValidation.Code);
-                            //    await page.ClickAsync("button[data-name='submit']");
-                            //    await _smsService.SetSmsValidationSuccess(_requestId);
-                                await page.WaitForTimeoutAsync(10000);
-                                var emailSuccess = await page.QuerySelectorAsync("i#PH_user-email");
-                                if (emailSuccess != null)
-                                {
-                                    _data.Success = true;
-                                    Log.Info($"emailSuccess: {JsonConvert.SerializeObject(_data)}");
-                                    //await _smsService.SetSmsValidationSuccess(_requestId);
-                                    await page.ClickAsync("button[data-test-id='onboarding-button-start']");
+                        //var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
+                        //Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
+                        //if (phoneNumberValidation != null)
+                        //{
+                        //    // enter sms code
+                        //    await page.TypeAsync("form input[type='number']", phoneNumberValidation.Code);
+                        //    await page.ClickAsync("button[data-name='submit']");
+                        //    await _smsService.SetSmsValidationSuccess(_requestId);
+                        await page.WaitForTimeoutAsync(10000);
+                        var emailSuccess = await page.QuerySelectorAsync("i#PH_user-email");
+                        if (emailSuccess != null)
+                        {
+                            _data.Success = true;
+                            Log.Info($"emailSuccess: {JsonConvert.SerializeObject(_data)}");
+                            //await _smsService.SetSmsValidationSuccess(_requestId);
+                            await page.ClickAsync("button[data-test-id='onboarding-button-start']");
 
-                                }
-                                else
-                                {
-                                    _data.ErrMsg = @"Нет перехода на страницу зарегистрированного email";
-                                }
-                                //await _smsService.SetSmsValidationSuccess(_requestId);
-                            //}
+                        }
+                        else
+                        {
+                            _data.ErrMsg = @"Нет перехода на страницу зарегистрированного email";
+                        }
+                        //await _smsService.SetSmsValidationSuccess(_requestId);
+                        //}
                         //}
                         //else
                         //{
@@ -147,6 +156,37 @@ namespace MailRu.Bot
                 _data.ErrMsg = exception.Message;
             }
             return _data;
+        }
+
+        private async void Page_Request(object sender, RequestEventArgs e)
+        {
+            //if (e.Request.Url.Contains("google"))
+            //{
+            //    //    //await e.Request.AbortAsync();
+            //    Log.Error(e.Request.Url);
+            //    if (e.Request.Method == HttpMethod.Post)
+            //    {
+            //        Log.Error(e.Request.PostData);
+            //    }
+            //    await e.Request.ContinueAsync();
+            //}
+            //else
+            //{
+            //    Log.Info(e.Request.Url);
+            //    if (e.Request.Method == HttpMethod.Post)
+            //    {
+            //        Log.Info(e.Request.PostData);
+            //    }
+            //    await e.Request.ContinueAsync();
+            //}
+            await e.Request.ContinueAsync();
+            //var payload = new Payload()
+            //{
+            //    Url = "https://httpbin.org/forms/post",
+            //    Method = HttpMethod.Post /*,
+            //    PostData = keyValuePairs*/
+            //};
+            //await e.Request.ContinueAsync(payload);
         }
 
         public static async Task<bool> SendEmail(string to, string subject, string[] text, Page page)
@@ -299,11 +339,26 @@ namespace MailRu.Bot
             #region Password
 
             await page.TypeAsync("input[name='password']", _data.Password);
+            await page.WaitForTimeoutAsync(500);
             await page.TypeAsync("input[name='password_retry']", _data.Password);
+            await page.WaitForTimeoutAsync(500);
 
             #endregion
 
 
+
+
+
+            //email again phonenumber
+            await page.ClickAsync("div.b-form-field__message>a");
+            await page.WaitForSelectorAsync("span.b-email__name input[name='additional_email']");
+            await page.WaitForTimeoutAsync(500);
+            await page.TypeAsync("span.b-email__name input[name='additional_email']", "pvachovski@bk.ru");
+            await page.WaitForTimeoutAsync(1500);
+
+            await page.WaitForSelectorAsync("div.b-form__control>button");
+            //await page.WaitForTimeoutAsync(500);
+            await page.ClickAsync("div.b-form__control>button");
 
             #region Phone
 
@@ -314,20 +369,14 @@ namespace MailRu.Bot
                 await page.ClickAsync(selPhone);
                 await page.EvaluateFunctionAsync("function() {" + $"document.querySelector('{selPhone}').value = ''" + "}");
                 await page.TypeAsync(selPhone, _data.Phone);
-                await page.WaitForTimeoutAsync(300);
+                await page.WaitForTimeoutAsync(1500);
             }
-            else
-            {
-                Log.Error("Phone input not found");
-            }
+            //else
+            //{
+            //    Log.Error("Phone input not found");
+            //}
 
             #endregion
-
-            //email again phonenumber
-            await page.ClickAsync("div.b-form-field__message>a");
-            await page.WaitForSelectorAsync("span.b-email__name input[name='additional_email']");
-            //await page.WaitForTimeoutAsync(500);
-            await page.TypeAsync("span.b-email__name input[name='additional_email']", "pvachovski@bk.ru");
         }
 
         public static string GetRegistrationUrl()
