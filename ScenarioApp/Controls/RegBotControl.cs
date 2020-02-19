@@ -50,8 +50,10 @@ namespace ScenarioApp.Controls
             Load += Form1_Load;
             tabPage2.Enter += tabPage2_Enter;
 
-            btnMailRu.Click += BtnMailRu_Click;
-            btnYandex.Click += BtnYandex_Click;
+            btnMailRuEmail.Click += BtnMailRuEmail_Click;
+            btnMailRuPhone.Click += BtnMailRuPhone_Click;
+            btnYandexEmail.Click += BtnYandexEmail_Click;
+            btnYandexPhone.Click += BtnYandexPhone_Click;
             btnGmail.Click += BtnGmail_Click;
             btnFacebook.Click += btnFacebook_Click;
             btnVk.Click += BtnVk_Click;
@@ -61,6 +63,8 @@ namespace ScenarioApp.Controls
             dgvItems.SortStringChanged += dgvItems_SortStringChanged;
             dgvItems.UserDeletingRow += DgvItems_UserDeletingRow;
         }
+
+       
 
         private void DataTable_ColumnChanged(object sender, DataColumnChangeEventArgs e)
         {
@@ -139,11 +143,12 @@ namespace ScenarioApp.Controls
 
        
 
-        private async void Demo(ServiceCode serviceCode)
+        private async void Demo(ServiceCode serviceCode, bool byPhone = true)
         {
             try
             {
-                var smsService = ((SmsServiceItem)cmbSmsService.SelectedItem).SmsService;
+                ISmsService smsService = null;
+                if(byPhone) smsService = ((SmsServiceItem)cmbSmsService.SelectedItem).SmsService;
                 textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)} start... - {DateTime.Now} {Environment.NewLine}");
                 IBot iBot = null;
                 var accountData = CreateEmailAccountDataFromUi();
@@ -220,15 +225,15 @@ namespace ScenarioApp.Controls
             {
                 BytesReceived = 0;
 
-                btnMailRu.Enabled = false;
-                btnYandex.Enabled = false;
+                btnMailRuEmail.Enabled = false;
+                btnYandexEmail.Enabled = false;
                 btnGmail.Enabled = false;
                 textBox1.Text = $@"GetBrowserLastVersion() start... - {DateTime.Now} {Environment.NewLine}";
                 await browserFetcher.DownloadAsync(BrowserFetcher.DefaultRevision);
                 textBox1.AppendText($@"GetExecutablePath - {browserFetcher.GetExecutablePath(BrowserFetcher.DefaultRevision)}{Environment.NewLine}");
                 textBox1.AppendText($@"GetBrowserLastVersion() complete... - {DateTime.Now} {Environment.NewLine}");
-                btnMailRu.Enabled = true;
-                btnYandex.Enabled = true;
+                btnMailRuEmail.Enabled = true;
+                btnYandexEmail.Enabled = true;
                 btnGmail.Enabled = true;
             }
             catch (Exception exception)
@@ -251,12 +256,22 @@ namespace ScenarioApp.Controls
             textBox1.AppendText($@"Download progress {e.BytesReceived} from {e.TotalBytesToReceive} - {DateTime.Now} {Environment.NewLine}");
         }
 
-        private void BtnMailRu_Click(object sender, EventArgs e)
+        private void BtnMailRuEmail_Click(object sender, EventArgs e)
+        {
+            Demo(ServiceCode.MailRu, byPhone: false) ;
+        }
+
+        private void BtnMailRuPhone_Click(object sender, EventArgs e)
         {
             Demo(ServiceCode.MailRu);
         }
 
-        private void BtnYandex_Click(object sender, EventArgs e)
+        private void BtnYandexEmail_Click(object sender, EventArgs e)
+        {
+            Demo(ServiceCode.Yandex, byPhone: false);
+        }
+
+        private void BtnYandexPhone_Click(object sender, EventArgs e)
         {
             Demo(ServiceCode.Yandex);
         }

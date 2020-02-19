@@ -47,19 +47,21 @@
             this.lblSex = new System.Windows.Forms.Label();
             this.lblBirthDate = new System.Windows.Forms.Label();
             this.dtpBirthDate = new System.Windows.Forms.DateTimePicker();
-            this.btnYandex = new System.Windows.Forms.Button();
+            this.btnYandexEmail = new System.Windows.Forms.Button();
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.lblPassword = new System.Windows.Forms.Label();
             this.tbLastname = new System.Windows.Forms.TextBox();
             this.lblLastname = new System.Windows.Forms.Label();
             this.tbFirstName = new System.Windows.Forms.TextBox();
             this.lblFirstName = new System.Windows.Forms.Label();
-            this.btnMailRu = new System.Windows.Forms.Button();
+            this.btnMailRuEmail = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
             this.dgvItems = new ADGV.AdvancedDataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.btnMailRuPhone = new System.Windows.Forms.Button();
+            this.btnYandexPhone = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -118,6 +120,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnYandexPhone);
+            this.panel1.Controls.Add(this.btnMailRuPhone);
             this.panel1.Controls.Add(this.btnVk);
             this.panel1.Controls.Add(this.btnFacebook);
             this.panel1.Controls.Add(this.cmbCountry);
@@ -131,14 +135,14 @@
             this.panel1.Controls.Add(this.lblSex);
             this.panel1.Controls.Add(this.lblBirthDate);
             this.panel1.Controls.Add(this.dtpBirthDate);
-            this.panel1.Controls.Add(this.btnYandex);
+            this.panel1.Controls.Add(this.btnYandexEmail);
             this.panel1.Controls.Add(this.tbPassword);
             this.panel1.Controls.Add(this.lblPassword);
             this.panel1.Controls.Add(this.tbLastname);
             this.panel1.Controls.Add(this.lblLastname);
             this.panel1.Controls.Add(this.tbFirstName);
             this.panel1.Controls.Add(this.lblFirstName);
-            this.panel1.Controls.Add(this.btnMailRu);
+            this.panel1.Controls.Add(this.btnMailRuEmail);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(2, 2);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
@@ -148,20 +152,20 @@
             // 
             // btnVk
             // 
-            this.btnVk.Location = new System.Drawing.Point(137, 97);
+            this.btnVk.Location = new System.Drawing.Point(152, 133);
             this.btnVk.Margin = new System.Windows.Forms.Padding(2);
             this.btnVk.Name = "btnVk";
-            this.btnVk.Size = new System.Drawing.Size(111, 31);
+            this.btnVk.Size = new System.Drawing.Size(126, 31);
             this.btnVk.TabIndex = 19;
             this.btnVk.Text = "vk.com";
             this.btnVk.UseVisualStyleBackColor = true;
             // 
             // btnFacebook
             // 
-            this.btnFacebook.Location = new System.Drawing.Point(22, 96);
+            this.btnFacebook.Location = new System.Drawing.Point(22, 133);
             this.btnFacebook.Margin = new System.Windows.Forms.Padding(2);
             this.btnFacebook.Name = "btnFacebook";
-            this.btnFacebook.Size = new System.Drawing.Size(111, 31);
+            this.btnFacebook.Size = new System.Drawing.Size(126, 31);
             this.btnFacebook.TabIndex = 18;
             this.btnFacebook.Text = "facebook.com";
             this.btnFacebook.UseVisualStyleBackColor = true;
@@ -187,10 +191,10 @@
             // 
             // btnGmail
             // 
-            this.btnGmail.Location = new System.Drawing.Point(22, 43);
+            this.btnGmail.Location = new System.Drawing.Point(22, 97);
             this.btnGmail.Margin = new System.Windows.Forms.Padding(2);
             this.btnGmail.Name = "btnGmail";
-            this.btnGmail.Size = new System.Drawing.Size(111, 31);
+            this.btnGmail.Size = new System.Drawing.Size(126, 31);
             this.btnGmail.TabIndex = 15;
             this.btnGmail.Text = "gmail.com";
             this.btnGmail.UseVisualStyleBackColor = true;
@@ -276,15 +280,15 @@
             this.dtpBirthDate.Size = new System.Drawing.Size(135, 20);
             this.dtpBirthDate.TabIndex = 7;
             // 
-            // btnYandex
+            // btnYandexEmail
             // 
-            this.btnYandex.Location = new System.Drawing.Point(137, 8);
-            this.btnYandex.Margin = new System.Windows.Forms.Padding(2);
-            this.btnYandex.Name = "btnYandex";
-            this.btnYandex.Size = new System.Drawing.Size(111, 31);
-            this.btnYandex.TabIndex = 2;
-            this.btnYandex.Text = "yandex.ru";
-            this.btnYandex.UseVisualStyleBackColor = true;
+            this.btnYandexEmail.Location = new System.Drawing.Point(22, 51);
+            this.btnYandexEmail.Margin = new System.Windows.Forms.Padding(2);
+            this.btnYandexEmail.Name = "btnYandexEmail";
+            this.btnYandexEmail.Size = new System.Drawing.Size(126, 31);
+            this.btnYandexEmail.TabIndex = 2;
+            this.btnYandexEmail.Text = "yandex.ru - почта";
+            this.btnYandexEmail.UseVisualStyleBackColor = true;
             // 
             // tbPassword
             // 
@@ -340,15 +344,15 @@
             this.lblFirstName.TabIndex = 1;
             this.lblFirstName.Text = "Имя";
             // 
-            // btnMailRu
+            // btnMailRuEmail
             // 
-            this.btnMailRu.Location = new System.Drawing.Point(22, 8);
-            this.btnMailRu.Margin = new System.Windows.Forms.Padding(2);
-            this.btnMailRu.Name = "btnMailRu";
-            this.btnMailRu.Size = new System.Drawing.Size(111, 31);
-            this.btnMailRu.TabIndex = 0;
-            this.btnMailRu.Text = "mail.ru";
-            this.btnMailRu.UseVisualStyleBackColor = true;
+            this.btnMailRuEmail.Location = new System.Drawing.Point(22, 8);
+            this.btnMailRuEmail.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMailRuEmail.Name = "btnMailRuEmail";
+            this.btnMailRuEmail.Size = new System.Drawing.Size(126, 31);
+            this.btnMailRuEmail.TabIndex = 0;
+            this.btnMailRuEmail.Text = "mail.ru - почта";
+            this.btnMailRuEmail.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -399,6 +403,26 @@
             this.panel2.Size = new System.Drawing.Size(946, 33);
             this.panel2.TabIndex = 0;
             // 
+            // btnMailRuPhone
+            // 
+            this.btnMailRuPhone.Location = new System.Drawing.Point(152, 8);
+            this.btnMailRuPhone.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMailRuPhone.Name = "btnMailRuPhone";
+            this.btnMailRuPhone.Size = new System.Drawing.Size(126, 31);
+            this.btnMailRuPhone.TabIndex = 20;
+            this.btnMailRuPhone.Text = "mail.ru - телефон";
+            this.btnMailRuPhone.UseVisualStyleBackColor = true;
+            // 
+            // btnYandexPhone
+            // 
+            this.btnYandexPhone.Location = new System.Drawing.Point(152, 51);
+            this.btnYandexPhone.Margin = new System.Windows.Forms.Padding(2);
+            this.btnYandexPhone.Name = "btnYandexPhone";
+            this.btnYandexPhone.Size = new System.Drawing.Size(126, 31);
+            this.btnYandexPhone.TabIndex = 21;
+            this.btnYandexPhone.Text = "yandex.ru - телефон";
+            this.btnYandexPhone.UseVisualStyleBackColor = true;
+            // 
             // RegBotControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -441,17 +465,19 @@
         private System.Windows.Forms.Label lblSex;
         private System.Windows.Forms.Label lblBirthDate;
         private System.Windows.Forms.DateTimePicker dtpBirthDate;
-        private System.Windows.Forms.Button btnYandex;
+        private System.Windows.Forms.Button btnYandexEmail;
         private System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.TextBox tbLastname;
         private System.Windows.Forms.Label lblLastname;
         private System.Windows.Forms.TextBox tbFirstName;
         private System.Windows.Forms.Label lblFirstName;
-        private System.Windows.Forms.Button btnMailRu;
+        private System.Windows.Forms.Button btnMailRuEmail;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Panel panel4;
         private ADGV.AdvancedDataGridView dgvItems;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnYandexPhone;
+        private System.Windows.Forms.Button btnMailRuPhone;
     }
 }

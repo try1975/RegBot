@@ -21,7 +21,7 @@ namespace PuppeteerService
                 ExecutablePath = chromiumPath,
                 DefaultViewport = new ViewPortOptions { IsLandscape = true },
                 IgnoreHTTPSErrors = true,
-                SlowMo = 10
+                SlowMo = 3
             };
             var optionsArgs = new List<string>
             {
