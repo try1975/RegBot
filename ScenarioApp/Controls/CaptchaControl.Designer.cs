@@ -35,28 +35,28 @@
             this.tbProgress = new System.Windows.Forms.TextBox();
             this.splitter4 = new System.Windows.Forms.Splitter();
             this.panel12 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cbUrl = new System.Windows.Forms.ComboBox();
             this.gbImgCaptcha = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.tbAcImgAnswer = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.btnImgLoad = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnAcRefreshBalance = new System.Windows.Forms.Button();
             this.lblAcBalanceValue = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbUrl = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tbAcImgAnswer = new System.Windows.Forms.TextBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pnlButtons.SuspendLayout();
             this.pnlProgress.SuspendLayout();
             this.panel12.SuspendLayout();
-            this.gbImgCaptcha.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.gbImgCaptcha.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlButtons
@@ -120,8 +120,8 @@
             // 
             // panel12
             // 
-            this.panel12.Controls.Add(this.panel3);
             this.panel12.Controls.Add(this.gbImgCaptcha);
+            this.panel12.Controls.Add(this.panel3);
             this.panel12.Controls.Add(this.panel2);
             this.panel12.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel12.Location = new System.Drawing.Point(0, 0);
@@ -129,17 +129,58 @@
             this.panel12.Size = new System.Drawing.Size(462, 473);
             this.panel12.TabIndex = 10;
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.label1);
+            this.panel3.Controls.Add(this.cbUrl);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(0, 417);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(462, 56);
+            this.panel3.TabIndex = 7;
+            this.panel3.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(11, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(20, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Url";
+            // 
+            // cbUrl
+            // 
+            this.cbUrl.FormattingEnabled = true;
+            this.cbUrl.Items.AddRange(new object[] {
+            "https://antcpt.com/eng/information/demo-form/image.html",
+            "https://captcha.com/captcha-examples.html"});
+            this.cbUrl.Location = new System.Drawing.Point(14, 26);
+            this.cbUrl.Name = "cbUrl";
+            this.cbUrl.Size = new System.Drawing.Size(437, 21);
+            this.cbUrl.TabIndex = 2;
+            // 
             // gbImgCaptcha
             // 
             this.gbImgCaptcha.Controls.Add(this.pictureBox1);
             this.gbImgCaptcha.Controls.Add(this.panel1);
-            this.gbImgCaptcha.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbImgCaptcha.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbImgCaptcha.Location = new System.Drawing.Point(0, 39);
             this.gbImgCaptcha.Name = "gbImgCaptcha";
-            this.gbImgCaptcha.Size = new System.Drawing.Size(462, 213);
+            this.gbImgCaptcha.Size = new System.Drawing.Size(462, 378);
             this.gbImgCaptcha.TabIndex = 2;
             this.gbImgCaptcha.TabStop = false;
             this.gbImgCaptcha.Text = "Капча картинкой";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 51);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(456, 324);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // panel1
             // 
@@ -152,14 +193,21 @@
             this.panel1.Size = new System.Drawing.Size(456, 35);
             this.panel1.TabIndex = 0;
             // 
-            // pictureBox1
+            // tbAcImgAnswer
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 51);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(456, 159);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.tbAcImgAnswer.Location = new System.Drawing.Point(66, 8);
+            this.tbAcImgAnswer.Name = "tbAcImgAnswer";
+            this.tbAcImgAnswer.Size = new System.Drawing.Size(213, 20);
+            this.tbAcImgAnswer.TabIndex = 8;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 11);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(52, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Решение";
             // 
             // btnImgLoad
             // 
@@ -209,53 +257,6 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Баланс anti-captcha.com :";
             // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.label1);
-            this.panel3.Controls.Add(this.cbUrl);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 252);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(462, 56);
-            this.panel3.TabIndex = 7;
-            this.panel3.Visible = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(20, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Url";
-            // 
-            // cbUrl
-            // 
-            this.cbUrl.FormattingEnabled = true;
-            this.cbUrl.Items.AddRange(new object[] {
-            "https://antcpt.com/eng/information/demo-form/image.html",
-            "https://captcha.com/captcha-examples.html"});
-            this.cbUrl.Location = new System.Drawing.Point(14, 26);
-            this.cbUrl.Name = "cbUrl";
-            this.cbUrl.Size = new System.Drawing.Size(437, 21);
-            this.cbUrl.TabIndex = 2;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 11);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Решение";
-            // 
-            // tbAcImgAnswer
-            // 
-            this.tbAcImgAnswer.Location = new System.Drawing.Point(66, 8);
-            this.tbAcImgAnswer.Name = "tbAcImgAnswer";
-            this.tbAcImgAnswer.Size = new System.Drawing.Size(213, 20);
-            this.tbAcImgAnswer.TabIndex = 8;
-            // 
             // CaptchaControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -270,14 +271,14 @@
             this.pnlProgress.ResumeLayout(false);
             this.pnlProgress.PerformLayout();
             this.panel12.ResumeLayout(false);
-            this.gbImgCaptcha.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.gbImgCaptcha.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }

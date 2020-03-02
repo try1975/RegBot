@@ -38,22 +38,41 @@ namespace MailRu.Bot
 
         private async Task RegistrateByEmail(Page page)
         {
-
-            await page.GoToAsync(GetRegistrationUrl());
+            Log.Info(page.Url);
             await FillName(page);
             await FillBirthdate(page);
             await FillSex(page);
             await FillEmail(page);
+            if (page.Url.Contains("light."))
+            {
+                await page.ClickAsync("button[type='submit']");
+            }
             await FillPassword(page);
+            if (page.Url.Contains("light."))
+            {
+                await FillPhone(page);
+                await page.WaitForTimeoutAsync(500);
+                await page.ClickAsync("button[type='submit']");
+            }
             await FillAdditionalEmail(page);
+            await page.WaitForTimeoutAsync(1500);
+            //await FillPhone(page);
+            //await page.WaitForTimeoutAsync(1500);
+            var elSignUp = await page.QuerySelectorAsync("div.b-form__control>button");
+            if (elSignUp != null)
+            {
+                await page.ClickAsync("div.b-form__control>button");
+            }
             await FillPhone(page);
             await page.WaitForTimeoutAsync(1500);
-            await page.WaitForSelectorAsync("div.b-form__control>button");
-            //await page.WaitForTimeoutAsync(500);
-            await page.ClickAsync("div.b-form__control>button");
+            elSignUp = await page.QuerySelectorAsync("div.b-form__control>button");
+            if (elSignUp != null && await elSignUp.IsIntersectingViewportAsync())
+            {
+                await page.ClickAsync("div.b-form__control>button");
+            }
 
-
-            var elImgage = await page.WaitForSelectorAsync("img.js-captcha-img");
+            await page.WaitForTimeoutAsync(2500);
+            var elImgage = await page.QuerySelectorAsync("img.js-captcha-img");
             if (elImgage != null)
             {
                 var antiCaptchaOnlineApi = new AntiCaptchaOnlineApi();
@@ -63,30 +82,53 @@ namespace MailRu.Bot
                     await page.TypeAsync("input[name='capcha']", antiCaptchaResult.Response);
                     await page.ClickAsync("button[data-name='submit']");
                 }
-            }
-
-            await page.WaitForTimeoutAsync(10000);
-            var emailSuccess = await page.QuerySelectorAsync("i#PH_user-email");
-            if (emailSuccess != null)
-            {
-                _data.Success = true;
-                Log.Info($"emailSuccess: {JsonConvert.SerializeObject(_data)}");
-                await page.ClickAsync("button[data-test-id='onboarding-button-start']");
-            }
-            else
-            {
-                _data.ErrMsg = @"Нет перехода на страницу зарегистрированного email";
+                await page.WaitForTimeoutAsync(10000);
+                var emailSuccess = await page.QuerySelectorAsync("i#PH_user-email");
+                if (emailSuccess != null)
+                {
+                    _data.Success = true;
+                    Log.Info($"emailSuccess: {JsonConvert.SerializeObject(_data)}");
+                    await page.ClickAsync("button[data-test-id='onboarding-button-start']");
+                }
+                else
+                {
+                    _data.ErrMsg = @"Нет перехода на страницу зарегистрированного email";
+                }
             }
         }
+
         private async Task RegistrateByPhone(Page page)
         {
-            await page.GoToAsync(GetRegistrationUrl());
+            Log.Info(page.Url);
             await FillName(page);
             await FillBirthdate(page);
             await FillSex(page);
             await FillEmail(page);
+            if (page.Url.Contains("light."))
+            {
+                await page.ClickAsync("button[type='submit']");
+            }
             await FillPassword(page);
             await FillPhone(page);
+
+            var elSignUp = await page.QuerySelectorAsync("div.b-form__control>button");
+            if (elSignUp != null)
+            {
+                await page.ClickAsync("div.b-form__control>button");
+            }
+            await page.WaitForTimeoutAsync(500);
+            var elRecaptcha = await page.QuerySelectorAsync("textarea#g-recaptcha-response");
+            if (elRecaptcha != null)
+            {
+                var antiCaptchaOnlineApi = new AntiCaptchaOnlineApi();
+                var antiCaptchaResult = await antiCaptchaOnlineApi.SolveRecaptha("6LckLRMTAAAAAEksaY5akGGK15Yq0n429l5_v-VT", page.Url);
+                if (string.IsNullOrEmpty(antiCaptchaResult)) { }
+
+                await page.TypeAsync("textarea#g-recaptcha-response", antiCaptchaResult);
+                await page.ClickAsync("button[data-name='submit']");
+            }
+
+            //
 
             // check phone call
             await page.WaitForTimeoutAsync(500);
@@ -136,7 +178,6 @@ namespace MailRu.Bot
             {
                 _data.ErrMsg = "No sms code navigate";
             }
-
         }
 
         public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)
@@ -151,8 +192,8 @@ namespace MailRu.Bot
                 }
                 else
                 {
-                    var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.MailRu);
-                    //var phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
+                    //var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.MailRu);
+                    var phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
                     if (phoneNumberRequest == null)
                     {
                         _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
@@ -165,35 +206,25 @@ namespace MailRu.Bot
                     _data.Phone = _data.Phone.Substring(PhoneServiceStore.CountryPrefixes[countryCode].Length + 1);
                 }
 
-                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
+                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))//var context = await browser.CreateIncognitoBrowserContextAsync();
+                using (var page = await browser.NewPageAsync() /*context.NewPageAsync()*/)
                 {
-                    //var context = await browser.CreateIncognitoBrowserContextAsync();
-                    using (var page = await browser.NewPageAsync() /*context.NewPageAsync()*/)
-                    {
-                        await page.SetUserAgentAsync(_chromiumSettings.GetUserAgent());
-                        //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]);
-                        //авторизация прокси
-                        //await page.AuthenticateAsync(new Credentials { Username = "hSYPJ1wH", Password = "mR9KJp6F" });
+                    await SetRequestHook(page);
+                    await SetUserAgent(page);
+                    await page.GoToAsync(GetRegistrationUrl());
+                    #region comments
+                    //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]);
+                    //авторизация прокси
+                    //await page.AuthenticateAsync(new Credentials { Username = "hSYPJ1wH", Password = "mR9KJp6F" });
 
-                        //var userPassword = Convert.ToBase64String(Encoding.UTF8.GetBytes("hSYPJ1wH:mR9KJp6F"));
-                        //var headers = new Dictionary<string, string>
-                        //{
-                        //    ["Proxy-Authorization"] = $"Basic {userPassword}"
-                        //};
-                        //await page.SetExtraHttpHeadersAsync(headers);
-
-                        await page.SetRequestInterceptionAsync(true);
-                        page.Request += Page_Request;
-
-                        if (_smsService == null)
-                        {
-                            await RegistrateByEmail(page);
-                        }
-                        else
-                        {
-                            await RegistrateByPhone(page);
-                        }
-                    }
+                    //var userPassword = Convert.ToBase64String(Encoding.UTF8.GetBytes("hSYPJ1wH:mR9KJp6F"));
+                    //var headers = new Dictionary<string, string>
+                    //{
+                    //    ["Proxy-Authorization"] = $"Basic {userPassword}"
+                    //};
+                    //await page.SetExtraHttpHeadersAsync(headers);
+                    #endregion comments
+                    if (_smsService == null) await RegistrateByEmail(page); else await RegistrateByPhone(page);
                 }
             }
             catch (Exception exception)
@@ -204,7 +235,7 @@ namespace MailRu.Bot
             return _data;
         }
 
-        private async void Page_Request(object sender, RequestEventArgs e)
+        private static async void Page_Request(object sender, RequestEventArgs e)
         {
             //if (e.Request.Url.Contains("google"))
             //{
@@ -308,12 +339,28 @@ namespace MailRu.Bot
         #region FillData
         private async Task FillName(Page page)
         {
+            if (page.Url.Contains("light."))
+            {
+                await page.TypeAsync("div[class*='firstname'] input", _data.Firstname);
+                await page.TypeAsync("div[class*='lastname'] input", _data.Lastname);
+                return;
+            }
             await page.TypeAsync("input[name^=firstname]", _data.Firstname);
             await page.TypeAsync("input[name^=lastname]", _data.Lastname);
         }
 
         private async Task FillBirthdate(Page page)
         {
+            if (page.Url.Contains("light."))
+            {
+                await page.ClickAsync("select[class*='day'");
+                await page.SelectAsync("select[class*='day'", $"{_data.BirthDate.Day}");
+                await page.ClickAsync("select[class*='month'");
+                await page.SelectAsync("select[class*='month'", $"{_data.BirthDate.Month}");
+                await page.ClickAsync("select[class*='year'");
+                await page.SelectAsync("select[class*='year'", $"{_data.BirthDate.Year}");
+                return;
+            }
             await page.ClickAsync(".b-date__day span");
             await page.ClickAsync($".day{_data.BirthDate.Day} > span");
 
@@ -326,6 +373,19 @@ namespace MailRu.Bot
 
         private async Task FillSex(Page page)
         {
+            if (page.Url.Contains("light."))
+            {
+                switch (_data.Sex)
+                {
+                    case SexCode.Male:
+                        await page.ClickAsync("input#man1");
+                        break;
+                    case SexCode.Female:
+                        await page.ClickAsync("input#man2");
+                        break;
+                }
+                return;
+            }
             switch (_data.Sex)
             {
                 case SexCode.Male:
@@ -349,6 +409,20 @@ namespace MailRu.Bot
             if (string.IsNullOrEmpty(_data.Domain))
             {
                 _data.Domain = defaultDomain;
+            }
+
+            if (page.Url.Contains("light."))
+            {
+                if (!_data.Domain.ToLower().Equals(defaultDomain))
+                {
+                    //select domain
+                    await page.ClickAsync("select[name='RegistrationDomain'");
+                    await page.SelectAsync("select[name='RegistrationDomain'", $"{_data.Domain.ToLower()}");
+                }
+
+                await page.ClickAsync("div#loginField input");
+                await page.TypeAsync("div#loginField input", _data.AccountName);
+                return;
             }
 
             if (!_data.Domain.ToLower().Equals(defaultDomain))
@@ -380,6 +454,13 @@ namespace MailRu.Bot
 
         private async Task FillPassword(Page page)
         {
+            if (page.Url.Contains("light."))
+            {
+                await page.TypeAsync("div[class*=pass] input[type='password']", _data.Password);
+                await page.TypeAsync("div[class*=passverify] input[type='password']", _data.Password);
+                return;
+            }
+
             await page.TypeAsync("input[name='password']", _data.Password);
             await page.WaitForTimeoutAsync(500);
             await page.TypeAsync("input[name='password_retry']", _data.Password);
@@ -388,23 +469,28 @@ namespace MailRu.Bot
 
         private async Task FillAdditionalEmail(Page page)
         {
-            //email again phonenumber
+            //email instead phonenumber
             await page.ClickAsync("div.b-form-field__message>a");
             await page.WaitForSelectorAsync("span.b-email__name input[name='additional_email']");
             await page.WaitForTimeoutAsync(500);
             await page.TypeAsync("span.b-email__name input[name='additional_email']", "pvachovski@bk.ru");
             await page.WaitForTimeoutAsync(1500);
 
-            await page.WaitForSelectorAsync("div.b-form__control>button");
-            //await page.WaitForTimeoutAsync(500);
-            await page.ClickAsync("div.b-form__control>button");
+            var elSignUp = await page.QuerySelectorAsync("div.b-form__control>button");
+            if (elSignUp != null) await page.ClickAsync("div.b-form__control>button");
         }
 
         private async Task FillPhone(Page page)
         {
+            if (page.Url.Contains("light."))
+            {
+                await page.TypeAsync("input[name='RemindPhone']", _data.Phone);
+                return;
+            }
+
             const string selPhone = "input[type=tel]";
             var elPhone = await page.QuerySelectorAsync(selPhone);
-            if (elPhone != null)
+            if (elPhone != null && await elPhone.IsIntersectingViewportAsync())
             {
                 await page.ClickAsync(selPhone);
                 await page.EvaluateFunctionAsync("function() {" + $"document.querySelector('{selPhone}').value = ''" + "}");
@@ -420,9 +506,26 @@ namespace MailRu.Bot
         public static string GetRegistrationUrl()
         {
             return @"https://account.mail.ru/signup";
+            // @"https://light.mail.ru/signup"
         }
 
         #endregion FillData
+
+        private async static Task SetRequestHook(Page page)
+        {
+            //return;
+            await page.SetRequestInterceptionAsync(true);
+            page.Request += Page_Request;
+        }
+
+        private async Task SetUserAgent(Page page)
+        {
+            var userAgent = UserAgent.GetRandomUserAgent();
+            //userAgent = "Opera/9.80 (Windows NT 6.1; U; en-GB) Presto/2.7.62 Version/11.00";
+            if (_smsService == null) userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17";
+            Log.Info(userAgent);
+            await page.SetUserAgentAsync(userAgent);
+        }
 
         public static string GetLoginUrl()
         {

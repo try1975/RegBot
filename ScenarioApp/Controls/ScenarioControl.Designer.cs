@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnCaptchaControl = new System.Windows.Forms.Button();
             this.btnGenerateAccountDataControl = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnForumSearchControl = new System.Windows.Forms.Button();
@@ -51,7 +52,7 @@
             this.btnCheckVkAccount = new System.Windows.Forms.Button();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.pnlWorkArea = new System.Windows.Forms.Panel();
-            this.btnCaptchaControl = new System.Windows.Forms.Button();
+            this.btnSmsServiceControl = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -61,6 +62,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnSmsServiceControl);
             this.panel1.Controls.Add(this.btnCaptchaControl);
             this.panel1.Controls.Add(this.btnGenerateAccountDataControl);
             this.panel1.Controls.Add(this.groupBox4);
@@ -75,9 +77,19 @@
             this.panel1.Size = new System.Drawing.Size(234, 699);
             this.panel1.TabIndex = 0;
             // 
+            // btnCaptchaControl
+            // 
+            this.btnCaptchaControl.Location = new System.Drawing.Point(17, 611);
+            this.btnCaptchaControl.Name = "btnCaptchaControl";
+            this.btnCaptchaControl.Size = new System.Drawing.Size(196, 24);
+            this.btnCaptchaControl.TabIndex = 7;
+            this.btnCaptchaControl.Text = "Решение капчи";
+            this.btnCaptchaControl.UseMnemonic = false;
+            this.btnCaptchaControl.UseVisualStyleBackColor = true;
+            // 
             // btnGenerateAccountDataControl
             // 
-            this.btnGenerateAccountDataControl.Location = new System.Drawing.Point(17, 628);
+            this.btnGenerateAccountDataControl.Location = new System.Drawing.Point(17, 581);
             this.btnGenerateAccountDataControl.Name = "btnGenerateAccountDataControl";
             this.btnGenerateAccountDataControl.Size = new System.Drawing.Size(196, 24);
             this.btnGenerateAccountDataControl.TabIndex = 6;
@@ -92,7 +104,7 @@
             this.groupBox4.Controls.Add(this.btnYandexSearchControl);
             this.groupBox4.Location = new System.Drawing.Point(17, 46);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(196, 167);
+            this.groupBox4.Size = new System.Drawing.Size(196, 148);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Поиск";
@@ -137,9 +149,9 @@
             // 
             this.groupBox3.Controls.Add(this.btnSendMailControl);
             this.groupBox3.Controls.Add(this.btnEmailCheckControl);
-            this.groupBox3.Location = new System.Drawing.Point(17, 492);
+            this.groupBox3.Location = new System.Drawing.Point(17, 465);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(196, 100);
+            this.groupBox3.Size = new System.Drawing.Size(196, 80);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Почта";
@@ -164,7 +176,7 @@
             // 
             // btnSelectPersonControl
             // 
-            this.btnSelectPersonControl.Location = new System.Drawing.Point(17, 598);
+            this.btnSelectPersonControl.Location = new System.Drawing.Point(17, 551);
             this.btnSelectPersonControl.Name = "btnSelectPersonControl";
             this.btnSelectPersonControl.Size = new System.Drawing.Size(196, 24);
             this.btnSelectPersonControl.TabIndex = 5;
@@ -175,9 +187,9 @@
             // 
             this.groupBox2.Controls.Add(this.btnCheckFbCredentialControl);
             this.groupBox2.Controls.Add(this.btnCheckFbAccountControl);
-            this.groupBox2.Location = new System.Drawing.Point(17, 397);
+            this.groupBox2.Location = new System.Drawing.Point(17, 378);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(196, 89);
+            this.groupBox2.Size = new System.Drawing.Size(196, 81);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Фейсбук";
@@ -216,7 +228,7 @@
             this.groupBox1.Controls.Add(this.btnCheckVkCredential);
             this.groupBox1.Controls.Add(this.btnPostVkControl);
             this.groupBox1.Controls.Add(this.btnCheckVkAccount);
-            this.groupBox1.Location = new System.Drawing.Point(17, 219);
+            this.groupBox1.Location = new System.Drawing.Point(17, 200);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(196, 172);
             this.groupBox1.TabIndex = 2;
@@ -284,15 +296,15 @@
             this.pnlWorkArea.Size = new System.Drawing.Size(972, 699);
             this.pnlWorkArea.TabIndex = 2;
             // 
-            // btnCaptchaControl
+            // btnSmsServiceControl
             // 
-            this.btnCaptchaControl.Location = new System.Drawing.Point(17, 658);
-            this.btnCaptchaControl.Name = "btnCaptchaControl";
-            this.btnCaptchaControl.Size = new System.Drawing.Size(196, 24);
-            this.btnCaptchaControl.TabIndex = 7;
-            this.btnCaptchaControl.Text = "Решение капчи";
-            this.btnCaptchaControl.UseMnemonic = false;
-            this.btnCaptchaControl.UseVisualStyleBackColor = true;
+            this.btnSmsServiceControl.Location = new System.Drawing.Point(17, 641);
+            this.btnSmsServiceControl.Name = "btnSmsServiceControl";
+            this.btnSmsServiceControl.Size = new System.Drawing.Size(196, 24);
+            this.btnSmsServiceControl.TabIndex = 8;
+            this.btnSmsServiceControl.Text = "Смс сервисы";
+            this.btnSmsServiceControl.UseMnemonic = false;
+            this.btnSmsServiceControl.UseVisualStyleBackColor = true;
             // 
             // ScenarioControl
             // 
@@ -338,5 +350,6 @@
         private System.Windows.Forms.Button btnForumSearchControl;
         private System.Windows.Forms.Button btnGenerateAccountDataControl;
         private System.Windows.Forms.Button btnCaptchaControl;
+        private System.Windows.Forms.Button btnSmsServiceControl;
     }
 }

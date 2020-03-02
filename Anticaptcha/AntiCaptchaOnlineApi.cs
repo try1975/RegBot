@@ -37,6 +37,15 @@ namespace AnticaptchaOnline
             _progressLog?.Report(logMessage);
         }
 
+        public async Task<string> SolveRecaptha(string googleSiteKey, string pageUrl)
+        {
+            var antiCaptchaResult = await _apiKeyAnticaptcha.SolveReCaptchaV2(googleSiteKey, pageUrl);
+            if (antiCaptchaResult.Success) return antiCaptchaResult.Response;
+            Log.Error(antiCaptchaResult.Response);
+            return string.Empty;
+        }
+
+
         public AntiCaptchaResult SolveIm(string imageBase64)
         {
             var image = _apiKeyAnticaptcha.SolveImage(imageBase64).Result;

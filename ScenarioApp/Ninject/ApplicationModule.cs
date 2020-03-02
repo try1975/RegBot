@@ -38,6 +38,7 @@ namespace ScenarioApp.Ninject
             Bind<ISendMailControl>().To<SendMailControl>();
             Bind<IGenerateAccountDataControl>().To<GenerateAccountDataControl>();
             Bind<ICaptchaControl>().To<CaptchaControl>();
+            Bind<ISmsServiceControl>().To<SmsServiceControl>();
         }
     }
 }

@@ -129,6 +129,16 @@ namespace SimSmsOrg
         public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, ServiceCode serviceCode)
         {
             Log.Debug($"Call {nameof(GetPhoneNumber)}");
+            //if (!_countries.ContainsKey(countryCode))
+            //{
+            //    Log.Error($"{nameof(SimSmsOrgApi)} not available for country {Enum.GetName(typeof(CountryCode), countryCode)}");
+            //    return null;
+            //}
+            if (!_services.ContainsKey(serviceCode))
+            {
+                Log.Error($"{nameof(SimSmsOrgApi)} not available for service {Enum.GetName(typeof(ServiceCode), serviceCode)}");
+                return null;
+            }
             if (!CountryParams.ContainsKey(countryCode))
             {
                 var random = new Random();
@@ -140,11 +150,8 @@ namespace SimSmsOrg
             var getNumberResponse = getNumberResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
             if (getNumberResponse.Length < 3) return null;
             //"ACCESS_NUMBER:58668155:79771317953"
-            var phoneNumberRequest= new PhoneNumberRequest
-            {
-                Id = getNumberResponse[1],
-                Phone = getNumberResponse[2]
-            };
+            var activeSeconds = 900;
+            var phoneNumberRequest = new PhoneNumberRequest { Id = getNumberResponse[1], Phone = getNumberResponse[2], Created = DateTime.UtcNow, ActiveSeconds = activeSeconds, RemainSeconds = activeSeconds };
             await SetStatus(phoneNumberRequest.Id, "1");
             return phoneNumberRequest;
         }
@@ -191,6 +198,15 @@ namespace SimSmsOrg
         {
             var list = new List<SmsServiceInfo>();
             return list;
+        }
+
+        public async Task<PhoneNumberValidation> GetSmsOnes(string id)
+        {
+            Log.Debug($"Call {nameof(GetSmsOnes)}");
+            var getStatusResult = await GetStatus(id);
+            var getStatusResponse = getStatusResult.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            if (getStatusResponse.Length == 2) { return new PhoneNumberValidation { Code = getStatusResponse[1] }; }
+            return null;
         }
     }
 }

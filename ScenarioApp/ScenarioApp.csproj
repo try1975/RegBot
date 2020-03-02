@@ -193,6 +193,7 @@
     <Compile Include="Controls\Interfaces\IRegBotControl.cs" />
     <Compile Include="Controls\Interfaces\ISelectPersonControl.cs" />
     <Compile Include="Controls\Interfaces\ISendMailControl.cs" />
+    <Compile Include="Controls\Interfaces\ISmsServiceControl.cs" />
     <Compile Include="Controls\RegBotControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -210,6 +211,12 @@
     </Compile>
     <Compile Include="Controls\SendMailControl.Designer.cs">
       <DependentUpon>SendMailControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SmsServiceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SmsServiceControl.Designer.cs">
+      <DependentUpon>SmsServiceControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SmsServiceItem.cs" />
     <Compile Include="Controls\CheckVkCredentialControl.cs">
@@ -342,6 +349,9 @@
     <EmbeddedResource Include="Controls\SendMailControl.resx">
       <DependentUpon>SendMailControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SmsServiceControl.resx">
+      <DependentUpon>SmsServiceControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\WhoisControl.resx">
       <DependentUpon>WhoisControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -434,6 +444,5 @@
       <Name>Yandex.Bot</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -20,8 +20,6 @@ namespace ScenarioApp.Controls
         private readonly AntiCaptchaOnlineApi _antiCaptchaOnlineApi;
         private readonly Progress<string> _progressLog; 
 
-        
-
         public CaptchaControl()
         {
             InitializeComponent();
@@ -44,8 +42,15 @@ namespace ScenarioApp.Controls
         {
             if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
             pictureBox1.ImageLocation = openFileDialog1.FileName;
-            
-            tbAcImgAnswer.Text = await _antiCaptchaOnlineApi.SolveImPath(openFileDialog1.FileName);
+
+            try
+            {
+                tbAcImgAnswer.Text = await _antiCaptchaOnlineApi.SolveImPath(openFileDialog1.FileName);
+            }
+            catch (Exception exception)
+            {
+                tbProgress.AppendText($"{exception}{Environment.NewLine}");
+            }
         }
 
         private void BtnAcRefreshBalance_Click(object sender, EventArgs e)

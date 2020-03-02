@@ -8,6 +8,8 @@ namespace Common.Service.Interfaces
     {
         Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, ServiceCode serviceCode);
         Task<PhoneNumberValidation> GetSmsValidation(string id);
+
+        Task<PhoneNumberValidation> GetSmsOnes(string id);
         Task SetSmsValidationSuccess(string id);
         Task SetNumberFail(string id);
         Task<List<SmsServiceInfo>> GetInfo();

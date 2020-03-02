@@ -1,6 +1,6 @@
 ﻿namespace ScenarioApp.Controls.Interfaces
 {
-    interface ICaptchaControl
+    interface ISmsServiceControl
     {
     }
 }

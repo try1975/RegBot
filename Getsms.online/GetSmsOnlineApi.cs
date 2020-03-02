@@ -24,7 +24,7 @@ namespace GetSmsOnline
         private readonly string _endpointGetStatus;
 
         private readonly Dictionary<ServiceCode, string> _services = new Dictionary<ServiceCode, string>();
-        
+
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace GetSmsOnline
                 return result;
             }
         }
-        
+
         private async Task<string> SetStatus(string id, string status)
         {
             using (var response = await _apiHttpClient.GetAsync($"{_endpointSetStatus}&id={id}&status={status}"))
@@ -80,19 +80,27 @@ namespace GetSmsOnline
             }
         }
 
-        public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, ServiceCode serviceCode)
+        public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode = CountryCode.RU, ServiceCode serviceCode = ServiceCode.MailRu)
         {
             Log.Debug($"Call {nameof(GetPhoneNumber)}");
+            //if (!_countries.ContainsKey(countryCode))
+            //{
+            //    Log.Error($"{nameof(GetSmsOnlineApi)} not available for country {Enum.GetName(typeof(CountryCode), countryCode)}");
+            //    return null;
+            //}
+            if (!_services.ContainsKey(serviceCode))
+            {
+                Log.Error($"{nameof(GetSmsOnlineApi)} not available for service {Enum.GetName(typeof(ServiceCode), serviceCode)}");
+                return null;
+            }
+
             var service = _services[serviceCode];
             var getNumberResult = await GetNumber(service, Enum.GetName(typeof(CountryCode), countryCode)?.ToLower());
-            var getNumberResponse = getNumberResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
+            var getNumberResponse = getNumberResult.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
             if (getNumberResponse.Length < 3) return null;
             //"ACCESS_NUMBER:58668155:79771317953"
-            var phoneNumberRequest= new PhoneNumberRequest
-            {
-                Id = getNumberResponse[1],
-                Phone = getNumberResponse[2]
-            };
+            var activeSeconds = 900;
+            var phoneNumberRequest = new PhoneNumberRequest { Id = getNumberResponse[1], Phone = getNumberResponse[2], Created = DateTime.UtcNow, ActiveSeconds = activeSeconds, RemainSeconds = activeSeconds };
             await SetStatus(phoneNumberRequest.Id, "1");
             return phoneNumberRequest;
         }
@@ -109,15 +117,15 @@ namespace GetSmsOnline
                 tryCount += 1;
             }
             if (string.IsNullOrEmpty(getStatusResult)) return null;
-            var getStatusResponse = getStatusResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
-            if (getStatusResponse.Length == 2) { return new PhoneNumberValidation{Code = getStatusResponse[1]}; }
+            var getStatusResponse = getStatusResult.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            if (getStatusResponse.Length == 2) { return new PhoneNumberValidation { Code = getStatusResponse[1] }; }
             tryCount = 0;
             while (getStatusResponse.Length != 2 && tryCount < 60)
             {
                 Thread.Sleep(1000);
                 getStatusResult = await GetStatus(id);
-                getStatusResponse = getStatusResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
-                if (getStatusResponse.Length == 2) { return new PhoneNumberValidation{Code = getStatusResponse[1]}; }
+                getStatusResponse = getStatusResult.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                if (getStatusResponse.Length == 2) { return new PhoneNumberValidation { Code = getStatusResponse[1] }; }
                 tryCount += 1;
             }
             return null;
@@ -139,6 +147,15 @@ namespace GetSmsOnline
         {
             var list = new List<SmsServiceInfo>();
             return list;
+        }
+
+        public async Task<PhoneNumberValidation> GetSmsOnes(string id)
+        {
+            Log.Debug($"Call {nameof(GetSmsOnes)}");
+            var getStatusResult = await GetStatus(id);
+            var getStatusResponse = getStatusResult.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            if (getStatusResponse.Length == 2) { return new PhoneNumberValidation { Code = getStatusResponse[1] }; }
+            return null;
         }
     }
 }

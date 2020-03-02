@@ -80,14 +80,23 @@ namespace OnlineSimRu
 
         private async Task<GetStateResponseItem> GetState(string id)
         {
-            using (var response = await _apiHttpClient.GetAsync($"{_endpointGetState}&tzid={id}"))
+            try
             {
-                if (!response.IsSuccessStatusCode) return null;
-                var result = await response.Content.ReadAsStringAsync();
-                Log.Debug($"{nameof(GetState)}... {result}");
-                var getStateResponseItems = JsonConvert.DeserializeObject<List<GetStateResponseItem>>(result);
-                return getStateResponseItems.FirstOrDefault();
+                using (var response = await _apiHttpClient.GetAsync($"{_endpointGetState}&tzid={id}"))
+                {
+                    if (!response.IsSuccessStatusCode) return null;
+                    var result = await response.Content.ReadAsStringAsync();
+                    Log.Debug($"{nameof(GetState)}... {result}");
+
+                    var getStateResponseItems = JsonConvert.DeserializeObject<List<GetStateResponseItem>>(result);
+                    return getStateResponseItems.FirstOrDefault();
+                }
             }
+            catch (Exception exception)
+            {
+                Log.Error($"{exception}");
+            }
+            return null;
         }
 
         private async Task SetOperationOk(string id)
@@ -115,6 +124,16 @@ namespace OnlineSimRu
         public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode = CountryCode.RU, ServiceCode serviceCode = ServiceCode.MailRu)
         {
             Log.Debug($"Call {nameof(GetPhoneNumber)}");
+            if (!_countries.ContainsKey(countryCode))
+            {
+                Log.Error($"{nameof(OnlineSimRuApi)} not available for country {Enum.GetName(typeof(CountryCode), countryCode)}");
+                return null;
+            }
+            if (!_services.ContainsKey(serviceCode))
+            {
+                Log.Error($"{nameof(OnlineSimRuApi)} not available for service {Enum.GetName(typeof(ServiceCode), serviceCode)}");
+                return null;
+            }
             var country = _countries[countryCode];
             var service = _services[serviceCode];
             var id = await GetNum(service, country);
@@ -126,7 +145,8 @@ namespace OnlineSimRu
             //var length = 11 - _countries[countryCode].Length;
             //var phone = getStateResponseItem.number.Substring(getStateResponseItem.number.Length - length);
             var phone = getStateResponseItem.number;
-            return new PhoneNumberRequest { Id = id, Phone = phone };
+            var activeSeconds = 900;
+            return new PhoneNumberRequest { Id = id, Phone = phone, Created = DateTime.UtcNow, ActiveSeconds = activeSeconds, RemainSeconds = activeSeconds };
         }
 
         public async Task<PhoneNumberValidation> GetSmsValidation(string id)
@@ -217,6 +237,17 @@ namespace OnlineSimRu
                 }
             }
             return list;
+        }
+
+        public async Task<PhoneNumberValidation> GetSmsOnes(string id)
+        {
+            Log.Debug($"Call {nameof(GetSmsOnes)}");
+            var getStateResponseItem = await GetState(id);
+            if (getStateResponseItem != null && !string.IsNullOrEmpty(getStateResponseItem.msg))
+            {
+                return new PhoneNumberValidation { Code = getStateResponseItem.msg };
+            }
+            return null;
         }
     }
 }

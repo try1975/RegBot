@@ -3,12 +3,12 @@
     public class ChromiumSettings : IChromiumSettings
     {
         private readonly string _chromiumPath;
-        private readonly string _userAgent;
+        private string userAgent = System.Configuration.ConfigurationManager.AppSettings[nameof(userAgent)];
 
-        public ChromiumSettings(string chromiumPath, string userAgent)
+        public ChromiumSettings(string chromiumPath, string userAgent = "")
         {
             _chromiumPath = chromiumPath;
-            _userAgent = userAgent;
+            if (!string.IsNullOrEmpty(userAgent)) this.userAgent = userAgent;
         }
         public bool GetHeadless()
         {
@@ -22,9 +22,10 @@
 
         public string GetUserAgent()
         {
-            return _userAgent;
+            if (string.IsNullOrEmpty(userAgent)) return UserAgent.GetRandomUserAgent();
+            return userAgent;
         }
 
-        public string Proxy { get;set; }
+        public string Proxy { get; set; }
     }
 }
