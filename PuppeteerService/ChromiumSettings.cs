@@ -1,18 +1,22 @@
-﻿namespace PuppeteerService
+﻿using System.Configuration;
+
+namespace PuppeteerService
 {
     public class ChromiumSettings : IChromiumSettings
     {
         private readonly string _chromiumPath;
-        private string userAgent = System.Configuration.ConfigurationManager.AppSettings[nameof(userAgent)];
+        private string userAgent = ConfigurationManager.AppSettings[nameof(userAgent)];
+        private readonly bool Headless;
 
         public ChromiumSettings(string chromiumPath, string userAgent = "")
         {
             _chromiumPath = chromiumPath;
             if (!string.IsNullOrEmpty(userAgent)) this.userAgent = userAgent;
+            bool.TryParse(ConfigurationManager.AppSettings[nameof(Headless)], out Headless);
         }
         public bool GetHeadless()
         {
-            return false;
+            return Headless;
         }
 
         public string GetPath()

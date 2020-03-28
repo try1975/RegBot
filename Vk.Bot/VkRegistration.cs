@@ -51,7 +51,7 @@ namespace Vk.Bot
                     try
                     {
                         await FillRegistrationData(page);
-
+                        await page.WaitForTimeoutAsync(1000);
                         await page.WaitForSelectorAsync("div#join_country_row");
                         //select country
                         //await page.ClickAsync("div#join_country_row td#dropdown1");
@@ -138,12 +138,15 @@ namespace Vk.Bot
             await page.ClickAsync("div.ij_byear td#dropdown3");
             await page.ClickAsync($"div.ij_byear li[val = '{_data.BirthDate.Year}']");
 
-            await page.ClickAsync("button#ij_submit");
-
-            await page.WaitForSelectorAsync("div#ij_sex_row", new WaitForSelectorOptions { Visible = true });
-            if (_data.Sex == SexCode.Female) await page.ClickAsync("div#ij_sex_row > div[tabindex='0']");
-            if (_data.Sex == SexCode.Male) await page.ClickAsync("div#ij_sex_row > div[tabindex='-1']");
-
+            var sex=await page.QuerySelectorAsync("div#ij_sex_row");
+            if(sex!=null)  await page.ClickAsync("button#ij_submit");
+            sex = await page.QuerySelectorAsync("div#ij_sex_row");
+            if (sex != null)
+            {
+                await page.WaitForSelectorAsync("div#ij_sex_row", new WaitForSelectorOptions { Visible = true });
+                if (_data.Sex == SexCode.Female) await page.ClickAsync("div#ij_sex_row > div[tabindex='0']");
+                if (_data.Sex == SexCode.Male) await page.ClickAsync("div#ij_sex_row > div[tabindex='-1']");
+            }
             await page.ClickAsync("button#ij_submit");
         }
 
