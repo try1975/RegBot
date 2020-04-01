@@ -34,6 +34,8 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnYandexPhone = new System.Windows.Forms.Button();
+            this.btnMailRuPhone = new System.Windows.Forms.Button();
             this.btnVk = new System.Windows.Forms.Button();
             this.btnFacebook = new System.Windows.Forms.Button();
             this.cmbCountry = new System.Windows.Forms.ComboBox();
@@ -41,7 +43,7 @@
             this.btnGmail = new System.Windows.Forms.Button();
             this.cmbSmsService = new System.Windows.Forms.ComboBox();
             this.lblSmsService = new System.Windows.Forms.Label();
-            this.btnGenerate = new System.Windows.Forms.Button();
+            this.btnGenerateEn = new System.Windows.Forms.Button();
             this.rbFemale = new System.Windows.Forms.RadioButton();
             this.rbMale = new System.Windows.Forms.RadioButton();
             this.lblSex = new System.Windows.Forms.Label();
@@ -60,8 +62,7 @@
             this.dgvItems = new ADGV.AdvancedDataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.btnMailRuPhone = new System.Windows.Forms.Button();
-            this.btnYandexPhone = new System.Windows.Forms.Button();
+            this.btnGenerateRu = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -120,6 +121,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnGenerateRu);
             this.panel1.Controls.Add(this.btnYandexPhone);
             this.panel1.Controls.Add(this.btnMailRuPhone);
             this.panel1.Controls.Add(this.btnVk);
@@ -129,7 +131,7 @@
             this.panel1.Controls.Add(this.btnGmail);
             this.panel1.Controls.Add(this.cmbSmsService);
             this.panel1.Controls.Add(this.lblSmsService);
-            this.panel1.Controls.Add(this.btnGenerate);
+            this.panel1.Controls.Add(this.btnGenerateEn);
             this.panel1.Controls.Add(this.rbFemale);
             this.panel1.Controls.Add(this.rbMale);
             this.panel1.Controls.Add(this.lblSex);
@@ -149,6 +151,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(946, 178);
             this.panel1.TabIndex = 3;
+            // 
+            // btnYandexPhone
+            // 
+            this.btnYandexPhone.Location = new System.Drawing.Point(152, 51);
+            this.btnYandexPhone.Margin = new System.Windows.Forms.Padding(2);
+            this.btnYandexPhone.Name = "btnYandexPhone";
+            this.btnYandexPhone.Size = new System.Drawing.Size(126, 31);
+            this.btnYandexPhone.TabIndex = 21;
+            this.btnYandexPhone.Text = "yandex.ru - телефон";
+            this.btnYandexPhone.UseVisualStyleBackColor = true;
+            // 
+            // btnMailRuPhone
+            // 
+            this.btnMailRuPhone.Location = new System.Drawing.Point(152, 8);
+            this.btnMailRuPhone.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMailRuPhone.Name = "btnMailRuPhone";
+            this.btnMailRuPhone.Size = new System.Drawing.Size(126, 31);
+            this.btnMailRuPhone.TabIndex = 20;
+            this.btnMailRuPhone.Text = "mail.ru - телефон";
+            this.btnMailRuPhone.UseVisualStyleBackColor = true;
             // 
             // btnVk
             // 
@@ -218,15 +240,15 @@
             this.lblSmsService.TabIndex = 13;
             this.lblSmsService.Text = "Смс сервис";
             // 
-            // btnGenerate
+            // btnGenerateEn
             // 
-            this.btnGenerate.Location = new System.Drawing.Point(624, 111);
-            this.btnGenerate.Margin = new System.Windows.Forms.Padding(2);
-            this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(133, 21);
-            this.btnGenerate.TabIndex = 12;
-            this.btnGenerate.Text = "Сгенерировать данные";
-            this.btnGenerate.UseVisualStyleBackColor = true;
+            this.btnGenerateEn.Location = new System.Drawing.Point(612, 93);
+            this.btnGenerateEn.Margin = new System.Windows.Forms.Padding(2);
+            this.btnGenerateEn.Name = "btnGenerateEn";
+            this.btnGenerateEn.Size = new System.Drawing.Size(167, 21);
+            this.btnGenerateEn.TabIndex = 12;
+            this.btnGenerateEn.Text = "Сгенерировать данные англ.";
+            this.btnGenerateEn.UseVisualStyleBackColor = true;
             // 
             // rbFemale
             // 
@@ -403,25 +425,15 @@
             this.panel2.Size = new System.Drawing.Size(946, 33);
             this.panel2.TabIndex = 0;
             // 
-            // btnMailRuPhone
+            // btnGenerateRu
             // 
-            this.btnMailRuPhone.Location = new System.Drawing.Point(152, 8);
-            this.btnMailRuPhone.Margin = new System.Windows.Forms.Padding(2);
-            this.btnMailRuPhone.Name = "btnMailRuPhone";
-            this.btnMailRuPhone.Size = new System.Drawing.Size(126, 31);
-            this.btnMailRuPhone.TabIndex = 20;
-            this.btnMailRuPhone.Text = "mail.ru - телефон";
-            this.btnMailRuPhone.UseVisualStyleBackColor = true;
-            // 
-            // btnYandexPhone
-            // 
-            this.btnYandexPhone.Location = new System.Drawing.Point(152, 51);
-            this.btnYandexPhone.Margin = new System.Windows.Forms.Padding(2);
-            this.btnYandexPhone.Name = "btnYandexPhone";
-            this.btnYandexPhone.Size = new System.Drawing.Size(126, 31);
-            this.btnYandexPhone.TabIndex = 21;
-            this.btnYandexPhone.Text = "yandex.ru - телефон";
-            this.btnYandexPhone.UseVisualStyleBackColor = true;
+            this.btnGenerateRu.Location = new System.Drawing.Point(612, 118);
+            this.btnGenerateRu.Margin = new System.Windows.Forms.Padding(2);
+            this.btnGenerateRu.Name = "btnGenerateRu";
+            this.btnGenerateRu.Size = new System.Drawing.Size(167, 21);
+            this.btnGenerateRu.TabIndex = 22;
+            this.btnGenerateRu.Text = "Сгенерировать данные руск.";
+            this.btnGenerateRu.UseVisualStyleBackColor = true;
             // 
             // RegBotControl
             // 
@@ -459,7 +471,7 @@
         private System.Windows.Forms.Button btnGmail;
         private System.Windows.Forms.ComboBox cmbSmsService;
         private System.Windows.Forms.Label lblSmsService;
-        private System.Windows.Forms.Button btnGenerate;
+        private System.Windows.Forms.Button btnGenerateEn;
         private System.Windows.Forms.RadioButton rbFemale;
         private System.Windows.Forms.RadioButton rbMale;
         private System.Windows.Forms.Label lblSex;
@@ -479,5 +491,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnYandexPhone;
         private System.Windows.Forms.Button btnMailRuPhone;
+        private System.Windows.Forms.Button btnGenerateRu;
     }
 }

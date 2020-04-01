@@ -4,9 +4,9 @@ namespace Common.Service
 {
     public class SmsServiceInfo
     {
-        public string SmsServiceCode { get; set; }
-        public string CountryCode { get; set; }
-        public string MailServiceCode { get; set; }
+        public SmsServiceCode SmsServiceCode { get; set; }
+        public CountryCode CountryCode { get; set; }
+        public ServiceCode ServiceCode { get; set; }
         public int NumberCount { get; set; }
         public double Price { get; set; }
     }

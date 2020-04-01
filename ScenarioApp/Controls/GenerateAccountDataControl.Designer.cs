@@ -30,13 +30,14 @@
         {
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnSave = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnGenerateEn = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.panel6 = new System.Windows.Forms.Panel();
             this.udAccountCount = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnGenerateRu = new System.Windows.Forms.Button();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -46,7 +47,6 @@
             // panel4
             // 
             this.panel4.Controls.Add(this.btnSave);
-            this.panel4.Controls.Add(this.button2);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel4.Location = new System.Drawing.Point(0, 547);
             this.panel4.Name = "panel4";
@@ -64,14 +64,14 @@
             this.btnSave.Text = "Сохранить";
             this.btnSave.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnGenerateEn
             // 
-            this.button2.Location = new System.Drawing.Point(19, 12);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Выполнить";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnGenerateEn.Location = new System.Drawing.Point(19, 90);
+            this.btnGenerateEn.Name = "btnGenerateEn";
+            this.btnGenerateEn.Size = new System.Drawing.Size(215, 23);
+            this.btnGenerateEn.TabIndex = 1;
+            this.btnGenerateEn.Text = "Сгенерировать аккаунты англ.";
+            this.btnGenerateEn.UseVisualStyleBackColor = true;
             // 
             // panel5
             // 
@@ -103,7 +103,9 @@
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.btnGenerateRu);
             this.panel6.Controls.Add(this.udAccountCount);
+            this.panel6.Controls.Add(this.btnGenerateEn);
             this.panel6.Controls.Add(this.label3);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(0, 0);
@@ -113,7 +115,7 @@
             // 
             // udAccountCount
             // 
-            this.udAccountCount.Location = new System.Drawing.Point(35, 53);
+            this.udAccountCount.Location = new System.Drawing.Point(19, 41);
             this.udAccountCount.Maximum = new decimal(new int[] {
             50,
             0,
@@ -136,11 +138,20 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(32, 37);
+            this.label3.Location = new System.Drawing.Point(16, 25);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(121, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "Количество аккаунтов";
+            // 
+            // btnGenerateRu
+            // 
+            this.btnGenerateRu.Location = new System.Drawing.Point(19, 119);
+            this.btnGenerateRu.Name = "btnGenerateRu";
+            this.btnGenerateRu.Size = new System.Drawing.Size(215, 23);
+            this.btnGenerateRu.TabIndex = 4;
+            this.btnGenerateRu.Text = "Сгенерировать аккаунты руск.";
+            this.btnGenerateRu.UseVisualStyleBackColor = true;
             // 
             // GenerateAccountDataControl
             // 
@@ -166,12 +177,13 @@
 
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnGenerateEn;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.NumericUpDown udAccountCount;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnGenerateRu;
     }
 }

@@ -3,8 +3,8 @@
     public class OnlineSimRuStatResponse
     {
         public string name { get; set; }
-        public int position { get; set; }
-        public int code { get; set; }
+        public int? position { get; set; }
+        public int? code { get; set; }
         public bool other { get; set; }
         public bool _new { get; set; }
         public bool enabled { get; set; }
@@ -20,20 +20,20 @@
 
     public class OnlineSimRuStatResponseServiceMailru
     {
-        public int? count { get; set; }
-        public double price { get; set; }
+        public string count { get; set; }
+        public string price { get; set; }
     }
 
     public class OnlineSimRuStatResponseServiceGoogle
     {
-        public int? count { get; set; }
-        public double price { get; set; }
+        public string count { get; set; }
+        public string price { get; set; }
     }
 
     public class OnlineSimRuStatResponseServiceYandex
     {
-        public int? count { get; set; }
-        public double price { get; set; }
+        public string count { get; set; }
+        public string price { get; set; }
     }
 
 }

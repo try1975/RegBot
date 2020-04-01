@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -9,6 +10,7 @@ using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using log4net;
+using Newtonsoft.Json;
 
 namespace SimSmsOrg
 {
@@ -26,9 +28,14 @@ namespace SimSmsOrg
         private readonly string _endpointSetStatus;
         private readonly string _endpointGetStatus;
 
+        private readonly string _endpointGetNumberCount;
+        private readonly string _endpointGetNumberPrice;
+
         private readonly Dictionary<ServiceCode, string> _services = new Dictionary<ServiceCode, string>();
-        private static readonly Dictionary<CountryCode, string> CountryParams = new Dictionary<CountryCode,string>();
-        
+        private readonly Dictionary<ServiceCode, string> _servicesAlt = new Dictionary<ServiceCode, string>();
+        private static readonly Dictionary<CountryCode, string> CountryParams = new Dictionary<CountryCode, string>();
+        private readonly Dictionary<CountryCode, string> CountryParamsAlt = new Dictionary<CountryCode, string>();
+
         #endregion
 
         public SimSmsOrgApi()
@@ -43,6 +50,10 @@ namespace SimSmsOrg
             _endpointSetStatus = $"{baseUrl}&action=setStatus";
             _endpointGetStatus = $"{baseUrl}&action=getStatus";
 
+            var baseUrl2 = $"http://simsms.org/priemnik.php?apikey={_apiKeySimSmsOrg}";
+            _endpointGetNumberCount = $"{baseUrl2}&metod=get_count_new";
+            _endpointGetNumberPrice = $"{baseUrl2}&metod=get_service_price";
+
             _services[ServiceCode.MailRu] = "mg";
             //_services[ServiceCode.MailRu] = "ma";
             _services[ServiceCode.Yandex] = "ya";
@@ -54,10 +65,13 @@ namespace SimSmsOrg
             _services[ServiceCode.Ok] = "mg";
             //_services[ServiceCode.Ok] = "ok";
 
+
+
             CountryParams[CountryCode.RU] = "0";
             CountryParams[CountryCode.UA] = "1";
             CountryParams[CountryCode.KZ] = "2";
             CountryParams[CountryCode.CN] = "3";
+            CountryParams[CountryCode.GE] = "5";
             CountryParams[CountryCode.KG] = "11";
             CountryParams[CountryCode.PL] = "15";
             CountryParams[CountryCode.EN] = "16";
@@ -91,6 +105,21 @@ namespace SimSmsOrg
             63 - Чехия, 64 - Шри-Ланка, 65 - Перу, 66 - Пакистан, 67 - Новая Зеландия, 
             68 - Гвинея, 69 - Мали, 70 - Венесуэла, 71 - Эфиопия
              */
+
+            _servicesAlt[ServiceCode.MailRu] = "opt4";
+            _servicesAlt[ServiceCode.Yandex] = "opt23";
+            _servicesAlt[ServiceCode.Gmail] = "opt1";
+            _servicesAlt[ServiceCode.Other] = "opt19";
+            _servicesAlt[ServiceCode.Facebook] = "opt2";
+            _servicesAlt[ServiceCode.Vk] = "opt4";
+            _servicesAlt[ServiceCode.Ok] = "opt4";
+
+            foreach (CountryCode countryCode in Enum.GetValues(typeof(CountryCode)))
+            {
+                CountryParamsAlt[countryCode] = Enum.GetName(countryCode.GetType(), countryCode);
+            }
+
+
         }
 
         private async Task<string> GetNumber(string service, string country)
@@ -126,6 +155,38 @@ namespace SimSmsOrg
             }
         }
 
+        private async Task<int> GetNumberCount(string country, string service)
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointGetNumberCount}&country={country}&service={service}"))
+            {
+                if (!response.IsSuccessStatusCode) return 0;
+                var result = await response.Content.ReadAsStringAsync();
+                Log.Debug($"{nameof(GetNumberCount)}... {result}");
+                if (result.Contains(nameof(SimSmsNumberCount.online)))
+                {
+                    var simSmsNumberCount = JsonConvert.DeserializeObject<SimSmsNumberCount>(result);
+                    if (simSmsNumberCount != null && int.TryParse(simSmsNumberCount.online, out int count)) return count;
+                }
+                return 0;
+            }
+        }
+
+        private async Task<double> GetNumberPrice(string country, string service)
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointGetNumberPrice}&country={country}&service={service}"))
+            {
+                if (!response.IsSuccessStatusCode) return 0;
+                var result = await response.Content.ReadAsStringAsync();
+                Log.Debug($"{nameof(GetNumberPrice)}... {result}");
+                if (result.Contains(nameof(SimSmsNumberPrice.price)))
+                {
+                    var simSmsNumberPrice = JsonConvert.DeserializeObject<SimSmsNumberPrice>(result);
+                    if (simSmsNumberPrice != null && double.TryParse(simSmsNumberPrice.price, NumberStyles.Any, CultureInfo.InvariantCulture, out double price)) return price;
+                }
+                return 0;
+            }
+        }
+
         public async Task<PhoneNumberRequest> GetPhoneNumber(CountryCode countryCode, ServiceCode serviceCode)
         {
             Log.Debug($"Call {nameof(GetPhoneNumber)}");
@@ -147,7 +208,7 @@ namespace SimSmsOrg
                 countryCode = values[random.Next(size)];
             }
             var getNumberResult = await GetNumber(_services[serviceCode], CountryParams[countryCode]);
-            var getNumberResponse = getNumberResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
+            var getNumberResponse = getNumberResult.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
             if (getNumberResponse.Length < 3) return null;
             //"ACCESS_NUMBER:58668155:79771317953"
             var activeSeconds = 900;
@@ -168,15 +229,15 @@ namespace SimSmsOrg
                 tryCount += 1;
             }
             if (string.IsNullOrEmpty(getStatusResult)) return null;
-            var getStatusResponse = getStatusResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
-            if (getStatusResponse.Length == 2) { return new PhoneNumberValidation{Code = getStatusResponse[1]}; }
+            var getStatusResponse = getStatusResult.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            if (getStatusResponse.Length == 2) { return new PhoneNumberValidation { Code = getStatusResponse[1] }; }
             tryCount = 0;
             while (getStatusResponse.Length != 2 && tryCount < 60)
             {
                 Thread.Sleep(1000);
                 getStatusResult = await GetStatus(id);
-                getStatusResponse = getStatusResult.Split(new []{':'}, StringSplitOptions.RemoveEmptyEntries);
-                if (getStatusResponse.Length == 2) { return new PhoneNumberValidation{Code = getStatusResponse[1]}; }
+                getStatusResponse = getStatusResult.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                if (getStatusResponse.Length == 2) { return new PhoneNumberValidation { Code = getStatusResponse[1] }; }
                 tryCount += 1;
             }
             return null;
@@ -197,6 +258,26 @@ namespace SimSmsOrg
         public async Task<List<SmsServiceInfo>> GetInfo()
         {
             var list = new List<SmsServiceInfo>();
+            foreach (var pairServicesAlt in _servicesAlt)
+            {
+                foreach (var pairCountryParamsAlt in CountryParamsAlt)
+                {
+                    var count = await GetNumberCount(country: pairCountryParamsAlt.Value, service: pairServicesAlt.Value);
+                    if (count > 0)
+                    {
+                        var price = await GetNumberPrice(country: pairCountryParamsAlt.Value, service: pairServicesAlt.Value);
+                        if (price <= 0) continue;
+                        list.Add(new SmsServiceInfo
+                        {
+                            SmsServiceCode = SmsServiceCode.SimSmsOrg,
+                            CountryCode = pairCountryParamsAlt.Key,
+                            ServiceCode = pairServicesAlt.Key,
+                            NumberCount = count,
+                            Price = price
+                        });
+                    }
+                }
+            }
             return list;
         }
 

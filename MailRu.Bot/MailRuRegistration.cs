@@ -192,8 +192,9 @@ namespace MailRu.Bot
                 }
                 else
                 {
-                    //var phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.MailRu);
-                    var phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
+                    PhoneNumberRequest phoneNumberRequest = null;
+                    phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.MailRu);
+                    //phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
                     if (phoneNumberRequest == null)
                     {
                         _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
@@ -210,7 +211,7 @@ namespace MailRu.Bot
                 using (var page = await browser.NewPageAsync() /*context.NewPageAsync()*/)
                 {
                     await SetRequestHook(page);
-                    await SetUserAgent(page);
+                    //await SetUserAgent(page);
                     await page.GoToAsync(GetRegistrationUrl());
                     #region comments
                     //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]);

@@ -66,6 +66,17 @@ namespace OnlineSimRu
             }
         }
 
+        private async Task<AllCountryStat> GetAllStats()
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointGetNumberStats}&country=all"))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsStringAsync();
+                Log.Debug($"{nameof(GetNum)}... {result}");
+                return JsonConvert.DeserializeObject<AllCountryStat>(result);
+            }
+        }
+
         private async Task<string> GetNum(string service, string country)
         {
             using (var response = await _apiHttpClient.GetAsync($"{_endpointGetNum}&service={service}&country={country}"))
@@ -192,47 +203,129 @@ namespace OnlineSimRu
         public async Task<List<SmsServiceInfo>> GetInfo()
         {
             var list = new List<SmsServiceInfo>();
-            var smsServiceCode = Enum.GetName(typeof(SmsServiceCode), SmsServiceCode.OnlineSimRu);
-            var mailRu = Enum.GetName(typeof(ServiceCode), ServiceCode.MailRu);
-            var yandex = Enum.GetName(typeof(ServiceCode), ServiceCode.Yandex);
-            var gmail = Enum.GetName(typeof(ServiceCode), ServiceCode.Gmail);
+            var response = await GetAllStats();
+            foreach (var countryCodeName in Enum.GetNames(typeof(CountryCode)))
+            {
+                var p = response.GetType().GetProperty(countryCodeName);
+                if (p == null) continue;
+                var countryStat = (CountryStat)p.GetValue(response);
+                if (countryStat == null) continue;
+                if (!countryStat.enabled) continue;
+                if (countryStat.services == null) continue;
+                if (countryStat.services.vkcom != null && int.TryParse(countryStat.services.vkcom.count, out int count))
+                {
+                    list.Add(new SmsServiceInfo
+                    {
+                        SmsServiceCode = SmsServiceCode.OnlineSimRu,
+                        CountryCode = (CountryCode)Enum.Parse(typeof(CountryCode), countryCodeName),
+                        ServiceCode = ServiceCode.Vk,
+                        NumberCount = count,
+                        Price = double.TryParse(countryStat.services.vkcom.price, out double price) ? price : int.MaxValue
+                    });
+                }
+                if (countryStat.services.mailru != null && int.TryParse(countryStat.services.mailru.count, out count))
+                {
+                    list.Add(new SmsServiceInfo
+                    {
+                        SmsServiceCode = SmsServiceCode.OnlineSimRu,
+                        CountryCode = (CountryCode)Enum.Parse(typeof(CountryCode), countryCodeName),
+                        ServiceCode = ServiceCode.MailRu,
+                        NumberCount = count,
+                        Price = double.TryParse(countryStat.services.mailru.price, out double price) ? price : int.MaxValue
+                    });
+                }
+                if (countryStat.services.odklru != null && int.TryParse(countryStat.services.odklru.count, out count))
+                {
+                    list.Add(new SmsServiceInfo
+                    {
+                        SmsServiceCode = SmsServiceCode.OnlineSimRu,
+                        CountryCode = (CountryCode)Enum.Parse(typeof(CountryCode), countryCodeName),
+                        ServiceCode = ServiceCode.Ok,
+                        NumberCount = count,
+                        Price = double.TryParse(countryStat.services.odklru.price, out double price) ? price : int.MaxValue
+                    });
+                }
+                if (countryStat.services.google != null && int.TryParse(countryStat.services.google.count, out count))
+                {
+                    list.Add(new SmsServiceInfo
+                    {
+                        SmsServiceCode = SmsServiceCode.OnlineSimRu,
+                        CountryCode = (CountryCode)Enum.Parse(typeof(CountryCode), countryCodeName),
+                        ServiceCode = ServiceCode.Gmail,
+                        NumberCount = count,
+                        Price = double.TryParse(countryStat.services.google.price, out double price) ? price : int.MaxValue
+                    });
+                }
+                if (countryStat.services.yandex != null && int.TryParse(countryStat.services.yandex.count, out count))
+                {
+                    list.Add(new SmsServiceInfo
+                    {
+                        SmsServiceCode = SmsServiceCode.OnlineSimRu,
+                        CountryCode = (CountryCode)Enum.Parse(typeof(CountryCode), countryCodeName),
+                        ServiceCode = ServiceCode.Yandex,
+                        NumberCount = count,
+                        Price = double.TryParse(countryStat.services.yandex.price, out double price) ? price : int.MaxValue
+                    });
+                }
+                if (countryStat.services.facebook != null && int.TryParse(countryStat.services.facebook.count, out count))
+                {
+                    list.Add(new SmsServiceInfo
+                    {
+                        SmsServiceCode = SmsServiceCode.OnlineSimRu,
+                        CountryCode = (CountryCode)Enum.Parse(typeof(CountryCode), countryCodeName),
+                        ServiceCode = ServiceCode.Facebook,
+                        NumberCount = count,
+                        Price = double.TryParse(countryStat.services.facebook.price, out double price) ? price : int.MaxValue
+                    });
+                }
+            }
+            return list;
+        }
+
+        public async Task<List<SmsServiceInfo>> GetInfo2()
+        {
+            var list = new List<SmsServiceInfo>();
+            //var smsServiceCode = Enum.GetName(typeof(SmsServiceCode), SmsServiceCode.OnlineSimRu);
+            //var mailRu = Enum.GetName(typeof(ServiceCode), ServiceCode.MailRu);
+            //var yandex = Enum.GetName(typeof(ServiceCode), ServiceCode.Yandex);
+            //var gmail = Enum.GetName(typeof(ServiceCode), ServiceCode.Gmail);
             foreach (var country in _countries)
             {
-                var countryCode = Enum.GetName(typeof(CountryCode), country.Key);
-                var onlineSimRuStatResponse = await GetNumbersStats(country.Value);
-                if (onlineSimRuStatResponse == null) continue;
-                if (!onlineSimRuStatResponse.enabled) continue;
-                if (onlineSimRuStatResponse.services.mailru?.count > 0)
+                //var countryCode = Enum.GetName(typeof(CountryCode), country.Key);
+                var responce = await GetNumbersStats(country.Value);
+                if (responce == null) continue;
+                if (!responce.enabled) continue;
+                if (responce.services.mailru != null && int.TryParse(responce.services.mailru.count, out int mailRuCount))
                 {
                     list.Add(new SmsServiceInfo
                     {
-                        SmsServiceCode = smsServiceCode,
-                        CountryCode = countryCode,
-                        MailServiceCode = mailRu,
-                        NumberCount = onlineSimRuStatResponse.services.mailru.count.Value,
-                        Price = onlineSimRuStatResponse.services.mailru.price
+                        SmsServiceCode = SmsServiceCode.OnlineSimRu,
+                        CountryCode = country.Key,
+                        ServiceCode = ServiceCode.MailRu,
+                        NumberCount = mailRuCount,
+                        Price = double.TryParse(responce.services.mailru.price, out double price) ? price : int.MaxValue
                     });
                 }
-                if (onlineSimRuStatResponse.services.yandex?.count > 0)
+                if (responce.services.yandex != null && int.TryParse(responce.services.yandex.count, out int yandexCount))
                 {
                     list.Add(new SmsServiceInfo
                     {
-                        SmsServiceCode = smsServiceCode,
-                        CountryCode = countryCode,
-                        MailServiceCode = yandex,
-                        NumberCount = onlineSimRuStatResponse.services.yandex.count.Value,
-                        Price = onlineSimRuStatResponse.services.yandex.price
+                        SmsServiceCode = SmsServiceCode.OnlineSimRu,
+                        CountryCode = country.Key,
+                        ServiceCode = ServiceCode.Yandex,
+                        NumberCount = yandexCount,
+                        Price = double.TryParse(responce.services.yandex.price, out double price) ? price : int.MaxValue
                     });
                 }
-                if (onlineSimRuStatResponse.services.google?.count > 0)
+                if (responce.services.google != null && int.TryParse(responce.services.google.count, out int googleCount))
                 {
                     list.Add(new SmsServiceInfo
                     {
-                        SmsServiceCode = smsServiceCode,
-                        CountryCode = countryCode,
-                        MailServiceCode = gmail,
-                        NumberCount = onlineSimRuStatResponse.services.google.count.Value,
-                        Price = onlineSimRuStatResponse.services.google.price
+                        SmsServiceCode = SmsServiceCode.OnlineSimRu,
+                        CountryCode = country.Key,
+                        ServiceCode = ServiceCode.Gmail,
+                        NumberCount = googleCount,
+                        Price = double.TryParse(responce.services.google.price, out double price) ? price : int.MaxValue
                     });
                 }
             }

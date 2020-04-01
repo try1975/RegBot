@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SimSmsNumberCount.cs" />
+    <Compile Include="SimSmsNumberPrice.cs" />
     <Compile Include="SimSmsOrgApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

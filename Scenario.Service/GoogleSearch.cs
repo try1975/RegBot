@@ -23,7 +23,9 @@ namespace ScenarioService
                 List<string> args = null;
                 if (!string.IsNullOrEmpty(_chromiumSettings.Proxy))
                 {
-                    var proxy = _chromiumSettings.Proxy.Split('@')[1];
+                    string proxy;
+                    if (_chromiumSettings.Proxy.Contains("@")) proxy = _chromiumSettings.Proxy.Split('@')[1];
+                    else proxy = _chromiumSettings.Proxy;
                     args = new List<string> { $"--proxy-server={proxy}" };
                 }
                 var navigationOptions = new NavigationOptions { Timeout = 60000 };
@@ -31,7 +33,7 @@ namespace ScenarioService
                 using (var page = await browser.NewPageAsync())
                 {
                     //авторизация прокси
-                    if (!string.IsNullOrEmpty(_chromiumSettings.Proxy))
+                    if (!string.IsNullOrEmpty(_chromiumSettings.Proxy) && _chromiumSettings.Proxy.Contains("@"))
                     {
                         var credentials = _chromiumSettings.Proxy.Split('@')[0];
                         var userAndPassword = credentials.Split(':');

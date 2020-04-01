@@ -1,4 +1,5 @@
 ﻿using AccountData.Service;
+using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using Facebook.Bot;
@@ -22,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vk.Bot;
 using Yandex.Bot;
@@ -30,16 +32,16 @@ namespace ScenarioApp.Controls
 {
     public partial class RegBotControl : UserControl, IRegBotControl
     {
-        private CountryCode _countryCode = CountryCode.RU;
         private static readonly ILog Log = LogManager.GetLogger(typeof(RegBotControl));
         private long BytesReceived { get; set; }
         private readonly string connectionString;
+        private readonly List<SmsServiceInfo> _smsServiceInfoList = new List<SmsServiceInfo>();
 
         public RegBotControl()
         {
             InitializeComponent();
 
-            GetRandomAccountData();
+            GetRandomAccountData(CountryCode.RU);
 
             cmbCountry.DataSource = CountryItem.GetCountryItems();
             cmbCountry.DisplayMember = "Text";
@@ -57,14 +59,31 @@ namespace ScenarioApp.Controls
             btnGmail.Click += BtnGmail_Click;
             btnFacebook.Click += btnFacebook_Click;
             btnVk.Click += BtnVk_Click;
-            btnGenerate.Click += BtnGenerate_Click;
+            btnGenerateEn.Click += BtnGenerateEn_Click;
+            btnGenerateRu.Click += BtnGenerateRu_Click;
 
             dgvItems.FilterStringChanged += dgvItems_FilterStringChanged;
             dgvItems.SortStringChanged += dgvItems_SortStringChanged;
             dgvItems.UserDeletingRow += DgvItems_UserDeletingRow;
+            
         }
 
-       
+        private async void FillSmsServiceInfo()
+        {
+            foreach (SmsServiceItem smsServiceItem in cmbSmsService.Items)
+            {
+                var currentSmsServiceInfoList = await smsServiceItem.SmsService.GetInfo();
+                _smsServiceInfoList.AddRange(currentSmsServiceInfoList);
+            }
+            //foreach (SmsServiceCode smsServiceCode in Enum.GetValues(typeof(SmsServiceCode)))
+            //{
+            //    foreach(CountryCode countryCode in Enum.GetValues(typeof(CountryCode)))
+            //    {
+            //        Log.Debug($"smsServiceCode={smsServiceCode} countryCode={countryCode}");
+            //    }
+            //}
+        }
+
 
         private void DataTable_ColumnChanged(object sender, DataColumnChangeEventArgs e)
         {
@@ -141,14 +160,21 @@ namespace ScenarioApp.Controls
             return accountData;
         }
 
-       
-
-        private async void Demo(ServiceCode serviceCode, bool byPhone = true)
+        private async Task<IAccountData> Demo(ServiceCode serviceCode, SmsServiceCode? smsServiceCode = null, CountryCode? countryCode = null, bool byPhone = true)
         {
             try
             {
                 ISmsService smsService = null;
-                if(byPhone) smsService = ((SmsServiceItem)cmbSmsService.SelectedItem).SmsService;
+                if (byPhone)
+                {
+                    if (smsServiceCode == null) smsService = ((SmsServiceItem)cmbSmsService.SelectedItem).SmsService;
+                    else
+                    {
+                        var smsServiceItem = cmbSmsService.Items.Cast<SmsServiceItem>()
+                            .FirstOrDefault(z => z .SmsServiceCode == smsServiceCode.Value);
+                        smsService = smsServiceItem.SmsService;
+                    }
+                }
                 textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)} start... - {DateTime.Now} {Environment.NewLine}");
                 IBot iBot = null;
                 var accountData = CreateEmailAccountDataFromUi();
@@ -176,16 +202,18 @@ namespace ScenarioApp.Controls
                         iBot = new VkRegistration(accountData, smsService, chromiumSettings);
                         break;
                 }
-                _countryCode = ((CountryItem)cmbCountry.SelectedItem).CountryCode;
-                if (iBot != null) accountData = await iBot.Registration(_countryCode);
+                if (countryCode == null) countryCode = ((CountryItem)cmbCountry.SelectedItem).CountryCode;
+                if (iBot != null) accountData = await iBot.Registration(countryCode.Value);
                 StoreAccountData(accountData);
                 textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");
                 textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
+                return accountData;
             }
             catch (Exception exception)
             {
                 textBox1.AppendText($"{exception}");
             }
+            return null;
         }
 
         private static DataTable ConvertToDataTable<T>(IEnumerable<T> data)
@@ -258,12 +286,30 @@ namespace ScenarioApp.Controls
 
         private void BtnMailRuEmail_Click(object sender, EventArgs e)
         {
-            Demo(ServiceCode.MailRu, byPhone: false) ;
+            Demo(ServiceCode.MailRu, byPhone: false);
         }
 
         private void BtnMailRuPhone_Click(object sender, EventArgs e)
         {
-            Demo(ServiceCode.MailRu);
+            //Demo(ServiceCode.MailRu);
+            var serviceInfoList = _smsServiceInfoList
+                .Where(z => z.ServiceCode == ServiceCode.MailRu && z.NumberCount > 0)
+                .OrderBy(z => z.Price)
+                .ThenByDescending(z => z.NumberCount)
+                .ToList();
+
+            TryRegister(serviceInfoList);
+        }
+
+        private async void TryRegister(List<SmsServiceInfo> infos)
+        {
+            bool success = false;
+            foreach (var info in infos)
+            {
+                if (success) break;
+                var accountData = await Demo(info.ServiceCode, info.SmsServiceCode, info.CountryCode);
+                if (accountData != null && accountData.Success) success = true;
+            }
         }
 
         private void BtnYandexEmail_Click(object sender, EventArgs e)
@@ -273,7 +319,14 @@ namespace ScenarioApp.Controls
 
         private void BtnYandexPhone_Click(object sender, EventArgs e)
         {
-            Demo(ServiceCode.Yandex);
+            //Demo(ServiceCode.Yandex);
+            var serviceInfoList = _smsServiceInfoList
+                .Where(z => z.ServiceCode == ServiceCode.Yandex && z.NumberCount > 0)
+                .OrderBy(z => z.Price)
+                .ThenByDescending(z => z.NumberCount)
+                .ToList();
+
+            TryRegister(serviceInfoList);
         }
 
         private void BtnGmail_Click(object sender, EventArgs e)
@@ -281,9 +334,13 @@ namespace ScenarioApp.Controls
             Demo(ServiceCode.Gmail);
         }
 
-        private void BtnGenerate_Click(object sender, EventArgs e)
+        private void BtnGenerateEn_Click(object sender, EventArgs e)
         {
             GetRandomAccountData();
+        }
+        private void BtnGenerateRu_Click(object sender, EventArgs e)
+        {
+            GetRandomAccountData(countryCode: CountryCode.RU);
         }
 
         private void tabPage2_Enter(object sender, EventArgs e)
@@ -326,6 +383,8 @@ namespace ScenarioApp.Controls
             var browserFetcher = new BrowserFetcher();
             browserFetcher.DownloadProgressChanged += OnDownloadProgressChanged;
             GetBrowserLastVersion(browserFetcher);
+
+            FillSmsServiceInfo();
         }
         #endregion Event handlers
 

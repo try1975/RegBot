@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using AccountData.Service;
 using Common.Service;
+using Common.Service.Enums;
 using ScenarioApp.Controls.Interfaces;
 
 namespace ScenarioApp.Controls
@@ -13,9 +14,9 @@ namespace ScenarioApp.Controls
         public GenerateAccountDataControl()
         {
             InitializeComponent();
-
             _accountDataGenerator = new AccountDataGenerator(string.Empty);
-            button2.Click += Button2_Click;
+            btnGenerateEn.Click += BtnGenerateEn_Click;
+            btnGenerateRu.Click += BtnGenerateRu_Click;
             btnSave.Click += BtnSave_Click;
         }
 
@@ -24,13 +25,21 @@ namespace ScenarioApp.Controls
             Utils.SaveLinesToFile(textBox3.Lines);
         }
 
-        private void Button2_Click(object sender, EventArgs e)
+        private void BtnGenerateEn_Click(object sender, EventArgs e)
         {
-            textBox3.Clear();
+            Generate(CountryCode.EN);
+        }
+        private void BtnGenerateRu_Click(object sender, EventArgs e)
+        {
+            Generate(CountryCode.RU);
+        }
 
+        private void Generate(CountryCode countryCode)
+        {
+            //textBox3.Clear();
             for (int i = 0; i < udAccountCount.Value; i++)
             {
-                var accountData = _accountDataGenerator.GetRandom();
+                var accountData = _accountDataGenerator.GetRandom(countryCode);
                 textBox3.AppendText($"{accountData.Firstname} {accountData.Lastname} {accountData.BirthDate:d} {accountData.Sex} {accountData.Password} {Environment.NewLine}");
             }
         }

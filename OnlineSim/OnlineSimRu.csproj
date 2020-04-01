@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllCountryStat.cs" />
     <Compile Include="OnlineSimRuStatResponse.cs" />
     <Compile Include="GetNumResponse.cs" />
     <Compile Include="GetStateResponseItem.cs" />

@@ -32,7 +32,8 @@ namespace ScenarioService
                         var contentSelector = "div[data-qa='Whois-card']";
                         var data = await page.WaitForSelectorAsync(contentSelector, new WaitForSelectorOptions { Timeout = 5000 });
                         var text = (await (await data.GetPropertyAsync("innerText")).JsonValueAsync()).ToString();
-                        text = text.Remove(text.IndexOf("<<<"));
+                        var indexOf = text.IndexOf("<<<");
+                        if (indexOf >= 0) text = text.Remove(indexOf);
                         Report($"{text}");
                         result.Add(text);
                     }

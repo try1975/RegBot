@@ -6,7 +6,7 @@ namespace Common.Service.Enums
     [JsonConverter(typeof(StringEnumConverter))]
     public enum CountryCode
     {
-        [EnumLocalize("Россия")]
+        [EnumLocalize("Россия")] 
         RU,
         [EnumLocalize("Казахстан")]
         KZ,
@@ -51,6 +51,38 @@ namespace Common.Service.Enums
         [EnumLocalize("Камерун")]
         CM,
         [EnumLocalize("Чад")]
-        TD
+        TD,
+        [EnumLocalize("Швеция")]
+        SE,
+        [EnumLocalize("Кипр")]
+        CY,
+        [EnumLocalize("Испания")]
+        ES,
+        [EnumLocalize("США")]
+        US,
+        [EnumLocalize("Канада")]
+        CA,
+        [EnumLocalize("Индонезия")]
+        ID,
+        [EnumLocalize("Филиппины")]
+        PH,
+        [EnumLocalize("Румыния")]
+        RO,
+        [EnumLocalize("Чехия")]
+        CZ,
+        [EnumLocalize("ЮАР")]
+        ZA,
+        [EnumLocalize("Мьянма")]
+        MM,
+        [EnumLocalize("Гана")]
+        GH,
+        [EnumLocalize("Кения")]
+        KE,
+        [EnumLocalize("Грузия")]
+        GE,
+        [EnumLocalize("Беларусь")]
+        BY,
+        [EnumLocalize("Литва")]
+        LT
     }
 }
