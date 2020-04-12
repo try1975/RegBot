@@ -20,6 +20,9 @@ using Swashbuckle.Examples;
 using RegBot.RestApi.Controllers;
 using ScenarioService;
 using PuppeteerService;
+using Common.Service;
+using Common.Service.Interfaces;
+using Common.Classes;
 
 namespace RegBot.RestApi.App_Start
 {
@@ -133,7 +136,11 @@ namespace RegBot.RestApi.App_Start
             var builder = new ContainerBuilder();
 
             builder.RegisterType<FooService>().As<IFooService>();
-            
+            var smsServices = new SmsServices(path: HttpRuntime.BinDirectory);
+            builder.RegisterInstance(smsServices)
+                   .As<ISmsServices>()
+                   .ExternallyOwned();
+
             //builder.RegisterType<YandexSearch>().As<IYandexSearch>();
             builder.RegisterType<ChromiumSettings>().As<IChromiumSettings>().WithParameter("chromiumPath", HttpRuntime.BinDirectory);
 

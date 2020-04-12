@@ -1,5 +1,4 @@
 ﻿using AnticaptchaOnline;
-using _AntiCaptcha;
 using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
@@ -8,15 +7,10 @@ using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
 using PuppeteerSharp.Input;
-using PuppeteerSharp.Mobile;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Net.Http;
 
 namespace MailRu.Bot
 {
@@ -193,8 +187,8 @@ namespace MailRu.Bot
                 else
                 {
                     PhoneNumberRequest phoneNumberRequest = null;
-                    phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.MailRu);
-                    //phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
+                    //phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.MailRu);
+                    phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
                     if (phoneNumberRequest == null)
                     {
                         _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
@@ -346,8 +340,13 @@ namespace MailRu.Bot
                 await page.TypeAsync("div[class*='lastname'] input", _data.Lastname);
                 return;
             }
-            await page.TypeAsync("input[name^=firstname]", _data.Firstname);
-            await page.TypeAsync("input[name^=lastname]", _data.Lastname);
+            var eFirstname = await page.QuerySelectorAsync("input[name^=firstname]");
+            if (eFirstname == null) eFirstname = await page.QuerySelectorAsync("input[name=fname]");
+            await eFirstname.TypeAsync(_data.Firstname);
+
+            var eLastname = await page.QuerySelectorAsync("input[name^=lastname]");
+            if (eLastname == null) eLastname = await page.QuerySelectorAsync("input[name=lname]");
+            await eLastname.TypeAsync(_data.Lastname);
         }
 
         private async Task FillBirthdate(Page page)

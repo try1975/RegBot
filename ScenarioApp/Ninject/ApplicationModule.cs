@@ -1,4 +1,6 @@
-﻿using Ninject.Modules;
+﻿using Common.Classes;
+using Common.Service.Interfaces;
+using Ninject.Modules;
 using PuppeteerService;
 using ScenarioApp.Controls;
 using ScenarioApp.Controls.Interfaces;
@@ -20,6 +22,7 @@ namespace ScenarioApp.Ninject
                 .WithConstructorArgument("chromiumPath", Environment.CurrentDirectory)
                 .WithConstructorArgument("userAgent", userAgent);
             Bind<ISelectPersonControl>().To<SelectPersonControl>().InSingletonScope();
+            Bind<ISmsServices>().To<SmsServices>().InSingletonScope().WithConstructorArgument("path", Environment.CurrentDirectory);
 
             Bind<IRegBotControl>().To<RegBotControl>();
 

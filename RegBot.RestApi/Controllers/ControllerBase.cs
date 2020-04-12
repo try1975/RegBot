@@ -61,9 +61,9 @@ namespace RegBot.RestApi.Controllers
         //    return mailServiceCode;
         //}
 
-        protected IAccountData GetRandomAccountData()
+        protected IAccountData GetRandomAccountData(CountryCode countryCode = CountryCode.RU)
         {
-            return new AccountDataGenerator(AppPath).GetRandom();
+            return new AccountDataGenerator(AppPath).GetRandom(countryCode);
         }
     }
 }

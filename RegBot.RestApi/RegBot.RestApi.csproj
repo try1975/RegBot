@@ -175,6 +175,10 @@
       <Project>{8D632BF2-BFD9-4585-A5AF-7E15E8431EBB}</Project>
       <Name>AccountData.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common.Classes\Common.Classes.csproj">
+      <Project>{A90EF985-B6EE-4EC8-97A6-A2766BA0CC42}</Project>
+      <Name>Common.Classes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common.Service\Common.Service.csproj">
       <Project>{F45C44CF-2C70-4683-A36A-1154E2408F53}</Project>
       <Name>Common.Service</Name>

@@ -18,10 +18,12 @@ namespace ScenarioApp.Controls
         private readonly BindingSource _requestsBindingSource = new BindingSource();
         private readonly BackgroundWorker _bw = new BackgroundWorker();
         private readonly Random _random = new Random();
+        private readonly ISmsServices _smsServices;
 
-        public SmsServiceControl()
+        public SmsServiceControl(ISmsServices smsServices)
         {
             InitializeComponent();
+            _smsServices = smsServices;
 
             cmbCountry.DataSource = CountryItem.GetCountryItems();
             cmbCountry.DisplayMember = "Text";
@@ -119,7 +121,7 @@ namespace ScenarioApp.Controls
             ServiceCode serviceCode = GetServiceCodeFromUi();
 
             var smsServiceItem = (SmsServiceItem)cmbSmsService.SelectedItem;
-            ISmsService smsService = smsServiceItem.SmsService;
+            ISmsService smsService =  _smsServices.GetSmsService(smsServiceItem.SmsServiceCode);
 
             var smsServiceName = Enum.GetName(typeof(SmsServiceCode), smsServiceItem.SmsServiceCode);
             var serviceName = Enum.GetName(typeof(ServiceCode), serviceCode);

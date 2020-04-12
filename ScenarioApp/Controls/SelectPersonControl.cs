@@ -22,10 +22,10 @@ namespace ScenarioApp.Controls
             FillGmailAccount();
 
             cmbVkAccounts.DisplayMember = nameof(IAccountData.AccountName);
-            cmbVkAccounts.SelectedIndex = 0;
+            //cmbVkAccounts.SelectedIndex = 0;
             
             cmbFbAccounts.DisplayMember = nameof(IAccountData.AccountName);
-            cmbFbAccounts.SelectedIndex = 0;
+            //cmbFbAccounts.SelectedIndex = 0;
 
             cmbMailruAccounts.DisplayMember = nameof(IAccountData.AccountName);
             //if(cmbMailruAccounts!=null && (object[])cmbMailruAccounts.DataSource.l)

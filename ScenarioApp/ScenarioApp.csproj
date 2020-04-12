@@ -399,6 +399,10 @@
       <Project>{e2bf8c89-3408-4cf2-b6fa-2a6c31228f06}</Project>
       <Name>AnticaptchaOnline</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common.Classes\Common.Classes.csproj">
+      <Project>{a90ef985-b6ee-4ec8-97a6-a2766ba0cc42}</Project>
+      <Name>Common.Classes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common.Service\Common.Service.csproj">
       <Project>{F45C44CF-2C70-4683-A36A-1154E2408F53}</Project>
       <Name>Common.Service</Name>

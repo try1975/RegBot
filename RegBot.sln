@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppeteerService", "Puppete
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnticaptchaOnline", "Anticaptcha\AnticaptchaOnline.csproj", "{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Classes", "Common.Classes\Common.Classes.csproj", "{A90EF985-B6EE-4EC8-97A6-A2766BA0CC42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A90EF985-B6EE-4EC8-97A6-A2766BA0CC42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A90EF985-B6EE-4EC8-97A6-A2766BA0CC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A90EF985-B6EE-4EC8-97A6-A2766BA0CC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A90EF985-B6EE-4EC8-97A6-A2766BA0CC42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,6 +131,7 @@ Global
 		{D3429939-A8BF-4B4B-BFCD-18A3F6C69BC9} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
 		{D0103587-CA50-4EB7-BED4-99E2277F9001} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
 		{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
+		{A90EF985-B6EE-4EC8-97A6-A2766BA0CC42} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BFA7B51-BBAA-46FB-A909-78364E794607}
