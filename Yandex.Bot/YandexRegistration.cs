@@ -1,5 +1,4 @@
 ﻿using AnticaptchaOnline;
-using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using log4net;
@@ -20,6 +19,7 @@ namespace Yandex.Bot
         private readonly ISmsService _smsService;
         private string _requestId;
         private readonly IChromiumSettings _chromiumSettings;
+        private readonly string _yandexProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_yandexProxy)];
 
         public YandexRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
         {
@@ -27,6 +27,7 @@ namespace Yandex.Bot
             _data.Domain = "yandex.ru";
             _smsService = smsService;
             _chromiumSettings = chromiumSettings;
+            _chromiumSettings.Proxy = _yandexProxy;
         }
 
         public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)
@@ -47,11 +48,12 @@ namespace Yandex.Bot
                 //_data.Phone = phoneNumberRequest.Phone.Trim();
                 //if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
 
-                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
+                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
                 {
                     var context = await browser.CreateIncognitoBrowserContextAsync();
                     using (var page = await /*browser.NewPageAsync()*/ context.NewPageAsync())
                     {
+                        await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
                         await page.SetUserAgentAsync(_chromiumSettings.GetUserAgent());
 
                         await FillRegistrationData(page);

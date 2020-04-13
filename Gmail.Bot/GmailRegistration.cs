@@ -18,6 +18,8 @@ namespace Gmail.Bot
         private readonly ISmsService _smsService;
         private string _requestId;
         private readonly IChromiumSettings _chromiumSettings;
+        private readonly string _gmailProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_gmailProxy)];
+
 
         public GmailRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
         {
@@ -25,6 +27,7 @@ namespace Gmail.Bot
             _data.Domain = "gmail.com";
             _smsService = smsService;
             _chromiumSettings = chromiumSettings;
+            _chromiumSettings.Proxy = _gmailProxy;
         }
 
         public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)
@@ -45,9 +48,10 @@ namespace Gmail.Bot
                 _data.Phone = phoneNumberRequest.Phone.Trim();
                 if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
 
-                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
+                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
                 using (var page = await browser.NewPageAsync())
                 {
+                    await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
                     await FillRegistrationData(page, countryCode);
                     await page.WaitForTimeoutAsync(2000);
                     await page.TypeAsync("input#phoneNumberId", _data.Phone);

@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 
 namespace PuppeteerService
 {
@@ -28,6 +29,21 @@ namespace PuppeteerService
         {
             if (string.IsNullOrEmpty(userAgent)) return UserAgent.GetRandomUserAgent();
             return userAgent;
+        }
+
+        public IEnumerable<string> GetArgs()
+        {
+            //прокси
+            List<string> args = null;
+            if (!string.IsNullOrEmpty(Proxy))
+            {
+                string proxy;
+                if (Proxy.Contains("@")) proxy = Proxy.Split('@')[1];
+                else proxy = Proxy;
+                if (args == null) args = new List<string>();
+                args.Add($"--proxy-server={proxy}");
+            }
+            return args;
         }
 
         public string Proxy { get; set; }

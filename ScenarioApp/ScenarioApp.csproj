@@ -423,6 +423,10 @@
       <Project>{f1c872d7-cf9e-4e7f-ad2f-e821b67e1afa}</Project>
       <Name>MailRu.Bot</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ok.Bot\Ok.Bot.csproj">
+      <Project>{85741c53-07d3-481e-b43a-4d55b6017257}</Project>
+      <Name>Ok.Bot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OnlineSim\OnlineSimRu.csproj">
       <Project>{fa10abd7-78b1-48dc-8f38-8d0021cc4e38}</Project>
       <Name>OnlineSimRu</Name>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,6 +26,7 @@ namespace OnlineSimRu
         private readonly string _endpointGetState;
         private readonly string _endpointSetOperationOk;
         private readonly string _endpointGetNumberStats;
+        private readonly string _endpointGetBalance;
 
         private readonly Dictionary<CountryCode, string> _countries = PhoneServiceStore.CountryPrefixes;
         private readonly Dictionary<ServiceCode, string> _services = new Dictionary<ServiceCode, string>();
@@ -43,6 +45,7 @@ namespace OnlineSimRu
             _endpointGetState = $"{BaseUrl}/getState.php?{apiKeyParameterName}={_apiKeyOnlineSimRu}";
             _endpointSetOperationOk = $"{BaseUrl}/setOperationOk.php?{apiKeyParameterName}={_apiKeyOnlineSimRu}";
             _endpointGetNumberStats = $"{BaseUrl}/getNumbersStats.php?{apiKeyParameterName}={_apiKeyOnlineSimRu}";
+            _endpointGetBalance = $"{BaseUrl}/getBalance.php?{apiKeyParameterName}={_apiKeyOnlineSimRu}";
 
             _services[ServiceCode.MailRu] = "MailRu";
             _services[ServiceCode.Yandex] = "Yandex";
@@ -86,6 +89,18 @@ namespace OnlineSimRu
                 Log.Debug($"{nameof(GetNum)}... {result}");
                 var getNumResponse = JsonConvert.DeserializeObject<GetNumResponse>(result);
                 return !getNumResponse.response.Equals("1") ? string.Empty : getNumResponse.tzid.ToString();
+            }
+        }
+
+        private async Task<string> GetBalanceCall()
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointGetBalance}"))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsStringAsync();
+                Log.Debug($"{nameof(GetBalanceCall)}... {result}");
+                var getNumResponse = JsonConvert.DeserializeObject<BalanceResponse>(result);
+                return !getNumResponse.response.Equals("1") ? string.Empty : getNumResponse.balance;
             }
         }
 
@@ -157,7 +172,14 @@ namespace OnlineSimRu
             //var phone = getStateResponseItem.number.Substring(getStateResponseItem.number.Length - length);
             var phone = getStateResponseItem.number;
             var activeSeconds = 900;
-            return new PhoneNumberRequest { Id = id, Phone = phone, Created = DateTime.UtcNow, ActiveSeconds = activeSeconds, RemainSeconds = activeSeconds };
+            return new PhoneNumberRequest
+            {
+                Id = id,
+                Phone = phone,
+                Created = DateTime.UtcNow,
+                ActiveSeconds = activeSeconds,
+                RemainSeconds = activeSeconds
+            };
         }
 
         public async Task<PhoneNumberValidation> GetSmsValidation(string id)
@@ -341,6 +363,13 @@ namespace OnlineSimRu
                 return new PhoneNumberValidation { Code = getStateResponseItem.msg };
             }
             return null;
+        }
+
+        public async Task<double> GetBalance()
+        {
+            var balance = await GetBalanceCall();
+            if (double.TryParse(balance, NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"), out double result)) return result;
+            return 0;
         }
     }
 }

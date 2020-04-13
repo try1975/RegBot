@@ -2,15 +2,12 @@
 using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
-using GetSmsOnline;
 using Gmail.Bot;
 using log4net;
 using MailRu.Bot;
 using NickBuhro.Translit;
-using OnlineSimRu;
 using PuppeteerService;
 using ScenarioService;
-using SimSmsOrg;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -30,20 +27,7 @@ namespace RegBot.RestApi.Controllers
             _smsServices = smsServices;
         }
 
-        //private async void TryRegister(List<SmsServiceInfo> infos)
-        //{
-        //    foreach (var info in infos)
-        //    {
-        //        var accountData = await Demo(info.ServiceCode, info.SmsServiceCode, info.CountryCode);
-        //        //await MailRegistration
-        //        if (accountData == null) break;
-        //        if (accountData.Success) break;
-        //        // if not no numbers then break
-        //        if (!(accountData.ErrMsg.Equals(BotMessages.NoPhoneNumberMessage)
-        //            || accountData.ErrMsg.Equals(BotMessages.PhoneNumberNotAcceptMessage))) break;
-        //    }
-        //}
-
+        #region GET
         [HttpGet]
         [Route(nameof(InitialAccountData))]
         [ResponseType(typeof(IAccountData))]
@@ -51,8 +35,6 @@ namespace RegBot.RestApi.Controllers
         {
             return Ok(GetRandomAccountData());
         }
-
-
 
         [HttpGet]
         [Route("newMailRuEmail")]
@@ -62,29 +44,7 @@ namespace RegBot.RestApi.Controllers
             IAccountData accountData;
             try
             {
-                accountData = GetRandomAccountData();
-                //var smsServiceCode = GetRandomSmsServiceCode();
-                //const ServiceCode serviceCode = ServiceCode.MailRu;
-
-                //Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                //accountData = await MailRegistration(accountData, smsServiceCode, serviceCode);
-
-                foreach (var info in await _smsServices.GetServiceInfoList(ServiceCode.MailRu))
-                {
-                    accountData = GetRandomAccountData(info.CountryCode);
-                    accountData.PhoneCountryCode =   Enum.GetName(typeof(CountryCode), info.CountryCode);
-                    Log.Debug($@"{Enum.GetName(typeof(ServiceCode), info.ServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), info.SmsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                    accountData = await MailRegistration(accountData, info.SmsServiceCode, info.ServiceCode);
-                    Log.Debug($@"{Enum.GetName(typeof(ServiceCode), info.ServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), info.SmsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
-                    //await MailRegistration
-                    if (accountData == null) break;
-                    if (accountData.Success) break;
-                    // if not no numbers then break
-                    if (!(accountData.ErrMsg.Equals(BotMessages.NoPhoneNumberMessage)
-                        || accountData.ErrMsg.Equals(BotMessages.PhoneNumberNotAcceptMessage))) break;
-                }
-
-                
+                accountData = await TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.MailRu));
             }
             catch (Exception exception)
             {
@@ -99,21 +59,16 @@ namespace RegBot.RestApi.Controllers
         [ResponseType(typeof(IAccountData))]
         public async Task<IHttpActionResult> GetNewYandexEmail()
         {
-            var accountData = GetRandomAccountData();
-            var smsServiceCode = GetRandomSmsServiceCode();
-            const ServiceCode serviceCode = ServiceCode.Yandex;
-
+            IAccountData accountData;
             try
             {
-                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await MailRegistration(accountData, smsServiceCode, serviceCode);
+                accountData = await TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Yandex));
             }
             catch (Exception exception)
             {
                 Log.Error(exception);
                 return InternalServerError();
             }
-            Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
             return Ok(accountData);
         }
 
@@ -122,24 +77,21 @@ namespace RegBot.RestApi.Controllers
         [ResponseType(typeof(IAccountData))]
         public async Task<IHttpActionResult> GetNewGmailEmail()
         {
-            var accountData = GetRandomAccountData();
-            var smsServiceCode = GetRandomSmsServiceCode();
-            const ServiceCode serviceCode = ServiceCode.Gmail;
-
+            IAccountData accountData;
             try
             {
-                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await MailRegistration(accountData, smsServiceCode, serviceCode);
+                accountData = await TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Yandex));
             }
             catch (Exception exception)
             {
                 Log.Error(exception);
                 return InternalServerError();
             }
-            Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
             return Ok(accountData);
         }
 
+        #endregion
+        #region POST
         [HttpPost]
         [Route("newMailRuEmail")]
         [ResponseType(typeof(IAccountData))]
@@ -228,8 +180,29 @@ namespace RegBot.RestApi.Controllers
             }
             return InternalServerError();
         }
+        #endregion
 
-
+        #region private
+        private async Task<IAccountData> TryRegister(IEnumerable<SmsServiceInfo> infos)
+        {
+            var accountData = GetRandomAccountData();
+            //IAccountData accountData;
+            foreach (var info in infos)
+            {
+                accountData = GetRandomAccountData(info.CountryCode);
+                accountData.PhoneCountryCode = Enum.GetName(typeof(CountryCode), info.CountryCode);
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), info.ServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), info.SmsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
+                accountData = await MailRegistration(accountData, info.SmsServiceCode, info.ServiceCode);
+                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), info.ServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), info.SmsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
+                //await MailRegistration
+                if (accountData == null) break;
+                if (accountData.Success) break;
+                if (string.IsNullOrEmpty(accountData.ErrMsg)) break;
+                if (!(accountData.ErrMsg.Equals(BotMessages.NoPhoneNumberMessage)
+                    || accountData.ErrMsg.Equals(BotMessages.PhoneNumberNotAcceptMessage))) break;
+            }
+            return accountData;
+        }
 
         private async Task<IAccountData> MailRegistration(IAccountData accountData, SmsServiceCode smsServiceCode, ServiceCode serviceCode, CountryCode countryCode = CountryCode.RU)
         {
@@ -241,20 +214,6 @@ namespace RegBot.RestApi.Controllers
                 }
                 accountData = StoreAccountData(accountData);
                 ISmsService smsService = _smsServices.GetSmsService(smsServiceCode);
-                //switch (smsServiceCode)
-                //{
-                //    case SmsServiceCode.GetSmsOnline:
-                //        smsService = new GetSmsOnlineApi();
-                //        break;
-                //    case SmsServiceCode.OnlineSimRu:
-                //        smsService = new OnlineSimRuApi();
-                //        break;
-                //    case SmsServiceCode.SimSmsOrg:
-                //        smsService = new SimSmsOrgApi();
-                //        break;
-                //    default:
-                //        throw new ArgumentOutOfRangeException();
-                //}
                 IBot iBot;
                 switch (serviceCode)
                 {
@@ -284,8 +243,7 @@ namespace RegBot.RestApi.Controllers
                 Log.Error(exception);
             }
             return accountData;
-        }
-
-
+        } 
+        #endregion
     }
 }

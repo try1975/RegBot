@@ -9,6 +9,7 @@ using log4net;
 using MailRu.Bot;
 using Newtonsoft.Json;
 using NickBuhro.Translit;
+using Ok.Bot;
 using PuppeteerService;
 using PuppeteerSharp;
 using ScenarioApp.Controls.Interfaces;
@@ -58,8 +59,9 @@ namespace ScenarioApp.Controls
             btnYandexEmail.Click += BtnYandexEmail_Click;
             btnYandexPhone.Click += BtnYandexPhone_Click;
             btnGmail.Click += BtnGmail_Click;
-            btnFacebook.Click += btnFacebook_Click;
+            btnFacebook.Click += BtnFacebook_Click;
             btnVk.Click += BtnVk_Click;
+            btnOk.Click += BtnOk_Click;
             btnGenerateEn.Click += BtnGenerateEn_Click;
             btnGenerateRu.Click += BtnGenerateRu_Click;
 
@@ -76,18 +78,16 @@ namespace ScenarioApp.Controls
             cmbSmsService.DisplayMember = "Text";
             cmbSmsService.SelectedIndex = 0;
 
-            //var onlineSimRuApi = smsServiceItems.First(z => z.SmsServiceCode == SmsServiceCode.OnlineSimRu).SmsService;
-            //var listSmsServiceInfo = new List<SmsServiceInfo>();
-            //if (onlineSimRuApi != null)
-            //{
-            //  listSmsServiceInfo.AddRange(await onlineSimRuApi.GetInfo());  
-            //}
-            //File.AppendAllText(Path.Combine(Application.StartupPath, "Data", "SmsServiceInfo.json") ,JsonConvert.SerializeObject(listSmsServiceInfo)); 
-
             var browserFetcher = new BrowserFetcher();
             browserFetcher.DownloadProgressChanged += OnDownloadProgressChanged;
             GetBrowserLastVersion(browserFetcher);
             await _smsServices.GetServiceInfoList(ServiceCode.MailRu);
+            
+            foreach (SmsServiceCode smsServiceCode in Enum.GetValues(typeof(SmsServiceCode)))
+            {
+                var balance = await _smsServices.GetSmsService(smsServiceCode).GetBalance();
+                if(balance<25) textBox1.AppendText($@"Low balance {smsServiceCode} {balance} - {DateTime.Now} {Environment.NewLine}");
+            }
         }
 
         private void DataTable_ColumnChanged(object sender, DataColumnChangeEventArgs e)
@@ -258,6 +258,9 @@ namespace ScenarioApp.Controls
                     case ServiceCode.Vk:
                         iBot = new VkRegistration(accountData, smsService, chromiumSettings);
                         break;
+                    case ServiceCode.Ok:
+                        iBot = new OkRegistration(accountData, smsService, chromiumSettings);
+                        break;
                 }
                 if (countryCode == null) countryCode = ((CountryItem)cmbCountry.SelectedItem).CountryCode;
                 if (iBot != null) accountData = await iBot.Registration(countryCode.Value);
@@ -275,12 +278,17 @@ namespace ScenarioApp.Controls
 
         private async void TryRegister(IEnumerable<SmsServiceInfo> infos)
         {
+            if (infos == null || !infos.Any()) {
+                textBox1.AppendText($@"Не загружены стоимостные данные смс сервисов, подождите - {DateTime.Now} {Environment.NewLine}");
+                return;
+            }
             foreach (var info in infos)
             {
                 var accountData = await Demo(info.ServiceCode, info.SmsServiceCode, info.CountryCode);
+                // if not no numbers then break
                 if (accountData == null) break;
                 if (accountData.Success) break;
-                // if not no numbers then break
+                if (string.IsNullOrEmpty(accountData.ErrMsg)) break;
                 if (!(accountData.ErrMsg.Equals(BotMessages.NoPhoneNumberMessage)
                     || accountData.ErrMsg.Equals(BotMessages.PhoneNumberNotAcceptMessage))) break;
             }
@@ -324,12 +332,6 @@ namespace ScenarioApp.Controls
         {
             if (cbSmsAuto.Checked)
             {
-                //var serviceInfoList = _smsServiceInfoList
-                //.Where(z => z.ServiceCode == ServiceCode.Yandex && z.NumberCount > 0)
-                //.OrderBy(z => z.Price)
-                //.ThenByDescending(z => z.NumberCount)
-                //.ToList();
-
                 TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Yandex));
                 return;
             }
@@ -346,14 +348,34 @@ namespace ScenarioApp.Controls
             await Demo(ServiceCode.Gmail);
         }
 
-        private void btnFacebook_Click(object sender, EventArgs e)
+        private async void BtnFacebook_Click(object sender, EventArgs e)
         {
-            Demo(ServiceCode.Facebook);
+            if (cbSmsAuto.Checked)
+            {
+                TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Facebook));
+                return;
+            }
+            await Demo(ServiceCode.Facebook);
         }
 
-        private void BtnVk_Click(object sender, EventArgs e)
+        private async void BtnVk_Click(object sender, EventArgs e)
         {
-            Demo(ServiceCode.Vk);
+            if (cbSmsAuto.Checked)
+            {
+                TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Vk));
+                return;
+            }
+            await Demo(ServiceCode.Vk);
+        }
+
+        private async void BtnOk_Click(object sender, EventArgs e)
+        {
+            if (cbSmsAuto.Checked)
+            {
+                TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Ok));
+                return;
+            }
+            await Demo(ServiceCode.Ok);
         }
 
         private void BtnGenerateEn_Click(object sender, EventArgs e)

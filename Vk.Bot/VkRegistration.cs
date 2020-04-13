@@ -18,6 +18,7 @@ namespace Vk.Bot
         private readonly ISmsService _smsService;
         private string _requestId;
         private readonly IChromiumSettings _chromiumSettings;
+        private readonly string _vkProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_vkProxy)];
 
         public VkRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
         {
@@ -25,6 +26,7 @@ namespace Vk.Bot
             _data.Domain = "vk.com";
             _smsService = smsService;
             _chromiumSettings = chromiumSettings;
+            _chromiumSettings.Proxy = _vkProxy;
         }
 
         public async Task<IAccountData> Registration(CountryCode countryCode)
@@ -44,10 +46,10 @@ namespace Vk.Bot
                 _requestId = phoneNumberRequest.Id;
                 _data.Phone = phoneNumberRequest.Phone.Trim();
                 if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
-
-                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
+                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
                 using (var page = await browser.NewPageAsync())
                 {
+                    await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
                     try
                     {
                         await FillRegistrationData(page);
@@ -138,16 +140,21 @@ namespace Vk.Bot
             await page.ClickAsync("div.ij_byear td#dropdown3");
             await page.ClickAsync($"div.ij_byear li[val = '{_data.BirthDate.Year}']");
 
-            var sex=await page.QuerySelectorAsync("div#ij_sex_row");
-            if(sex!=null)  await page.ClickAsync("button#ij_submit");
-            sex = await page.QuerySelectorAsync("div#ij_sex_row");
+            //var sex = await page.QuerySelectorAsync("div#ij_sex_row");
+            //if (sex != null)
+            //{
+            //    await page.ClickAsync("button#ij_submit");
+            //    await page.WaitForTimeoutAsync(500);
+            //}
+            var sex = await page.QuerySelectorAsync("div#ij_sex_row");
             if (sex != null)
             {
                 await page.WaitForSelectorAsync("div#ij_sex_row", new WaitForSelectorOptions { Visible = true });
                 if (_data.Sex == SexCode.Female) await page.ClickAsync("div#ij_sex_row > div[tabindex='0']");
                 if (_data.Sex == SexCode.Male) await page.ClickAsync("div#ij_sex_row > div[tabindex='-1']");
             }
-            await page.ClickAsync("button#ij_submit");
+            var eSubmitButton = await page.QuerySelectorAsync("button#ij_submit");
+            if (eSubmitButton != null) await eSubmitButton.ClickAsync();
         }
 
     }

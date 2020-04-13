@@ -13,5 +13,7 @@ namespace Common.Service.Interfaces
         Task SetSmsValidationSuccess(string id);
         Task SetNumberFail(string id);
         Task<List<SmsServiceInfo>> GetInfo();
+
+        Task<double> GetBalance();
     }
 }

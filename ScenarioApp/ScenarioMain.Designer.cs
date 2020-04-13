@@ -46,6 +46,7 @@
             this.ClientSize = new System.Drawing.Size(1169, 694);
             this.Controls.Add(this.panel1);
             this.Name = "ScenarioMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Спецбраузер";
             this.ResumeLayout(false);
 

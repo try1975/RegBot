@@ -16,6 +16,7 @@ namespace Facebook.Bot
         private readonly IAccountData _data;
         private readonly ISmsService _smsService;
         private readonly IChromiumSettings _chromiumSettings;
+        private readonly string _fbProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_fbProxy)];
 
         public FacebookRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
         {
@@ -23,6 +24,7 @@ namespace Facebook.Bot
             _data.Domain = "facebook.com";
             _smsService = smsService;
             _chromiumSettings = chromiumSettings;
+            _chromiumSettings.Proxy = _fbProxy;
         }
 
 
@@ -45,9 +47,10 @@ namespace Facebook.Bot
                 _data.Phone = phoneNumberRequest.Phone.Trim();
                 if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
 
-                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()))
+                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
                 using (var page = await browser.NewPageAsync())
                 {
+                    await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
                     await FillRegistrationData(page);
                     await page.ClickAsync("button[type=submit]");
 

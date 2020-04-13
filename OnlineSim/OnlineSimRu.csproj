@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllCountryStat.cs" />
+    <Compile Include="BalanceResponse.cs" />
     <Compile Include="OnlineSimRuStatResponse.cs" />
     <Compile Include="GetNumResponse.cs" />
     <Compile Include="GetStateResponseItem.cs" />

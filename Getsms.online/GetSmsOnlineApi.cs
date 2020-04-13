@@ -5,6 +5,7 @@ using log4net;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -24,6 +25,7 @@ namespace GetSmsOnline
         private readonly string _endpointGetStatus;
         private readonly string _endpointGetPrices;
         private readonly string _endpointGetNumberStatus;
+        private readonly string _endpointGetBalance;
 
         private readonly Dictionary<ServiceCode, string> _services = new Dictionary<ServiceCode, string>();
 
@@ -40,6 +42,7 @@ namespace GetSmsOnline
             _endpointSetStatus = $"{baseUrl}&action=setStatus";
             _endpointGetStatus = $"{baseUrl}&action=getStatus";
             _endpointGetPrices = $"{baseUrl}&action=getPrices";
+            _endpointGetBalance = $"{baseUrl}&action=getBalance";
             _endpointGetNumberStatus = $"{baseUrl}&action=getNumbersStatus";
 
             #region set services
@@ -83,6 +86,17 @@ namespace GetSmsOnline
                 var result = await response.Content.ReadAsStringAsync();
                 Log.Debug($"{nameof(GetStatus)}... {result}");
                 return result;
+            }
+        }
+
+        private async Task<string> GetBalanceCall()
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointGetBalance}"))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsStringAsync();
+                Log.Debug($"{nameof(GetBalanceCall)}... {result}");
+                return result.Substring(15);
             }
         }
 
@@ -212,6 +226,13 @@ namespace GetSmsOnline
             var getStatusResponse = getStatusResult.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
             if (getStatusResponse.Length == 2) { return new PhoneNumberValidation { Code = getStatusResponse[1] }; }
             return null;
+        }
+
+        public async Task<double> GetBalance()
+        {
+            var balance = await GetBalanceCall();
+            if (double.TryParse(balance, NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"), out double result)) return result;
+            return 0;
         }
     }
 }
