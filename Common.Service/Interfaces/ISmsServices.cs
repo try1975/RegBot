@@ -8,5 +8,6 @@ namespace Common.Service.Interfaces
     {
         ISmsService GetSmsService(SmsServiceCode smsServiceCode);
         Task<IEnumerable<SmsServiceInfo>> GetServiceInfoList(ServiceCode serviceCode);
+        void RemoveSmsServiceLowBalance(SmsServiceCode smsServiceCode);
     }
 }

@@ -188,8 +188,7 @@ namespace MailRu.Bot
             Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
             if (_smsService == null)
             {
-                _data.Phone = "79163848169";
-                //TODO: random phone by country code
+                _data.Phone = PhoneServiceStore.GetRandomPhoneNumber(countryCode);
                 return _data.ErrMsg; ;
             }
             PhoneNumberRequest phoneNumberRequest = null;

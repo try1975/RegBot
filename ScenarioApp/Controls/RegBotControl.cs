@@ -52,7 +52,7 @@ namespace ScenarioApp.Controls
             connectionString = Path.Combine(Application.StartupPath, ConfigurationManager.AppSettings["DbPath"]);
 
             Load += Form1_Load;
-            tabPage2.Enter += tabPage2_Enter;
+            tabPage2.Enter += TabPage2_Enter;
 
             btnMailRuEmail.Click += BtnMailRuEmail_Click;
             btnMailRuPhone.Click += BtnMailRuPhone_Click;
@@ -85,9 +85,10 @@ namespace ScenarioApp.Controls
             foreach (SmsServiceCode smsServiceCode in Enum.GetValues(typeof(SmsServiceCode)))
             {
                 var balance = await _smsServices.GetSmsService(smsServiceCode).GetBalance();
-                if (balance < 25) { 
+                if (balance < 25)
+                {
                     textBox1.AppendText($@"Low balance {smsServiceCode} {balance} - {DateTime.Now} {Environment.NewLine}");
-                    //remove from _smsServices
+                    _smsServices.RemoveSmsServiceLowBalance(smsServiceCode);
                 }
             }
         }
@@ -316,12 +317,8 @@ namespace ScenarioApp.Controls
 
         private async void BtnMailRuPhone_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked)
-            {
-                TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.MailRu));
-                return;
-            }
-            await Demo(ServiceCode.MailRu);
+            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.MailRu));
+            else await Demo(ServiceCode.MailRu);
         }
 
         private async void BtnYandexEmail_Click(object sender, EventArgs e)
@@ -331,52 +328,32 @@ namespace ScenarioApp.Controls
 
         private async void BtnYandexPhone_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked)
-            {
-                TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Yandex));
-                return;
-            }
-            await Demo(ServiceCode.Yandex);
+            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Yandex));
+            else await Demo(ServiceCode.Yandex);
         }
 
         private async void BtnGmail_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked)
-            {
-                TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Gmail));
-                return;
-            }
-            await Demo(ServiceCode.Gmail);
+            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Gmail));
+            else await Demo(ServiceCode.Gmail);
         }
 
         private async void BtnFacebook_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked)
-            {
-                TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Facebook));
-                return;
-            }
-            await Demo(ServiceCode.Facebook);
+            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Facebook));
+            else await Demo(ServiceCode.Facebook);
         }
 
         private async void BtnVk_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked)
-            {
-                TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Vk));
-                return;
-            }
-            await Demo(ServiceCode.Vk);
+            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Vk));
+            else await Demo(ServiceCode.Vk);
         }
 
         private async void BtnOk_Click(object sender, EventArgs e)
         {
-            //if (cbSmsAuto.Checked)
-            //{
-            //    TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Ok));
-            //    return;
-            //}
-            await Demo(ServiceCode.Ok, byPhone: true);
+            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Ok));
+            else await Demo(ServiceCode.Ok, byPhone: true);
         }
 
         private void BtnGenerateEn_Click(object sender, EventArgs e)
@@ -388,7 +365,7 @@ namespace ScenarioApp.Controls
             GetRandomAccountData(countryCode: CountryCode.RU);
         }
 
-        private void tabPage2_Enter(object sender, EventArgs e)
+        private void TabPage2_Enter(object sender, EventArgs e)
         {
             using (var db = new LiteDatabase(connectionString))
             {
@@ -399,8 +376,6 @@ namespace ScenarioApp.Controls
                 //ContentGridColumnSettings(advancedDataGridView1);
             }
         }
-
-
 
         private void Form1_Load(object sender, EventArgs e)
         {

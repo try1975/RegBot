@@ -50,10 +50,15 @@ namespace Ok.Bot
             }
             return _data;
         }
+
         private async Task RegistrateByPhone(Page page)
         {
             await FillPhone(page);
-            await FillSms(page);
+            await FillSmsAndPassword(page);
+            await FillAccount(page);
+            await page.WaitForTimeoutAsync(1000);
+            var eAvatar = await page.QuerySelectorAsync("div.ucard-mini");
+            _data.Success = eAvatar != null;
         }
 
         private async Task<string> SmsServiceInit(CountryCode countryCode, ServiceCode serviceCode)
@@ -84,7 +89,8 @@ namespace Ok.Bot
         private async Task<Page> PageInit(Browser browser, bool isIncognito = true)
         {
             Page page;
-            if (isIncognito) {
+            if (isIncognito)
+            {
                 var context = await browser.CreateIncognitoBrowserContextAsync();
                 page = await context.NewPageAsync();
             }
@@ -106,23 +112,56 @@ namespace Ok.Bot
             await page.Keyboard.PressAsync($"{nameof(Key.Backspace)}");
             await ePhone.TypeAsync(_data.Phone);
             await ClickSubmit(page);
-            await page.WaitForNavigationAsync();
+            await page.WaitForTimeoutAsync(500);
         }
 
-        private async Task FillSms(Page page)
+        private async Task FillSmsAndPassword(Page page)
         {
             var eSmsLink = await page.QuerySelectorAsync("input[data-l$=sms_code]");
-
+            if (eSmsLink != null) { 
             await eSmsLink.ClickAsync();
-            //input#smsCode
-            //await ClickSubmit(page);
-            //await page.WaitForNavigationAsync();
+            await page.WaitForTimeoutAsync(500);
+            }
+            var eSmsInput = await page.QuerySelectorAsync("input#smsCode");
+            if (eSmsInput != null)
+            {
+                var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
+                Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
+                if (phoneNumberValidation != null)
+                {
+                    await _smsService.SetSmsValidationSuccess(_requestId);
+                    // enter sms code
+                    await eSmsInput.TypeAsync(phoneNumberValidation.Code);
+                    await ClickSubmit(page);
+                    await page.WaitForTimeoutAsync(500);
+                    var ePassword = await page.QuerySelectorAsync("input#field_password");
+                    await ePassword.TypeAsync(_data.Password);
+                    await ClickSubmit(page);
+                }
+            }
+        }
+
+        private async Task FillAccount(Page page)
+        {
+            var eFirstname = await page.QuerySelectorAsync("input#field_fieldName");
+            await eFirstname.TypeAsync(_data.Firstname);
+            var eLastname = await page.QuerySelectorAsync("input#field_surname");
+            await eLastname.TypeAsync(_data.Lastname);
+            var eBirthday = await page.QuerySelectorAsync("input#field_birthday");
+            //todo: select date from wizard
+            await eBirthday.TypeAsync($"{_data.BirthDate.Date}");
+
+            var eSex = await page.QuerySelectorAllAsync("span.btn-group_i_t");
+            if (_data.Sex == SexCode.Male) await eSex[0].ClickAsync();
+            if (_data.Sex == SexCode.Female) await eSex[1].ClickAsync();
+
+            await ClickSubmit(page);
         }
 
         private static async Task ClickSubmit(Page page)
         {
-            var elSignUp = await page.QuerySelectorAsync("button[type='submit']");
-            
+            var elSignUp = await page.QuerySelectorAsync("input[type=submit]");
+
             await elSignUp.ClickAsync();
             await page.WaitForTimeoutAsync(500);
         }

@@ -84,5 +84,10 @@ namespace Common.Classes
             File.WriteAllText(path, JsonConvert.SerializeObject(_smsServiceInfoList));
             _smsServiceInfoListInitialized = true;
         }
+
+        public void RemoveSmsServiceLowBalance(SmsServiceCode smsServiceCode)
+        {
+            _smsServiceInfoList.RemoveAll(z => z.SmsServiceCode == smsServiceCode);
+        }
     }
 }
