@@ -258,6 +258,7 @@ namespace OnlineSimRu
                 }
                 if (countryStat.services.odklru != null && int.TryParse(countryStat.services.odklru.count, out count))
                 {
+                    if (countryCodeName == "CI") continue;
                     list.Add(new SmsServiceInfo
                     {
                         SmsServiceCode = SmsServiceCode.OnlineSimRu,

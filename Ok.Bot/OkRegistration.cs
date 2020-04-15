@@ -182,7 +182,7 @@ namespace Ok.Bot
             await eMonth.ClickAsync();
             await eMonth.SelectAsync($"{_data.BirthDate.Month-1}");
 
-            var eDays = await page.QuerySelectorAllAsync("td[class=' ']"); //!!! without weekends
+            var eDays = await page.QuerySelectorAllAsync("a.ui-state-default:not(.ui-priority-secondary)"); 
             await eDays[_data.BirthDate.Day - 1].ClickAsync();
 
             var eSex = await page.QuerySelectorAllAsync("span.btn-group_i_t");
