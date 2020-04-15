@@ -85,7 +85,7 @@ namespace ScenarioApp.Controls
             foreach (SmsServiceCode smsServiceCode in Enum.GetValues(typeof(SmsServiceCode)))
             {
                 var balance = await _smsServices.GetSmsService(smsServiceCode).GetBalance();
-                if (balance < 25)
+                if (balance < 5)
                 {
                     textBox1.AppendText($@"Low balance {smsServiceCode} {balance} - {DateTime.Now} {Environment.NewLine}");
                     _smsServices.RemoveSmsServiceLowBalance(smsServiceCode);

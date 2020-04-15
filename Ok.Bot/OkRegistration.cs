@@ -45,7 +45,7 @@ namespace Ok.Bot
             catch (Exception exception)
             {
                 Log.Error(exception);
-                _data.ErrMsg = exception.Message;
+                if(string.IsNullOrEmpty(_data.ErrMsg))_data.ErrMsg = exception.Message;
                 await _smsService.SetNumberFail(_requestId);
             }
             return _data;
@@ -54,8 +54,11 @@ namespace Ok.Bot
         private async Task RegistrateByPhone(Page page)
         {
             await FillPhone(page);
+            if (!string.IsNullOrEmpty(_data.ErrMsg)) return;
             await FillSmsAndPassword(page);
+            if (!string.IsNullOrEmpty(_data.ErrMsg)) return;
             await FillAccount(page);
+            if (!string.IsNullOrEmpty(_data.ErrMsg)) return;
             await page.WaitForTimeoutAsync(1000);
             var eAvatar = await page.QuerySelectorAsync("div.ucard-mini");
             _data.Success = eAvatar != null;
@@ -107,20 +110,34 @@ namespace Ok.Bot
 
         private async Task FillPhone(Page page)
         {
+            await page.WaitForTimeoutAsync(100);
             var ePhone = await page.QuerySelectorAsync("input#field_phone");
             await page.Keyboard.PressAsync($"{nameof(Key.Backspace)}");
+            await page.WaitForTimeoutAsync(100);
             await page.Keyboard.PressAsync($"{nameof(Key.Backspace)}");
+            await page.WaitForTimeoutAsync(100);
             await ePhone.TypeAsync(_data.Phone);
+            var eBadPhone = await page.QuerySelectorAsync("div.input-e");
+            if (eBadPhone != null)
+            {
+                var eText = await eBadPhone.GetPropertyAsync("textContent");
+                var error = $"{await eText.JsonValueAsync()}";
+                if (!string.IsNullOrEmpty(error)) { _data.ErrMsg = BotMessages.PhoneNumberNotAcceptMessage;
+                    return;
+                }
+            }
             await ClickSubmit(page);
             await page.WaitForTimeoutAsync(500);
         }
 
         private async Task FillSmsAndPassword(Page page)
         {
+            if (!string.IsNullOrEmpty(_data.ErrMsg)) return;
             var eSmsLink = await page.QuerySelectorAsync("input[data-l$=sms_code]");
-            if (eSmsLink != null) { 
-            await eSmsLink.ClickAsync();
-            await page.WaitForTimeoutAsync(500);
+            if (eSmsLink != null)
+            {
+                await eSmsLink.ClickAsync();
+                await page.WaitForTimeoutAsync(500);
             }
             var eSmsInput = await page.QuerySelectorAsync("input#smsCode");
             if (eSmsInput != null)
@@ -138,18 +155,35 @@ namespace Ok.Bot
                     await ePassword.TypeAsync(_data.Password);
                     await ClickSubmit(page);
                 }
+                else
+                {
+                    _data.ErrMsg = BotMessages.PhoneNumberNotRecieveSms;
+                    await _smsService.SetNumberFail(_requestId);
+                }
             }
         }
 
         private async Task FillAccount(Page page)
         {
+            if (!string.IsNullOrEmpty(_data.ErrMsg)) return;
             var eFirstname = await page.QuerySelectorAsync("input#field_fieldName");
             await eFirstname.TypeAsync(_data.Firstname);
             var eLastname = await page.QuerySelectorAsync("input#field_surname");
             await eLastname.TypeAsync(_data.Lastname);
+            
             var eBirthday = await page.QuerySelectorAsync("input#field_birthday");
-            //todo: select date from wizard
-            await eBirthday.TypeAsync($"{_data.BirthDate.Date}");
+            await eBirthday.ClickAsync();
+            
+            var eYear = await page.QuerySelectorAsync("select.ui-datepicker-year");
+            await eYear.ClickAsync();
+            await eYear.SelectAsync($"{_data.BirthDate.Year}");
+
+            var eMonth = await page.QuerySelectorAsync("select.ui-datepicker-month");
+            await eMonth.ClickAsync();
+            await eMonth.SelectAsync($"{_data.BirthDate.Month-1}");
+
+            var eDays = await page.QuerySelectorAllAsync("td[class=' ']"); //!!! without weekends
+            await eDays[_data.BirthDate.Day - 1].ClickAsync();
 
             var eSex = await page.QuerySelectorAllAsync("span.btn-group_i_t");
             if (_data.Sex == SexCode.Male) await eSex[0].ClickAsync();

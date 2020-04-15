@@ -12,6 +12,7 @@ namespace ScenarioService
         public NicRuWhois(IChromiumSettings chromiumSettings, IProgress<string> progressLog = null)
             : base(typeof(GoogleSearch), chromiumSettings, progressLog)
         {
+            //https://b2b.reg.ru/buy/domains?dname=yandex.ru - check domain busy
         }
 
         public async Task<List<string>> RunScenario(string[] domains)
