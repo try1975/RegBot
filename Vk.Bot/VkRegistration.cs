@@ -88,7 +88,7 @@ namespace Vk.Bot
                         }
 
                         var selSmsCode = "input#join_code";
-                        await page.WaitForSelectorAsync(selSmsCode, new WaitForSelectorOptions { Visible = true });
+                        await page.WaitForSelectorAsync(selSmsCode, new WaitForSelectorOptions { Visible = true, Timeout=60000 });
                         await page.ClickAsync(selSmsCode);
                         var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
                         Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");

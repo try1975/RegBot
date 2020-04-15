@@ -49,7 +49,7 @@ namespace Common.Classes
         {
             if (!_smsServiceInfoListInitialized) await InitializeSmsServiceInfoList();
             return _smsServiceInfoList
-                    .Where(z => z.ServiceCode == serviceCode && z.NumberCount > 0)
+                    .Where(z => z.ServiceCode == serviceCode && z.NumberCount > 0 && !z.Skiped)
                     .OrderBy(z => z.Price)
                     .ThenByDescending(z => z.NumberCount)
                     .ToList();
@@ -73,7 +73,13 @@ namespace Common.Classes
             foreach (KeyValuePair<SmsServiceCode, ISmsService> entry in _smsServiceDictionary)
             {
                 var smsServiceInfoList = await _smsServiceDictionary[entry.Key].GetInfo();
-                _smsServiceInfoList.AddRange(smsServiceInfoList);
+                foreach (var smsServiceInfo in smsServiceInfoList)
+                {
+                    if (_smsServiceInfoList.Any(z => z.SmsServiceCode == smsServiceInfo.SmsServiceCode
+                            && z.ServiceCode == smsServiceInfo.ServiceCode && z.CountryCode == smsServiceInfo.CountryCode)) continue;
+                    _smsServiceInfoList.Add(smsServiceInfo);
+                }
+                //_smsServiceInfoList.AddRange(smsServiceInfoList);
             }
             File.WriteAllText(path, JsonConvert.SerializeObject(_smsServiceInfoList));
             _smsServiceInfoListInitialized = true;

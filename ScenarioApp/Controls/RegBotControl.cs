@@ -65,10 +65,9 @@ namespace ScenarioApp.Controls
             btnGenerateEn.Click += BtnGenerateEn_Click;
             btnGenerateRu.Click += BtnGenerateRu_Click;
 
-            dgvItems.FilterStringChanged += dgvItems_FilterStringChanged;
-            dgvItems.SortStringChanged += dgvItems_SortStringChanged;
+            dgvItems.FilterStringChanged += DgvItems_FilterStringChanged;
+            dgvItems.SortStringChanged += DgvItems_SortStringChanged;
             dgvItems.UserDeletingRow += DgvItems_UserDeletingRow;
-
         }
 
         private async void FormLoad()
@@ -82,11 +81,14 @@ namespace ScenarioApp.Controls
             browserFetcher.DownloadProgressChanged += OnDownloadProgressChanged;
             GetBrowserLastVersion(browserFetcher);
             await _smsServices.GetServiceInfoList(ServiceCode.MailRu);
-            
+
             foreach (SmsServiceCode smsServiceCode in Enum.GetValues(typeof(SmsServiceCode)))
             {
                 var balance = await _smsServices.GetSmsService(smsServiceCode).GetBalance();
-                if(balance<25) textBox1.AppendText($@"Low balance {smsServiceCode} {balance} - {DateTime.Now} {Environment.NewLine}");
+                if (balance < 25) { 
+                    textBox1.AppendText($@"Low balance {smsServiceCode} {balance} - {DateTime.Now} {Environment.NewLine}");
+                    //remove from _smsServices
+                }
             }
         }
 
@@ -108,13 +110,13 @@ namespace ScenarioApp.Controls
             }
         }
 
-        private void dgvItems_SortStringChanged(object sender, EventArgs e)
+        private void DgvItems_SortStringChanged(object sender, EventArgs e)
         {
             bindingSource1.Sort = dgvItems.SortString;
             bindingSource1.ResetBindings(false);
         }
 
-        private void dgvItems_FilterStringChanged(object sender, EventArgs e)
+        private void DgvItems_FilterStringChanged(object sender, EventArgs e)
         {
             bindingSource1.Filter = dgvItems.FilterString;
             bindingSource1.ResetBindings(false);
@@ -164,8 +166,6 @@ namespace ScenarioApp.Controls
             }
             return accountData;
         }
-
-
 
         private static DataTable ConvertToDataTable<T>(IEnumerable<T> data)
         {
@@ -278,8 +278,9 @@ namespace ScenarioApp.Controls
 
         private async void TryRegister(IEnumerable<SmsServiceInfo> infos)
         {
-            if (infos == null || !infos.Any()) {
-                textBox1.AppendText($@"Не загружены стоимостные данные смс сервисов, подождите - {DateTime.Now} {Environment.NewLine}");
+            if (infos == null || !infos.Any())
+            {
+                textBox1.AppendText($@"Нет стоимостных данных смс сервисов - {DateTime.Now} {Environment.NewLine}");
                 return;
             }
             foreach (var info in infos)
@@ -289,8 +290,8 @@ namespace ScenarioApp.Controls
                 if (accountData == null) break;
                 if (accountData.Success) break;
                 if (string.IsNullOrEmpty(accountData.ErrMsg)) break;
-                if (!(accountData.ErrMsg.Equals(BotMessages.NoPhoneNumberMessage)
-                    || accountData.ErrMsg.Equals(BotMessages.PhoneNumberNotAcceptMessage))) break;
+                if (accountData.ErrMsg.Equals(BotMessages.NoPhoneNumberMessage)) info.Skiped = true;
+                if (!BotMessages.BadNumber.Contains(accountData.ErrMsg)) break;
             }
         }
 
@@ -370,12 +371,12 @@ namespace ScenarioApp.Controls
 
         private async void BtnOk_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked)
-            {
-                TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Ok));
-                return;
-            }
-            await Demo(ServiceCode.Ok);
+            //if (cbSmsAuto.Checked)
+            //{
+            //    TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Ok));
+            //    return;
+            //}
+            await Demo(ServiceCode.Ok, byPhone: true);
         }
 
         private void BtnGenerateEn_Click(object sender, EventArgs e)

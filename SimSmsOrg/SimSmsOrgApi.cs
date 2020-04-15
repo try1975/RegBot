@@ -243,7 +243,7 @@ namespace SimSmsOrg
             var getStatusResponse = getStatusResult.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
             if (getStatusResponse.Length == 2) { return new PhoneNumberValidation { Code = getStatusResponse[1] }; }
             tryCount = 0;
-            while (getStatusResponse.Length != 2 && tryCount < 60)
+            while (getStatusResponse.Length != 2 && tryCount < 120)
             {
                 Thread.Sleep(1000);
                 getStatusResult = await GetStatus(id);

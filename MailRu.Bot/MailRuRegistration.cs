@@ -7,9 +7,7 @@ using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
 using PuppeteerSharp.Input;
-using PuppeteerSharp.Mobile;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,13 +16,14 @@ namespace MailRu.Bot
 {
     public class MailRuRegistration : IBot
     {
+        #region private fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(MailRuRegistration));
-        private readonly string _mailruProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_mailruProxy)];
-
         private readonly IAccountData _data;
         private readonly ISmsService _smsService;
         private string _requestId;
         private readonly IChromiumSettings _chromiumSettings;
+        private readonly string _mailruProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_mailruProxy)];
+        #endregion
 
         public MailRuRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
         {
@@ -38,41 +37,9 @@ namespace MailRu.Bot
         {
             try
             {
-                _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
-                Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
-                if (_smsService == null)
-                {
-                    _data.Phone = "79163848169";
-                }
-                else
-                {
-                    PhoneNumberRequest phoneNumberRequest = null;
-                    //phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, ServiceCode.MailRu);
-                    phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
-                    if (phoneNumberRequest == null)
-                    {
-                        _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
-                        return _data;
-                    }
-                    Log.Info($"phoneNumberRequest: {JsonConvert.SerializeObject(phoneNumberRequest)}");
-                    _requestId = phoneNumberRequest.Id;
-                    _data.Phone = phoneNumberRequest.Phone.Trim();
-                    if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
-                    //_data.Phone = _data.Phone.Substring(PhoneServiceStore.CountryPrefixes[countryCode].Length + 1);
-                }
+                if (!string.IsNullOrEmpty(await SmsServiceInit(countryCode, ServiceCode.MailRu))) return _data;
                 using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
-                {
-                    //var context = await browser.CreateIncognitoBrowserContextAsync();
-                    using (var page = await browser.NewPageAsync() /*context.NewPageAsync()*/)
-                    {
-                        await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
-                        //await SetRequestHook(page);
-                        //await SetUserAgent(page);
-                        await page.GoToAsync(GetRegistrationUrl());
-                        //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]);
-                        if (_smsService == null) await RegistrateByEmail(page); else await RegistrateByPhone(page);
-                    }
-                }
+                using (var page = await PageInit(browser)) if (_smsService == null) await RegistrateByEmail(page); else await RegistrateByPhone(page);
             }
             catch (Exception exception)
             {
@@ -102,7 +69,7 @@ namespace MailRu.Bot
             }
             await FillAdditionalEmail(page);
             await page.WaitForTimeoutAsync(1500);
-            
+
             await ClickSubmit(page);
 
             await FillPhone(page);
@@ -215,7 +182,46 @@ namespace MailRu.Bot
             }
         }
 
-        
+        private async Task<string> SmsServiceInit(CountryCode countryCode, ServiceCode serviceCode)
+        {
+            _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
+            Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
+            if (_smsService == null)
+            {
+                _data.Phone = "79163848169";
+                //TODO: random phone by country code
+                return _data.ErrMsg; ;
+            }
+            PhoneNumberRequest phoneNumberRequest = null;
+            phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, serviceCode);
+            //phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
+            if (phoneNumberRequest == null)
+            {
+                _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
+                return _data.ErrMsg;
+            }
+            Log.Info($"phoneNumberRequest: {JsonConvert.SerializeObject(phoneNumberRequest)}");
+            _requestId = phoneNumberRequest.Id;
+            _data.Phone = phoneNumberRequest.Phone.Trim();
+            if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
+            //_data.Phone = _data.Phone.Substring(PhoneServiceStore.CountryPrefixes[countryCode].Length + 1);
+            return _data.ErrMsg;
+        }
+
+        private async Task<Page> PageInit(Browser browser)
+        {
+            //var context = await browser.CreateIncognitoBrowserContextAsync();
+            //return await context.NewPageAsync();
+            var page = await browser.NewPageAsync();
+            #region commented
+            //await SetRequestHook(page);
+            //await SetUserAgent(page);
+            //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]); 
+            #endregion
+            await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
+            await page.GoToAsync(GetRegistrationUrl());
+            return page;
+        }
 
         private static async void Page_Request(object sender, RequestEventArgs e)
         {
@@ -559,39 +565,28 @@ namespace MailRu.Bot
 
         public async static Task<bool> EmailAlreadyRegistered(string accountName, string host, Page page)
         {
-            try
+            var eAccountName = await page.QuerySelectorAsync("span.b-email__name>input[type='email']");
+            if (eAccountName == null) eAccountName = await page.QuerySelectorAsync("input[data-test-id='account__input']");
+            await eAccountName.TypeAsync(accountName);
+
+            const string defaultDomain = "mail.ru";
+            if (string.IsNullOrEmpty(host)) host = defaultDomain;
+
+            if (!host.ToLower().Equals(defaultDomain))
             {
-                var eAccountName = await page.QuerySelectorAsync("span.b-email__name>input[type='email']");
-                if (eAccountName == null) eAccountName = await page.QuerySelectorAsync("input[data-test-id='account__input']");
-                await eAccountName.TypeAsync(accountName);
-
-                const string defaultDomain = "mail.ru";
-                if (string.IsNullOrEmpty(host))
-                {
-                    host = defaultDomain;
-                }
-
-                if (!host.ToLower().Equals(defaultDomain))
-                {
-                    //select domain
-                    var eDomain = await page.QuerySelectorAsync("span.b-email__domain span");
-                    if (eDomain == null) eDomain = await page.QuerySelectorAsync("div[data-test-id='account__select']");
-                    await eDomain.ClickAsync();
-                    var eDomainValue = await page.QuerySelectorAsync($"a[data-text='@{host}']");
-                    if (eDomainValue == null) eDomainValue = await page.QuerySelectorAsync($"div[data-test-id='select-value:@{host}']");
-                    await eDomainValue.ClickAsync();
-                }
-
-                await page.WaitForTimeoutAsync(1000);
-                var altMailExists = await page.QuerySelectorAsync("div.b-tooltip_animate");
-                if (altMailExists == null) altMailExists = await page.QuerySelectorAsync("[data-test-id='exists']");
-                if (altMailExists == null) return false;
+                //select domain
+                var eDomain = await page.QuerySelectorAsync("span.b-email__domain span");
+                if (eDomain == null) eDomain = await page.QuerySelectorAsync("div[data-test-id='account__select']");
+                await eDomain.ClickAsync();
+                var eDomainValue = await page.QuerySelectorAsync($"a[data-text='@{host}']");
+                if (eDomainValue == null) eDomainValue = await page.QuerySelectorAsync($"div[data-test-id='select-value:@{host}']");
+                await eDomainValue.ClickAsync();
             }
-            catch (Exception exception)
-            {
-                Log.Error(exception);
-            }
-            return true;
+
+            await page.WaitForTimeoutAsync(1000);
+            var altMailExists = await page.QuerySelectorAsync("div.b-tooltip_animate");
+            if (altMailExists == null) altMailExists = await page.QuerySelectorAsync("[data-test-id='exists']");
+            return altMailExists != null;
         }
     }
 }

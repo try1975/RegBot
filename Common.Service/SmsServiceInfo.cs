@@ -9,5 +9,6 @@ namespace Common.Service
         public ServiceCode ServiceCode { get; set; }
         public int NumberCount { get; set; }
         public double Price { get; set; }
+        public bool Skiped { get; set; }
     }
 }

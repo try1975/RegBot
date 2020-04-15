@@ -34,7 +34,7 @@ namespace ScenarioApp.Controls
             var listCheckFbCredentialInput = new List<CheckFbCredentialInput>(textBox1.Lines.Length);
             foreach (var line in textBox1.Lines)
             {
-                var loginPassword = line.Split(' ');
+                var loginPassword = line.Split(' ', '\t');
                 listCheckFbCredentialInput.Add(new CheckFbCredentialInput { Login = loginPassword[0], Password = loginPassword[1] });
             }
             await scenario.RunScenario(listCheckFbCredentialInput);

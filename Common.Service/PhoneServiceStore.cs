@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Common.Service.Enums;
 
 namespace Common.Service
 {
     public static class PhoneServiceStore
     {
-        public static readonly Dictionary<CountryCode, string> CountryPrefixes = new Dictionary<CountryCode,string>();
+        private static readonly Random random = new Random();
+        public static readonly Dictionary<CountryCode, string> CountryPrefixes = new Dictionary<CountryCode, string>();
         static PhoneServiceStore()
         {
             CountryPrefixes[CountryCode.US] = "1";
@@ -51,6 +54,20 @@ namespace Common.Service
             CountryPrefixes[CountryCode.KG] = "996";
             CountryPrefixes[CountryCode.UZ] = "998";
             CountryPrefixes[CountryCode.CA] = "1000";
+
+            //Check all countries included
+        }
+        public static string GetRandomPhoneNumber(CountryCode countryCode)
+        {
+            const string valid = @"1234567890";
+            var res = new StringBuilder();
+            var length = 10;
+            while (0 < length--)
+            {
+                res.Append(valid[random.Next(valid.Length)]);
+            }
+            var phone = $"+{CountryPrefixes[countryCode]}{res}";
+            return phone;//.Substring(0, 11);
         }
     }
 }
