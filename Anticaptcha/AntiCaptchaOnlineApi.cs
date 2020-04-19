@@ -6,22 +6,30 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace AnticaptchaOnline
 {
     public class AntiCaptchaOnlineApi
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(AntiCaptchaOnlineApi));
-        private AntiCaptcha _apiKeyAnticaptcha = new AntiCaptcha(System.Configuration.ConfigurationManager.AppSettings[nameof(_apiKeyAnticaptcha)]);
+        private static readonly string _apiKeyAnticaptcha = ConfigurationManager.AppSettings[nameof(_apiKeyAnticaptcha)];
+        private AntiCaptcha _anticaptcha;
         private IProgress<string> _progressLog;
 
         public AntiCaptchaOnlineApi()
         {
+            _anticaptcha = new AntiCaptcha(GetApiKeyAnticaptcha());
+        }
 
+        public static string GetApiKeyAnticaptcha()
+        {
+            return _apiKeyAnticaptcha;
         }
 
         public AntiCaptchaOnlineApi(IProgress<string> progressLog)
         {
+            _anticaptcha = new AntiCaptcha(GetApiKeyAnticaptcha());
             _progressLog = progressLog;
         }
 
@@ -39,7 +47,7 @@ namespace AnticaptchaOnline
 
         public async Task<string> SolveRecaptha(string googleSiteKey, string pageUrl)
         {
-            var antiCaptchaResult = await _apiKeyAnticaptcha.SolveReCaptchaV2(googleSiteKey, pageUrl);
+            var antiCaptchaResult = await _anticaptcha.SolveReCaptchaV2(googleSiteKey, pageUrl);
             if (antiCaptchaResult.Success) return antiCaptchaResult.Response;
             Log.Error(antiCaptchaResult.Response);
             return string.Empty;
@@ -48,14 +56,14 @@ namespace AnticaptchaOnline
 
         public AntiCaptchaResult SolveIm(string imageBase64)
         {
-            var image = _apiKeyAnticaptcha.SolveImage(imageBase64).Result;
+            var image = _anticaptcha.SolveImage(imageBase64).Result;
             return image;
         }
 
         public async Task<string> SolveImPath(string path)
         {
             Info($"Решение капчи картинкой {path}");
-            var antiCaptchaResult = await _apiKeyAnticaptcha.SolveImage(StringHelper.ImageFileToBase64String(path));
+            var antiCaptchaResult = await _anticaptcha.SolveImage(StringHelper.ImageFileToBase64String(path));
             if (antiCaptchaResult.Success)
             {
                 Info($"Капча: {antiCaptchaResult.Response}");
@@ -67,7 +75,7 @@ namespace AnticaptchaOnline
 
         public async Task<string> GetBalance()
         {
-            var antiCaptchaResult = await _apiKeyAnticaptcha.GetBalance();
+            var antiCaptchaResult = await _anticaptcha.GetBalance();
             if (!antiCaptchaResult.Success) return "0";
             return antiCaptchaResult.Response;
         }

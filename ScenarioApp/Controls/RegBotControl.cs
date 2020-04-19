@@ -33,10 +33,12 @@ namespace ScenarioApp.Controls
 {
     public partial class RegBotControl : UserControl, IRegBotControl
     {
+        #region private fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(RegBotControl));
         private long BytesReceived { get; set; }
         private readonly string connectionString;
         private readonly ISmsServices _smsServices;
+        #endregion
 
         public RegBotControl(ISmsServices smsServices)
         {
@@ -254,6 +256,10 @@ namespace ScenarioApp.Controls
                         iBot = new GmailRegistration(accountData, smsService, chromiumSettings);
                         break;
                     case ServiceCode.Facebook:
+                        accountData.Firstname = Transliteration.CyrillicToLatin(accountData.Firstname, Language.Russian);
+                        accountData.Firstname = accountData.Firstname.Replace("`", "");
+                        accountData.Lastname = Transliteration.CyrillicToLatin(accountData.Lastname, Language.Russian);
+                        accountData.Lastname = accountData.Lastname.Replace("`", "");
                         iBot = new FacebookRegistration(accountData, smsService, chromiumSettings);
                         break;
                     case ServiceCode.Vk:
@@ -293,6 +299,7 @@ namespace ScenarioApp.Controls
                 if (string.IsNullOrEmpty(accountData.ErrMsg)) break;
                 if (accountData.ErrMsg.Equals(BotMessages.NoPhoneNumberMessage)) info.Skiped = true;
                 if (!BotMessages.BadNumber.Contains(accountData.ErrMsg)) break;
+                await _smsServices.AddFail(info);
             }
         }
 

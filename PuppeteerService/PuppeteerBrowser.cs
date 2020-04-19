@@ -20,8 +20,8 @@ namespace PuppeteerService
                 Headless = headless,
                 ExecutablePath = chromiumPath,
                 DefaultViewport = new ViewPortOptions { IsLandscape = true },
-                IgnoreHTTPSErrors = true/*,
-                SlowMo = 3*/
+                IgnoreHTTPSErrors = true,
+                SlowMo = 10
             };
             var optionsArgs = new List<string>
             {

@@ -50,7 +50,8 @@ namespace Common.Classes
             if (!_smsServiceInfoListInitialized) await InitializeSmsServiceInfoList();
             return _smsServiceInfoList
                     .Where(z => z.ServiceCode == serviceCode && z.NumberCount > 0 && !z.Skiped)
-                    .OrderBy(z => z.Price)
+                    .OrderBy(z => z.FailCount)
+                    .ThenBy(z => z.Price)
                     .ThenByDescending(z => z.NumberCount)
                     .ToList();
         }
@@ -88,6 +89,12 @@ namespace Common.Classes
         public void RemoveSmsServiceLowBalance(SmsServiceCode smsServiceCode)
         {
             _smsServiceInfoList.RemoveAll(z => z.SmsServiceCode == smsServiceCode);
+        }
+
+        public async Task AddFail(SmsServiceInfo smsServiceInfo)
+        {
+            //smsServiceInfo.FailCount++;
+            //smsServiceInfo.NumberCount--;
         }
     }
 }

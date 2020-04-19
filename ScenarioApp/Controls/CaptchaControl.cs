@@ -12,25 +12,92 @@ using PuppeteerService;
 using ScenarioApp.Ninject;
 using System.Diagnostics;
 using AnticaptchaOnline;
+using PuppeteerSharp;
+using System.IO;
+using System.Configuration;
 
 namespace ScenarioApp.Controls
 {
     public partial class CaptchaControl : UserControl, ICaptchaControl
     {
         private readonly AntiCaptchaOnlineApi _antiCaptchaOnlineApi;
-        private readonly Progress<string> _progressLog; 
+        private readonly Progress<string> _progressLog;
+        private readonly IChromiumSettings _chromiumSettings;
+        private string _apiKeyAnticaptcha = ConfigurationManager.AppSettings[nameof(_apiKeyAnticaptcha)];
 
         public CaptchaControl()
         {
             InitializeComponent();
-            _progressLog = new Progress<string>(update => ProgressLogMethod(update));
+            
             _antiCaptchaOnlineApi = new AntiCaptchaOnlineApi(_progressLog);
+            _progressLog = new Progress<string>(update => ProgressLogMethod(update));
+            _chromiumSettings = CompositionRoot.Resolve<IChromiumSettings>();
 
             SetBalanceValue();
 
             btnAcRefreshBalance.Click += BtnAcRefreshBalance_Click;
             btnExecute.Click += BtnExecute_Click;
             btnImgLoad.Click += BtnImgLoad_Click;
+            btnRecaptcha.Click += BtnRecaptcha_Click;
+        }
+
+        private async void BtnRecaptcha_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
+                using (var page = await PageInit(browser)) await Recaptcha(page);
+            }
+            catch (Exception exception)
+            {
+                throw;
+            }
+        }
+
+        private async Task Recaptcha(Page page)
+        {
+            var eRecaptcha = await page.QuerySelectorAsync("#g-recaptcha-response");
+            if (eRecaptcha != null)
+            {
+                var anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\init.js"));
+                anticaptchaScriptText = anticaptchaScriptText.Replace("YOUR-ANTI-CAPTCHA-API-KEY", _apiKeyAnticaptcha);
+                await page.EvaluateExpressionAsync(anticaptchaScriptText);
+
+                //anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\1.js"));
+                //await page.EvaluateExpressionAsync(anticaptchaScriptText);
+                //await page.AddScriptTagAsync(new AddTagOptions { Content = anticaptchaScriptText });
+
+
+                await page.AddScriptTagAsync("https://cdn.antcpt.com/imacros_inclusion/recaptcha.js");
+                await page.WaitForSelectorAsync(".antigate_solver.solved", new WaitForSelectorOptions { Timeout = 120 * 1000 });
+                await page.ClickAsync("input[type=submit]");
+                //await page.WaitForNavigationAsync();
+            }
+            
+        }
+
+        private async Task<Page> PageInit(Browser browser, bool isIncognito = false)
+        {
+            Page page;
+            if (isIncognito)
+            {
+                var context = await browser.CreateIncognitoBrowserContextAsync();
+                page = await context.NewPageAsync();
+            }
+            else page = await browser.NewPageAsync();
+            #region commented
+            //await SetRequestHook(page);
+            //await SetUserAgent(page);
+            //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]); 
+            #endregion
+            //await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
+            await page.GoToAsync(GetInitUrl());
+            return page;
+        }
+
+        public string GetInitUrl()
+        {
+            return cbUrl.Text;
         }
 
         private void ProgressLogMethod(string update)
@@ -69,10 +136,6 @@ namespace ScenarioApp.Controls
             {
                 tbProgress.Clear();
                 var progress = new Progress<string>(update => tbProgress.AppendText(update + Environment.NewLine));
-                var _chromiumSettings = CompositionRoot.Resolve<IChromiumSettings>();
-                //var domainCheck = new NicRuWhois(chromiumSettings: CompositionRoot.Resolve<IChromiumSettings>(), progressLog: progress);
-                //await domainCheck.RunScenario(domains: textBox8.Lines);
-
 
                 /*using (*/
                 var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()); /*)

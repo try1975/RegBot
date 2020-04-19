@@ -1,35 +1,26 @@
 ﻿using AccountData.Service;
-using Common.Service;
 using Common.Service.Enums;
 using Common.Service.Interfaces;
-using Facebook.Bot;
-using GetSmsOnline;
 using log4net;
-using NickBuhro.Translit;
-using Ok.Bot;
-using OnlineSimRu;
 using PuppeteerService;
 using ScenarioService;
-using SimSmsOrg;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Vk.Bot;
 
 namespace RegBot.RestApi.Controllers
 {
     public class SocialController : ControllerBase
     {
         private static readonly ILog Log = LogManager.GetLogger(nameof(SocialController));
-        private readonly ISmsServices _smsServices;
 
-        public SocialController(IChromiumSettings chromiumSettings, ISmsServices smsServices) : base(chromiumSettings)
+        public SocialController(IChromiumSettings chromiumSettings, ISmsServices smsServices) : base(chromiumSettings, smsServices)
         {
-            _smsServices = smsServices;
         }
 
+        #region GET
         [HttpGet]
         [Route("newFacebookAccount")]
         [ResponseType(typeof(IAccountData))]
@@ -82,7 +73,8 @@ namespace RegBot.RestApi.Controllers
                 return InternalServerError();
             }
             return Ok(accountData);
-        }
+        } 
+        #endregion
 
         #region POST
         [HttpPost]
@@ -98,7 +90,7 @@ namespace RegBot.RestApi.Controllers
             try
             {
                 Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await SocialRegistration(accountData, smsServiceCode, serviceCode);
+                accountData = await Registration(accountData, smsServiceCode, serviceCode);
             }
             catch (Exception exception)
             {
@@ -122,7 +114,7 @@ namespace RegBot.RestApi.Controllers
             try
             {
                 Log.Debug($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}  via {Enum.GetName(typeof(SmsServiceCode), smsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await SocialRegistration(accountData, smsServiceCode, serviceCode);
+                accountData = await Registration(accountData, smsServiceCode, serviceCode);
             }
             catch (Exception exception)
             {
@@ -206,68 +198,9 @@ namespace RegBot.RestApi.Controllers
 
         #endregion
 
-        #region private
-        private async Task<IAccountData> TryRegister(IEnumerable<SmsServiceInfo> infos)
+        private async Task<IAccountData> Registration(IAccountData accountData, SmsServiceCode smsServiceCode, ServiceCode serviceCode, CountryCode countryCode = CountryCode.RU)
         {
-            var accountData = GetRandomAccountData();
-            //IAccountData accountData;
-            foreach (var info in infos)
-            {
-                accountData = GetRandomAccountData(info.CountryCode);
-                accountData.PhoneCountryCode = Enum.GetName(typeof(CountryCode), info.CountryCode);
-                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), info.ServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), info.SmsServiceCode)} start... - {DateTime.Now} {Environment.NewLine}");
-                accountData = await SocialRegistration(accountData, info.SmsServiceCode, info.ServiceCode);
-                Log.Debug($@"{Enum.GetName(typeof(ServiceCode), info.ServiceCode)}  via {Enum.GetName(typeof(SmsServiceCode), info.SmsServiceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
-                //await MailRegistration
-                if (accountData == null) break;
-                if (accountData.Success) break;
-                if (string.IsNullOrEmpty(accountData.ErrMsg)) break;
-                if (!(accountData.ErrMsg.Equals(BotMessages.NoPhoneNumberMessage)
-                    || accountData.ErrMsg.Equals(BotMessages.PhoneNumberNotAcceptMessage))) break;
-            }
-            return accountData;
-        }
-
-        private async Task<IAccountData> SocialRegistration(IAccountData accountData, SmsServiceCode smsServiceCode, ServiceCode serviceCode, CountryCode countryCode = CountryCode.RU)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(accountData.AccountName))
-                {
-                    accountData.AccountName = Transliteration.CyrillicToLatin($"{accountData.Firstname.ToLower()}.{accountData.Lastname.ToLower()}", Language.Russian);
-                }
-                accountData = StoreAccountData(accountData);
-                ISmsService smsService = _smsServices.GetSmsService(smsServiceCode);
-                IBot iBot;
-                switch (serviceCode)
-                {
-                    case ServiceCode.Facebook:
-                        iBot = new FacebookRegistration(accountData, smsService, _chromiumSettings);
-                        break;
-                    case ServiceCode.Vk:
-                        iBot = new VkRegistration(accountData, smsService, _chromiumSettings);
-                        break;
-                    case ServiceCode.Ok:
-                        iBot = new OkRegistration(accountData, smsService, _chromiumSettings);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                //var countryCode = CountryCode.RU;
-                if (!string.IsNullOrEmpty(accountData.PhoneCountryCode))
-                {
-                    countryCode = (CountryCode)Enum.Parse(typeof(CountryCode), accountData.PhoneCountryCode);
-                }
-
-                accountData = await iBot.Registration(countryCode);
-                StoreAccountData(accountData);
-            }
-            catch (Exception exception)
-            {
-                Log.Error(exception);
-            }
-            return accountData;
+            return await Registration(accountData, smsServiceCode, serviceCode, countryCode, Log);
         } 
-        #endregion
     }
 }

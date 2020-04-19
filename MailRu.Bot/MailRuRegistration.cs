@@ -8,6 +8,7 @@ using PuppeteerService;
 using PuppeteerSharp;
 using PuppeteerSharp.Input;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -119,23 +120,24 @@ namespace MailRu.Bot
             await ClickSubmit(page);
 
 
-            var elRecaptcha = await page.QuerySelectorAsync("textarea#g-recaptcha-response");
-            if (elRecaptcha != null)
-            {
-                var antiCaptchaOnlineApi = new AntiCaptchaOnlineApi();
-                var antiCaptchaResult = await antiCaptchaOnlineApi.SolveRecaptha("6LckLRMTAAAAAEksaY5akGGK15Yq0n429l5_v-VT", page.Url);
-                if (string.IsNullOrEmpty(antiCaptchaResult)) { }
+            //var elRecaptcha = await page.QuerySelectorAsync("textarea#g-recaptcha-response");
+            //if (elRecaptcha != null)
+            //{
+            //    var antiCaptchaOnlineApi = new AntiCaptchaOnlineApi();
+            //    var antiCaptchaResult = await antiCaptchaOnlineApi.SolveRecaptha("6LckLRMTAAAAAEksaY5akGGK15Yq0n429l5_v-VT", page.Url);
+            //    if (string.IsNullOrEmpty(antiCaptchaResult)) { }
 
-                await page.TypeAsync("textarea#g-recaptcha-response", antiCaptchaResult);
-                await ClickSubmit(page);
-            }
+            //    await page.TypeAsync("textarea#g-recaptcha-response", antiCaptchaResult);
+            //    await ClickSubmit(page);
+            //}
+            await SolveRecaptcha(page);
+
 
             //
 
             // check phone call
             await page.WaitForTimeoutAsync(500);
-            var phoneCall = await page.QuerySelectorAsync("#callui-container");
-            if (phoneCall == null) await page.WaitForTimeoutAsync(120000);
+            var phoneCall = await page.WaitForSelectorAsync("#callui-container", new WaitForSelectorOptions { Timeout = 120 * 1000 });
             if (phoneCall != null)
             {
                 Thread.Sleep(1000);
@@ -207,11 +209,15 @@ namespace MailRu.Bot
             return _data.ErrMsg;
         }
 
-        private async Task<Page> PageInit(Browser browser)
+        private async Task<Page> PageInit(Browser browser, bool isIncognito = true)
         {
-            //var context = await browser.CreateIncognitoBrowserContextAsync();
-            //return await context.NewPageAsync();
-            var page = await browser.NewPageAsync();
+            Page page;
+            if (isIncognito)
+            {
+                var context = await browser.CreateIncognitoBrowserContextAsync();
+                page = await context.NewPageAsync();
+            }
+            else page = await browser.NewPageAsync();
             #region commented
             //await SetRequestHook(page);
             //await SetUserAgent(page);
@@ -220,37 +226,6 @@ namespace MailRu.Bot
             await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
             await page.GoToAsync(GetRegistrationUrl());
             return page;
-        }
-
-        private static async void Page_Request(object sender, RequestEventArgs e)
-        {
-            //if (e.Request.Url.Contains("google"))
-            //{
-            //    //    //await e.Request.AbortAsync();
-            //    Log.Error(e.Request.Url);
-            //    if (e.Request.Method == HttpMethod.Post)
-            //    {
-            //        Log.Error(e.Request.PostData);
-            //    }
-            //    await e.Request.ContinueAsync();
-            //}
-            //else
-            //{
-            //    Log.Info(e.Request.Url);
-            //    if (e.Request.Method == HttpMethod.Post)
-            //    {
-            //        Log.Info(e.Request.PostData);
-            //    }
-            //    await e.Request.ContinueAsync();
-            //}
-            await e.Request.ContinueAsync();
-            //var payload = new Payload()
-            //{
-            //    Url = "https://httpbin.org/forms/post",
-            //    Method = HttpMethod.Post /*,
-            //    PostData = keyValuePairs*/
-            //};
-            //await e.Request.ContinueAsync(payload);
         }
 
         public static async Task<bool> SendEmail(string to, string subject, string[] text, Page page)
@@ -332,10 +307,10 @@ namespace MailRu.Bot
             if (elSignUp == null) elSignUp = await page.QuerySelectorAsync("button[data-test-id='verification-next-button'] ");
 
             await elSignUp.ClickAsync();
-            await page.WaitForTimeoutAsync(500);
+            await page.WaitForTimeoutAsync(1500);
         }
-
         #region FillData
+
         private async Task FillName(Page page)
         {
             if (page.Url.Contains("light."))
@@ -548,6 +523,37 @@ namespace MailRu.Bot
             page.Request += Page_Request;
         }
 
+        private static async void Page_Request(object sender, RequestEventArgs e)
+        {
+            //if (e.Request.Url.Contains("google"))
+            //{
+            //    //    //await e.Request.AbortAsync();
+            //    Log.Error(e.Request.Url);
+            //    if (e.Request.Method == HttpMethod.Post)
+            //    {
+            //        Log.Error(e.Request.PostData);
+            //    }
+            //    await e.Request.ContinueAsync();
+            //}
+            //else
+            //{
+            //    Log.Info(e.Request.Url);
+            //    if (e.Request.Method == HttpMethod.Post)
+            //    {
+            //        Log.Info(e.Request.PostData);
+            //    }
+            //    await e.Request.ContinueAsync();
+            //}
+            await e.Request.ContinueAsync();
+            //var payload = new Payload()
+            //{
+            //    Url = "https://httpbin.org/forms/post",
+            //    Method = HttpMethod.Post /*,
+            //    PostData = keyValuePairs*/
+            //};
+            //await e.Request.ContinueAsync(payload);
+        }
+
         private async Task SetUserAgent(Page page)
         {
             var userAgent = UserAgent.GetRandomUserAgent();
@@ -555,6 +561,22 @@ namespace MailRu.Bot
             if (_smsService == null) userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17";
             Log.Info(userAgent);
             await page.SetUserAgentAsync(userAgent);
+        }
+
+        private async Task SolveRecaptcha(Page page)
+        {
+            var eRecaptcha = await page.QuerySelectorAsync("#g-recaptcha-response");
+            if (eRecaptcha != null)
+            {
+                var anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\init.js"));
+                anticaptchaScriptText = anticaptchaScriptText.Replace("YOUR-ANTI-CAPTCHA-API-KEY", AntiCaptchaOnlineApi.GetApiKeyAnticaptcha());
+                await page.EvaluateExpressionAsync(anticaptchaScriptText);
+                await page.AddScriptTagAsync("https://cdn.antcpt.com/imacros_inclusion/recaptcha.js");
+                //await page.WaitForSelectorAsync(".antigate_solver.solved", new WaitForSelectorOptions { Timeout = 120 * 1000 });
+                //await page.ClickAsync("input[type=submit]");
+                //await page.WaitForNavigationAsync(new NavigationOptions { Timeout = 120 * 1000 });
+                await SolveRecaptcha(page);
+            }
         }
 
         public static string GetLoginUrl()

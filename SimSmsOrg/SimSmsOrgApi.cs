@@ -266,29 +266,117 @@ namespace SimSmsOrg
             await SetStatus(id, "8");
         }
 
+
+        private async Task<SimSmsNumberCount> GetNumberCount2(string country, string service)
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointGetNumberCount}&country={country}&service={service}").ConfigureAwait(false))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsStringAsync();
+                if (result.Contains(nameof(SimSmsNumberCount.online)))
+                {
+                    var simSmsNumberCount = JsonConvert.DeserializeObject<SimSmsNumberCount>(result);
+                    return simSmsNumberCount;
+                }
+            }
+            return null;
+        }
+
+        private async Task<SimSmsNumberPrice> GetNumberPrice2(string country, string service)
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointGetNumberPrice}&country={country}&service={service}"))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsStringAsync();
+                if (result.Contains(nameof(SimSmsNumberPrice.price)))
+                {
+                    var simSmsNumberPrice = JsonConvert.DeserializeObject<SimSmsNumberPrice>(result);
+                    return simSmsNumberPrice;
+                }
+            }
+            return null;
+        }
+
+        private async Task<IEnumerable<SimSmsNumberCount>> GetNumberCount2InParallel(IEnumerable<CountryService> countriesServices)
+        {
+            var tasks = countriesServices.Select(z => GetNumberCount2(z.Country, z.Service));
+            var numbers = await Task.WhenAll(tasks);
+            return numbers;
+        }
+
+        private async Task<IEnumerable<SimSmsNumberPrice>> GetNumberPrice2InParallel(IEnumerable<CountryService> countriesServices)
+        {
+            var tasks = countriesServices.Select(z => GetNumberPrice2(z.Country, z.Service));
+            var prices = await Task.WhenAll(tasks);
+            return prices;
+        }
+
         public async Task<List<SmsServiceInfo>> GetInfo()
         {
             var list = new List<SmsServiceInfo>();
-            foreach (var pairServicesAlt in _servicesAlt)
-            {
-                foreach (var pairCountryParamsAlt in CountryParamsAlt)
+
+            var countriesServices =
+                (from pairCountry in CountryParamsAlt
+                 from pairServices in _servicesAlt
+                 select new CountryService
+                 {
+                     CountryCode = pairCountry.Key,
+                     Country = pairCountry.Value,
+                     ServiceCode = pairServices.Key,
+                     Service = pairServices.Value
+                 })
+                 .ToList();
+
+            var numbers = await GetNumberCount2InParallel(countriesServices);
+            numbers = numbers.Where(x => x != null && int.TryParse(x.online, out _));
+            countriesServices = countriesServices
+                .Select(z => new CountryService
                 {
-                    var count = await GetNumberCount(country: pairCountryParamsAlt.Value, service: pairServicesAlt.Value);
-                    if (count > 0)
-                    {
-                        var price = await GetNumberPrice(country: pairCountryParamsAlt.Value, service: pairServicesAlt.Value);
-                        if (price <= 0) continue;
-                        list.Add(new SmsServiceInfo
-                        {
-                            SmsServiceCode = SmsServiceCode.SimSmsOrg,
-                            CountryCode = pairCountryParamsAlt.Key,
-                            ServiceCode = pairServicesAlt.Key,
-                            NumberCount = count,
-                            Price = price
-                        });
-                    }
-                }
-            }
+                    CountryCode = z.CountryCode,
+                    Country = z.Country,
+                    ServiceCode = z.ServiceCode,
+                    Service = z.Service,
+                    NumberCount = numbers.Any(x => x.country == z.Country && x.Service == z.Service) ? int.Parse(numbers.FirstOrDefault(x => x.country == z.Country && x.Service == z.Service).online) : 0
+                })
+                .Where(z => z.NumberCount > 0)
+                .ToList();
+
+            var prices = await GetNumberPrice2InParallel(countriesServices);
+            prices = prices.Where(x => x != null && double.TryParse(x.price, NumberStyles.Any, CultureInfo.InvariantCulture, out _));
+            list = countriesServices
+                .Select(z => new SmsServiceInfo
+                {
+                    SmsServiceCode = SmsServiceCode.SimSmsOrg,
+                    CountryCode = z.CountryCode,
+                    ServiceCode = z.ServiceCode,
+                    NumberCount = z.NumberCount,
+                    Price = prices.Any(x => x.country == z.Country && x.service == z.Service) ? double.Parse(prices.FirstOrDefault(x => x.country == z.Country && x.service == z.Service).price, NumberStyles.Any, CultureInfo.InvariantCulture) : 0
+                })
+                .Where(z => z.Price > 0)
+                .ToList();
+
+            //if (simSmsNumberPrice != null && double.TryParse(simSmsNumberPrice.price, NumberStyles.Any, CultureInfo.InvariantCulture, out double price)) return price;
+
+            //foreach (var pairServicesAlt in _servicesAlt)
+            //{
+            //    foreach (var pairCountryParamsAlt in CountryParamsAlt)
+            //    {
+            //        var count = await GetNumberCount(country: pairCountryParamsAlt.Value, service: pairServicesAlt.Value);
+            //        if (count > 0)
+            //        {
+            //            var price = await GetNumberPrice(country: pairCountryParamsAlt.Value, service: pairServicesAlt.Value);
+            //            if (price <= 0) continue;
+            //            list.Add(new SmsServiceInfo
+            //            {
+            //                SmsServiceCode = SmsServiceCode.SimSmsOrg,
+            //                CountryCode = pairCountryParamsAlt.Key,
+            //                ServiceCode = pairServicesAlt.Key,
+            //                NumberCount = count,
+            //                Price = price
+            //            });
+            //        }
+            //    }
+            //}
             return list;
         }
 

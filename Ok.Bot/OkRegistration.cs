@@ -117,6 +117,7 @@ namespace Ok.Bot
             await page.Keyboard.PressAsync($"{nameof(Key.Backspace)}");
             await page.WaitForTimeoutAsync(100);
             await ePhone.TypeAsync(_data.Phone);
+            await page.WaitForTimeoutAsync(500);
             var eBadPhone = await page.QuerySelectorAsync("div.input-e");
             if (eBadPhone != null)
             {
@@ -188,7 +189,7 @@ namespace Ok.Bot
             var eSex = await page.QuerySelectorAllAsync("span.btn-group_i_t");
             if (_data.Sex == SexCode.Male) await eSex[0].ClickAsync();
             if (_data.Sex == SexCode.Female) await eSex[1].ClickAsync();
-
+            await page.WaitForTimeoutAsync(500);
             await ClickSubmit(page);
         }
 

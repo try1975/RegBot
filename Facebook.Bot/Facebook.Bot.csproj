@@ -127,6 +127,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Anticaptcha\AnticaptchaOnline.csproj">
+      <Project>{E2BF8C89-3408-4CF2-B6FA-2A6C31228F06}</Project>
+      <Name>AnticaptchaOnline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common.Service\Common.Service.csproj">
       <Project>{F45C44CF-2C70-4683-A36A-1154E2408F53}</Project>
       <Name>Common.Service</Name>

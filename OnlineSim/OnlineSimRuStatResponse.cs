@@ -13,24 +13,12 @@
 
     public class OnlineSimRuStatResponseServices
     {
-        public OnlineSimRuStatResponseServiceMailru mailru { get; set; }
-        public OnlineSimRuStatResponseServiceGoogle google { get; set; }
-        public OnlineSimRuStatResponseServiceYandex yandex { get; set; }
+        public OnlineSimRuStatResponseService mailru { get; set; }
+        public OnlineSimRuStatResponseService google { get; set; }
+        public OnlineSimRuStatResponseService yandex { get; set; }
     }
 
-    public class OnlineSimRuStatResponseServiceMailru
-    {
-        public string count { get; set; }
-        public string price { get; set; }
-    }
-
-    public class OnlineSimRuStatResponseServiceGoogle
-    {
-        public string count { get; set; }
-        public string price { get; set; }
-    }
-
-    public class OnlineSimRuStatResponseServiceYandex
+    public class OnlineSimRuStatResponseService
     {
         public string count { get; set; }
         public string price { get; set; }

@@ -1,15 +1,14 @@
 ﻿using Common.Service.Enums;
 
-namespace Common.Service
+namespace SimSmsOrg
 {
-    public class SmsServiceInfo
+    internal class CountryService
     {
-        public SmsServiceCode SmsServiceCode { get; set; }
         public CountryCode CountryCode { get; set; }
+        public string Country { get; set; }
         public ServiceCode ServiceCode { get; set; }
+        public string Service { get; set; }
         public int NumberCount { get; set; }
         public double Price { get; set; }
-        public bool Skiped { get; set; }
-        public int FailCount { get; set; }
     }
 }
