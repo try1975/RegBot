@@ -287,11 +287,12 @@ namespace ScenarioApp.Controls
         {
             if (infos == null || !infos.Any())
             {
-                textBox1.AppendText($@"Нет стоимостных данных смс сервисов - {DateTime.Now} {Environment.NewLine}");
+                textBox1.AppendText($"Нет стоимостных данных смс сервисов - {DateTime.Now} {Environment.NewLine}");
                 return;
             }
             foreach (var info in infos)
             {
+                textBox1.AppendText($"Попытка {info.CountryCode} {info.ServiceCode} {info.SmsServiceCode} - {info.Price} руб - {DateTime.Now} {Environment.NewLine}");
                 var accountData = await Demo(info.ServiceCode, info.SmsServiceCode, info.CountryCode);
                 // if not no numbers then break
                 if (accountData == null) break;

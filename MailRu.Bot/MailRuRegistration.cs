@@ -23,7 +23,8 @@ namespace MailRu.Bot
         private readonly ISmsService _smsService;
         private string _requestId;
         private readonly IChromiumSettings _chromiumSettings;
-        private readonly string _mailruProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_mailruProxy)];
+        //private readonly string _mailruProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_mailruProxy)];
+        private static readonly TypeOptions _typeOptions = new TypeOptions { Delay = 50 };
         #endregion
 
         public MailRuRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
@@ -31,7 +32,8 @@ namespace MailRu.Bot
             _data = data;
             _smsService = smsService;
             _chromiumSettings = chromiumSettings;
-            _chromiumSettings.Proxy = _mailruProxy;
+            //_chromiumSettings.Proxy = _mailruProxy;
+            _chromiumSettings.Proxy = _chromiumSettings.GetProxy(ServiceCode.MailRu);
         }
 
         public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)
@@ -137,28 +139,31 @@ namespace MailRu.Bot
 
             // check phone call
             await page.WaitForTimeoutAsync(500);
-            var phoneCall = await page.WaitForSelectorAsync("#callui-container", new WaitForSelectorOptions { Timeout = 120 * 1000 });
+            var phoneCall = await page.WaitForSelectorAsync("a[data-test-id=resend-callui-link", new WaitForSelectorOptions { Timeout = 120 * 1000 });
             if (phoneCall != null)
             {
-                Thread.Sleep(1000);
-                await page.ClickAsync("#callui-container a"); // I haven't received a call - click link for sms
+                await page.WaitForTimeoutAsync(500);
+                await phoneCall.ClickAsync(); // I haven't received a call - click link for sms
 
             }
+            await page.WaitForTimeoutAsync(500);
+            await SolveRecaptcha(page);
+
             // check sms
             await page.WaitForTimeoutAsync(2000);
-            var sendSms = await page.QuerySelectorAsync("form input[type='number']");
+            var eSendSms = await page.QuerySelectorAsync("form input[type='number']");
             // содержимое страницы
             //var content = await page.GetContentAsync();
             //var filename = $"c:\\temp\\mailru_{DateTime.Now.Ticks}.txt";
             //File.WriteAllText(filename, content);
-            if (sendSms != null)
+            if (eSendSms != null)
             {
                 var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
                 Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
                 if (phoneNumberValidation != null)
                 {
                     // enter sms code
-                    await page.TypeAsync("form input[type='number']", phoneNumberValidation.Code);
+                    await page.TypeAsync("form input[type='number']", phoneNumberValidation.Code, _typeOptions);
                     await ClickSubmit(page);
                     await _smsService.SetSmsValidationSuccess(_requestId);
                 }
@@ -209,7 +214,7 @@ namespace MailRu.Bot
             return _data.ErrMsg;
         }
 
-        private async Task<Page> PageInit(Browser browser, bool isIncognito = true)
+        private async Task<Page> PageInit(Browser browser, bool isIncognito = false)
         {
             Page page;
             if (isIncognito)
@@ -219,8 +224,8 @@ namespace MailRu.Bot
             }
             else page = await browser.NewPageAsync();
             #region commented
-            //await SetRequestHook(page);
-            //await SetUserAgent(page);
+            await SetHooks(page);
+            await SetUserAgent(page);
             //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]); 
             #endregion
             await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
@@ -281,11 +286,11 @@ namespace MailRu.Bot
             //page.EmulateAsync(DeviceDescriptors.Get(DeviceDescriptorName.IPhone6);
             try
             {
-                await page.TypeAsync("input[name=Login]", accountName);
+                await page.TypeAsync("input[name=Login]", accountName, _typeOptions);
                 await page.WaitForTimeoutAsync(500);
                 await ClickSubmit(page);
                 await page.WaitForTimeoutAsync(500);
-                await page.TypeAsync("input[name=Password]", password);
+                await page.TypeAsync("input[name=Password]", password, _typeOptions);
                 await ClickSubmit(page);
                 var navigationOptions = new NavigationOptions { WaitUntil = new[] { WaitUntilNavigation.DOMContentLoaded } };
                 await page.WaitForNavigationAsync(navigationOptions);
@@ -309,23 +314,24 @@ namespace MailRu.Bot
             await elSignUp.ClickAsync();
             await page.WaitForTimeoutAsync(1500);
         }
+        
         #region FillData
 
         private async Task FillName(Page page)
         {
             if (page.Url.Contains("light."))
             {
-                await page.TypeAsync("div[class*='firstname'] input", _data.Firstname);
-                await page.TypeAsync("div[class*='lastname'] input", _data.Lastname);
+                await page.TypeAsync("div[class*='firstname'] input", _data.Firstname, _typeOptions);
+                await page.TypeAsync("div[class*='lastname'] input", _data.Lastname, _typeOptions);
                 return;
             }
             var eFirstname = await page.QuerySelectorAsync("input[name^=firstname]");
             if (eFirstname == null) eFirstname = await page.QuerySelectorAsync("input[name=fname]");
-            await eFirstname.TypeAsync(_data.Firstname);
+            await eFirstname.TypeAsync(_data.Firstname, _typeOptions);
 
             var eLastname = await page.QuerySelectorAsync("input[name^=lastname]");
             if (eLastname == null) eLastname = await page.QuerySelectorAsync("input[name=lname]");
-            await eLastname.TypeAsync(_data.Lastname);
+            await eLastname.TypeAsync(_data.Lastname, _typeOptions);
         }
 
         private async Task FillBirthdate(Page page)
@@ -396,10 +402,10 @@ namespace MailRu.Bot
             }
 
             //await page.TypeAsync("span.b-email__name>input[type='email']", _data.AccountName);
-            const string defaultDomain = "mail.ru";
+            var defaultDomain = ServiceDomains.GetDomain(ServiceCode.MailRu);
             if (string.IsNullOrEmpty(_data.Domain))
             {
-                _data.Domain = defaultDomain;
+                _data.Domain = ServiceDomains.GetDomain(ServiceCode.MailRu);
             }
 
             if (page.Url.Contains("light."))
@@ -412,7 +418,7 @@ namespace MailRu.Bot
                 }
 
                 await page.ClickAsync("div#loginField input");
-                await page.TypeAsync("div#loginField input", _data.AccountName);
+                await page.TypeAsync("div#loginField input", _data.AccountName, _typeOptions);
                 return;
             }
 
@@ -454,18 +460,18 @@ namespace MailRu.Bot
         {
             if (page.Url.Contains("light."))
             {
-                await page.TypeAsync("div[class*=pass] input[type='password']", _data.Password);
-                await page.TypeAsync("div[class*=passverify] input[type='password']", _data.Password);
+                await page.TypeAsync("div[class*=pass] input[type='password']", _data.Password, _typeOptions);
+                await page.TypeAsync("div[class*=passverify] input[type='password']", _data.Password, _typeOptions);
                 return;
             }
 
             var ePassword = await page.QuerySelectorAsync("input[name='password']");
             if (ePassword == null) ePassword = await page.QuerySelectorAsync("input[data-test-id='password-input']");
-            await ePassword.TypeAsync(_data.Password);
+            await ePassword.TypeAsync(_data.Password, _typeOptions);
             await page.WaitForTimeoutAsync(500);
             var ePasswordRetry = await page.QuerySelectorAsync("input[name='password_retry']");
             if (ePasswordRetry == null) ePasswordRetry = await page.QuerySelectorAsync("input[data-test-id='password-confirm-input']");
-            await ePasswordRetry.TypeAsync(_data.Password);
+            await ePasswordRetry.TypeAsync(_data.Password, _typeOptions);
             await page.WaitForTimeoutAsync(500);
         }
 
@@ -489,7 +495,7 @@ namespace MailRu.Bot
         {
             if (page.Url.Contains("light."))
             {
-                await page.TypeAsync("input[name='RemindPhone']", _data.Phone);
+                await page.TypeAsync("input[name='RemindPhone']", _data.Phone, _typeOptions);
                 return;
             }
 
@@ -499,7 +505,7 @@ namespace MailRu.Bot
             {
                 await page.ClickAsync(selPhone);
                 await page.EvaluateFunctionAsync("function() {" + $"document.querySelector('{selPhone}').value = ''" + "}");
-                await page.TypeAsync(selPhone, _data.Phone);
+                await page.TypeAsync(selPhone, _data.Phone, _typeOptions);
                 await page.WaitForTimeoutAsync(1500);
             }
             //else
@@ -516,11 +522,17 @@ namespace MailRu.Bot
 
         #endregion FillData
 
-        private async static Task SetRequestHook(Page page)
+        private async static Task SetHooks(Page page)
         {
-            //return;
-            await page.SetRequestInterceptionAsync(true);
-            page.Request += Page_Request;
+            //await page.SetRequestInterceptionAsync(true);
+            //page.Request += Page_Request;
+
+            page.FrameNavigated += Page_FrameNavigated;
+        }
+
+        private async static void Page_FrameNavigated(object sender, FrameEventArgs e)
+        {
+            Log.Info($"{nameof(Page_FrameNavigated)} {e.Frame.Url}");
         }
 
         private static async void Page_Request(object sender, RequestEventArgs e)
@@ -556,25 +568,33 @@ namespace MailRu.Bot
 
         private async Task SetUserAgent(Page page)
         {
-            var userAgent = UserAgent.GetRandomUserAgent();
-            //userAgent = "Opera/9.80 (Windows NT 6.1; U; en-GB) Presto/2.7.62 Version/11.00";
-            if (_smsService == null) userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17";
+            var userAgent = _chromiumSettings.GetUserAgent();
             Log.Info(userAgent);
             await page.SetUserAgentAsync(userAgent);
         }
 
         private async Task SolveRecaptcha(Page page)
         {
+            return;
             var eRecaptcha = await page.QuerySelectorAsync("#g-recaptcha-response");
             if (eRecaptcha != null)
             {
                 var anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\init.js"));
                 anticaptchaScriptText = anticaptchaScriptText.Replace("YOUR-ANTI-CAPTCHA-API-KEY", AntiCaptchaOnlineApi.GetApiKeyAnticaptcha());
                 await page.EvaluateExpressionAsync(anticaptchaScriptText);
-                await page.AddScriptTagAsync("https://cdn.antcpt.com/imacros_inclusion/recaptcha.js");
+                
+                anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\recaptchaaiMailRu.js"));
+                await page.EvaluateExpressionAsync(anticaptchaScriptText);
+                //await page.AddScriptTagAsync("https://cdn.antcpt.com/imacros_inclusion/recaptcha.js");
                 //await page.WaitForSelectorAsync(".antigate_solver.solved", new WaitForSelectorOptions { Timeout = 120 * 1000 });
+
+                await page.WaitForTimeoutAsync(90 * 1000);
+                var eSubmit = await page.QuerySelectorAsync("button[data-test-id='verification-next-button'");
+                eRecaptcha = await page.QuerySelectorAsync("#g-recaptcha-response");
+                if (eSubmit != null && eRecaptcha != null) await eSubmit.ClickAsync();
                 //await page.ClickAsync("input[type=submit]");
                 //await page.WaitForNavigationAsync(new NavigationOptions { Timeout = 120 * 1000 });
+                //await page.WaitForTimeoutAsync(60 * 1000);
                 await SolveRecaptcha(page);
             }
         }

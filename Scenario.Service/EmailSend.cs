@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Service;
+using Common.Service.Enums;
 using MailRu.Bot;
 using PuppeteerService;
 using Yandex.Bot;
@@ -42,7 +44,7 @@ namespace ScenarioService
                                     Info($"Почта отправлена {mailAddress.Address}");
                                 }
                             }
-                            if (mailAddress.Host.Equals("yandex.ru"))
+                            if (mailAddress.Host.Equals(ServiceDomains.GetDomain(ServiceCode.Yandex)))
                             {
                                 using (var page = await browser.NewPageAsync())
                                 {
@@ -52,7 +54,7 @@ namespace ScenarioService
                                     Info($"Почта отправлена {mailAddress.Address}");
                                 }
                             }
-                            if (mailAddress.Host.Equals("gmail.com"))
+                            if (mailAddress.Host.Equals(ServiceDomains.GetDomain(ServiceCode.Gmail)))
                             {
                                 Info($"gmail {mailAddress.Address} {emailAndPassword.Password}");
                             }

@@ -18,15 +18,16 @@ namespace Vk.Bot
         private readonly ISmsService _smsService;
         private string _requestId;
         private readonly IChromiumSettings _chromiumSettings;
-        private readonly string _vkProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_vkProxy)];
+        //private readonly string _vkProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_vkProxy)];
 
         public VkRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
         {
             _data = data;
-            _data.Domain = "vk.com";
+            _data.Domain = ServiceDomains.GetDomain(ServiceCode.Vk);
             _smsService = smsService;
             _chromiumSettings = chromiumSettings;
-            _chromiumSettings.Proxy = _vkProxy;
+            //_chromiumSettings.Proxy = _vkProxy;
+            _chromiumSettings.Proxy = _chromiumSettings.GetProxy(ServiceCode.Vk);
         }
 
         public async Task<IAccountData> Registration(CountryCode countryCode)

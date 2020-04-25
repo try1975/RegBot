@@ -228,6 +228,7 @@ namespace OnlineSimRu
             var response = await GetAllStats();
             foreach (var countryCodeName in Enum.GetNames(typeof(CountryCode)))
             {
+                if (countryCodeName == "CI") continue;
                 var p = response.GetType().GetProperty(countryCodeName);
                 if (p == null) continue;
                 var countryStat = (CountryStat)p.GetValue(response);

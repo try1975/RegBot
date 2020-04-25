@@ -431,6 +431,10 @@
       <Project>{fa10abd7-78b1-48dc-8f38-8d0021cc4e38}</Project>
       <Name>OnlineSimRu</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProxyStore.Service\ProxyStore.Service.csproj">
+      <Project>{FA089E41-B0D9-4D50-A2B6-51A52968AE81}</Project>
+      <Name>ProxyStore.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PuppeteerService\PuppeteerService.csproj">
       <Project>{d0103587-ca50-4eb7-bed4-99e2277f9001}</Project>
       <Name>PuppeteerService</Name>

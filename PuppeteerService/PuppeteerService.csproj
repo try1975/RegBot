@@ -128,6 +128,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PuppeteerBrowser.cs" />
     <Compile Include="UserAgent.cs" />
+    <Compile Include="UserAgent2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -137,6 +138,12 @@
     <Content Include="UserAgents.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common.Service\Common.Service.csproj">
+      <Project>{F45C44CF-2C70-4683-A36A-1154E2408F53}</Project>
+      <Name>Common.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

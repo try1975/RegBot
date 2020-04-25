@@ -23,6 +23,10 @@ namespace PuppeteerService
                 IgnoreHTTPSErrors = true,
                 SlowMo = 10
             };
+
+            //var connectOptions = new ConnectOptions { BrowserWSEndpoint = $"wss://chrome.browserless.io?token={apikey}", BrowserURL="http://127.0.0.1:2122" };
+            //await Puppeteer.ConnectAsync(connectOptions);
+
             var optionsArgs = new List<string>
             {
                  "--disable-notifications"
@@ -32,6 +36,7 @@ namespace PuppeteerService
                 , "--window-position=0,0"
                 , "--ignore-certifcate-errors"
                 , "--ignore-certifcate-errors-spki-list"
+                , "--disable-web-security"
                 //, $"--user-agent='{UserAgent.GetRandomUserAgent()}'"
                 //, "--proxy-server=62.109.28.144:36629"
                 //, "--proxy-server=62.109.28.144:50250"
@@ -40,6 +45,7 @@ namespace PuppeteerService
             options.Args = optionsArgs.ToArray();
 
             if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory; }
+            
             return await Puppeteer.LaunchAsync(options);
         }
 

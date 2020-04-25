@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Common.Service.Enums;
+using System.Collections.Generic;
 
 namespace PuppeteerService
 {
@@ -9,5 +10,9 @@ namespace PuppeteerService
         string Proxy { get; set; }
         string GetUserAgent();
         IEnumerable<string> GetArgs();
+
+        string GetProxy(ServiceCode serviceCode);
+        void MarkProxySuccess(ServiceCode serviceCode, string proxy);
+        void MarkProxyFail(ServiceCode serviceCode, string proxy);
     }
 }

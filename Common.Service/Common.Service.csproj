@@ -50,8 +50,13 @@
     <Compile Include="Interfaces\IAccountData.cs" />
     <Compile Include="Interfaces\IAccountDataGenerator.cs" />
     <Compile Include="Interfaces\IBot.cs" />
+    <Compile Include="Interfaces\IEmailProvider.cs" />
+    <Compile Include="Interfaces\IProxyData.cs" />
+    <Compile Include="Interfaces\IProxyStore.cs" />
     <Compile Include="Interfaces\ISmsService.cs" />
     <Compile Include="Interfaces\ISmsServices.cs" />
+    <Compile Include="Interfaces\IUserAgent.cs" />
+    <Compile Include="ServiceDomains.cs" />
     <Compile Include="SmsServiceInfo.cs" />
     <Compile Include="LoggingHandler.cs" />
     <Compile Include="PhoneNumberRequest.cs" />

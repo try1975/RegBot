@@ -18,16 +18,17 @@ namespace Gmail.Bot
         private readonly ISmsService _smsService;
         private string _requestId;
         private readonly IChromiumSettings _chromiumSettings;
-        private readonly string _gmailProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_gmailProxy)];
+        //private readonly string _gmailProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_gmailProxy)];
 
 
         public GmailRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
         {
             _data = data;
-            _data.Domain = "gmail.com";
+            _data.Domain = ServiceDomains.GetDomain(ServiceCode.Gmail);
             _smsService = smsService;
             _chromiumSettings = chromiumSettings;
-            _chromiumSettings.Proxy = _gmailProxy;
+            //_chromiumSettings.Proxy = _gmailProxy;
+            _chromiumSettings.Proxy = _chromiumSettings.GetProxy(ServiceCode.Gmail);
         }
 
         public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)

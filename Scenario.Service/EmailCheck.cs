@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Yandex.Bot;
 using DnsLib;
 using System.Collections;
+using Common.Service;
+using Common.Service.Enums;
 
 namespace ScenarioService
 {
@@ -103,7 +105,7 @@ namespace ScenarioService
                                 }
                             }
                         }
-                        if (item.Value.Host.Equals("yandex.ru"))
+                        if (item.Value.Host.Equals(ServiceDomains.GetDomain(ServiceCode.Yandex)))
                         {
                             using (var page = await browser.NewPageAsync())
                             {
@@ -120,7 +122,7 @@ namespace ScenarioService
                                 }
                             }
                         }
-                        if (item.Value.Host.Equals("gmail.com"))
+                        if (item.Value.Host.Equals(ServiceDomains.GetDomain(ServiceCode.Gmail)))
                         {
                             using (var page = await browser.NewPageAsync())
                             {

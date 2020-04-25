@@ -14,7 +14,7 @@ namespace PuppeteerService
         }
         public static string GetRandomUserAgent()
         {
-            if (_userAgents == null) return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36";
+            //if (_userAgents == null) return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36";
             return _userAgents[_random.Next(0, _userAgents.Length)];
         }
 
