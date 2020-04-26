@@ -439,6 +439,10 @@
       <Project>{d0103587-ca50-4eb7-bed4-99e2277f9001}</Project>
       <Name>PuppeteerService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RegistrationBot\RegistrationBot.csproj">
+      <Project>{A09103D8-91C1-4E52-8BF4-4EB693D46C40}</Project>
+      <Name>RegistrationBot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Scenario.Service\ScenarioService.csproj">
       <Project>{d3429939-a8bf-4b4b-bfcd-18a3f6c69bc9}</Project>
       <Name>ScenarioService</Name>

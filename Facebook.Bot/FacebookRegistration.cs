@@ -176,7 +176,6 @@ namespace Facebook.Bot
             else page = await browser.NewPageAsync();
             #region commented
             await SetHooks(page);
-            //await SetUserAgent(page);
             //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]); 
             #endregion
 
@@ -247,13 +246,6 @@ namespace Facebook.Bot
         {
             return @"https://www.facebook.com/";
             //https://m.facebook.com/
-        }
-
-        private async Task SetUserAgent(Page page)
-        {
-            var userAgent = _chromiumSettings.GetUserAgent();
-            Log.Info(userAgent);
-            await page.SetUserAgentAsync(userAgent);
         }
 
         private async static Task SetHooks(Page page)

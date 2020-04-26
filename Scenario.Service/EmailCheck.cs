@@ -92,7 +92,7 @@ namespace ScenarioService
                         {
                             using (var page = await browser.NewPageAsync())
                             {
-                                await page.GoToAsync(MailRuRegistration.GetRegistrationUrl());
+                                await page.GoToAsync(MailRuRegistration.RegistrationUrl);
                                 var emailAlreadyRegistered = await MailRuRegistration.EmailAlreadyRegistered(item.Value.User, item.Value.Host, page);
                                 if (emailAlreadyRegistered)
                                 {
@@ -109,7 +109,7 @@ namespace ScenarioService
                         {
                             using (var page = await browser.NewPageAsync())
                             {
-                                await page.GoToAsync(YandexRegistration.GetRegistrationUrl());
+                                await page.GoToAsync(YandexRegistration.RegistrationUrl);
                                 var emailAlreadyRegistered = await YandexRegistration.EmailAlreadyRegistered(item.Value.User, page);
                                 if (emailAlreadyRegistered)
                                 {

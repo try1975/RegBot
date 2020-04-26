@@ -14,7 +14,6 @@ namespace ScenarioService
             if (accountData == null) return string.Empty;
             try
             {
-                //page.SetUserAgentAsync
                 await page.GoToAsync($"https://www.facebook.com/");
                 var selectorLogin = "input[name='email']";
                 await page.ClickAsync(selectorLogin);

@@ -102,7 +102,6 @@ namespace Ok.Bot
             else page = await browser.NewPageAsync();
             #region commented
             //await SetRequestHook(page);
-            await SetUserAgent(page);
             //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]); 
             #endregion
             await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
@@ -211,11 +210,5 @@ namespace Ok.Bot
             return @"https://ok.ru/dk?st.cmd=anonymRegistrationEnterPhone";
         }
 
-        private async Task SetUserAgent(Page page)
-        {
-            var userAgent = _chromiumSettings.GetUserAgent();
-            Log.Info(userAgent);
-            await page.SetUserAgentAsync(userAgent);
-        }
     }
 }

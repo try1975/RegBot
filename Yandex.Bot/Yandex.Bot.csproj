@@ -124,10 +124,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Yandex.Registration.Mail.cs" />
+    <Compile Include="YandexRegistration.Mail.cs" />
     <Compile Include="YandexRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="YandexRegistration.FillData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -149,6 +148,10 @@
     <ProjectReference Include="..\PuppeteerService\PuppeteerService.csproj">
       <Project>{D0103587-CA50-4EB7-BED4-99E2277F9001}</Project>
       <Name>PuppeteerService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RegistrationBot\RegistrationBot.csproj">
+      <Project>{a09103d8-91c1-4e52-8bf4-4eb693d46c40}</Project>
+      <Name>RegistrationBot</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

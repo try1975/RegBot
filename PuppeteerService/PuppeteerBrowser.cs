@@ -10,7 +10,7 @@ namespace PuppeteerService
 {
     public static class PuppeteerBrowser
     {
-        public async static Task<Browser> GetBrowser(string chromiumPath, bool headless, IEnumerable<string> args = null)
+        public static async Task<Browser> GetBrowser(string chromiumPath, bool headless, IEnumerable<string> args = null)
         {
             if (string.IsNullOrEmpty(chromiumPath)) chromiumPath = Environment.CurrentDirectory;
             chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-706915\\chrome-win\\chrome.exe");
@@ -33,13 +33,10 @@ namespace PuppeteerService
                 , "--no-sandbox"
                 , "--disable-setuid-sandbox"
                 , "--disable-infobars"
-                , "--window-position=0,0"
+                , "--window-position=100,0"
                 , "--ignore-certifcate-errors"
                 , "--ignore-certifcate-errors-spki-list"
                 , "--disable-web-security"
-                //, $"--user-agent='{UserAgent.GetRandomUserAgent()}'"
-                //, "--proxy-server=62.109.28.144:36629"
-                //, "--proxy-server=62.109.28.144:50250"
             };
             if (args != null) optionsArgs.AddRange(args);
             options.Args = optionsArgs.ToArray();
@@ -51,7 +48,7 @@ namespace PuppeteerService
 
         public static async Task Authenticate(Page page, string proxy)
         {
-            //авторизация прокси
+            //proxy auth
             if (!string.IsNullOrEmpty(proxy) && proxy.Contains("@"))
             {
                 var credentials = proxy.Split('@')[0];

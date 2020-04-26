@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ok.Bot", "Ok.Bot\Ok.Bot.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyStore.Service", "ProxyStore.Service\ProxyStore.Service.csproj", "{FA089E41-B0D9-4D50-A2B6-51A52968AE81}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistrationBot", "RegistrationBot\RegistrationBot.csproj", "{A09103D8-91C1-4E52-8BF4-4EB693D46C40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +133,10 @@ Global
 		{FA089E41-B0D9-4D50-A2B6-51A52968AE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA089E41-B0D9-4D50-A2B6-51A52968AE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA089E41-B0D9-4D50-A2B6-51A52968AE81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A09103D8-91C1-4E52-8BF4-4EB693D46C40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A09103D8-91C1-4E52-8BF4-4EB693D46C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A09103D8-91C1-4E52-8BF4-4EB693D46C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A09103D8-91C1-4E52-8BF4-4EB693D46C40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,6 +161,7 @@ Global
 		{2FB54F5D-8C42-4451-A235-279D2E6AD95D} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
 		{85741C53-07D3-481E-B43A-4D55B6017257} = {2FB54F5D-8C42-4451-A235-279D2E6AD95D}
 		{FA089E41-B0D9-4D50-A2B6-51A52968AE81} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
+		{A09103D8-91C1-4E52-8BF4-4EB693D46C40} = {8516EF98-C4A5-44A6-A6A8-4737A07923BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BFA7B51-BBAA-46FB-A909-78364E794607}

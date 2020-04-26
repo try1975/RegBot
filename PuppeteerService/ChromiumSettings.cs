@@ -10,8 +10,11 @@ namespace PuppeteerService
         private readonly string _chromiumPath;
         private readonly IUserAgent _userAgentGenerator;
         private readonly IProxyStore _proxyStore;
-        private string userAgent = ConfigurationManager.AppSettings[nameof(userAgent)];
+        private readonly string userAgent = ConfigurationManager.AppSettings[nameof(userAgent)];
         private readonly bool Headless;
+        private bool _noProxy;
+
+        public string Proxy { get; set; }
 
         public ChromiumSettings(string chromiumPath, IUserAgent userAgentGenerator, IProxyStore proxyStore)
         {
@@ -39,15 +42,18 @@ namespace PuppeteerService
         public IEnumerable<string> GetArgs()
         {
             //прокси
-            List<string> args = null;
+            List<string> args = new List<string>();
             if (!string.IsNullOrEmpty(Proxy))
             {
                 string proxy;
-                if (Proxy.Contains("@")) proxy = Proxy.Split('@')[1];
-                else proxy = Proxy;
-                if (args == null) args = new List<string>();
+                if (Proxy.Contains("@")) proxy = Proxy.Split('@')[1]; else proxy = Proxy;
                 args.Add($"--proxy-server={proxy}");
             }
+            if (_userAgentGenerator != null)
+            {
+                args.Add($@"--user-agent=""{GetUserAgent()}""");
+            }
+            if (_noProxy) { args.Add("--no-proxy-server"); }
             return args;
         }
 
@@ -66,6 +72,6 @@ namespace PuppeteerService
             if (_proxyStore != null) _proxyStore.MarkProxyFail(serviceCode, proxy);
         }
 
-        public string Proxy { get; set; }
+        
     }
 }

@@ -87,7 +87,6 @@ namespace ScenarioApp.Controls
             else page = await browser.NewPageAsync();
             #region commented
             //await SetRequestHook(page);
-            //await SetUserAgent(page);
             //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]); 
             #endregion
             //await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
@@ -138,11 +137,10 @@ namespace ScenarioApp.Controls
                 var progress = new Progress<string>(update => tbProgress.AppendText(update + Environment.NewLine));
 
                 /*using (*/
-                var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless()); /*)
+                var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()); /*)
                 {*/
                 /*using (*/                var page = await browser.NewPageAsync(); /*)
                     {*/
-                        await page.SetUserAgentAsync(_chromiumSettings.GetUserAgent());
 
                         await page.GoToAsync(cbUrl.Text);
                         await page.ExposeFunctionAsync("imgcl", async (string text) => 

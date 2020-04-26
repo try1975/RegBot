@@ -6,51 +6,36 @@ using log4net;
 using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
-using PuppeteerSharp.Input;
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MailRu.Bot
 {
-    public class MailRuRegistration : IBot
+    public partial class MailRuRegistration : RegistrationBot.Bot
     {
-        #region private fields
+        #region fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(MailRuRegistration));
-        private readonly IAccountData _data;
-        private readonly ISmsService _smsService;
-        private string _requestId;
-        private readonly IChromiumSettings _chromiumSettings;
-        //private readonly string _mailruProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_mailruProxy)];
-        private static readonly TypeOptions _typeOptions = new TypeOptions { Delay = 50 };
+        public const string RegistrationUrl = @"https://account.mail.ru/signup"; // https://light.mail.ru/signup
         #endregion
 
-        public MailRuRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
+        public MailRuRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings) : base(data, smsService, chromiumSettings)
         {
-            _data = data;
-            _smsService = smsService;
-            _chromiumSettings = chromiumSettings;
-            //_chromiumSettings.Proxy = _mailruProxy;
             _chromiumSettings.Proxy = _chromiumSettings.GetProxy(ServiceCode.MailRu);
         }
 
-        public async Task<IAccountData> Registration(CountryCode countryCode = CountryCode.RU)
+        #region override
+        protected override ServiceCode GetServiceCode() => ServiceCode.MailRu;
+
+        protected override async Task StartRegistration(Page page)
         {
-            try
-            {
-                if (!string.IsNullOrEmpty(await SmsServiceInit(countryCode, ServiceCode.MailRu))) return _data;
-                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
-                using (var page = await PageInit(browser)) if (_smsService == null) await RegistrateByEmail(page); else await RegistrateByPhone(page);
-            }
-            catch (Exception exception)
-            {
-                Log.Error(exception);
-                _data.ErrMsg = exception.Message;
-            }
-            return _data;
+            await page.GoToAsync(GetRegistrationUrl());
+            if (_smsService == null) await RegistrateByEmail(page); else await RegistrateByPhone(page);
         }
+        #endregion
+
+        private string GetRegistrationUrl() => RegistrationUrl;
 
         private async Task RegistrateByEmail(Page page)
         {
@@ -189,120 +174,6 @@ namespace MailRu.Bot
             }
         }
 
-        private async Task<string> SmsServiceInit(CountryCode countryCode, ServiceCode serviceCode)
-        {
-            _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
-            Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
-            if (_smsService == null)
-            {
-                _data.Phone = PhoneServiceStore.GetRandomPhoneNumber(countryCode);
-                return _data.ErrMsg; ;
-            }
-            PhoneNumberRequest phoneNumberRequest = null;
-            phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, serviceCode);
-            //phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
-            if (phoneNumberRequest == null)
-            {
-                _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
-                return _data.ErrMsg;
-            }
-            Log.Info($"phoneNumberRequest: {JsonConvert.SerializeObject(phoneNumberRequest)}");
-            _requestId = phoneNumberRequest.Id;
-            _data.Phone = phoneNumberRequest.Phone.Trim();
-            if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
-            //_data.Phone = _data.Phone.Substring(PhoneServiceStore.CountryPrefixes[countryCode].Length + 1);
-            return _data.ErrMsg;
-        }
-
-        private async Task<Page> PageInit(Browser browser, bool isIncognito = false)
-        {
-            Page page;
-            if (isIncognito)
-            {
-                var context = await browser.CreateIncognitoBrowserContextAsync();
-                page = await context.NewPageAsync();
-            }
-            else page = await browser.NewPageAsync();
-            #region commented
-            await SetHooks(page);
-            await SetUserAgent(page);
-            //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]); 
-            #endregion
-            await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
-            await page.GoToAsync(GetRegistrationUrl());
-            return page;
-        }
-
-        public static async Task<bool> SendEmail(string to, string subject, string[] text, Page page)
-        {
-
-            try
-            {
-                var typeOptions = new TypeOptions { Delay = 50 };
-                await page.WaitForTimeoutAsync(2000);
-                var selNewLetter = "span.compose-button>span>span";
-                if (await page.QuerySelectorAsync(selNewLetter) == null) selNewLetter = "a[data-name=compose] span";
-                await page.ClickAsync(selNewLetter);
-                await page.WaitForTimeoutAsync(1500);
-                var selTo = "div[data-type=to] input";
-                if (await page.QuerySelectorAsync(selTo) == null) selTo = "div[data-blockid='compose_to']";
-                await page.ClickAsync(selTo);
-                await page.TypeAsync(selTo, to, typeOptions);
-
-                var selSubject = "input[name=Subject]";
-                //await page.ClickAsync("label[data-for=Subject]") ;
-                await page.TypeAsync(selSubject, subject, typeOptions);
-                var selText = "div[role=textbox] div div";
-                if (await page.QuerySelectorAsync(selText) == null)
-                {
-                    var elText = await page.QuerySelectorAsync("span.mceEditor iframe");
-                    var frame = await elText.ContentFrameAsync();
-                    var elBody = await frame.QuerySelectorAsync("body");
-                    await elBody.TypeAsync(string.Join(Environment.NewLine, text), typeOptions);
-                }
-                else
-                {
-                    await page.ClickAsync(selText);
-                    await page.TypeAsync(selText, string.Join(Environment.NewLine, text), typeOptions);
-                }
-                // or CTRL+ENTER 
-
-                var selSend = "span[data-title-shortcut='Ctrl+Enter']";
-                if (await page.QuerySelectorAsync(selSend) == null) selSend = "div[data-name=send]";
-                await page.ClickAsync(selSend);
-                await page.WaitForNavigationAsync(new NavigationOptions { Timeout = 5000 });
-
-            }
-            catch (Exception exception)
-            {
-                Log.Error(exception);
-                return false;
-            }
-            return true;
-        }
-
-        public static async Task<bool> Login(string accountName, string password, Page page)
-        {
-            //page.EmulateAsync(DeviceDescriptors.Get(DeviceDescriptorName.IPhone6);
-            try
-            {
-                await page.TypeAsync("input[name=Login]", accountName, _typeOptions);
-                await page.WaitForTimeoutAsync(500);
-                await ClickSubmit(page);
-                await page.WaitForTimeoutAsync(500);
-                await page.TypeAsync("input[name=Password]", password, _typeOptions);
-                await ClickSubmit(page);
-                var navigationOptions = new NavigationOptions { WaitUntil = new[] { WaitUntilNavigation.DOMContentLoaded } };
-                await page.WaitForNavigationAsync(navigationOptions);
-            }
-            catch (Exception exception)
-            {
-                Log.Error(exception);
-                return false;
-            }
-            return true;
-        }
-
         private static async Task ClickSubmit(Page page)
         {
             var elSignUp = await page.QuerySelectorAsync("div.b-form__control>button");
@@ -314,8 +185,8 @@ namespace MailRu.Bot
             await elSignUp.ClickAsync();
             await page.WaitForTimeoutAsync(1500);
         }
-        
-        #region FillData
+
+        #region Steps
 
         private async Task FillName(Page page)
         {
@@ -514,13 +385,33 @@ namespace MailRu.Bot
             //}
         }
 
-        public static string GetRegistrationUrl()
+        private async Task SolveRecaptcha(Page page)
         {
-            return @"https://account.mail.ru/signup";
-            // @"https://light.mail.ru/signup"
+            return;
+            var eRecaptcha = await page.QuerySelectorAsync("#g-recaptcha-response");
+            if (eRecaptcha != null)
+            {
+                var anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\init.js"));
+                anticaptchaScriptText = anticaptchaScriptText.Replace("YOUR-ANTI-CAPTCHA-API-KEY", AntiCaptchaOnlineApi.GetApiKeyAnticaptcha());
+                await page.EvaluateExpressionAsync(anticaptchaScriptText);
+
+                anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\recaptchaaiMailRu.js"));
+                await page.EvaluateExpressionAsync(anticaptchaScriptText);
+                //await page.AddScriptTagAsync("https://cdn.antcpt.com/imacros_inclusion/recaptcha.js");
+                //await page.WaitForSelectorAsync(".antigate_solver.solved", new WaitForSelectorOptions { Timeout = 120 * 1000 });
+
+                await page.WaitForTimeoutAsync(90 * 1000);
+                var eSubmit = await page.QuerySelectorAsync("button[data-test-id='verification-next-button'");
+                eRecaptcha = await page.QuerySelectorAsync("#g-recaptcha-response");
+                if (eSubmit != null && eRecaptcha != null) await eSubmit.ClickAsync();
+                //await page.ClickAsync("input[type=submit]");
+                //await page.WaitForNavigationAsync(new NavigationOptions { Timeout = 120 * 1000 });
+                //await page.WaitForTimeoutAsync(60 * 1000);
+                await SolveRecaptcha(page);
+            }
         }
 
-        #endregion FillData
+        #endregion
 
         private async static Task SetHooks(Page page)
         {
@@ -564,70 +455,6 @@ namespace MailRu.Bot
             //    PostData = keyValuePairs*/
             //};
             //await e.Request.ContinueAsync(payload);
-        }
-
-        private async Task SetUserAgent(Page page)
-        {
-            var userAgent = _chromiumSettings.GetUserAgent();
-            Log.Info(userAgent);
-            await page.SetUserAgentAsync(userAgent);
-        }
-
-        private async Task SolveRecaptcha(Page page)
-        {
-            return;
-            var eRecaptcha = await page.QuerySelectorAsync("#g-recaptcha-response");
-            if (eRecaptcha != null)
-            {
-                var anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\init.js"));
-                anticaptchaScriptText = anticaptchaScriptText.Replace("YOUR-ANTI-CAPTCHA-API-KEY", AntiCaptchaOnlineApi.GetApiKeyAnticaptcha());
-                await page.EvaluateExpressionAsync(anticaptchaScriptText);
-                
-                anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\recaptchaaiMailRu.js"));
-                await page.EvaluateExpressionAsync(anticaptchaScriptText);
-                //await page.AddScriptTagAsync("https://cdn.antcpt.com/imacros_inclusion/recaptcha.js");
-                //await page.WaitForSelectorAsync(".antigate_solver.solved", new WaitForSelectorOptions { Timeout = 120 * 1000 });
-
-                await page.WaitForTimeoutAsync(90 * 1000);
-                var eSubmit = await page.QuerySelectorAsync("button[data-test-id='verification-next-button'");
-                eRecaptcha = await page.QuerySelectorAsync("#g-recaptcha-response");
-                if (eSubmit != null && eRecaptcha != null) await eSubmit.ClickAsync();
-                //await page.ClickAsync("input[type=submit]");
-                //await page.WaitForNavigationAsync(new NavigationOptions { Timeout = 120 * 1000 });
-                //await page.WaitForTimeoutAsync(60 * 1000);
-                await SolveRecaptcha(page);
-            }
-        }
-
-        public static string GetLoginUrl()
-        {
-            return @"https://account.mail.ru/login";
-        }
-
-        public async static Task<bool> EmailAlreadyRegistered(string accountName, string host, Page page)
-        {
-            var eAccountName = await page.QuerySelectorAsync("span.b-email__name>input[type='email']");
-            if (eAccountName == null) eAccountName = await page.QuerySelectorAsync("input[data-test-id='account__input']");
-            await eAccountName.TypeAsync(accountName);
-
-            const string defaultDomain = "mail.ru";
-            if (string.IsNullOrEmpty(host)) host = defaultDomain;
-
-            if (!host.ToLower().Equals(defaultDomain))
-            {
-                //select domain
-                var eDomain = await page.QuerySelectorAsync("span.b-email__domain span");
-                if (eDomain == null) eDomain = await page.QuerySelectorAsync("div[data-test-id='account__select']");
-                await eDomain.ClickAsync();
-                var eDomainValue = await page.QuerySelectorAsync($"a[data-text='@{host}']");
-                if (eDomainValue == null) eDomainValue = await page.QuerySelectorAsync($"div[data-test-id='select-value:@{host}']");
-                await eDomainValue.ClickAsync();
-            }
-
-            await page.WaitForTimeoutAsync(1000);
-            var altMailExists = await page.QuerySelectorAsync("div.b-tooltip_animate");
-            if (altMailExists == null) altMailExists = await page.QuerySelectorAsync("[data-test-id='exists']");
-            return altMailExists != null;
         }
     }
 }
