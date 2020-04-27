@@ -5,6 +5,7 @@ using log4net;
 using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
+using PuppeteerSharp.Input;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,51 +14,30 @@ namespace Yandex.Bot
 {
     public partial class YandexRegistration : RegistrationBot.Bot
     {
+        #region init
         #region fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(YandexRegistration));
-        public const string RegistrationUrl = @"https://passport.yandex.ru/registration/mail?from=mail&origin=home_desktop_ru&retpath=https%3A%2F%2Fmail.yandex.ru%2F";
+        public const string RegistrationUrl = @"https://passport.yandex.ru/registration/mail";//?from=mail&origin=home_desktop_ru&retpath=https%3A%2F%2Fmail.yandex.ru%2F";
         //https://passport.yandex.ru/auth/reg?from=mail&origin=home_desktop_ru&retpath=https%3A%2F%2Fmail.yandex.ru%2F
         #endregion
 
-        public YandexRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings) : base(data, smsService, chromiumSettings) { }
+        public YandexRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings) : base(data, smsService, chromiumSettings)
+        {
+            // don't work with proxy
+            //_chromiumSettings.Proxy = _chromiumSettings.GetProxy(GetServiceCode());
+        }
 
-        #region override
+        #region infra
         protected override ServiceCode GetServiceCode() => ServiceCode.Yandex;
 
         protected override async Task StartRegistration(Page page)
         {
-            await page.GoToAsync(GetRegistrationUrl());
             if (_smsService == null) await RegistrateByEmail(page); else await RegistrateByPhone(page);
         }
+
+        protected override string GetRegistrationUrl() => RegistrationUrl;
+        #endregion 
         #endregion
-        
-        private string GetRegistrationUrl() => RegistrationUrl;
-
-        private async Task RegistrateByEmail(Page page)
-        {
-            //await page.GoToAsync(GetRegistrationUrl());
-            await FillName(page);
-            await FillAccountName(page);
-            await FillPassword(page);
-            await NotUseYandexWallet(page);
-
-            await page.ClickAsync("span.link_has-no-phone");
-            await page.TypeAsync("input#hint_answer", "ахинея", _typeOptions);
-            //todo: cycle 3 time solve
-            await SolveImageCaptcha(page);
-            await ClickSubmit(page);
-            await page.WaitForTimeoutAsync(1000);
-
-            if (await IsImageCaptchaSolved(page))
-            {
-                var selEula = "div.t-eula-accept button";
-                var elEula = await page.QuerySelectorAsync(selEula);
-                var eulaButtonVisible = elEula != null && await elEula.IsIntersectingViewportAsync();
-                if (eulaButtonVisible) await elEula.ClickAsync();
-                await page.WaitForTimeoutAsync(5000);
-                _data.Success = true;
-            }
-        }
 
         private async Task RegistrateByPhone(Page page)
         {
@@ -70,102 +50,137 @@ namespace Yandex.Bot
             await NotUseYandexWallet(page);
             await ClickSubmit(page);
 
-            await page.ClickAsync("div.registration__send-code span");
-            //await page.WaitForTimeoutAsync(2000);
-            //const string smsSendSelector = "div.reg-field__popup span.registration__pseudo-link";
-            //ElementHandle smsCodeInput;
-            //var phoneCodeLabelTextToken = await page.EvaluateExpressionAsync("document.querySelector('label[for=phoneCode').innerText");
-            //var isSms = false;
-            //var isVoice = false;
-            //if (phoneCodeLabelTextToken != null)
-            //{
-            //    var phoneCodeLabelText = phoneCodeLabelTextToken.ToString();
-            //    if (phoneCodeLabelText.Contains("смс")) isSms = true;
-            //    if (phoneCodeLabelText.Contains("голос")) isVoice = true;
-            //}
+            //await page.ClickAsync("div.registration__send-code span");
+            await page.WaitForTimeoutAsync(2000);
+            const string smsSendSelector = "div.reg-field__popup span.registration__pseudo-link";
+            ElementHandle smsCodeInput;
+            var phoneCodeLabelTextToken = await page.EvaluateExpressionAsync("document.querySelector('label[for=phoneCode').innerText");
+            var isSms = false;
+            var isVoice = false;
+            if (phoneCodeLabelTextToken != null)
+            {
+                var phoneCodeLabelText = phoneCodeLabelTextToken.ToString();
+                if (phoneCodeLabelText.Contains("смс")) isSms = true;
+                if (phoneCodeLabelText.Contains("голос")) isVoice = true;
+            }
             //// ошибка превышен лимит sms
             ////var err = await page.QuerySelectorAsync("div.error-message");
             ////if (smsSendExists == null && smsCodeInput == null && err ==null) await page.WaitForTimeoutAsync(20000);
 
-            //if (isVoice)
-            //{
-            //    await page.WaitForTimeoutAsync(35000);
-            //    var jsAltAction = $@"Array.from(document.querySelectorAll('{smsSendSelector}')).map(a => a.innerText);";
-            //    var linkList = await page.EvaluateExpressionAsync<string[]>(jsAltAction);
-            //    var smsLink = linkList.FirstOrDefault(z => z.Contains("sms"));
-            //    if (!string.IsNullOrEmpty(smsLink))
-            //    {
-            //        var idx = Array.IndexOf(linkList, smsLink);
-            //        var altMailElements = await page.QuerySelectorAllAsync(smsSendSelector);
-            //        if (altMailElements != null && altMailElements.Length > idx)
-            //        {
-            //            await altMailElements[idx].ClickAsync();
-            //            var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
-            //            Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
-            //            if (phoneNumberValidation != null)
-            //            {
-            //                await _smsService.SetSmsValidationSuccess(_requestId);
-            //                smsCodeInput = await page.QuerySelectorAsync("input#phoneCode");
-            //                if (smsCodeInput != null)
-            //                {
-            //                    await page.TypeAsync("input#phoneCode", phoneNumberValidation.Code);
-            //                    await page.WaitForTimeoutAsync(5000);
-            //                    await page.ClickAsync("button[type='submit']");
-            //                    await page.WaitForTimeoutAsync(5000);
-            //                    _data.Success = true;
-            //                }
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        await TypeSmsCode(page);
-            //        #region comments
-            //        //smsCodeInput = await page.QuerySelectorAsync("input#phoneCode");
-            //        //if (smsCodeInput != null)
-            //        //{
-            //        //    var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
-            //        //    Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
-            //        //    await page.TypeAsync("input#phoneCode", phoneNumberValidation.Code);
-            //        //    await _smsService.SetSmsValidationSuccess(_requestId);
-            //        //    await page.WaitForTimeoutAsync(5000);
-            //        //    await page.ClickAsync("button[type='submit']");
-            //        //    await page.WaitForTimeoutAsync(5000);
-            //        //    _data.Success = true;
-            //        //}
-            //        #endregion
-            //    }
-            //}
+            if (isVoice)
+            {
+                await page.WaitForTimeoutAsync(35000);
+                var jsAltAction = $@"Array.from(document.querySelectorAll('{smsSendSelector}')).map(a => a.innerText);";
+                var linkList = await page.EvaluateExpressionAsync<string[]>(jsAltAction);
+                var smsLink = linkList.FirstOrDefault(z => z.Contains("sms"));
+                if (!string.IsNullOrEmpty(smsLink))
+                {
+                    var idx = Array.IndexOf(linkList, smsLink);
+                    var altMailElements = await page.QuerySelectorAllAsync(smsSendSelector);
+                    if (altMailElements != null && altMailElements.Length > idx)
+                    {
+                        await altMailElements[idx].ClickAsync();
+                        var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
+                        Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
+                        if (phoneNumberValidation != null)
+                        {
+                            await _smsService.SetSmsValidationSuccess(_requestId);
+                            smsCodeInput = await page.QuerySelectorAsync("input#phoneCode");
+                            if (smsCodeInput != null)
+                            {
+                                await page.TypeAsync("input#phoneCode", phoneNumberValidation.Code);
+                                await page.WaitForTimeoutAsync(5000);
+                                await page.ClickAsync("button[type='submit']");
+                                await page.WaitForTimeoutAsync(5000);
+                                _data.Success = true;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    await TypeSmsCode(page);
+                    #region comments
+                    //smsCodeInput = await page.QuerySelectorAsync("input#phoneCode");
+                    //if (smsCodeInput != null)
+                    //{
+                    //    var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
+                    //    Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
+                    //    await page.TypeAsync("input#phoneCode", phoneNumberValidation.Code);
+                    //    await _smsService.SetSmsValidationSuccess(_requestId);
+                    //    await page.WaitForTimeoutAsync(5000);
+                    //    await page.ClickAsync("button[type='submit']");
+                    //    await page.WaitForTimeoutAsync(5000);
+                    //    _data.Success = true;
+                    //}
+                    #endregion
+                }
+            }
 
-            //if (isSms)
-            //{
-            //    await TypeSmsCode(page);
-            //    #region comments
-            //    //smsCodeInput = await page.QuerySelectorAsync("input#phoneCode");
-            //    //if (smsCodeInput != null)
-            //    //{
-            //    //    var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
-            //    //    Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
-            //    //    await page.TypeAsync("input#phoneCode", phoneNumberValidation.Code);
-            //    //    await _smsService.SetSmsValidationSuccess(_requestId);
-            //    //    await page.WaitForTimeoutAsync(5000);
-            //    //    await page.ClickAsync("button[type='submit']");
-            //    //    var selEula = "div.t-eula-accept button";
-            //    //    var elEula = await page.QuerySelectorAsync(selEula);
-            //    //    var eulaButtonVisible = elEula != null && await elEula.IsIntersectingViewportAsync();
-            //    //    if (eulaButtonVisible) await elEula.ClickAsync();
-            //    //    await page.WaitForTimeoutAsync(5000);
-            //    //    _data.Success = true;
-            //    //}
-            //    #endregion
-            //}
+            if (isSms)
+            {
+                await TypeSmsCode(page);
+                #region comments
+                //smsCodeInput = await page.QuerySelectorAsync("input#phoneCode");
+                //if (smsCodeInput != null)
+                //{
+                //    var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
+                //    Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
+                //    await page.TypeAsync("input#phoneCode", phoneNumberValidation.Code);
+                //    await _smsService.SetSmsValidationSuccess(_requestId);
+                //    await page.WaitForTimeoutAsync(5000);
+                //    await page.ClickAsync("button[type='submit']");
+                //    var selEula = "div.t-eula-accept button";
+                //    var elEula = await page.QuerySelectorAsync(selEula);
+                //    var eulaButtonVisible = elEula != null && await elEula.IsIntersectingViewportAsync();
+                //    if (eulaButtonVisible) await elEula.ClickAsync();
+                //    await page.WaitForTimeoutAsync(5000);
+                //    _data.Success = true;
+                //}
+                #endregion
+            }
         }
 
-        private async Task ClickSubmit(Page page)
+        private async Task RegistrateByEmail(Page page)
         {
-            var elSignUp = await page.QuerySelectorAsync("button[type=submit]");
-            await elSignUp.ClickAsync();
-            await page.WaitForTimeoutAsync(500);
+            await FillPhone2(page); // maybe enter phone skip
+            await FillName(page);
+            await FillAccountName(page);
+            await FillPassword(page);
+            await NotUseYandexWallet(page);
+
+            await page.ClickAsync("span.link_has-no-phone");
+            await page.TypeAsync("input#hint_answer", "ахинея", _typeOptions);
+
+            var svgImage = await page.QuerySelectorAsync("img.captcha__image");
+            if (svgImage != null)
+            {
+                var cnt = 0;
+                do
+                {
+                    await SolveImageCaptcha(page);
+                    await ClickSubmit(page);
+                    await page.WaitForTimeoutAsync(2000);
+                    svgImage = await page.QuerySelectorAsync("img.captcha__image");
+                    cnt++;
+                } while (svgImage != null && cnt < 3);
+            }
+
+            var eCaptchaError = await page.QuerySelectorAsync("div[data-t='captcha-error']");
+            if (eCaptchaError != null)
+            {
+                _data.ErrMsg = "Captcha wrong answer";
+                return;
+            }
+            var eSkip = await page.QuerySelectorAsync(".registration__avatar-btn");
+            if (eSkip != null) { await eSkip.ClickAsync(); await page.WaitForTimeoutAsync(1000); }
+
+            var selEula = "div.t-eula-accept button";
+            var elEula = await page.QuerySelectorAsync(selEula);
+            var eulaButtonVisible = elEula != null && await elEula.IsIntersectingViewportAsync();
+            if (eulaButtonVisible) await elEula.ClickAsync();
+            await page.WaitForTimeoutAsync(5000);
+            _data.Success = true;
         }
 
         #region Steps
@@ -203,11 +218,19 @@ namespace Yandex.Bot
 
         private async Task FillPhone1(Page page)
         {
-            var ePhone = await page.QuerySelectorAsync("input[nampe=phone]");
+            var ePhone = await page.QuerySelectorAsync("input[name=phone]");
             if (ePhone == null) return;
             await ePhone.ClickAsync();
             await ePhone.TypeAsync(_data.Phone, _typeOptions);
             await ClickSubmit(page);
+        }
+
+        private async Task FillPhone2(Page page)
+        {
+            var ePhone = await page.QuerySelectorAsync("input[name=phone]");
+            if (ePhone == null) return;
+            var eNoPhone = await page.QuerySelectorAsync("button[type=button]");
+            if (eNoPhone != null) await eNoPhone.ClickAsync();
         }
 
         private async Task FillPhone(Page page)
@@ -253,6 +276,13 @@ namespace Yandex.Bot
             }
         }
 
+        private async Task ClickSubmit(Page page)
+        {
+            var elSignUp = await page.QuerySelectorAsync("button[type=submit]");
+            await elSignUp.ClickAsync();
+            await page.WaitForTimeoutAsync(500);
+        }
+
         private async Task SolveImageCaptcha(Page page)
         {
             var svgImage = await page.QuerySelectorAsync("img.captcha__image");
@@ -260,14 +290,16 @@ namespace Yandex.Bot
             {
                 var antiCaptchaOnlineApi = new AntiCaptchaOnlineApi();
                 var antiCaptchaResult = antiCaptchaOnlineApi.SolveIm(await svgImage.ScreenshotBase64Async(new ScreenshotOptions { OmitBackground = true }));
-                if (antiCaptchaResult.Success) await page.TypeAsync("input#captcha", antiCaptchaResult.Response);
+                if (antiCaptchaResult.Success)
+                {
+                    var eInputCaptcha = await page.QuerySelectorAsync("input#captcha");
+                    if (eInputCaptcha != null)
+                    {
+                        await eInputCaptcha.ClickAsync(new ClickOptions { ClickCount=3});
+                        await eInputCaptcha.TypeAsync(antiCaptchaResult.Response, _typeOptions);
+                    }
+                }
             }
-        }
-
-        private async Task<bool> IsImageCaptchaSolved(Page page)
-        {
-            var eCaptchaError = await page.QuerySelectorAsync("div[data-t='captcha-error']");
-            return eCaptchaError == null;
         }
 
         #endregion

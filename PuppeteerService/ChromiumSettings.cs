@@ -1,5 +1,6 @@
 ﻿using Common.Service.Enums;
 using Common.Service.Interfaces;
+using log4net;
 using System.Collections.Generic;
 using System.Configuration;
 
@@ -7,6 +8,7 @@ namespace PuppeteerService
 {
     public class ChromiumSettings : IChromiumSettings
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(ChromiumSettings));
         private readonly string _chromiumPath;
         private readonly IUserAgent _userAgentGenerator;
         private readonly IProxyStore _proxyStore;
@@ -45,13 +47,16 @@ namespace PuppeteerService
             List<string> args = new List<string>();
             if (!string.IsNullOrEmpty(Proxy))
             {
+                Log.Debug($"{nameof(Proxy)}: {Proxy}");
                 string proxy;
                 if (Proxy.Contains("@")) proxy = Proxy.Split('@')[1]; else proxy = Proxy;
                 args.Add($"--proxy-server={proxy}");
             }
             if (_userAgentGenerator != null)
             {
-                args.Add($@"--user-agent=""{GetUserAgent()}""");
+                var useragent = GetUserAgent();
+                Log.Debug($"{nameof(useragent)}: {useragent}");
+                args.Add($@"--user-agent=""{useragent}""");
             }
             if (_noProxy) { args.Add("--no-proxy-server"); }
             return args;

@@ -126,7 +126,7 @@ namespace ScenarioService
                         {
                             using (var page = await browser.NewPageAsync())
                             {
-                                await page.GoToAsync(GmailRegistration.GetRegistrationUrl());
+                                await page.GoToAsync(GmailRegistration.RegistrationUrl);
                                 var emailAlreadyRegistered = await GmailRegistration.EmailAlreadyRegistered(item.Value.User, page, _chromiumSettings.GetPath());
                                 if (emailAlreadyRegistered)
                                 {

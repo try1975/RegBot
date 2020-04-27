@@ -40,7 +40,7 @@ namespace ProxyStore.Service
             if (File.Exists(path))
             {
                 var proxies = File.ReadAllLines(path).ToList();
-                var time = File.GetLastWriteTime(path).AddHours(4);
+                var time = File.GetLastWriteTime(path).AddHours(12);
                 if (time < DateTime.Now)
                 {
                     List<WebProxy> lowp = new List<WebProxy>();

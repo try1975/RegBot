@@ -7,59 +7,62 @@ using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
 using PuppeteerSharp.Input;
-using PuppeteerSharp.Mobile;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Facebook.Bot
 {
-    public class FacebookRegistration : IBot
+    public class FacebookRegistration : RegistrationBot.Bot
     {
+        #region init
+        #region fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(FacebookRegistration));
-        private readonly IAccountData _data;
-        private readonly ISmsService _smsService;
-        private string _requestId;
-        private readonly IChromiumSettings _chromiumSettings;
-        //private readonly string _fbProxy = System.Configuration.ConfigurationManager.AppSettings[nameof(_fbProxy)];
-        private static readonly TypeOptions _typeOptions = new TypeOptions { Delay = 50 };
+        public const string RegistrationUrl = @"https://www.facebook.com/"; //https://m.facebook.com/
+        #endregion
 
-        public FacebookRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
+        public FacebookRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings) : base(data, smsService, chromiumSettings)
         {
-            _data = data;
-            _data.Domain = ServiceDomains.GetDomain(ServiceCode.Facebook);
-            _smsService = smsService;
-            _chromiumSettings = chromiumSettings;
-            //_chromiumSettings.Proxy = _fbProxy;
             _chromiumSettings.Proxy = _chromiumSettings.GetProxy(ServiceCode.Facebook);
         }
 
-        public async Task<IAccountData> Registration(CountryCode countryCode)
+        #region infra
+        protected override ServiceCode GetServiceCode() => ServiceCode.Facebook;
+
+        protected override async Task StartRegistration(Page page)
         {
-            if (!string.IsNullOrEmpty(await SmsServiceInit(countryCode, ServiceCode.Facebook))) return _data;
-            using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
-            {
-                try
-                {
-                    using (var page = await PageInit(browser)) await RegistrateByPhone(page);
-                    await _smsService.SetSmsValidationSuccess(_requestId);
-                }
-                catch (Exception exception)
-                {
-                    Log.Error(exception);
-                    if (string.IsNullOrEmpty(_data.ErrMsg)) _data.ErrMsg = exception.Message;
-                    await _smsService.SetNumberFail(_requestId);
-                }
-                finally
-                {
-                    await browser.CloseAsync();
-                }
-            }
-            return _data;
+            await page.GoToAsync(GetRegistrationUrl());
+            await RegistrateByPhone(page);
         }
+
+        protected override string GetRegistrationUrl() => RegistrationUrl;
+        #endregion 
+        #endregion
+
+        //public async Task<IAccountData> Registration(CountryCode countryCode)
+        //{
+        //    if (!string.IsNullOrEmpty(await SmsServiceInit(countryCode, ServiceCode.Facebook))) return _data;
+        //    using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
+        //    {
+        //        try
+        //        {
+        //            using (var page = await PageInit(browser)) await RegistrateByPhone(page);
+        //            await _smsService.SetSmsValidationSuccess(_requestId);
+        //        }
+        //        catch (Exception exception)
+        //        {
+        //            Log.Error(exception);
+        //            if (string.IsNullOrEmpty(_data.ErrMsg)) _data.ErrMsg = exception.Message;
+        //            await _smsService.SetNumberFail(_requestId);
+        //        }
+        //        finally
+        //        {
+        //            await browser.CloseAsync();
+        //        }
+        //    }
+        //    return _data;
+        //}
 
         public async Task RegistrateByPhone(Page page)
         {
@@ -81,7 +84,7 @@ namespace Facebook.Bot
                 return;
             }
             await page.WaitForTimeoutAsync(3000);
-           // await SolveRecaptcha(page);
+            // await SolveRecaptcha(page);
             await FillPhoneAgain(page);
 
             var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
@@ -104,6 +107,7 @@ namespace Facebook.Bot
 
         }
 
+        #region Steps
         private async Task FillRegistrationData(Page page)
         {
             var _typeOptions = new TypeOptions { Delay = 50 };
@@ -138,56 +142,6 @@ namespace Facebook.Bot
 
             if (_data.Sex == SexCode.Female) await page.ClickAsync("input[name=sex][value='1']");
             if (_data.Sex == SexCode.Male) await page.ClickAsync("input[name=sex][value='2']");
-        }
-
-        private async Task<string> SmsServiceInit(CountryCode countryCode, ServiceCode serviceCode)
-        {
-            _data.PhoneCountryCode = Enum.GetName(typeof(CountryCode), countryCode)?.ToUpper();
-            Log.Info($"Registration data: {JsonConvert.SerializeObject(_data)}");
-            if (_smsService == null)
-            {
-                _data.Phone = PhoneServiceStore.GetRandomPhoneNumber(countryCode);
-                return _data.ErrMsg; ;
-            }
-            PhoneNumberRequest phoneNumberRequest = null;
-            phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, serviceCode);
-            //phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
-            if (phoneNumberRequest == null)
-            {
-                _data.ErrMsg = BotMessages.NoPhoneNumberMessage;
-                return _data.ErrMsg;
-            }
-            Log.Info($"phoneNumberRequest: {JsonConvert.SerializeObject(phoneNumberRequest)}");
-            _requestId = phoneNumberRequest.Id;
-            _data.Phone = phoneNumberRequest.Phone.Trim();
-            if (!_data.Phone.StartsWith("+")) _data.Phone = $"+{_data.Phone}";
-            //_data.Phone = _data.Phone.Substring(PhoneServiceStore.CountryPrefixes[countryCode].Length + 1);
-            return _data.ErrMsg;
-        }
-
-        private async Task<Page> PageInit(Browser browser, bool isIncognito = false)
-        {
-            Page page;
-            if (isIncognito)
-            {
-                var context = await browser.CreateIncognitoBrowserContextAsync();
-                page = await context.NewPageAsync();
-            }
-            else page = await browser.NewPageAsync();
-            #region commented
-            await SetHooks(page);
-            //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]); 
-            #endregion
-
-            //var anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\init.js"));
-            //anticaptchaScriptText = anticaptchaScriptText.Replace("YOUR-ANTI-CAPTCHA-API-KEY", AntiCaptchaOnlineApi.GetApiKeyAnticaptcha());
-            //await page.EvaluateExpressionAsync(anticaptchaScriptText);
-            //anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\recaptchaaifb.js"));
-            //await page.EvaluateExpressionAsync(anticaptchaScriptText);
-
-            await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
-            await page.GoToAsync(GetRegistrationUrl());
-            return page;
         }
 
         private async Task SolveRecaptcha(Page page)
@@ -230,24 +184,18 @@ namespace Facebook.Bot
             var jsAltMailList = $@"Array.from(document.querySelectorAll('{selCountries}')).map(a => a.innerText);";
             var countries = await page.EvaluateExpressionAsync<string[]>(jsAltMailList);
             // код страны +44
-            var countryCode = (CountryCode)Enum.Parse(typeof(CountryCode), _data.PhoneCountryCode);
-            var code = PhoneServiceStore.CountryPrefixes[countryCode];
-            var country = countries.FirstOrDefault(z => z.Contains($"(+{code})"));
+            var country = countries.FirstOrDefault(z => z.Contains($"(+{_countryPrefix})"));
             var idx = Array.IndexOf(countries, country);
             if (eCountries.Length > idx) await eCountries[idx].ClickAsync();
 
             var ePhone = await page.QuerySelectorAsync("input[type=tel]");
-            await ePhone.TypeAsync(_data.Phone.Replace($"+{code}", ""), _typeOptions);
+            await ePhone.TypeAsync(_data.Phone.Replace($"+{_countryPrefix}", ""), _typeOptions);
 
             await eSendCode.ClickAsync();
         }
+        #endregion
 
-        public static string GetRegistrationUrl()
-        {
-            return @"https://www.facebook.com/";
-            //https://m.facebook.com/
-        }
-
+        #region else
         private async static Task SetHooks(Page page)
         {
             //await page.SetRequestInterceptionAsync(true);
@@ -324,8 +272,7 @@ namespace Facebook.Bot
             //    PostData = keyValuePairs*/
             //};
             //await e.Request.ContinueAsync(payload);
-        }
-
-
+        } 
+        #endregion
     }
 }

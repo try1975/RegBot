@@ -27,7 +27,7 @@ namespace PuppeteerService
         {
             webkitVersion++;
             chromeVersion++;
-            return $"Mozilla / 5.0({so[_random.Next(0, so.Length)]}) AppleWebKit / 537.{webkitVersion} (KHTML, like Gecko) Chrome / 56.0.{chromeVersion}.87 Safari / 537.{webkitVersion} OPR / 43.0.2442.991";
+            return $"Mozilla / 5.0({so[_random.Next(0, so.Length)]}) AppleWebKit / 537.{webkitVersion} (KHTML, like Gecko) Chrome / 70.0.{chromeVersion}.87 Safari / 537.{webkitVersion} OPR / 43.0.2442.991";
         }
     }
 }

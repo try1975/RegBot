@@ -19,7 +19,12 @@ namespace RegistrationBot
         protected readonly ISmsService _smsService;
         protected readonly IChromiumSettings _chromiumSettings;
         protected string _requestId;
+        protected string _countryPrefix;
         protected static readonly TypeOptions _typeOptions = new TypeOptions { Delay = 50 };
+        protected static readonly NavigationOptions _navigationOptions = new NavigationOptions
+        {
+            WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Load, WaitUntilNavigation.Networkidle2 }
+        };
         #endregion
 
         protected Bot(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
@@ -34,6 +39,7 @@ namespace RegistrationBot
         {
             try
             {
+                _countryPrefix = PhoneServiceStore.CountryPrefixes[countryCode];
                 if (!string.IsNullOrEmpty(await SmsServiceInit(countryCode))) return _data;
                 using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
                 using (var page = await PageInit(browser)) await StartRegistration(page);
@@ -87,12 +93,14 @@ namespace RegistrationBot
             //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]); 
             #endregion
             await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
-
+            await page.GoToAsync(GetRegistrationUrl(), _navigationOptions);
             return page;
         }
 
         #region abstract
         protected abstract ServiceCode GetServiceCode();
+
+        protected abstract string GetRegistrationUrl();
 
         protected abstract Task StartRegistration(Page page);
         #endregion

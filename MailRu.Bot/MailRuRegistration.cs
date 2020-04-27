@@ -15,6 +15,7 @@ namespace MailRu.Bot
 {
     public partial class MailRuRegistration : RegistrationBot.Bot
     {
+        #region init
         #region fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(MailRuRegistration));
         public const string RegistrationUrl = @"https://account.mail.ru/signup"; // https://light.mail.ru/signup
@@ -22,73 +23,21 @@ namespace MailRu.Bot
 
         public MailRuRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings) : base(data, smsService, chromiumSettings)
         {
-            _chromiumSettings.Proxy = _chromiumSettings.GetProxy(ServiceCode.MailRu);
+            _chromiumSettings.Proxy = _chromiumSettings.GetProxy(GetServiceCode());
         }
 
-        #region override
+        #region infra
         protected override ServiceCode GetServiceCode() => ServiceCode.MailRu;
+
+        protected override string GetRegistrationUrl() => RegistrationUrl;
 
         protected override async Task StartRegistration(Page page)
         {
-            await page.GoToAsync(GetRegistrationUrl());
             if (_smsService == null) await RegistrateByEmail(page); else await RegistrateByPhone(page);
         }
+        
+        #endregion 
         #endregion
-
-        private string GetRegistrationUrl() => RegistrationUrl;
-
-        private async Task RegistrateByEmail(Page page)
-        {
-            Log.Info(page.Url);
-            await FillName(page);
-            await FillBirthdate(page);
-            await FillSex(page);
-            await FillEmail(page);
-            if (page.Url.Contains("light."))
-            {
-                await ClickSubmit(page);
-            }
-            await FillPassword(page);
-            if (page.Url.Contains("light."))
-            {
-                await FillPhone(page);
-                await page.WaitForTimeoutAsync(500);
-                await ClickSubmit(page);
-            }
-            await FillAdditionalEmail(page);
-            await page.WaitForTimeoutAsync(1500);
-
-            await ClickSubmit(page);
-
-            await FillPhone(page);
-            await page.WaitForTimeoutAsync(1500);
-            await ClickSubmit(page);
-
-            await page.WaitForTimeoutAsync(2500);
-            var elImgage = await page.QuerySelectorAsync("img.js-captcha-img");
-            if (elImgage != null)
-            {
-                var antiCaptchaOnlineApi = new AntiCaptchaOnlineApi();
-                var antiCaptchaResult = antiCaptchaOnlineApi.SolveIm(await elImgage.ScreenshotBase64Async(new ScreenshotOptions { OmitBackground = true }));
-                if (antiCaptchaResult.Success)
-                {
-                    await page.TypeAsync("input[name='capcha']", antiCaptchaResult.Response);
-                    await ClickSubmit(page);
-                }
-                await page.WaitForTimeoutAsync(10000);
-                var emailSuccess = await page.QuerySelectorAsync("i#PH_user-email");
-                if (emailSuccess != null)
-                {
-                    _data.Success = true;
-                    Log.Info($"emailSuccess: {JsonConvert.SerializeObject(_data)}");
-                    await page.ClickAsync("button[data-test-id='onboarding-button-start']");
-                }
-                else
-                {
-                    _data.ErrMsg = @"Нет перехода на страницу зарегистрированного email";
-                }
-            }
-        }
 
         private async Task RegistrateByPhone(Page page)
         {
@@ -174,16 +123,57 @@ namespace MailRu.Bot
             }
         }
 
-        private static async Task ClickSubmit(Page page)
+        private async Task RegistrateByEmail(Page page)
         {
-            var elSignUp = await page.QuerySelectorAsync("div.b-form__control>button");
-            if (elSignUp == null) elSignUp = await page.QuerySelectorAsync("button[type='submit']");
-            if (elSignUp == null) elSignUp = await page.QuerySelectorAsync("button[data-test-id='first-step-submit']");
-            if (elSignUp == null) elSignUp = await page.QuerySelectorAsync("button[data-name='submit']");
-            if (elSignUp == null) elSignUp = await page.QuerySelectorAsync("button[data-test-id='verification-next-button'] ");
-
-            await elSignUp.ClickAsync();
+            Log.Info(page.Url);
+            await FillName(page);
+            await FillBirthdate(page);
+            await FillSex(page);
+            await FillEmail(page);
+            if (page.Url.Contains("light."))
+            {
+                await ClickSubmit(page);
+            }
+            await FillPassword(page);
+            if (page.Url.Contains("light."))
+            {
+                await FillPhone(page);
+                await page.WaitForTimeoutAsync(500);
+                await ClickSubmit(page);
+            }
+            await FillAdditionalEmail(page);
             await page.WaitForTimeoutAsync(1500);
+
+            await ClickSubmit(page);
+
+            await FillPhone(page);
+            await page.WaitForTimeoutAsync(1500);
+            await ClickSubmit(page);
+
+            await page.WaitForTimeoutAsync(2500);
+            var elImgage = await page.QuerySelectorAsync("img.js-captcha-img");
+            if (elImgage != null)
+            {
+                var antiCaptchaOnlineApi = new AntiCaptchaOnlineApi();
+                var antiCaptchaResult = antiCaptchaOnlineApi.SolveIm(await elImgage.ScreenshotBase64Async(new ScreenshotOptions { OmitBackground = true }));
+                if (antiCaptchaResult.Success)
+                {
+                    await page.TypeAsync("input[name='capcha']", antiCaptchaResult.Response);
+                    await ClickSubmit(page);
+                }
+                await page.WaitForTimeoutAsync(10000);
+                var emailSuccess = await page.QuerySelectorAsync("i#PH_user-email");
+                if (emailSuccess != null)
+                {
+                    _data.Success = true;
+                    Log.Info($"emailSuccess: {JsonConvert.SerializeObject(_data)}");
+                    await page.ClickAsync("button[data-test-id='onboarding-button-start']");
+                }
+                else
+                {
+                    _data.ErrMsg = @"Нет перехода на страницу зарегистрированного email";
+                }
+            }
         }
 
         #region Steps
@@ -385,6 +375,18 @@ namespace MailRu.Bot
             //}
         }
 
+        private static async Task ClickSubmit(Page page)
+        {
+            var elSignUp = await page.QuerySelectorAsync("div.b-form__control>button");
+            if (elSignUp == null) elSignUp = await page.QuerySelectorAsync("button[type='submit']");
+            if (elSignUp == null) elSignUp = await page.QuerySelectorAsync("button[data-test-id='first-step-submit']");
+            if (elSignUp == null) elSignUp = await page.QuerySelectorAsync("button[data-name='submit']");
+            if (elSignUp == null) elSignUp = await page.QuerySelectorAsync("button[data-test-id='verification-next-button'] ");
+
+            await elSignUp.ClickAsync();
+            await page.WaitForTimeoutAsync(1500);
+        }
+
         private async Task SolveRecaptcha(Page page)
         {
             return;
@@ -413,6 +415,7 @@ namespace MailRu.Bot
 
         #endregion
 
+        #region else
         private async static Task SetHooks(Page page)
         {
             //await page.SetRequestInterceptionAsync(true);
@@ -456,5 +459,6 @@ namespace MailRu.Bot
             //};
             //await e.Request.ContinueAsync(payload);
         }
+        #endregion
     }
 }

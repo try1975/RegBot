@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GmailRegistration.cs" />
+    <Compile Include="GmailRegistration.Mail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +139,10 @@
     <ProjectReference Include="..\PuppeteerService\PuppeteerService.csproj">
       <Project>{D0103587-CA50-4EB7-BED4-99E2277F9001}</Project>
       <Name>PuppeteerService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RegistrationBot\RegistrationBot.csproj">
+      <Project>{a09103d8-91c1-4e52-8bf4-4eb693d46c40}</Project>
+      <Name>RegistrationBot</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

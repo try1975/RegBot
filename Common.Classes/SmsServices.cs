@@ -63,7 +63,7 @@ namespace Common.Classes
 
             if (File.Exists(path))
             {
-                var time = File.GetLastWriteTime(path).AddHours(2);
+                var time = File.GetLastWriteTime(path).AddHours(4);
                 if (time > DateTime.Now)
                 {
                     _smsServiceInfoList.AddRange(JsonConvert.DeserializeObject<List<SmsServiceInfo>>(File.ReadAllText(path)));
