@@ -55,7 +55,7 @@
     <Compile Include="Interfaces\IProxyStore.cs" />
     <Compile Include="Interfaces\ISmsService.cs" />
     <Compile Include="Interfaces\ISmsServices.cs" />
-    <Compile Include="Interfaces\IUserAgent.cs" />
+    <Compile Include="Interfaces\IUserAgentProvider.cs" />
     <Compile Include="ServiceDomains.cs" />
     <Compile Include="SmsServiceInfo.cs" />
     <Compile Include="LoggingHandler.cs" />

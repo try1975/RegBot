@@ -6823,7 +6823,7 @@
                 ACCOUNT_KEY_HERE = jQuery(".g-recaptcha-response").val()
             }
             setInterval(function () {
-                jQuery(".g-recaptcha-response:not([anticaptured])").each(function () {
+                jQuery("captcha_response:not([anticaptured])").each(function () {
                     var $gRecaptchaResponseLocal = jQuery(this);
                     $gRecaptchaResponseLocal.show();
                     var $recaptchaIframe = $gRecaptchaResponseLocal.parent().find("iframe");

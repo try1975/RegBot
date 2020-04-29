@@ -23,7 +23,7 @@ namespace RegistrationBot
         protected static readonly TypeOptions _typeOptions = new TypeOptions { Delay = 50 };
         protected static readonly NavigationOptions _navigationOptions = new NavigationOptions
         {
-            WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Load, WaitUntilNavigation.Networkidle2 }
+            WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Load/*, WaitUntilNavigation.Networkidle2*/ }
         };
         #endregion
 
@@ -33,6 +33,7 @@ namespace RegistrationBot
             _data.Domain = ServiceDomains.GetDomain(GetServiceCode());
             _smsService = smsService;
             _chromiumSettings = chromiumSettings;
+            _chromiumSettings.ServiceCode = GetServiceCode();
         }
 
         public async Task<IAccountData> Registration(CountryCode countryCode)

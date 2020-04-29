@@ -10,18 +10,19 @@ namespace PuppeteerService
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(ChromiumSettings));
         private readonly string _chromiumPath;
-        private readonly IUserAgent _userAgentGenerator;
+        private readonly IUserAgentProvider _userAgentProvider;
         private readonly IProxyStore _proxyStore;
         private readonly string userAgent = ConfigurationManager.AppSettings[nameof(userAgent)];
         private readonly bool Headless;
         private bool _noProxy;
 
         public string Proxy { get; set; }
+        public ServiceCode ServiceCode { get; set; }
 
-        public ChromiumSettings(string chromiumPath, IUserAgent userAgentGenerator, IProxyStore proxyStore)
+        public ChromiumSettings(string chromiumPath, IUserAgentProvider userAgentGenerator, IProxyStore proxyStore)
         {
             _chromiumPath = chromiumPath;
-            _userAgentGenerator = userAgentGenerator;
+            _userAgentProvider = userAgentGenerator;
             _proxyStore = proxyStore;
             bool.TryParse(ConfigurationManager.AppSettings[nameof(Headless)], out Headless);
         }
@@ -37,7 +38,11 @@ namespace PuppeteerService
 
         public string GetUserAgent()
         {
-            if (string.IsNullOrEmpty(userAgent) && _userAgentGenerator != null) return _userAgentGenerator.GetRandomUserAgent();
+            if (string.IsNullOrEmpty(userAgent) && _userAgentProvider != null)
+            {
+                var randomUserAgent = _userAgentProvider.GetRandomUserAgent(ServiceCode);
+                return randomUserAgent;
+            }
             return userAgent;
         }
 
@@ -52,11 +57,14 @@ namespace PuppeteerService
                 if (Proxy.Contains("@")) proxy = Proxy.Split('@')[1]; else proxy = Proxy;
                 args.Add($"--proxy-server={proxy}");
             }
-            if (_userAgentGenerator != null)
+            if (_userAgentProvider != null)
             {
                 var useragent = GetUserAgent();
-                Log.Debug($"{nameof(useragent)}: {useragent}");
-                args.Add($@"--user-agent=""{useragent}""");
+                if (!string.IsNullOrEmpty(useragent))
+                {
+                    Log.Debug($"{nameof(useragent)}: {useragent}");
+                    args.Add($@"--user-agent=""{useragent}""");
+                }
             }
             if (_noProxy) { args.Add("--no-proxy-server"); }
             return args;
@@ -77,6 +85,6 @@ namespace PuppeteerService
             if (_proxyStore != null) _proxyStore.MarkProxyFail(serviceCode, proxy);
         }
 
-        
+
     }
 }

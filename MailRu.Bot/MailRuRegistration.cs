@@ -18,7 +18,7 @@ namespace MailRu.Bot
         #region init
         #region fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(MailRuRegistration));
-        public const string RegistrationUrl = @"https://account.mail.ru/signup"; // https://light.mail.ru/signup
+        public const string RegistrationUrl = "https://account.mail.ru/signup"; // "https://light.mail.ru/signup";
         #endregion
 
         public MailRuRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings) : base(data, smsService, chromiumSettings)
@@ -35,8 +35,8 @@ namespace MailRu.Bot
         {
             if (_smsService == null) await RegistrateByEmail(page); else await RegistrateByPhone(page);
         }
-        
-        #endregion 
+
+        #endregion
         #endregion
 
         private async Task RegistrateByPhone(Page page)
@@ -68,24 +68,26 @@ namespace MailRu.Bot
             //}
             await SolveRecaptcha(page);
 
-
-            //
-
             // check phone call
             await page.WaitForTimeoutAsync(500);
-            var phoneCall = await page.WaitForSelectorAsync("a[data-test-id=resend-callui-link", new WaitForSelectorOptions { Timeout = 120 * 1000 });
-            if (phoneCall != null)
+            try
             {
-                await page.WaitForTimeoutAsync(500);
-                await phoneCall.ClickAsync(); // I haven't received a call - click link for sms
-
+                var phoneCall = await page.WaitForSelectorAsync("a[data-test-id=resend-callui-link", new WaitForSelectorOptions { Timeout = 70 * 1000 });
+                if (phoneCall != null)
+                {
+                    await page.WaitForTimeoutAsync(500);
+                    await phoneCall.ClickAsync(); // I haven't received a call - click link for sms
+                }
             }
+            catch { }
+
             await page.WaitForTimeoutAsync(500);
             await SolveRecaptcha(page);
 
             // check sms
             await page.WaitForTimeoutAsync(2000);
             var eSendSms = await page.QuerySelectorAsync("form input[type='number']");
+            if(eSendSms==null) eSendSms = await page.QuerySelectorAsync("input[name=code]");
             // содержимое страницы
             //var content = await page.GetContentAsync();
             //var filename = $"c:\\temp\\mailru_{DateTime.Now.Ticks}.txt";
@@ -97,7 +99,7 @@ namespace MailRu.Bot
                 if (phoneNumberValidation != null)
                 {
                     // enter sms code
-                    await page.TypeAsync("form input[type='number']", phoneNumberValidation.Code, _typeOptions);
+                    await eSendSms.TypeAsync(phoneNumberValidation.Code, _typeOptions);
                     await ClickSubmit(page);
                     await _smsService.SetSmsValidationSuccess(_requestId);
                 }
@@ -152,16 +154,19 @@ namespace MailRu.Bot
 
             await page.WaitForTimeoutAsync(2500);
             var elImgage = await page.QuerySelectorAsync("img.js-captcha-img");
+            if (elImgage == null) elImgage = await page.QuerySelectorAsync("img[alt=Code]");
             if (elImgage != null)
             {
                 var antiCaptchaOnlineApi = new AntiCaptchaOnlineApi();
                 var antiCaptchaResult = antiCaptchaOnlineApi.SolveIm(await elImgage.ScreenshotBase64Async(new ScreenshotOptions { OmitBackground = true }));
                 if (antiCaptchaResult.Success)
                 {
-                    await page.TypeAsync("input[name='capcha']", antiCaptchaResult.Response);
+                    var eInputCaptcha = await page.QuerySelectorAsync("input[name='capcha']");
+                    if (eInputCaptcha == null) eInputCaptcha = await page.QuerySelectorAsync("input[data-test-id]");
+                    await eInputCaptcha.TypeAsync(antiCaptchaResult.Response, _typeOptions);
                     await ClickSubmit(page);
                 }
-                await page.WaitForTimeoutAsync(10000);
+                await page.WaitForTimeoutAsync(15000);
                 var emailSuccess = await page.QuerySelectorAsync("i#PH_user-email");
                 if (emailSuccess != null)
                 {
@@ -389,7 +394,6 @@ namespace MailRu.Bot
 
         private async Task SolveRecaptcha(Page page)
         {
-            return;
             var eRecaptcha = await page.QuerySelectorAsync("#g-recaptcha-response");
             if (eRecaptcha != null)
             {

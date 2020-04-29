@@ -7,6 +7,7 @@ namespace PuppeteerService
     {
         string GetPath();
         bool GetHeadless();
+        ServiceCode ServiceCode { get; set; }
         string Proxy { get; set; }
         string GetUserAgent();
         IEnumerable<string> GetArgs();

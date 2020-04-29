@@ -19,7 +19,7 @@ namespace Facebook.Bot
         #region init
         #region fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(FacebookRegistration));
-        public const string RegistrationUrl = @"https://www.facebook.com/"; //https://m.facebook.com/
+        public const string RegistrationUrl = @"https://www.facebook.com/r.php"; //https://m.facebook.com/ https://www.facebook.com/
         #endregion
 
         public FacebookRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings) : base(data, smsService, chromiumSettings)
@@ -84,7 +84,15 @@ namespace Facebook.Bot
                 return;
             }
             await page.WaitForTimeoutAsync(3000);
-            // await SolveRecaptcha(page);
+
+            var eVerify = await page.QuerySelectorAsync("#checkpointSubmitButton");
+            if (eVerify != null) { 
+                await eVerify.ClickAsync();
+                try { await page.WaitForNavigationAsync(_navigationOptions); } catch { }
+                //var pages = await page.Browser.PagesAsync();
+                //page = pages[0];
+            }
+            await SolveRecaptcha(page);
             await FillPhoneAgain(page);
 
             var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
@@ -146,6 +154,8 @@ namespace Facebook.Bot
 
         private async Task SolveRecaptcha(Page page)
         {
+            var targets = page.Browser.Targets();
+
             var eGotoRecapthcha = await page.QuerySelectorAsync("#checkpointSubmitButton");
             if (eGotoRecapthcha == null) return;
             await eGotoRecapthcha.ClickAsync();

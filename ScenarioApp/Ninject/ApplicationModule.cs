@@ -21,10 +21,11 @@ namespace ScenarioApp.Ninject
             Bind<IAccountDataLoader>().To<AccountDataLoader>().InSingletonScope();
             Bind<IDataSettings>().To<DataSettings>().InSingletonScope();
 
-            var userAgentGenerator = new UserAgent();
+            var chromiumPath = Environment.CurrentDirectory;
+            var userAgentGenerator = new UserAgentProvider();
             var proxyStore = new ProxyStore.Service.ProxyStore(Path.Combine(Application.StartupPath, ConfigurationManager.AppSettings["DbPath"]), Application.StartupPath);
             Bind<IChromiumSettings>().To<ChromiumSettings>().InTransientScope()/*.InSingletonScope()*/
-                .WithConstructorArgument("chromiumPath", Environment.CurrentDirectory)
+                .WithConstructorArgument(nameof(chromiumPath), chromiumPath)
                 .WithConstructorArgument(nameof(userAgentGenerator), userAgentGenerator)
                 .WithConstructorArgument(nameof(proxyStore), proxyStore);
             
