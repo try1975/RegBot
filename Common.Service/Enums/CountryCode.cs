@@ -6,83 +6,59 @@ namespace Common.Service.Enums
     [JsonConverter(typeof(StringEnumConverter))]
     public enum CountryCode
     {
-        [EnumLocalize("Россия")] 
-        RU,
-        [EnumLocalize("Казахстан")]
-        KZ,
-        [EnumLocalize("Китай")]
-        CN,
-        [EnumLocalize("Германия")]
-        DE,
-        [EnumLocalize("Великобритания")]
-        EN,
-        [EnumLocalize("Нидерланды")]
-        NL,
-        [EnumLocalize("Франция")]
-        FR,
-        [EnumLocalize("Украина")]
-        UA,
-        [EnumLocalize("Киргизия")]
-        KG,
-        [EnumLocalize("Узбекистан")]
-        UZ,
-        [EnumLocalize("Сербия")]
-        RS,
-        [EnumLocalize("Молдова")]
-        MD,
-        [EnumLocalize("Польша")]
-        PL,
-        [EnumLocalize("Австрия")]
-        AT,
-        [EnumLocalize("Латвия")]
-        LV,
-        [EnumLocalize("Эстония")]
-        EE,
-        [EnumLocalize("Египет")]
-        EG,
-        [EnumLocalize("Нигерия")]
-        NG,
-        [EnumLocalize("Гаити")]
-        HT,
-        [EnumLocalize("Кот-д’Ивуар")]
-        CI,
-        [EnumLocalize("Йемен")]
-        YE,
-        [EnumLocalize("Камерун")]
-        CM,
-        [EnumLocalize("Чад")]
-        TD,
-        [EnumLocalize("Швеция")]
-        SE,
-        [EnumLocalize("Кипр")]
-        CY,
-        [EnumLocalize("Испания")]
-        ES,
-        [EnumLocalize("США")]
-        US,
-        [EnumLocalize("Канада")]
-        CA,
-        [EnumLocalize("Индонезия")]
-        ID,
-        [EnumLocalize("Филиппины")]
-        PH,
-        [EnumLocalize("Румыния")]
-        RO,
-        [EnumLocalize("Чехия")]
-        CZ,
-        [EnumLocalize("ЮАР")]
-        ZA,
-        [EnumLocalize("Мьянма")]
-        MM,
-        [EnumLocalize("Гана")]
-        GH,
-        [EnumLocalize("Кения")]
-        KE,
-        [EnumLocalize("Грузия")]
-        GE,
-        [EnumLocalize("Беларусь")]
-        BY,
-        [EnumLocalize("Литва")]
-        LT
+        [EnumLocalize("Россия")] RU,
+        [EnumLocalize("Австрия")] AT,
+        [EnumLocalize("Азербайджан")] AZ,
+        [EnumLocalize("Аргентина")] AR,
+        [EnumLocalize("Беларусь")] BY,
+        [EnumLocalize("Бразилия")] BR,
+        [EnumLocalize("Великобритания")] EN,
+        [EnumLocalize("Гаити")] HT,
+        [EnumLocalize("Гамбия")] GM,
+        [EnumLocalize("Гана")] GH,
+        [EnumLocalize("Германия")] DE,
+        [EnumLocalize("Грузия")] GE,
+        [EnumLocalize("Египет")] EG,
+        [EnumLocalize("Израиль")] IL,
+        [EnumLocalize("Индонезия")] ID,
+        [EnumLocalize("Ирак")] IQ,
+        [EnumLocalize("Ирландия")] IE,
+        [EnumLocalize("Испания")] ES,
+        [EnumLocalize("Йемен")] YE,
+        [EnumLocalize("Казахстан")] KZ,
+        [EnumLocalize("Камбоджа")] KH,
+        [EnumLocalize("Камерун")] CM,
+        [EnumLocalize("Канада")] CA,
+        [EnumLocalize("Кения")] KE,
+        [EnumLocalize("Кипр")] CY,
+        [EnumLocalize("Киргизия")] KG,
+        [EnumLocalize("Китай")] CN,
+        [EnumLocalize("Кот-д’Ивуар")] CI,
+        [EnumLocalize("Лаос")] LA,
+        [EnumLocalize("Латвия")] LV,
+        [EnumLocalize("Литва")] LT,
+        [EnumLocalize("Марокко")] MA,
+        [EnumLocalize("Молдова")] MD,
+        [EnumLocalize("Мьянма")] MM,
+        [EnumLocalize("Нигерия")] NG,
+        [EnumLocalize("Нидерланды")] NL,
+        [EnumLocalize("Парагвай")] PY,
+        [EnumLocalize("Польша")] PL,
+        [EnumLocalize("Румыния")] RO,
+        [EnumLocalize("США")] US,
+        [EnumLocalize("Сербия")] RS,
+        [EnumLocalize("Таиланд")] TH,
+        [EnumLocalize("Узбекистан")] UZ,
+        [EnumLocalize("Украина")] UA,
+        [EnumLocalize("Филиппины")] PH,
+        [EnumLocalize("Финляндия")] FI,
+        [EnumLocalize("Франция")] FR,
+        [EnumLocalize("Хорватия")] HR,
+        [EnumLocalize("Чад")] TD,
+        [EnumLocalize("Чехия")] CZ,
+        [EnumLocalize("Швеция")] SE,
+        [EnumLocalize("Эстония")] EE,
+        [EnumLocalize("ЮАР")] ZA,
+
     }
 }

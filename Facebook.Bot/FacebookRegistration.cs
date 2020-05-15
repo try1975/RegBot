@@ -152,10 +152,9 @@ namespace Facebook.Bot
             if (_data.Sex == SexCode.Male) await page.ClickAsync("input[name=sex][value='2']");
         }
 
-        private async Task SolveRecaptcha(Page page)
+        private async Task SolveRecaptcha(Page page, int deep = 0)
         {
-            var targets = page.Browser.Targets();
-
+            if (deep >= 2) return;
             var eGotoRecapthcha = await page.QuerySelectorAsync("#checkpointSubmitButton");
             if (eGotoRecapthcha == null) return;
             await eGotoRecapthcha.ClickAsync();
@@ -163,17 +162,20 @@ namespace Facebook.Bot
             var eRecaptcha = await page.QuerySelectorAsync("#captcha_response");
             if (eRecaptcha != null)
             {
+                var targets = page.Browser.Targets();
                 var anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\init.js"));
                 anticaptchaScriptText = anticaptchaScriptText.Replace("YOUR-ANTI-CAPTCHA-API-KEY", AntiCaptchaOnlineApi.GetApiKeyAnticaptcha());
-                await page.Frames[0].EvaluateExpressionAsync(anticaptchaScriptText);
+                await page.EvaluateExpressionAsync(anticaptchaScriptText);
                 anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\recaptchaaifb.js"));
-                await page.Frames[0].EvaluateExpressionAsync(anticaptchaScriptText);
+                await page.EvaluateExpressionAsync(anticaptchaScriptText);
+                //targets[8].
+
                 //await page.AddScriptTagAsync(new AddTagOptions { Content= anticaptchaScriptText });
                 //await page.WaitForSelectorAsync(".antigate_solver.solved", new WaitForSelectorOptions { Timeout = 120 * 1000 });
                 // await page.ClickAsync("input[type=submit]");
                 //await page.WaitForNavigationAsync();
                 try { await page.WaitForTimeoutAsync(90 * 1000); } catch { }
-                await SolveRecaptcha(page);
+                await SolveRecaptcha(page, ++deep);
             }
         }
 

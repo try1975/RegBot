@@ -20,6 +20,7 @@ namespace PuppeteerService
                 Headless = headless,
                 ExecutablePath = chromiumPath,
                 DefaultViewport = new ViewPortOptions { IsLandscape = true },
+                //DefaultViewport = new ViewPortOptions { IsLandscape = false, IsMobile= true },
                 IgnoreHTTPSErrors = true,
                 SlowMo = 10
             };
@@ -83,6 +84,7 @@ namespace PuppeteerService
                 , "--window-position=0,0"
                 , "--ignore-certifcate-errors"
                 , "--ignore-certifcate-errors-spki-list"
+                , "--lang=bn-BD,bn"
             };
             if (args != null) optionsArgs.AddRange(args);
             options.Args = optionsArgs.ToArray();

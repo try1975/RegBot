@@ -71,40 +71,69 @@ namespace SimSmsOrg
             CountryParams[CountryCode.UA] = "1";
             CountryParams[CountryCode.KZ] = "2";
             CountryParams[CountryCode.CN] = "3";
+            CountryParams[CountryCode.PH] = "4";
             CountryParams[CountryCode.GE] = "5";
+            CountryParams[CountryCode.ID] = "6";
+            CountryParams[CountryCode.BY] = "7";
+            CountryParams[CountryCode.KE] = "8";
+            CountryParams[CountryCode.BR] = "10";
             CountryParams[CountryCode.KG] = "11";
+            CountryParams[CountryCode.US] = "12";
+            CountryParams[CountryCode.IL] = "13";
+            CountryParams[CountryCode.PY] = "14";
             CountryParams[CountryCode.PL] = "15";
             CountryParams[CountryCode.EN] = "16";
-            CountryParams[CountryCode.EG] = "21";
-            CountryParams[CountryCode.DE] = "43";
-            CountryParams[CountryCode.LV] = "49";
-            CountryParams[CountryCode.UZ] = "40";
-            CountryParams[CountryCode.AT] = "50";
-            CountryParams[CountryCode.FR] = "22";
-            CountryParams[CountryCode.CM] = "41";
-            CountryParams[CountryCode.TD] = "42";
-            CountryParams[CountryCode.NL] = "48";
+            CountryParams[CountryCode.FI] = "18";
             CountryParams[CountryCode.NG] = "19";
+            CountryParams[CountryCode.EG] = "21";
+            CountryParams[CountryCode.FR] = "22";
+            CountryParams[CountryCode.IE] = "23";
+            CountryParams[CountryCode.KH] = "24";
+            CountryParams[CountryCode.LA] = "25";
             CountryParams[CountryCode.HT] = "26";
+            CountryParams[CountryCode.CI] = "27";
+            CountryParams[CountryCode.GM] = "28";
             CountryParams[CountryCode.RS] = "29";
             CountryParams[CountryCode.YE] = "30";
-            CountryParams[CountryCode.CI] = "27";
+            CountryParams[CountryCode.ZA] = "31";
+            CountryParams[CountryCode.RO] = "32";
+            CountryParams[CountryCode.SE] = "33";
+            CountryParams[CountryCode.EE] = "34";
+            CountryParams[CountryCode.AZ] = "35";
+            CountryParams[CountryCode.CA] = "36";
+            CountryParams[CountryCode.MA] = "37";
+            CountryParams[CountryCode.GH] = "38";
+            CountryParams[CountryCode.AR] = "39";
+            CountryParams[CountryCode.UZ] = "40";
+            CountryParams[CountryCode.CM] = "41";
+            CountryParams[CountryCode.TD] = "42";
+            CountryParams[CountryCode.DE] = "43";
+            CountryParams[CountryCode.LT] = "44";
+            CountryParams[CountryCode.HR] = "45";
+            CountryParams[CountryCode.IQ] = "47";
+            CountryParams[CountryCode.NL] = "48";
+            CountryParams[CountryCode.LV] = "49";
+            CountryParams[CountryCode.AT] = "50";
+            CountryParams[CountryCode.BY] = "51";
+            CountryParams[CountryCode.TH] = "52";
+
             /*
-             4 - Филиппины, 5 - Грузия, 
-            6 - Индонезия, 7 - Белорусь, 8 - Кения, 10 - Бразилия, 
-            12 - США, 13 - Израиль, 14 - Парагвай,   
-            17 - США (Virtual), 18 - Финляндия, 20 - Макао
-            23 - Ирландия, 24 - Камбоджа, 25 - Лаос, 
-            28 - Гамбия,  31 - ЮАР, 
+            0 - Россия, 1 - Украина, 2 - Казахстан, 3 - Китай, 4 - Филиппины, 5 - Грузия, 
+            6 - Индонезия, 7 - Белорусь, 8 - Кения, 10 - Бразилия, 11 - Кыргызстан, 
+            12 - США, 13 - Израиль, 14 - Парагвай, 15 - Польша, 16 - Англия, 
+            17 - США (Virtual), 18 - Финляндия, 19 - Нигерия, 20 - Макао, 21 - Египет, 
+            22 - Франция, 23 - Ирландия, 24 - Камбоджа, 25 - Лаос, 26 - Гаити, 
+            27 - Кот д'Ивуар, 28 - Гамбия, 29 - Сербия, 30 - Йемен, 31 - ЮАР, 
             32 - Румыния, 33 - Швеция, 34 - Эстония, 35 - Азербайджан, 36 - Канада, 
-            37 - Марокко, 38 - Гана, 39 - Аргентина, 
-            44 - Литва, 45 - Хорватия, 47 - Ирак, 
-            51 - Беларусь, 52 - Таиланд, 
+            37 - Марокко, 38 - Гана, 39 - Аргентина, 40 - Узбекистан, 41 - Камерун, 
+            42 - Чад, 43 - Германия, 44 - Литва, 45 - Хорватия, 47 - Ирак, 
+            48 - Нидерланды, 49 - Латвия, 50 - Австрия, 51 - Беларусь, 52 - Таиланд, 
             53 - Сауд. Аравия, 54 - Мексика, 55 - Тайвань, 56 - Испания, 57 - Иран, 
             58 - Алжир, 59 - Словения, 60 - Бангладеш, 61 - Сенегал, 62 - Турция, 
             63 - Чехия, 64 - Шри-Ланка, 65 - Перу, 66 - Пакистан, 67 - Новая Зеландия, 
             68 - Гвинея, 69 - Мали, 70 - Венесуэла, 71 - Эфиопия
              */
+
 
             _servicesAlt[ServiceCode.MailRu] = "opt4";
             _servicesAlt[ServiceCode.Yandex] = "opt23";
@@ -213,10 +242,12 @@ namespace SimSmsOrg
             }
             if (!CountryParams.ContainsKey(countryCode))
             {
-                var random = new Random();
-                var values = CountryParams.Keys.ToList();
-                var size = CountryParams.Count;
-                countryCode = values[random.Next(size)];
+                Log.Error($"{nameof(SimSmsOrgApi)} not available for country {Enum.GetName(typeof(CountryCode), countryCode)}");
+                return null;
+                //var random = new Random();
+                //var values = CountryParams.Keys.ToList();
+                //var size = CountryParams.Count;
+                //countryCode = values[random.Next(size)];
             }
             var getNumberResult = await GetNumber(_services[serviceCode], CountryParams[countryCode]);
             var getNumberResponse = getNumberResult.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);

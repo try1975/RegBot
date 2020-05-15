@@ -24,7 +24,7 @@ namespace Yandex.Bot
         public YandexRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings) : base(data, smsService, chromiumSettings)
         {
             // don't work with proxy
-            //_chromiumSettings.Proxy = _chromiumSettings.GetProxy(GetServiceCode());
+            _chromiumSettings.Proxy = _chromiumSettings.GetProxy(GetServiceCode());
         }
 
         #region infra
