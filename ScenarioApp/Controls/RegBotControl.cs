@@ -270,7 +270,11 @@ namespace ScenarioApp.Controls
                         break;
                 }
                 if (countryCode == null) countryCode = ((CountryItem)cmbCountry.SelectedItem).CountryCode;
-                if (iBot != null) accountData = await iBot.Registration(countryCode.Value);
+                if (iBot != null)
+                {
+                    textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");
+                    accountData = await iBot.Registration(countryCode.Value);
+                }
                 StoreAccountData(accountData);
                 textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)}... {JsonConvert.SerializeObject(accountData)} {Environment.NewLine}");
                 textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)} finish... - {DateTime.Now} {Environment.NewLine}");
