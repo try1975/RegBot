@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
 using PuppeteerSharp.Input;
+using PuppeteerSharp.Mobile;
 using System;
 using System.Threading.Tasks;
 

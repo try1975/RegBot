@@ -92,7 +92,7 @@ namespace Facebook.Bot
                 //var pages = await page.Browser.PagesAsync();
                 //page = pages[0];
             }
-            await SolveRecaptcha(page);
+            //await SolveRecaptcha(page);
             await FillPhoneAgain(page);
 
             var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
