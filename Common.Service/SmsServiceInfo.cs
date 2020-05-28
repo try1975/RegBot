@@ -1,4 +1,5 @@
 ﻿using Common.Service.Enums;
+using System.Collections.Generic;
 
 namespace Common.Service
 {
@@ -11,5 +12,11 @@ namespace Common.Service
         public double Price { get; set; }
         public bool Skiped { get; set; }
         public int FailCount { get; set; }
+    }
+
+    public class SmsServiceInfoCondition
+    {
+        public ServiceCode ServiceCode { get; set; }
+        public List<CountryCode> CountryCodes { get; set; }
     }
 }

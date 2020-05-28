@@ -82,6 +82,7 @@ namespace ScenarioApp.Controls
             var browserFetcher = new BrowserFetcher();
             browserFetcher.DownloadProgressChanged += OnDownloadProgressChanged;
             GetBrowserLastVersion(browserFetcher);
+            //init ServiceInfoList
             await _smsServices.GetServiceInfoList(ServiceCode.MailRu);
 
             foreach (SmsServiceCode smsServiceCode in Enum.GetValues(typeof(SmsServiceCode)))
@@ -308,6 +309,19 @@ namespace ScenarioApp.Controls
             }
         }
 
+        private SmsServiceInfoCondition GetSmsServiceInfoCondition(ServiceCode serviceCode)
+        {
+            if (cbSmsAuto.Checked && cbCountryAuto.Checked) return null;
+            var smsServiceInfoCondition = new SmsServiceInfoCondition { ServiceCode = serviceCode };
+            if (!cbCountryAuto.Checked) {
+                smsServiceInfoCondition.CountryCodes = new List<CountryCode>
+                {
+                    ((CountryItem)cmbCountry.SelectedItem).CountryCode
+                };
+            }
+            return smsServiceInfoCondition;
+        }
+
         #region Event handlers
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -329,7 +343,8 @@ namespace ScenarioApp.Controls
 
         private async void BtnMailRuPhone_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.MailRu));
+            var smsServiceInfoCondition = GetSmsServiceInfoCondition(ServiceCode.MailRu);
+            if (smsServiceInfoCondition != null) TryRegister(await _smsServices.GetServiceInfoList(smsServiceInfoCondition));
             else await Demo(ServiceCode.MailRu);
         }
 
@@ -340,31 +355,36 @@ namespace ScenarioApp.Controls
 
         private async void BtnYandexPhone_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Yandex));
+            var smsServiceInfoCondition = GetSmsServiceInfoCondition(ServiceCode.Yandex);
+            if (smsServiceInfoCondition != null) TryRegister(await _smsServices.GetServiceInfoList(smsServiceInfoCondition));
             else await Demo(ServiceCode.Yandex);
         }
 
         private async void BtnGmail_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Gmail));
+            var smsServiceInfoCondition = GetSmsServiceInfoCondition(ServiceCode.Gmail);
+            if (smsServiceInfoCondition != null) TryRegister(await _smsServices.GetServiceInfoList(smsServiceInfoCondition));
             else await Demo(ServiceCode.Gmail);
         }
 
         private async void BtnFacebook_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Facebook));
+            var smsServiceInfoCondition = GetSmsServiceInfoCondition(ServiceCode.Facebook);
+            if (smsServiceInfoCondition != null) TryRegister(await _smsServices.GetServiceInfoList(smsServiceInfoCondition));
             else await Demo(ServiceCode.Facebook);
         }
 
         private async void BtnVk_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Vk));
+            var smsServiceInfoCondition = GetSmsServiceInfoCondition(ServiceCode.Vk);
+            if (smsServiceInfoCondition != null) TryRegister(await _smsServices.GetServiceInfoList(smsServiceInfoCondition));
             else await Demo(ServiceCode.Vk);
         }
 
         private async void BtnOk_Click(object sender, EventArgs e)
         {
-            if (cbSmsAuto.Checked) TryRegister(await _smsServices.GetServiceInfoList(ServiceCode.Ok));
+            var smsServiceInfoCondition = GetSmsServiceInfoCondition(ServiceCode.Ok);
+            if (smsServiceInfoCondition != null) TryRegister(await _smsServices.GetServiceInfoList(smsServiceInfoCondition));
             else await Demo(ServiceCode.Ok, byPhone: true);
         }
 

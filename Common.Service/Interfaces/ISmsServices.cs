@@ -8,6 +8,7 @@ namespace Common.Service.Interfaces
     {
         ISmsService GetSmsService(SmsServiceCode smsServiceCode);
         Task<IEnumerable<SmsServiceInfo>> GetServiceInfoList(ServiceCode serviceCode);
+        Task<IEnumerable<SmsServiceInfo>> GetServiceInfoList(SmsServiceInfoCondition smsServiceInfoCondition);
         void RemoveSmsServiceLowBalance(SmsServiceCode smsServiceCode);
 
         Task AddFail(SmsServiceInfo smsServiceInfo);

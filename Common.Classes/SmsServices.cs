@@ -56,6 +56,24 @@ namespace Common.Classes
                     .ToList();
         }
 
+        public async Task<IEnumerable<SmsServiceInfo>> GetServiceInfoList(SmsServiceInfoCondition smsServiceInfoCondition)
+        {
+            if (!_smsServiceInfoListInitialized) await InitializeSmsServiceInfoList();
+            var smsServiceInfoList = _smsServiceInfoList
+                    .Where(z => z.ServiceCode == smsServiceInfoCondition.ServiceCode && z.NumberCount > 0 && !z.Skiped)
+                    .OrderBy(z => z.FailCount)
+                    .ThenBy(z => z.Price)
+                    .ThenByDescending(z => z.NumberCount)
+                    .ToList();
+            if ((smsServiceInfoCondition.CountryCodes != null) && smsServiceInfoCondition.CountryCodes.Any())
+            {
+                smsServiceInfoList = smsServiceInfoList
+                    .Where(z => smsServiceInfoCondition.CountryCodes.Contains(z.CountryCode))
+                    .ToList();
+            }
+            return smsServiceInfoList;
+        }
+
         private async Task InitializeSmsServiceInfoList()
         {
             _smsServiceInfoList.Clear();
@@ -96,5 +114,7 @@ namespace Common.Classes
             //smsServiceInfo.FailCount++;
             //smsServiceInfo.NumberCount--;
         }
+
+
     }
 }

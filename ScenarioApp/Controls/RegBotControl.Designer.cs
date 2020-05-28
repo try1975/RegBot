@@ -53,6 +53,7 @@
             this.tbFirstName = new System.Windows.Forms.TextBox();
             this.lblFirstName = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btnOk = new System.Windows.Forms.Button();
             this.btnYandexPhone = new System.Windows.Forms.Button();
             this.btnMailRuEmail = new System.Windows.Forms.Button();
             this.btnMailRuPhone = new System.Windows.Forms.Button();
@@ -67,7 +68,7 @@
             this.lblCountry = new System.Windows.Forms.Label();
             this.cmbCountry = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.btnOk = new System.Windows.Forms.Button();
+            this.cbCountryAuto = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -86,9 +87,9 @@
             this.tabPage2.Controls.Add(this.panel4);
             this.tabPage2.Controls.Add(this.panel2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage2.Size = new System.Drawing.Size(950, 518);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "История";
@@ -99,7 +100,7 @@
             this.panel4.Controls.Add(this.dgvItems);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(2, 35);
-            this.panel4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(946, 481);
             this.panel4.TabIndex = 1;
@@ -114,7 +115,7 @@
             this.dgvItems.DateWithTime = true;
             this.dgvItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvItems.Location = new System.Drawing.Point(0, 0);
-            this.dgvItems.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvItems.Margin = new System.Windows.Forms.Padding(2);
             this.dgvItems.Name = "dgvItems";
             this.dgvItems.RowHeadersWidth = 62;
             this.dgvItems.RowTemplate.Height = 28;
@@ -126,7 +127,7 @@
             // 
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(2, 2);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(946, 33);
             this.panel2.TabIndex = 0;
@@ -136,9 +137,9 @@
             this.tabPage1.Controls.Add(this.panel3);
             this.tabPage1.Controls.Add(this.panel1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage1.Size = new System.Drawing.Size(950, 518);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Регистрация";
@@ -149,7 +150,7 @@
             this.panel3.Controls.Add(this.textBox1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(2, 180);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(946, 336);
             this.panel3.TabIndex = 5;
@@ -158,7 +159,7 @@
             // 
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -172,7 +173,7 @@
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(2, 2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(946, 178);
             this.panel1.TabIndex = 3;
@@ -194,7 +195,7 @@
             this.panel6.Controls.Add(this.lblFirstName);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(285, 0);
-            this.panel6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel6.Margin = new System.Windows.Forms.Padding(2);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(472, 178);
             this.panel6.TabIndex = 26;
@@ -202,7 +203,7 @@
             // btnGenerateRu
             // 
             this.btnGenerateRu.Location = new System.Drawing.Point(270, 123);
-            this.btnGenerateRu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnGenerateRu.Margin = new System.Windows.Forms.Padding(2);
             this.btnGenerateRu.Name = "btnGenerateRu";
             this.btnGenerateRu.Size = new System.Drawing.Size(167, 21);
             this.btnGenerateRu.TabIndex = 29;
@@ -212,7 +213,7 @@
             // btnGenerateEn
             // 
             this.btnGenerateEn.Location = new System.Drawing.Point(270, 98);
-            this.btnGenerateEn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnGenerateEn.Margin = new System.Windows.Forms.Padding(2);
             this.btnGenerateEn.Name = "btnGenerateEn";
             this.btnGenerateEn.Size = new System.Drawing.Size(167, 21);
             this.btnGenerateEn.TabIndex = 28;
@@ -223,7 +224,7 @@
             // 
             this.rbFemale.AutoSize = true;
             this.rbFemale.Location = new System.Drawing.Point(351, 72);
-            this.rbFemale.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rbFemale.Margin = new System.Windows.Forms.Padding(2);
             this.rbFemale.Name = "rbFemale";
             this.rbFemale.Size = new System.Drawing.Size(69, 17);
             this.rbFemale.TabIndex = 27;
@@ -235,7 +236,7 @@
             this.rbMale.AutoSize = true;
             this.rbMale.Checked = true;
             this.rbMale.Location = new System.Drawing.Point(282, 73);
-            this.rbMale.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rbMale.Margin = new System.Windows.Forms.Padding(2);
             this.rbMale.Name = "rbMale";
             this.rbMale.Size = new System.Drawing.Size(70, 17);
             this.rbMale.TabIndex = 26;
@@ -266,7 +267,7 @@
             // dtpBirthDate
             // 
             this.dtpBirthDate.Location = new System.Drawing.Point(282, 29);
-            this.dtpBirthDate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpBirthDate.Margin = new System.Windows.Forms.Padding(2);
             this.dtpBirthDate.Name = "dtpBirthDate";
             this.dtpBirthDate.Size = new System.Drawing.Size(135, 20);
             this.dtpBirthDate.TabIndex = 23;
@@ -274,7 +275,7 @@
             // tbPassword
             // 
             this.tbPassword.Location = new System.Drawing.Point(12, 122);
-            this.tbPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbPassword.Margin = new System.Windows.Forms.Padding(2);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(235, 20);
             this.tbPassword.TabIndex = 12;
@@ -292,7 +293,7 @@
             // tbLastname
             // 
             this.tbLastname.Location = new System.Drawing.Point(12, 75);
-            this.tbLastname.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbLastname.Margin = new System.Windows.Forms.Padding(2);
             this.tbLastname.Name = "tbLastname";
             this.tbLastname.Size = new System.Drawing.Size(235, 20);
             this.tbLastname.TabIndex = 10;
@@ -310,7 +311,7 @@
             // tbFirstName
             // 
             this.tbFirstName.Location = new System.Drawing.Point(12, 32);
-            this.tbFirstName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbFirstName.Margin = new System.Windows.Forms.Padding(2);
             this.tbFirstName.Name = "tbFirstName";
             this.tbFirstName.Size = new System.Drawing.Size(235, 20);
             this.tbFirstName.TabIndex = 8;
@@ -337,15 +338,25 @@
             this.panel5.Controls.Add(this.btnFacebook);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel5.Location = new System.Drawing.Point(0, 0);
-            this.panel5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel5.Margin = new System.Windows.Forms.Padding(2);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(285, 178);
             this.panel5.TabIndex = 25;
             // 
+            // btnOk
+            // 
+            this.btnOk.Location = new System.Drawing.Point(143, 135);
+            this.btnOk.Margin = new System.Windows.Forms.Padding(2);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(126, 31);
+            this.btnOk.TabIndex = 29;
+            this.btnOk.Text = "ok.ru";
+            this.btnOk.UseVisualStyleBackColor = true;
+            // 
             // btnYandexPhone
             // 
             this.btnYandexPhone.Location = new System.Drawing.Point(143, 52);
-            this.btnYandexPhone.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnYandexPhone.Margin = new System.Windows.Forms.Padding(2);
             this.btnYandexPhone.Name = "btnYandexPhone";
             this.btnYandexPhone.Size = new System.Drawing.Size(126, 31);
             this.btnYandexPhone.TabIndex = 28;
@@ -355,7 +366,7 @@
             // btnMailRuEmail
             // 
             this.btnMailRuEmail.Location = new System.Drawing.Point(13, 9);
-            this.btnMailRuEmail.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnMailRuEmail.Margin = new System.Windows.Forms.Padding(2);
             this.btnMailRuEmail.Name = "btnMailRuEmail";
             this.btnMailRuEmail.Size = new System.Drawing.Size(126, 31);
             this.btnMailRuEmail.TabIndex = 22;
@@ -365,7 +376,7 @@
             // btnMailRuPhone
             // 
             this.btnMailRuPhone.Location = new System.Drawing.Point(143, 9);
-            this.btnMailRuPhone.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnMailRuPhone.Margin = new System.Windows.Forms.Padding(2);
             this.btnMailRuPhone.Name = "btnMailRuPhone";
             this.btnMailRuPhone.Size = new System.Drawing.Size(126, 31);
             this.btnMailRuPhone.TabIndex = 27;
@@ -375,7 +386,7 @@
             // btnYandexEmail
             // 
             this.btnYandexEmail.Location = new System.Drawing.Point(13, 52);
-            this.btnYandexEmail.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnYandexEmail.Margin = new System.Windows.Forms.Padding(2);
             this.btnYandexEmail.Name = "btnYandexEmail";
             this.btnYandexEmail.Size = new System.Drawing.Size(126, 31);
             this.btnYandexEmail.TabIndex = 23;
@@ -385,7 +396,7 @@
             // btnVk
             // 
             this.btnVk.Location = new System.Drawing.Point(143, 98);
-            this.btnVk.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnVk.Margin = new System.Windows.Forms.Padding(2);
             this.btnVk.Name = "btnVk";
             this.btnVk.Size = new System.Drawing.Size(126, 31);
             this.btnVk.TabIndex = 26;
@@ -395,7 +406,7 @@
             // btnGmail
             // 
             this.btnGmail.Location = new System.Drawing.Point(13, 98);
-            this.btnGmail.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnGmail.Margin = new System.Windows.Forms.Padding(2);
             this.btnGmail.Name = "btnGmail";
             this.btnGmail.Size = new System.Drawing.Size(126, 31);
             this.btnGmail.TabIndex = 24;
@@ -405,7 +416,7 @@
             // btnFacebook
             // 
             this.btnFacebook.Location = new System.Drawing.Point(13, 135);
-            this.btnFacebook.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnFacebook.Margin = new System.Windows.Forms.Padding(2);
             this.btnFacebook.Name = "btnFacebook";
             this.btnFacebook.Size = new System.Drawing.Size(126, 31);
             this.btnFacebook.TabIndex = 25;
@@ -414,6 +425,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbCountryAuto);
             this.groupBox1.Controls.Add(this.cbSmsAuto);
             this.groupBox1.Controls.Add(this.lblSmsService);
             this.groupBox1.Controls.Add(this.cmbSmsService);
@@ -421,9 +433,9 @@
             this.groupBox1.Controls.Add(this.cmbCountry);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox1.Location = new System.Drawing.Point(757, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(189, 178);
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
@@ -434,8 +446,8 @@
             this.cbSmsAuto.AutoSize = true;
             this.cbSmsAuto.Checked = true;
             this.cbSmsAuto.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbSmsAuto.Location = new System.Drawing.Point(21, 118);
-            this.cbSmsAuto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbSmsAuto.Location = new System.Drawing.Point(21, 68);
+            this.cbSmsAuto.Margin = new System.Windows.Forms.Padding(2);
             this.cbSmsAuto.Name = "cbSmsAuto";
             this.cbSmsAuto.Size = new System.Drawing.Size(103, 17);
             this.cbSmsAuto.TabIndex = 18;
@@ -456,7 +468,7 @@
             // 
             this.cmbSmsService.FormattingEnabled = true;
             this.cmbSmsService.Location = new System.Drawing.Point(21, 43);
-            this.cmbSmsService.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbSmsService.Margin = new System.Windows.Forms.Padding(2);
             this.cmbSmsService.Name = "cmbSmsService";
             this.cmbSmsService.Size = new System.Drawing.Size(109, 21);
             this.cmbSmsService.TabIndex = 14;
@@ -464,7 +476,7 @@
             // lblCountry
             // 
             this.lblCountry.AutoSize = true;
-            this.lblCountry.Location = new System.Drawing.Point(18, 71);
+            this.lblCountry.Location = new System.Drawing.Point(18, 98);
             this.lblCountry.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCountry.Name = "lblCountry";
             this.lblCountry.Size = new System.Drawing.Size(84, 13);
@@ -474,8 +486,8 @@
             // cmbCountry
             // 
             this.cmbCountry.FormattingEnabled = true;
-            this.cmbCountry.Location = new System.Drawing.Point(21, 86);
-            this.cmbCountry.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbCountry.Location = new System.Drawing.Point(21, 113);
+            this.cmbCountry.Margin = new System.Windows.Forms.Padding(2);
             this.cmbCountry.Name = "cmbCountry";
             this.cmbCountry.Size = new System.Drawing.Size(109, 21);
             this.cmbCountry.TabIndex = 17;
@@ -486,21 +498,24 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(958, 544);
             this.tabControl1.TabIndex = 3;
             // 
-            // btnOk
+            // cbCountryAuto
             // 
-            this.btnOk.Location = new System.Drawing.Point(143, 135);
-            this.btnOk.Margin = new System.Windows.Forms.Padding(2);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(126, 31);
-            this.btnOk.TabIndex = 29;
-            this.btnOk.Text = "ok.ru";
-            this.btnOk.UseVisualStyleBackColor = true;
+            this.cbCountryAuto.AutoSize = true;
+            this.cbCountryAuto.Checked = true;
+            this.cbCountryAuto.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbCountryAuto.Location = new System.Drawing.Point(21, 138);
+            this.cbCountryAuto.Margin = new System.Windows.Forms.Padding(2);
+            this.cbCountryAuto.Name = "cbCountryAuto";
+            this.cbCountryAuto.Size = new System.Drawing.Size(103, 17);
+            this.cbCountryAuto.TabIndex = 19;
+            this.cbCountryAuto.Text = "автоматически";
+            this.cbCountryAuto.UseVisualStyleBackColor = true;
             // 
             // RegBotControl
             // 
@@ -568,5 +583,6 @@
         private System.Windows.Forms.TextBox tbFirstName;
         private System.Windows.Forms.Label lblFirstName;
         private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.CheckBox cbCountryAuto;
     }
 }

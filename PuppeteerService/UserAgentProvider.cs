@@ -31,6 +31,7 @@ namespace PuppeteerService
 
         public string GetRandomUserAgent()
         {
+            //return string.Empty;
             webkitVersion++;
             chromeVersion++;
             return $"Mozilla/5.0 ({so[_random.Next(0, so.Length)]}) AppleWebKit/537.{webkitVersion} (KHTML, like Gecko) Chrome/56.0.{chromeVersion}.87 Safari/537.{webkitVersion} OPR/43.0.2442.991";
@@ -38,8 +39,10 @@ namespace PuppeteerService
 
         public string GetRandomUserAgent(ServiceCode serviceCode)
         {
+            //return string.Empty;
             /*if (serviceCode == ServiceCode.Facebook) return _userAgents[_random.Next(0, _userAgents.Length)];
-            else*/ if (serviceCode == ServiceCode.MailRu) return _userAgents[_random.Next(0, _userAgents.Length)];
+            else*/
+            if (serviceCode == ServiceCode.MailRu) return _userAgents[_random.Next(0, _userAgents.Length)];
             else return GetRandomUserAgent();
         }
     }

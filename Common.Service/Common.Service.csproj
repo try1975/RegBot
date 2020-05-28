@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BotMessages.cs" />
+    <Compile Include="CountryGroup.cs" />
     <Compile Include="EnumLocalizeAttribute.cs" />
     <Compile Include="Enums\CountryCode.cs" />
     <Compile Include="Enums\ServiceCode.cs" />
