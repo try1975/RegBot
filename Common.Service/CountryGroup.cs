@@ -8,18 +8,26 @@ namespace Common.Service
         private static readonly List<CountryCode> _europe = new List<CountryCode>();
         private static readonly List<CountryCode> _westEurope = new List<CountryCode>();
         private static readonly List<CountryCode> _eastEurope = new List<CountryCode>();
+        private static readonly List<CountryCode> _northEurope = new List<CountryCode>();
+        private static readonly List<CountryCode> _southEurope = new List<CountryCode>();
 
         static CountryGroup()
         {
             _westEurope.AddRange(new[] { CountryCode.AT, CountryCode.BE, CountryCode.EN, CountryCode.GE, CountryCode.IE, CountryCode.NL, CountryCode.FR, CountryCode.CH });
-            _eastEurope.AddRange(new[] { CountryCode.BY, CountryCode.BG, CountryCode.HU });
+            _eastEurope.AddRange(new[] { CountryCode.BY, CountryCode.BG, CountryCode.HU, CountryCode.MD, CountryCode.PL, CountryCode.RO, CountryCode.SK, CountryCode.CZ, CountryCode.UA });
+            _northEurope.AddRange(new[] { CountryCode.DK, CountryCode.LV });
+            _southEurope.AddRange(new[] { CountryCode.ES });
 
             _europe.AddRange(_westEurope);
             _europe.AddRange(_eastEurope);
+            _europe.AddRange(_northEurope);
+            _europe.AddRange(_southEurope);
         }
 
         public static List<CountryCode> Europe => _europe;
         public static List<CountryCode> WestEurope => _westEurope;
         public static List<CountryCode> EastEurope => _eastEurope;
+        public static List<CountryCode> NorthEurope => _northEurope;
+        public static List<CountryCode> SouthEurope => _southEurope;
     }
 }
