@@ -67,3 +67,7 @@ https://github.com/Zaczero/AntiCaptcha
 
 useragent
 https://github.com/tamimibrahim17/List-of-user-agents
+
+proxy services
+https://scrapinghub.com/crawlera
+https://docs.proxymesh.com/

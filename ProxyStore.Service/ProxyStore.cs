@@ -89,7 +89,8 @@ namespace ProxyStore.Service
 
         public string GetProxy(ServiceCode serviceCode)
         {
-            if(!list.Any()) return string.Empty;
+            //return string.Empty;
+            if (!list.Any()) return string.Empty;
             var idx = _random.Next(0, list.Count - 1);
             return list[idx].ProxyString;
         }
