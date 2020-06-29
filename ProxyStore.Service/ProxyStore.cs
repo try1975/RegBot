@@ -33,14 +33,12 @@ namespace ProxyStore.Service
             //    ;
             //}
 
-            _path = path;
+            _path = Path.Combine(path, "Data", "proxies.txt");
 
-            path = Path.Combine(_path, "Data", "proxies.txt");
-
-            if (File.Exists(path))
+            if (File.Exists(_path))
             {
-                var proxies = File.ReadAllLines(path).ToList();
-                var time = File.GetLastWriteTime(path).AddHours(12);
+                var proxies = File.ReadAllLines(_path).ToList();
+                var time = File.GetLastWriteTime(_path).AddHours(12);
                 if (time < DateTime.Now)
                 {
                     List<WebProxy> lowp = new List<WebProxy>();
@@ -78,7 +76,7 @@ namespace ProxyStore.Service
                     //list.AddRange(JsonConvert.DeserializeObject<List<IProxyData>>(File.ReadAllText(path)));
                     proxies.Clear();
                     CheckProxies(lowp, proxies);
-                    File.WriteAllLines(path, proxies);
+                    File.WriteAllLines(_path, proxies);
                 }
                 foreach (var goodProxy in proxies)
                 {
@@ -164,6 +162,16 @@ namespace ProxyStore.Service
         public void MarkProxyFail(ServiceCode serviceCode, string proxy)
         {
             list.RemoveAll(x => x.ProxyString.Equals(proxy));
+        }
+
+        public List<IProxyData> GetProxies()
+        {
+            return list;
+        }
+
+        public string GetPath()
+        {
+            return _path;
         }
     }
 

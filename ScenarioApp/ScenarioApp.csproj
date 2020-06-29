@@ -193,10 +193,17 @@
     <Compile Include="Controls\Interfaces\IEmailCheckControl.cs" />
     <Compile Include="Controls\Interfaces\IForumSearchControl.cs" />
     <Compile Include="Controls\Interfaces\IGenerateAccountDataControl.cs" />
+    <Compile Include="Controls\Interfaces\IProxyControl.cs" />
     <Compile Include="Controls\Interfaces\IRegBotControl.cs" />
     <Compile Include="Controls\Interfaces\ISelectPersonControl.cs" />
     <Compile Include="Controls\Interfaces\ISendMailControl.cs" />
     <Compile Include="Controls\Interfaces\ISmsServiceControl.cs" />
+    <Compile Include="Controls\ProxyControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ProxyControl.Designer.cs">
+      <DependentUpon>ProxyControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RegBotControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -336,6 +343,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\PostVkControl.resx">
       <DependentUpon>PostVkControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ProxyControl.resx">
+      <DependentUpon>ProxyControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\RegBotControl.resx">
       <DependentUpon>RegBotControl.cs</DependentUpon>

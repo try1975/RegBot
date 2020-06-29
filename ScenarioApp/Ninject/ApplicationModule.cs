@@ -50,6 +50,8 @@ namespace ScenarioApp.Ninject
             Bind<IGenerateAccountDataControl>().To<GenerateAccountDataControl>();
             Bind<ICaptchaControl>().To<CaptchaControl>();
             Bind<ISmsServiceControl>().To<SmsServiceControl>();
+            Bind<IProxyControl>().To<ProxyControl>().InTransientScope()
+                .WithConstructorArgument(nameof(proxyStore), proxyStore);
         }
     }
 }

@@ -92,7 +92,11 @@ namespace RegistrationBot
 
             #region commented
             //await SetRequestHook(page);
-            //await page.EmulateAsync(Puppeteer.Devices[DeviceDescriptorName.IPhone6]); 
+            var deviceDescriptorName = GetDeviceDescriptorName();
+            if (deviceDescriptorName != DeviceDescriptorName.BlackberryPlayBook)
+            {
+                await page.EmulateAsync(Puppeteer.Devices[deviceDescriptorName]);
+            }
             #endregion
             await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
             await page.GoToAsync(GetRegistrationUrl(), _navigationOptions);
@@ -105,6 +109,11 @@ namespace RegistrationBot
         protected abstract string GetRegistrationUrl();
 
         protected abstract Task StartRegistration(Page page);
+
+        protected virtual DeviceDescriptorName GetDeviceDescriptorName()
+        {
+            return DeviceDescriptorName.BlackberryPlayBook;
+        }
         #endregion
     }
 }

@@ -6,6 +6,7 @@ using log4net;
 using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
+using PuppeteerSharp.Mobile;
 using System;
 using System.IO;
 using System.Linq;
@@ -34,6 +35,11 @@ namespace MailRu.Bot
         protected override async Task StartRegistration(Page page)
         {
             if (_smsService == null) await RegistrateByEmail(page); else await RegistrateByPhone(page);
+        }
+
+        protected override DeviceDescriptorName GetDeviceDescriptorName()
+        {
+            return DeviceDescriptorName.IPhoneXLandscape;
         }
 
         #endregion
