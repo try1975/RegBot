@@ -40,6 +40,8 @@
             this.tbProxies = new System.Windows.Forms.TextBox();
             this.lblProxyPath = new System.Windows.Forms.Label();
             this.btnSaveProxy = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -74,12 +76,14 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.btnSaveProxy);
             this.panel1.Controls.Add(this.lblProxyPath);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 22);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(688, 44);
+            this.panel1.Size = new System.Drawing.Size(688, 95);
             this.panel1.TabIndex = 1;
             // 
             // cmbIpWeb
@@ -145,11 +149,11 @@
             // tbProxies
             // 
             this.tbProxies.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbProxies.Location = new System.Drawing.Point(3, 66);
+            this.tbProxies.Location = new System.Drawing.Point(3, 117);
             this.tbProxies.Multiline = true;
             this.tbProxies.Name = "tbProxies";
             this.tbProxies.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbProxies.Size = new System.Drawing.Size(688, 380);
+            this.tbProxies.Size = new System.Drawing.Size(688, 329);
             this.tbProxies.TabIndex = 2;
             this.tbProxies.WordWrap = false;
             // 
@@ -170,6 +174,24 @@
             this.btnSaveProxy.TabIndex = 1;
             this.btnSaveProxy.Text = "Сохранить прокси";
             this.btnSaveProxy.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(182, 42);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(288, 20);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Формат [логин:пароль@]адрес:порт";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(182, 66);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(382, 20);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Двойной клик мыши для выбора прокси текущим";
             // 
             // ProxyControl
             // 
@@ -202,5 +224,7 @@
         private System.Windows.Forms.TextBox tbProxies;
         private System.Windows.Forms.Label lblProxyPath;
         private System.Windows.Forms.Button btnSaveProxy;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
     }
 }
