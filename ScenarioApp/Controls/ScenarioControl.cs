@@ -27,6 +27,7 @@ namespace ScenarioApp.Controls
         private IGenerateAccountDataControl _generateAccountDataControl;
         private ICaptchaControl _captchaControl;
         private ISmsServiceControl _smsServiceControl;
+        private IProxyControl _proxyControl;
         #endregion
 
         public ScenarioControl()
@@ -53,6 +54,7 @@ namespace ScenarioApp.Controls
             btnGenerateAccountDataControl.Click += BtnGenerateAccountDataControl_Click;
             btnCaptchaControl.Click += BtnCaptchaControl_Click;
             btnSmsServiceControl.Click += BtnSmsServiceControl_Click;
+            btnProxyControl.Click += BtnProxyControl_Click;
 
             Load += ScenarioControl_Load;
         }
@@ -255,6 +257,17 @@ namespace ScenarioApp.Controls
                 return;
             }
             AddControlToWorkArea((Control)CompositionRoot.Resolve<ISmsServiceControl>(), true);
+        }
+
+        private void BtnProxyControl_Click(object sender, EventArgs e)
+        {
+            if (!ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (_proxyControl == null) _proxyControl = CompositionRoot.Resolve<IProxyControl>();
+                AddControlToWorkArea((Control)_proxyControl, false);
+                return;
+            }
+            AddControlToWorkArea((Control)CompositionRoot.Resolve<IProxyControl>(), true);
         }
 
         private void AddControlToWorkArea(Control control, bool ctrlPressed = false)

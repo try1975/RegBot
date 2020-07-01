@@ -13,8 +13,9 @@ namespace PuppeteerService
         public static async Task<Browser> GetBrowser(string chromiumPath, bool headless, IEnumerable<string> args = null)
         {
             if (string.IsNullOrEmpty(chromiumPath)) chromiumPath = Environment.CurrentDirectory;
+            var extensionWebRTCPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-706915\\chrome-win\\", "extensions\\webrtc");
             chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-706915\\chrome-win\\chrome.exe");
-            //chromiumPath = @"C:\Users\y.vorobyev\AppData\Local\Programs\Opera\launcher.exe";
+
             //chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-662092\\chrome-win\\chrome.exe");
             var options = new LaunchOptions
             {
@@ -26,10 +27,8 @@ namespace PuppeteerService
                 SlowMo = 10
             };
 
-            //var connectOptions = new ConnectOptions { BrowserWSEndpoint = $"wss://chrome.browserless.io?token={apikey}"};
-            var connectOptions = new ConnectOptions { BrowserWSEndpoint = $"wss://chrome.browserless.io?"};
-            //var connectOptions = new ConnectOptions { BrowserURL = "http://127.0.0.1:9222" };
-            return await Puppeteer.ConnectAsync(connectOptions);
+            //var connectOptions = new ConnectOptions { BrowserWSEndpoint = $"wss://chrome.browserless.io?token={apikey}", BrowserURL="http://127.0.0.1:2122" };
+            //await Puppeteer.ConnectAsync(connectOptions);
 
             var optionsArgs = new List<string>
             {
@@ -90,6 +89,14 @@ namespace PuppeteerService
                 , "--lang=bn-BD,bn"
             };
             if (args != null) optionsArgs.AddRange(args);
+
+            // webRTC try disable
+            if (Directory.Exists(extensionWebRTCPath))
+            {
+                optionsArgs.Add($"--disable-extensions-except={extensionWebRTCPath}");
+                optionsArgs.Add($"--load-extension=={extensionWebRTCPath}");
+            }
+
             options.Args = optionsArgs.ToArray();
 
             if (Environment.OSVersion.VersionString.Contains("NT 6.1")) { options.WebSocketFactory = WebSocketFactory; }

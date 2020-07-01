@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
 using PuppeteerSharp.Input;
+using PuppeteerSharp.Mobile;
 using System;
 using System.IO;
 using System.Linq;
@@ -37,6 +38,11 @@ namespace Facebook.Bot
         }
 
         protected override string GetRegistrationUrl() => RegistrationUrl;
+
+        protected override DeviceDescriptorName GetDeviceDescriptorName()
+        {
+            return DeviceDescriptorName.IPhoneXLandscape;
+        }
         #endregion 
         #endregion
 

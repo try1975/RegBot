@@ -132,6 +132,7 @@
     <Compile Include="EmailCheck.cs" />
     <Compile Include="Fb\CheckFbAccount.cs" />
     <Compile Include="Fb\CheckFbCredential.cs" />
+    <Compile Include="HunterSearch.cs" />
     <Compile Include="InputOutput\CheckFbCredentialInput.cs" />
     <Compile Include="InputOutput\CheckFbCredentialOutput.cs" />
     <Compile Include="InputOutput\CheckFbAccountOutput.cs" />
