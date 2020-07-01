@@ -35,12 +35,12 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbGoogleProxy = new System.Windows.Forms.TextBox();
             this.udPageCount = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tbGoogleProxy = new System.Windows.Forms.TextBox();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -119,6 +119,22 @@
             this.panel6.Size = new System.Drawing.Size(393, 471);
             this.panel6.TabIndex = 7;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(49, 300);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "Прокси Гугл";
+            // 
+            // tbGoogleProxy
+            // 
+            this.tbGoogleProxy.Location = new System.Drawing.Point(52, 316);
+            this.tbGoogleProxy.Name = "tbGoogleProxy";
+            this.tbGoogleProxy.Size = new System.Drawing.Size(218, 20);
+            this.tbGoogleProxy.TabIndex = 10;
+            // 
             // udPageCount
             // 
             this.udPageCount.Location = new System.Drawing.Point(52, 277);
@@ -168,23 +184,6 @@
             this.textBox6.Size = new System.Drawing.Size(209, 215);
             this.textBox6.TabIndex = 0;
             this.textBox6.Text = "vk rospil";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(49, 300);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 13);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Прокси Гугл";
-            // 
-            // tbGoogleProxy
-            // 
-            this.tbGoogleProxy.Location = new System.Drawing.Point(52, 316);
-            this.tbGoogleProxy.Name = "tbGoogleProxy";
-            this.tbGoogleProxy.Size = new System.Drawing.Size(218, 20);
-            this.tbGoogleProxy.TabIndex = 10;
-            this.tbGoogleProxy.Text = "Ik2MIbTe:o4nVS4GA@62.109.28.144:43417";
             // 
             // GoogleSearchControl
             // 

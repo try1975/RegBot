@@ -27,6 +27,7 @@ namespace Common.Service
             CountryPrefixes[CountryCode.EN] = "44";
             CountryPrefixes[CountryCode.DK] = "45";
             CountryPrefixes[CountryCode.SE] = "46";
+            CountryPrefixes[CountryCode.NO] = "47";
             CountryPrefixes[CountryCode.PL] = "48";
             CountryPrefixes[CountryCode.DE] = "49";
             CountryPrefixes[CountryCode.MX] = "52";
@@ -52,6 +53,7 @@ namespace Common.Service
             CountryPrefixes[CountryCode.KE] = "254";
 
             CountryPrefixes[CountryCode.IE] = "353";
+            CountryPrefixes[CountryCode.IS] = "354";
             CountryPrefixes[CountryCode.CY] = "357";
             CountryPrefixes[CountryCode.FI] = "358";
             CountryPrefixes[CountryCode.BG] = "359";
