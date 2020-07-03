@@ -29,6 +29,8 @@ namespace PuppeteerService
 
             //var connectOptions = new ConnectOptions { BrowserWSEndpoint = $"wss://chrome.browserless.io?token={apikey}", BrowserURL="http://127.0.0.1:2122" };
             //await Puppeteer.ConnectAsync(connectOptions);
+            //var connectOptions = new ConnectOptions { BrowserURL="http://127.0.0.1:9222" };
+            //return await Puppeteer.ConnectAsync(connectOptions);
 
             var optionsArgs = new List<string>
             {

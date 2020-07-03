@@ -67,8 +67,8 @@ namespace ScenarioApp.Controls
                 var page = (await browser.PagesAsync())[0];
                 await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
                 await page.GoToAsync(url);
-                    //browser = null;
-                    //page = null;
+                    browser = null;
+                    page = null;
             }
             catch (Exception exception)
             {

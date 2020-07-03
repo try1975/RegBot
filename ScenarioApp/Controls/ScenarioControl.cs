@@ -28,6 +28,7 @@ namespace ScenarioApp.Controls
         private ICaptchaControl _captchaControl;
         private ISmsServiceControl _smsServiceControl;
         private IProxyControl _proxyControl;
+        private IFingerprintControl _fingerprintControl;
         #endregion
 
         public ScenarioControl()
@@ -55,11 +56,10 @@ namespace ScenarioApp.Controls
             btnCaptchaControl.Click += BtnCaptchaControl_Click;
             btnSmsServiceControl.Click += BtnSmsServiceControl_Click;
             btnProxyControl.Click += BtnProxyControl_Click;
+            btnFingerprint.Click += BtnFingerprint_Click;
 
             Load += ScenarioControl_Load;
         }
-
-        
 
         private void BtnSendMailControl_Click(object sender, EventArgs e)
         {
@@ -268,6 +268,17 @@ namespace ScenarioApp.Controls
                 return;
             }
             AddControlToWorkArea((Control)CompositionRoot.Resolve<IProxyControl>(), true);
+        }
+
+        private void BtnFingerprint_Click(object sender, EventArgs e)
+        {
+            if (!ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (_fingerprintControl == null) _fingerprintControl = CompositionRoot.Resolve<IFingerprintControl>();
+                AddControlToWorkArea((Control)_fingerprintControl, false);
+                return;
+            }
+            AddControlToWorkArea((Control)CompositionRoot.Resolve<IFingerprintControl>(), true);
         }
 
         private void AddControlToWorkArea(Control control, bool ctrlPressed = false)

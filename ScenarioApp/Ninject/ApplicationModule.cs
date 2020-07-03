@@ -52,6 +52,8 @@ namespace ScenarioApp.Ninject
             Bind<ISmsServiceControl>().To<SmsServiceControl>();
             Bind<IProxyControl>().To<ProxyControl>().InTransientScope()
                 .WithConstructorArgument(nameof(proxyStore), proxyStore);
+            Bind<IFingerprintControl>().To<FingerprintControl>().InTransientScope()
+                .WithConstructorArgument(nameof(proxyStore), proxyStore);
         }
     }
 }

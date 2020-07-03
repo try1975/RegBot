@@ -92,11 +92,11 @@ namespace RegistrationBot
 
             #region commented
             //await SetRequestHook(page);
-            var deviceDescriptorName = GetDeviceDescriptorName();
-            if (deviceDescriptorName != DeviceDescriptorName.BlackberryPlayBook)
-            {
-                await page.EmulateAsync(Puppeteer.Devices[deviceDescriptorName]);
-            }
+            //var deviceDescriptorName = GetDeviceDescriptorName();
+            //if (deviceDescriptorName != DeviceDescriptorName.BlackberryPlayBook)
+            //{
+            //    await page.EmulateAsync(Puppeteer.Devices[deviceDescriptorName]);
+            //}
             #endregion
             await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
             await page.GoToAsync(GetRegistrationUrl(), _navigationOptions);
