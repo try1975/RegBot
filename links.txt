@@ -49,6 +49,7 @@ https://2captcha.com/recaptchav2_eng_instruction
 https://www.dotnet4techies.com/2016/12/how-to-integrate-googles-im-not-robot.html
 http://www.codingfusion.com/Post/Google-New-reCaptcha-I-am-not-a-robot-using-asp-n
 https://recaptcha-demo.appspot.com/
+https://recaptcha-demo.appspot.com/recaptcha-v3-request-scores.php
 
 puppeteer and Playwright
 https://habr.com/ru/company/ruvds/blog/486688/
@@ -64,6 +65,7 @@ https://www.youtube.com/watch?v=aRXzW-o-zqs
 https://github.com/CheshireCaat/AntiCaptchaNET
 https://github.com/Shifu462/AnticaptchaNet
 https://github.com/Zaczero/AntiCaptcha
+https://nitayneeman.com/posts/getting-to-know-puppeteer-using-practical-examples/
 
 useragent
 https://github.com/tamimibrahim17/List-of-user-agents
@@ -71,3 +73,9 @@ https://github.com/tamimibrahim17/List-of-user-agents
 proxy services
 https://scrapinghub.com/crawlera
 https://docs.proxymesh.com/
+https://github.com/apify/proxy-chain
+
+fingerprint
+https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra
+https://arh.antoinevastel.com/bots/areyouheadless
+https://browserleaks.com/canvas

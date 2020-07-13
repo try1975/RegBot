@@ -62,13 +62,13 @@
             this.btnGmail = new System.Windows.Forms.Button();
             this.btnFacebook = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbCountryAuto = new System.Windows.Forms.CheckBox();
             this.cbSmsAuto = new System.Windows.Forms.CheckBox();
             this.lblSmsService = new System.Windows.Forms.Label();
             this.cmbSmsService = new System.Windows.Forms.ComboBox();
             this.lblCountry = new System.Windows.Forms.Label();
             this.cmbCountry = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.cbCountryAuto = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -86,11 +86,10 @@
             // 
             this.tabPage2.Controls.Add(this.panel4);
             this.tabPage2.Controls.Add(this.panel2);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(950, 518);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Size = new System.Drawing.Size(1429, 804);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "История";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -99,10 +98,9 @@
             // 
             this.panel4.Controls.Add(this.dgvItems);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(2, 35);
-            this.panel4.Margin = new System.Windows.Forms.Padding(2);
+            this.panel4.Location = new System.Drawing.Point(3, 54);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(946, 481);
+            this.panel4.Size = new System.Drawing.Size(1423, 747);
             this.panel4.TabIndex = 1;
             // 
             // dgvItems
@@ -115,32 +113,29 @@
             this.dgvItems.DateWithTime = true;
             this.dgvItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvItems.Location = new System.Drawing.Point(0, 0);
-            this.dgvItems.Margin = new System.Windows.Forms.Padding(2);
             this.dgvItems.Name = "dgvItems";
             this.dgvItems.RowHeadersWidth = 62;
             this.dgvItems.RowTemplate.Height = 28;
-            this.dgvItems.Size = new System.Drawing.Size(946, 481);
+            this.dgvItems.Size = new System.Drawing.Size(1423, 747);
             this.dgvItems.TabIndex = 1;
             this.dgvItems.TimeFilter = false;
             // 
             // panel2
             // 
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(2, 2);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2);
+            this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(946, 33);
+            this.panel2.Size = new System.Drawing.Size(1423, 51);
             this.panel2.TabIndex = 0;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.panel3);
             this.tabPage1.Controls.Add(this.panel1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(950, 518);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Size = new System.Drawing.Size(1429, 804);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Регистрация";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -149,21 +144,19 @@
             // 
             this.panel3.Controls.Add(this.textBox1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(2, 180);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2);
+            this.panel3.Location = new System.Drawing.Point(3, 277);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(946, 336);
+            this.panel3.Size = new System.Drawing.Size(1423, 524);
             this.panel3.TabIndex = 5;
             // 
             // textBox1
             // 
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(946, 336);
+            this.textBox1.Size = new System.Drawing.Size(1423, 524);
             this.textBox1.TabIndex = 1;
             // 
             // panel1
@@ -172,10 +165,9 @@
             this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(2, 2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(946, 178);
+            this.panel1.Size = new System.Drawing.Size(1423, 274);
             this.panel1.TabIndex = 3;
             // 
             // panel6
@@ -194,28 +186,25 @@
             this.panel6.Controls.Add(this.tbFirstName);
             this.panel6.Controls.Add(this.lblFirstName);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(285, 0);
-            this.panel6.Margin = new System.Windows.Forms.Padding(2);
+            this.panel6.Location = new System.Drawing.Point(428, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(472, 178);
+            this.panel6.Size = new System.Drawing.Size(711, 274);
             this.panel6.TabIndex = 26;
             // 
             // btnGenerateRu
             // 
-            this.btnGenerateRu.Location = new System.Drawing.Point(270, 123);
-            this.btnGenerateRu.Margin = new System.Windows.Forms.Padding(2);
+            this.btnGenerateRu.Location = new System.Drawing.Point(405, 189);
             this.btnGenerateRu.Name = "btnGenerateRu";
-            this.btnGenerateRu.Size = new System.Drawing.Size(167, 21);
+            this.btnGenerateRu.Size = new System.Drawing.Size(250, 32);
             this.btnGenerateRu.TabIndex = 29;
             this.btnGenerateRu.Text = "Сгенерировать данные руск.";
             this.btnGenerateRu.UseVisualStyleBackColor = true;
             // 
             // btnGenerateEn
             // 
-            this.btnGenerateEn.Location = new System.Drawing.Point(270, 98);
-            this.btnGenerateEn.Margin = new System.Windows.Forms.Padding(2);
+            this.btnGenerateEn.Location = new System.Drawing.Point(405, 151);
             this.btnGenerateEn.Name = "btnGenerateEn";
-            this.btnGenerateEn.Size = new System.Drawing.Size(167, 21);
+            this.btnGenerateEn.Size = new System.Drawing.Size(250, 32);
             this.btnGenerateEn.TabIndex = 28;
             this.btnGenerateEn.Text = "Сгенерировать данные англ.";
             this.btnGenerateEn.UseVisualStyleBackColor = true;
@@ -223,10 +212,9 @@
             // rbFemale
             // 
             this.rbFemale.AutoSize = true;
-            this.rbFemale.Location = new System.Drawing.Point(351, 72);
-            this.rbFemale.Margin = new System.Windows.Forms.Padding(2);
+            this.rbFemale.Location = new System.Drawing.Point(526, 111);
             this.rbFemale.Name = "rbFemale";
-            this.rbFemale.Size = new System.Drawing.Size(69, 17);
+            this.rbFemale.Size = new System.Drawing.Size(97, 24);
             this.rbFemale.TabIndex = 27;
             this.rbFemale.Text = "женский";
             this.rbFemale.UseVisualStyleBackColor = true;
@@ -235,10 +223,9 @@
             // 
             this.rbMale.AutoSize = true;
             this.rbMale.Checked = true;
-            this.rbMale.Location = new System.Drawing.Point(282, 73);
-            this.rbMale.Margin = new System.Windows.Forms.Padding(2);
+            this.rbMale.Location = new System.Drawing.Point(423, 112);
             this.rbMale.Name = "rbMale";
-            this.rbMale.Size = new System.Drawing.Size(70, 17);
+            this.rbMale.Size = new System.Drawing.Size(97, 24);
             this.rbMale.TabIndex = 26;
             this.rbMale.TabStop = true;
             this.rbMale.Text = "мужской";
@@ -247,82 +234,73 @@
             // lblSex
             // 
             this.lblSex.AutoSize = true;
-            this.lblSex.Location = new System.Drawing.Point(280, 56);
-            this.lblSex.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSex.Location = new System.Drawing.Point(420, 86);
             this.lblSex.Name = "lblSex";
-            this.lblSex.Size = new System.Drawing.Size(27, 13);
+            this.lblSex.Size = new System.Drawing.Size(40, 20);
             this.lblSex.TabIndex = 25;
             this.lblSex.Text = "Пол";
             // 
             // lblBirthDate
             // 
             this.lblBirthDate.AutoSize = true;
-            this.lblBirthDate.Location = new System.Drawing.Point(280, 14);
-            this.lblBirthDate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblBirthDate.Location = new System.Drawing.Point(420, 22);
             this.lblBirthDate.Name = "lblBirthDate";
-            this.lblBirthDate.Size = new System.Drawing.Size(86, 13);
+            this.lblBirthDate.Size = new System.Drawing.Size(128, 20);
             this.lblBirthDate.TabIndex = 24;
             this.lblBirthDate.Text = "Дата рождения";
             // 
             // dtpBirthDate
             // 
-            this.dtpBirthDate.Location = new System.Drawing.Point(282, 29);
-            this.dtpBirthDate.Margin = new System.Windows.Forms.Padding(2);
+            this.dtpBirthDate.Location = new System.Drawing.Point(423, 45);
             this.dtpBirthDate.Name = "dtpBirthDate";
-            this.dtpBirthDate.Size = new System.Drawing.Size(135, 20);
+            this.dtpBirthDate.Size = new System.Drawing.Size(200, 26);
             this.dtpBirthDate.TabIndex = 23;
             // 
             // tbPassword
             // 
-            this.tbPassword.Location = new System.Drawing.Point(12, 122);
-            this.tbPassword.Margin = new System.Windows.Forms.Padding(2);
+            this.tbPassword.Location = new System.Drawing.Point(18, 188);
             this.tbPassword.Name = "tbPassword";
-            this.tbPassword.Size = new System.Drawing.Size(235, 20);
+            this.tbPassword.Size = new System.Drawing.Size(350, 26);
             this.tbPassword.TabIndex = 12;
             // 
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(9, 105);
-            this.lblPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPassword.Location = new System.Drawing.Point(14, 162);
             this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(45, 13);
+            this.lblPassword.Size = new System.Drawing.Size(67, 20);
             this.lblPassword.TabIndex = 11;
             this.lblPassword.Text = "Пароль";
             // 
             // tbLastname
             // 
-            this.tbLastname.Location = new System.Drawing.Point(12, 75);
-            this.tbLastname.Margin = new System.Windows.Forms.Padding(2);
+            this.tbLastname.Location = new System.Drawing.Point(18, 115);
             this.tbLastname.Name = "tbLastname";
-            this.tbLastname.Size = new System.Drawing.Size(235, 20);
+            this.tbLastname.Size = new System.Drawing.Size(350, 26);
             this.tbLastname.TabIndex = 10;
             // 
             // lblLastname
             // 
             this.lblLastname.AutoSize = true;
-            this.lblLastname.Location = new System.Drawing.Point(9, 59);
-            this.lblLastname.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblLastname.Location = new System.Drawing.Point(14, 91);
             this.lblLastname.Name = "lblLastname";
-            this.lblLastname.Size = new System.Drawing.Size(56, 13);
+            this.lblLastname.Size = new System.Drawing.Size(81, 20);
             this.lblLastname.TabIndex = 9;
             this.lblLastname.Text = "Фамилия";
             // 
             // tbFirstName
             // 
-            this.tbFirstName.Location = new System.Drawing.Point(12, 32);
-            this.tbFirstName.Margin = new System.Windows.Forms.Padding(2);
+            this.tbFirstName.Location = new System.Drawing.Point(18, 49);
             this.tbFirstName.Name = "tbFirstName";
-            this.tbFirstName.Size = new System.Drawing.Size(235, 20);
+            this.tbFirstName.Size = new System.Drawing.Size(350, 26);
             this.tbFirstName.TabIndex = 8;
             // 
             // lblFirstName
             // 
             this.lblFirstName.AutoSize = true;
-            this.lblFirstName.Location = new System.Drawing.Point(9, 16);
-            this.lblFirstName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblFirstName.Location = new System.Drawing.Point(14, 25);
             this.lblFirstName.Name = "lblFirstName";
-            this.lblFirstName.Size = new System.Drawing.Size(29, 13);
+            this.lblFirstName.Size = new System.Drawing.Size(40, 20);
             this.lblFirstName.TabIndex = 7;
             this.lblFirstName.Text = "Имя";
             // 
@@ -338,87 +316,78 @@
             this.panel5.Controls.Add(this.btnFacebook);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel5.Location = new System.Drawing.Point(0, 0);
-            this.panel5.Margin = new System.Windows.Forms.Padding(2);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(285, 178);
+            this.panel5.Size = new System.Drawing.Size(428, 274);
             this.panel5.TabIndex = 25;
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(143, 135);
-            this.btnOk.Margin = new System.Windows.Forms.Padding(2);
+            this.btnOk.Location = new System.Drawing.Point(214, 208);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(126, 31);
+            this.btnOk.Size = new System.Drawing.Size(189, 48);
             this.btnOk.TabIndex = 29;
             this.btnOk.Text = "ok.ru";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // btnYandexPhone
             // 
-            this.btnYandexPhone.Location = new System.Drawing.Point(143, 52);
-            this.btnYandexPhone.Margin = new System.Windows.Forms.Padding(2);
+            this.btnYandexPhone.Location = new System.Drawing.Point(214, 80);
             this.btnYandexPhone.Name = "btnYandexPhone";
-            this.btnYandexPhone.Size = new System.Drawing.Size(126, 31);
+            this.btnYandexPhone.Size = new System.Drawing.Size(189, 48);
             this.btnYandexPhone.TabIndex = 28;
             this.btnYandexPhone.Text = "yandex.ru - телефон";
             this.btnYandexPhone.UseVisualStyleBackColor = true;
             // 
             // btnMailRuEmail
             // 
-            this.btnMailRuEmail.Location = new System.Drawing.Point(13, 9);
-            this.btnMailRuEmail.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMailRuEmail.Location = new System.Drawing.Point(20, 14);
             this.btnMailRuEmail.Name = "btnMailRuEmail";
-            this.btnMailRuEmail.Size = new System.Drawing.Size(126, 31);
+            this.btnMailRuEmail.Size = new System.Drawing.Size(189, 48);
             this.btnMailRuEmail.TabIndex = 22;
             this.btnMailRuEmail.Text = "mail.ru - почта";
             this.btnMailRuEmail.UseVisualStyleBackColor = true;
             // 
             // btnMailRuPhone
             // 
-            this.btnMailRuPhone.Location = new System.Drawing.Point(143, 9);
-            this.btnMailRuPhone.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMailRuPhone.Location = new System.Drawing.Point(214, 14);
             this.btnMailRuPhone.Name = "btnMailRuPhone";
-            this.btnMailRuPhone.Size = new System.Drawing.Size(126, 31);
+            this.btnMailRuPhone.Size = new System.Drawing.Size(189, 48);
             this.btnMailRuPhone.TabIndex = 27;
             this.btnMailRuPhone.Text = "mail.ru - телефон";
             this.btnMailRuPhone.UseVisualStyleBackColor = true;
             // 
             // btnYandexEmail
             // 
-            this.btnYandexEmail.Location = new System.Drawing.Point(13, 52);
-            this.btnYandexEmail.Margin = new System.Windows.Forms.Padding(2);
+            this.btnYandexEmail.Location = new System.Drawing.Point(20, 80);
             this.btnYandexEmail.Name = "btnYandexEmail";
-            this.btnYandexEmail.Size = new System.Drawing.Size(126, 31);
+            this.btnYandexEmail.Size = new System.Drawing.Size(189, 48);
             this.btnYandexEmail.TabIndex = 23;
             this.btnYandexEmail.Text = "yandex.ru - почта";
             this.btnYandexEmail.UseVisualStyleBackColor = true;
             // 
             // btnVk
             // 
-            this.btnVk.Location = new System.Drawing.Point(143, 98);
-            this.btnVk.Margin = new System.Windows.Forms.Padding(2);
+            this.btnVk.Location = new System.Drawing.Point(214, 151);
             this.btnVk.Name = "btnVk";
-            this.btnVk.Size = new System.Drawing.Size(126, 31);
+            this.btnVk.Size = new System.Drawing.Size(189, 48);
             this.btnVk.TabIndex = 26;
             this.btnVk.Text = "vk.com";
             this.btnVk.UseVisualStyleBackColor = true;
             // 
             // btnGmail
             // 
-            this.btnGmail.Location = new System.Drawing.Point(13, 98);
-            this.btnGmail.Margin = new System.Windows.Forms.Padding(2);
+            this.btnGmail.Location = new System.Drawing.Point(20, 151);
             this.btnGmail.Name = "btnGmail";
-            this.btnGmail.Size = new System.Drawing.Size(126, 31);
+            this.btnGmail.Size = new System.Drawing.Size(189, 48);
             this.btnGmail.TabIndex = 24;
             this.btnGmail.Text = "gmail.com";
             this.btnGmail.UseVisualStyleBackColor = true;
             // 
             // btnFacebook
             // 
-            this.btnFacebook.Location = new System.Drawing.Point(13, 135);
-            this.btnFacebook.Margin = new System.Windows.Forms.Padding(2);
+            this.btnFacebook.Location = new System.Drawing.Point(20, 208);
             this.btnFacebook.Name = "btnFacebook";
-            this.btnFacebook.Size = new System.Drawing.Size(126, 31);
+            this.btnFacebook.Size = new System.Drawing.Size(189, 48);
             this.btnFacebook.TabIndex = 25;
             this.btnFacebook.Text = "facebook.com";
             this.btnFacebook.UseVisualStyleBackColor = true;
@@ -432,24 +401,33 @@
             this.groupBox1.Controls.Add(this.lblCountry);
             this.groupBox1.Controls.Add(this.cmbCountry);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupBox1.Location = new System.Drawing.Point(757, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Location = new System.Drawing.Point(1139, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(189, 178);
+            this.groupBox1.Size = new System.Drawing.Size(284, 274);
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Телефон";
+            // 
+            // cbCountryAuto
+            // 
+            this.cbCountryAuto.AutoSize = true;
+            this.cbCountryAuto.Checked = true;
+            this.cbCountryAuto.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbCountryAuto.Location = new System.Drawing.Point(32, 212);
+            this.cbCountryAuto.Name = "cbCountryAuto";
+            this.cbCountryAuto.Size = new System.Drawing.Size(152, 24);
+            this.cbCountryAuto.TabIndex = 19;
+            this.cbCountryAuto.Text = "автоматически";
+            this.cbCountryAuto.UseVisualStyleBackColor = true;
             // 
             // cbSmsAuto
             // 
             this.cbSmsAuto.AutoSize = true;
             this.cbSmsAuto.Checked = true;
             this.cbSmsAuto.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbSmsAuto.Location = new System.Drawing.Point(21, 68);
-            this.cbSmsAuto.Margin = new System.Windows.Forms.Padding(2);
+            this.cbSmsAuto.Location = new System.Drawing.Point(32, 105);
             this.cbSmsAuto.Name = "cbSmsAuto";
-            this.cbSmsAuto.Size = new System.Drawing.Size(103, 17);
+            this.cbSmsAuto.Size = new System.Drawing.Size(152, 24);
             this.cbSmsAuto.TabIndex = 18;
             this.cbSmsAuto.Text = "автоматически";
             this.cbSmsAuto.UseVisualStyleBackColor = true;
@@ -457,39 +435,35 @@
             // lblSmsService
             // 
             this.lblSmsService.AutoSize = true;
-            this.lblSmsService.Location = new System.Drawing.Point(18, 28);
-            this.lblSmsService.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSmsService.Location = new System.Drawing.Point(27, 43);
             this.lblSmsService.Name = "lblSmsService";
-            this.lblSmsService.Size = new System.Drawing.Size(67, 13);
+            this.lblSmsService.Size = new System.Drawing.Size(95, 20);
             this.lblSmsService.TabIndex = 13;
             this.lblSmsService.Text = "Смс сервис";
             // 
             // cmbSmsService
             // 
             this.cmbSmsService.FormattingEnabled = true;
-            this.cmbSmsService.Location = new System.Drawing.Point(21, 43);
-            this.cmbSmsService.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbSmsService.Location = new System.Drawing.Point(32, 66);
             this.cmbSmsService.Name = "cmbSmsService";
-            this.cmbSmsService.Size = new System.Drawing.Size(109, 21);
+            this.cmbSmsService.Size = new System.Drawing.Size(162, 28);
             this.cmbSmsService.TabIndex = 14;
             // 
             // lblCountry
             // 
             this.lblCountry.AutoSize = true;
-            this.lblCountry.Location = new System.Drawing.Point(18, 98);
-            this.lblCountry.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCountry.Location = new System.Drawing.Point(27, 151);
             this.lblCountry.Name = "lblCountry";
-            this.lblCountry.Size = new System.Drawing.Size(84, 13);
+            this.lblCountry.Size = new System.Drawing.Size(65, 20);
             this.lblCountry.TabIndex = 16;
-            this.lblCountry.Text = "Страна номера";
+            this.lblCountry.Text = "Страна";
             // 
             // cmbCountry
             // 
             this.cmbCountry.FormattingEnabled = true;
-            this.cmbCountry.Location = new System.Drawing.Point(21, 113);
-            this.cmbCountry.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbCountry.Location = new System.Drawing.Point(32, 174);
             this.cmbCountry.Name = "cmbCountry";
-            this.cmbCountry.Size = new System.Drawing.Size(109, 21);
+            this.cmbCountry.Size = new System.Drawing.Size(162, 28);
             this.cmbCountry.TabIndex = 17;
             // 
             // tabControl1
@@ -498,32 +472,19 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(958, 544);
+            this.tabControl1.Size = new System.Drawing.Size(1437, 837);
             this.tabControl1.TabIndex = 3;
-            // 
-            // cbCountryAuto
-            // 
-            this.cbCountryAuto.AutoSize = true;
-            this.cbCountryAuto.Checked = true;
-            this.cbCountryAuto.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbCountryAuto.Location = new System.Drawing.Point(21, 138);
-            this.cbCountryAuto.Margin = new System.Windows.Forms.Padding(2);
-            this.cbCountryAuto.Name = "cbCountryAuto";
-            this.cbCountryAuto.Size = new System.Drawing.Size(103, 17);
-            this.cbCountryAuto.TabIndex = 19;
-            this.cbCountryAuto.Text = "автоматически";
-            this.cbCountryAuto.UseVisualStyleBackColor = true;
             // 
             // RegBotControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl1);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "RegBotControl";
-            this.Size = new System.Drawing.Size(958, 544);
+            this.Size = new System.Drawing.Size(1437, 837);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
