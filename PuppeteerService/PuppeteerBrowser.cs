@@ -86,10 +86,12 @@ namespace PuppeteerService
                 , "--disable-setuid-sandbox"
                 , "--disable-infobars"
                 , "--window-position=0,0"
+                , "--mute-audio"
                 , "--ignore-certifcate-errors"
                 , "--ignore-certifcate-errors-spki-list"
-                , "--lang=bn-BD,bn"
+                , "--lang=ar"
             };
+            //TODO: replace default args if exists - args rewrite default args
             if (args != null) optionsArgs.AddRange(args);
 
             // webRTC try disable

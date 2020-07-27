@@ -11,6 +11,8 @@ namespace PuppeteerService
         string Proxy { get; set; }
         string GetUserAgent();
         IEnumerable<string> GetArgs();
+        void AddArg(string arg);
+        void ClearArgs();
 
         string GetProxy(ServiceCode serviceCode);
         void MarkProxySuccess(ServiceCode serviceCode, string proxy);

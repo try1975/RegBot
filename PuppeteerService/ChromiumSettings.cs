@@ -15,6 +15,7 @@ namespace PuppeteerService
         private readonly string userAgent = ConfigurationManager.AppSettings[nameof(userAgent)];
         private readonly bool Headless;
         private bool _noProxy;
+        private readonly List<string> _addedArgs = new List<string>();
 
         public string Proxy { get; set; }
         public ServiceCode ServiceCode { get; set; }
@@ -67,6 +68,7 @@ namespace PuppeteerService
                 }
             }
             if (_noProxy) { args.Add("--no-proxy-server"); }
+            args.AddRange(_addedArgs);
             return args;
         }
 
@@ -85,6 +87,14 @@ namespace PuppeteerService
             if (_proxyStore != null) _proxyStore.MarkProxyFail(serviceCode, proxy);
         }
 
+        public void AddArg(string arg)
+        {
+            _addedArgs.Add(arg);
+        }
 
+        public void ClearArgs()
+        {
+            _addedArgs.Clear();
+        }
     }
 }

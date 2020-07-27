@@ -61,6 +61,9 @@ namespace ScenarioApp.Controls
             var url = cmbIpWeb.Text;
             try
             {
+                _chromiumSettings.ClearArgs();
+                if(lbLocale.SelectedIndex >= 0) _chromiumSettings.AddArg($"--lang={lbLocale.Items[lbLocale.SelectedIndex]}");
+
                 var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs());
                 var page = (await browser.PagesAsync())[0];
                 await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);

@@ -37,6 +37,7 @@
             this.lblCountry = new System.Windows.Forms.Label();
             this.cmbCountry = new System.Windows.Forms.ComboBox();
             this.lbTimeZones = new System.Windows.Forms.ListBox();
+            this.lbLocale = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,7 +45,7 @@
             // 
             this.lbDevices.FormattingEnabled = true;
             this.lbDevices.ItemHeight = 20;
-            this.lbDevices.Location = new System.Drawing.Point(99, 354);
+            this.lbDevices.Location = new System.Drawing.Point(27, 180);
             this.lbDevices.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lbDevices.Name = "lbDevices";
             this.lbDevices.Size = new System.Drawing.Size(331, 344);
@@ -52,7 +53,7 @@
             // 
             // tbCurrentDevice
             // 
-            this.tbCurrentDevice.Location = new System.Drawing.Point(99, 294);
+            this.tbCurrentDevice.Location = new System.Drawing.Point(26, 144);
             this.tbCurrentDevice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbCurrentDevice.Name = "tbCurrentDevice";
             this.tbCurrentDevice.Size = new System.Drawing.Size(331, 26);
@@ -107,7 +108,7 @@
             // lblCountry
             // 
             this.lblCountry.AutoSize = true;
-            this.lblCountry.Location = new System.Drawing.Point(596, 152);
+            this.lblCountry.Location = new System.Drawing.Point(415, 121);
             this.lblCountry.Name = "lblCountry";
             this.lblCountry.Size = new System.Drawing.Size(65, 20);
             this.lblCountry.TabIndex = 18;
@@ -116,7 +117,7 @@
             // cmbCountry
             // 
             this.cmbCountry.FormattingEnabled = true;
-            this.cmbCountry.Location = new System.Drawing.Point(600, 175);
+            this.cmbCountry.Location = new System.Drawing.Point(419, 144);
             this.cmbCountry.Name = "cmbCountry";
             this.cmbCountry.Size = new System.Drawing.Size(162, 28);
             this.cmbCountry.TabIndex = 19;
@@ -125,16 +126,82 @@
             // 
             this.lbTimeZones.FormattingEnabled = true;
             this.lbTimeZones.ItemHeight = 20;
-            this.lbTimeZones.Location = new System.Drawing.Point(599, 285);
+            this.lbTimeZones.Location = new System.Drawing.Point(419, 180);
             this.lbTimeZones.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lbTimeZones.Name = "lbTimeZones";
             this.lbTimeZones.Size = new System.Drawing.Size(331, 344);
             this.lbTimeZones.TabIndex = 20;
             // 
+            // lbLocale
+            // 
+            this.lbLocale.FormattingEnabled = true;
+            this.lbLocale.ItemHeight = 20;
+            this.lbLocale.Items.AddRange(new object[] {
+            "ar",
+            "am",
+            "bg",
+            "bn",
+            "ca",
+            "cs",
+            "da",
+            "de",
+            "el",
+            "en",
+            "en_GB",
+            "en_US",
+            "es",
+            "es_419",
+            "et",
+            "fa",
+            "fi",
+            "fil",
+            "fr",
+            "gu",
+            "he",
+            "hi",
+            "hr",
+            "hu",
+            "id",
+            "it",
+            "ja",
+            "kn",
+            "ko",
+            "lt",
+            "lv",
+            "ml",
+            "mr",
+            "ms",
+            "nl",
+            "no",
+            "pl",
+            "pt_BR",
+            "pt_PT",
+            "ro",
+            "ru",
+            "sk",
+            "sl",
+            "sr",
+            "sv",
+            "sw",
+            "ta",
+            "te",
+            "th",
+            "tr",
+            "uk",
+            "vi",
+            "zh_CN",
+            "zh_TW"});
+            this.lbLocale.Location = new System.Drawing.Point(809, 180);
+            this.lbLocale.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.lbLocale.Name = "lbLocale";
+            this.lbLocale.Size = new System.Drawing.Size(138, 344);
+            this.lbLocale.TabIndex = 21;
+            // 
             // FingerprintControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbLocale);
             this.Controls.Add(this.lbTimeZones);
             this.Controls.Add(this.lblCountry);
             this.Controls.Add(this.cmbCountry);
@@ -162,5 +229,6 @@
         private System.Windows.Forms.Label lblCountry;
         private System.Windows.Forms.ComboBox cmbCountry;
         private System.Windows.Forms.ListBox lbTimeZones;
+        private System.Windows.Forms.ListBox lbLocale;
     }
 }
