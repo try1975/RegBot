@@ -74,8 +74,46 @@ proxy services
 https://scrapinghub.com/crawlera
 https://docs.proxymesh.com/
 https://github.com/apify/proxy-chain
+https://best-proxies.ru/proxylist/free/
+https://habr.com/ru/post/506356/
+https://github.com/Snawoot/dumbproxy#using-http-over-tls-proxy
 
 fingerprint
 https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra
+https://github.com/elibitt/thirsty-lions
+https://github.com/ishandutta2007/CanvasFingerprintDefender/blob/master/0.1.5_0/lib/chrome/chrome.js
 https://arh.antoinevastel.com/bots/areyouheadless
 https://browserleaks.com/canvas
+https://stackoverflow.com/questions/57737610/puppeteer-fingerprint-simulation
+https://base64.guru/converter/encode/file
+https://onlinepngtools.com/generate-random-png
+https://groups.google.com/a/chromium.org/forum/#!topic/chromium-discuss/xKNEABURzUk -- --use-gl
+https://chrome.google.com/webstore/detail/canvas-fingerprint-defend/lanfdkkpgfjfdikkncbnojekcppdebfp?hl=ru
+https://chrome.google.com/webstore/detail/webrtc-network-limiter/npeicpdbkakmehahjeeohfdhnlpdklia
+https://audiofingerprint.openwpm.com/
+https://multilogin.com/ru/how-canvas-fingerprint-blockers-make-you-easily-trackable/
+https://habr.com/ru/company/oleg-bunin/blog/321294/
+https://github.com/topics/browser-fingerprinting
+https://github.com/EFForg/privacybadger
+https://github.com/gautamkrishnar/nothing-private
+https://www.deviceinfo.me/
+https://amiunique.org/
+https://restoreprivacy.com/browser-fingerprinting/
+https://blokt.com/guides/browser-fingerprinting
+https://www.ghacks.net/2013/08/01/how-to-modify-your-browsers-fingerprint-so-that-it-is-no-longer-unique/
+
+BAS fingerprint
+https://fingerprints.bablosoft.com/#capabilities
+https://community.bablosoft.com/topic/9133/%D0%B2%D1%8B%D0%BF%D1%83%D1%89%D0%B5%D0%BD%D0%B0-1-0-0-%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F-fingerprintmanager
+https://bablosoft.com/buy
+https://www.youtube.com/watch?v=-YYySZtR--g
+https://github.com/CheshireCaat/BASRemote.NET/blob/master/samples/BASRemote.Example/Program.cs
+https://www.youtube.com/watch?v=zo9ZwU-XRoU&feature=youtu.be
+https://fingerprints.bablosoft.com/webgl
+https://fingerprints.bablosoft.com/canvas
+https://wiki.bablosoft.com/doku.php?id=ru:perfectcanvas
+https://fingerprints.bablosoft.com/audio
+
+
+headless detect
+https://intoli.com/blog/making-chrome-headless-undetectable/
