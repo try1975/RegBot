@@ -79,3 +79,15 @@ fingerprint
 https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra
 https://arh.antoinevastel.com/bots/areyouheadless
 https://browserleaks.com/canvas
+
+Running Typescript and Javascript using Node JS in .net Core
+https://medium.com/@michaelceber/running-typescript-and-javascript-using-node-js-in-net-core-ab2e8ba7ff4d
+https://github.com/tjanczuk/edge
+https://stackoverflow.com/questions/15234448/run-shell-commands-using-c-sharp-and-get-the-info-into-string
+https://stackoverflow.com/questions/45961134/how-run-node-js-application-script-from-c-sharp-console-application
+
+puppeteer-recorder
+https://github.com/checkly/puppeteer-recorder
+https://chrome.google.com/webstore/detail/puppeteer-recorder/djeegiggegleadkkbgopoonhjimgehda
+https://github.com/segmentio/daydream
+https://github.com/tc39/proposal-record-tuple
