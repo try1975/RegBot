@@ -96,11 +96,11 @@ namespace PuppeteerService
             if (args != null) optionsArgs.AddRange(args);
 
             // webRTC try disable
-            if (Directory.Exists(extensionWebRTCPath))
-            {
-                optionsArgs.Add($"--disable-extensions-except={extensionWebRTCPath}");
-                optionsArgs.Add($"--load-extension=={extensionWebRTCPath}");
-            }
+            //if (Directory.Exists(extensionWebRTCPath))
+            //{
+            //    optionsArgs.Add($"--disable-extensions-except={extensionWebRTCPath}");
+            //    optionsArgs.Add($"--load-extension=={extensionWebRTCPath}");
+            //}
 
             options.Args = optionsArgs.ToArray();
 
