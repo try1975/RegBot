@@ -56,17 +56,20 @@
             this.groupBox1.Controls.Add(this.cmbIpWeb);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(694, 168);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(463, 109);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Проверка ip адреса браузера";
             // 
             // btnIpWebShow
             // 
-            this.btnIpWebShow.Location = new System.Drawing.Point(479, 91);
+            this.btnIpWebShow.Location = new System.Drawing.Point(319, 59);
+            this.btnIpWebShow.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnIpWebShow.Name = "btnIpWebShow";
-            this.btnIpWebShow.Size = new System.Drawing.Size(175, 40);
+            this.btnIpWebShow.Size = new System.Drawing.Size(117, 26);
             this.btnIpWebShow.TabIndex = 4;
             this.btnIpWebShow.Text = "Показать сайт";
             this.btnIpWebShow.UseVisualStyleBackColor = true;
@@ -74,25 +77,28 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 95);
+            this.label2.Location = new System.Drawing.Point(18, 62);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(129, 20);
+            this.label2.Size = new System.Drawing.Size(91, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "Текущий прокси";
             // 
             // tbProxy
             // 
-            this.tbProxy.Location = new System.Drawing.Point(27, 122);
+            this.tbProxy.Location = new System.Drawing.Point(18, 79);
+            this.tbProxy.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbProxy.Name = "tbProxy";
-            this.tbProxy.Size = new System.Drawing.Size(403, 26);
+            this.tbProxy.Size = new System.Drawing.Size(270, 20);
             this.tbProxy.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 37);
+            this.label1.Location = new System.Drawing.Point(15, 24);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(156, 20);
+            this.label1.Size = new System.Drawing.Size(103, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Сайт для проверки";
             // 
@@ -104,10 +110,13 @@
             "https://2ip.ru/",
             "https://browserleaks.com/ip",
             "https://whatismyipaddress.com/",
-            "http://httpbin.org/ip"});
-            this.cmbIpWeb.Location = new System.Drawing.Point(27, 60);
+            "http://httpbin.org/ip",
+            "http://free-proxy.cz/ru/ipinfo",
+            "https://ipstack.com/"});
+            this.cmbIpWeb.Location = new System.Drawing.Point(18, 39);
+            this.cmbIpWeb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cmbIpWeb.Name = "cmbIpWeb";
-            this.cmbIpWeb.Size = new System.Drawing.Size(403, 28);
+            this.cmbIpWeb.Size = new System.Drawing.Size(270, 21);
             this.cmbIpWeb.TabIndex = 0;
             this.cmbIpWeb.Text = "https://yandex.ru/internet/";
             // 
@@ -116,9 +125,11 @@
             this.groupBox2.Controls.Add(this.tbProxies);
             this.groupBox2.Controls.Add(this.panel1);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 168);
+            this.groupBox2.Location = new System.Drawing.Point(0, 109);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(694, 449);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(463, 292);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Доступные прокси";
@@ -126,11 +137,12 @@
             // tbProxies
             // 
             this.tbProxies.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbProxies.Location = new System.Drawing.Point(3, 117);
+            this.tbProxies.Location = new System.Drawing.Point(2, 77);
+            this.tbProxies.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbProxies.Multiline = true;
             this.tbProxies.Name = "tbProxies";
             this.tbProxies.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbProxies.Size = new System.Drawing.Size(688, 329);
+            this.tbProxies.Size = new System.Drawing.Size(459, 213);
             this.tbProxies.TabIndex = 2;
             this.tbProxies.WordWrap = false;
             // 
@@ -141,34 +153,38 @@
             this.panel1.Controls.Add(this.btnSaveProxy);
             this.panel1.Controls.Add(this.lblProxyPath);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 22);
+            this.panel1.Location = new System.Drawing.Point(2, 15);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(688, 95);
+            this.panel1.Size = new System.Drawing.Size(459, 62);
             this.panel1.TabIndex = 1;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(182, 66);
+            this.label4.Location = new System.Drawing.Point(121, 43);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(382, 20);
+            this.label4.Size = new System.Drawing.Size(261, 13);
             this.label4.TabIndex = 3;
             this.label4.Text = "Двойной клик мыши для выбора прокси текущим";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(182, 42);
+            this.label3.Location = new System.Drawing.Point(121, 27);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(288, 20);
+            this.label3.Size = new System.Drawing.Size(193, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "Формат [логин:пароль@]адрес:порт";
             // 
             // btnSaveProxy
             // 
-            this.btnSaveProxy.Location = new System.Drawing.Point(14, 6);
+            this.btnSaveProxy.Location = new System.Drawing.Point(9, 4);
+            this.btnSaveProxy.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSaveProxy.Name = "btnSaveProxy";
-            this.btnSaveProxy.Size = new System.Drawing.Size(162, 32);
+            this.btnSaveProxy.Size = new System.Drawing.Size(108, 21);
             this.btnSaveProxy.TabIndex = 1;
             this.btnSaveProxy.Text = "Сохранить прокси";
             this.btnSaveProxy.UseVisualStyleBackColor = true;
@@ -176,9 +192,10 @@
             // lblProxyPath
             // 
             this.lblProxyPath.AutoSize = true;
-            this.lblProxyPath.Location = new System.Drawing.Point(182, 12);
+            this.lblProxyPath.Location = new System.Drawing.Point(121, 8);
+            this.lblProxyPath.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblProxyPath.Name = "lblProxyPath";
-            this.lblProxyPath.Size = new System.Drawing.Size(80, 20);
+            this.lblProxyPath.Size = new System.Drawing.Size(55, 13);
             this.lblProxyPath.TabIndex = 0;
             this.lblProxyPath.Text = "ProxyPath";
             // 
@@ -191,18 +208,19 @@
             "https://browserleaks.com/ip"});
             this.comboBox1.Location = new System.Drawing.Point(27, 60);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(403, 28);
+            this.comboBox1.Size = new System.Drawing.Size(403, 21);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.Text = "https://yandex.ru/internet/";
             // 
             // ProxyControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ProxyControl";
-            this.Size = new System.Drawing.Size(694, 617);
+            this.Size = new System.Drawing.Size(463, 401);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
