@@ -101,6 +101,7 @@ https://amiunique.org/
 https://restoreprivacy.com/browser-fingerprinting/
 https://blokt.com/guides/browser-fingerprinting
 https://www.ghacks.net/2013/08/01/how-to-modify-your-browsers-fingerprint-so-that-it-is-no-longer-unique/
+http://docs.multilogin.com/l/en/category/o40iDKTlyQ-masking-browser-parameters
 
 BAS fingerprint
 https://fingerprints.bablosoft.com/#capabilities
