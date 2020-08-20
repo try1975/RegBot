@@ -75,6 +75,7 @@
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="PuppeteerSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PuppeteerSharp.2.0.3\lib\netstandard2.0\PuppeteerSharp.dll</HintPath>
     </Reference>
@@ -149,6 +150,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\BrowserProfileControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BrowserProfileControl.Designer.cs">
+      <DependentUpon>BrowserProfileControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CaptchaControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -198,6 +205,14 @@
     <Compile Include="Controls\GenerateAccountDataControl.Designer.cs">
       <DependentUpon>GenerateAccountDataControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BrowserProfilesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BrowserProfilesControl.Designer.cs">
+      <DependentUpon>BrowserProfilesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Interfaces\IBrowserProfileControl.cs" />
+    <Compile Include="Controls\Interfaces\IBrowserProfilesControl.cs" />
     <Compile Include="Controls\Interfaces\ICaptchaControl.cs" />
     <Compile Include="Controls\Interfaces\ICheckFbCredentialControl.cs" />
     <Compile Include="Controls\Interfaces\ICheckFbAccountControl.cs" />
@@ -324,6 +339,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\BrowserProfileControl.resx">
+      <DependentUpon>BrowserProfileControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CaptchaControl.resx">
       <DependentUpon>CaptchaControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -356,6 +374,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\GoogleSearchControl.resx">
       <DependentUpon>GoogleSearchControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BrowserProfilesControl.resx">
+      <DependentUpon>BrowserProfilesControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\PostVkControl.resx">
       <DependentUpon>PostVkControl.cs</DependentUpon>
@@ -475,6 +496,10 @@
     <ProjectReference Include="..\Scenario.Service\ScenarioService.csproj">
       <Project>{d3429939-a8bf-4b4b-bfcd-18a3f6c69bc9}</Project>
       <Name>ScenarioService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScenarioContext\ScenarioContext.csproj">
+      <Project>{769BE3EC-6D20-4D3D-A340-8E8F9D22593B}</Project>
+      <Name>ScenarioContext</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimSmsOrg\SimSmsOrg.csproj">
       <Project>{be0efc1b-f2b3-4a83-8647-2d14b53dd4ad}</Project>

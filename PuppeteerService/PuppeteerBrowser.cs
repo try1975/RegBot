@@ -24,7 +24,8 @@ namespace PuppeteerService
                 DefaultViewport = new ViewPortOptions { IsLandscape = true },
                 //DefaultViewport = new ViewPortOptions { IsLandscape = false, IsMobile= true },
                 IgnoreHTTPSErrors = true,
-                SlowMo = 10
+                SlowMo = 10,
+                //UserDataDir = Path.Combine(Environment.CurrentDirectory, "Data\\01")
             };
 
             //var connectOptions = new ConnectOptions { BrowserWSEndpoint = $"wss://chrome.browserless.io?token={apikey}", BrowserURL="http://127.0.0.1:2122" };

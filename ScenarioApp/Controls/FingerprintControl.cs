@@ -23,9 +23,15 @@ namespace ScenarioApp.Controls
         private readonly IProxyStore _proxyStore;
         private DeviceItem _deviceItem;
 
-        public FingerprintControl(IChromiumSettings chromiumSettings, IProxyStore proxyStore)
+        public FingerprintControl(IChromiumSettings chromiumSettings, IProxyStore proxyStore, IBrowserProfilesControl browserProfilesControl)
         {
             InitializeComponent();
+
+            var control = (Control)browserProfilesControl;
+            control.Dock = DockStyle.Fill;
+            pnlProfiles.Controls.Clear();
+            pnlProfiles.Controls.Add(control);
+
             _chromiumSettings = chromiumSettings;
             _proxyStore = proxyStore;
 

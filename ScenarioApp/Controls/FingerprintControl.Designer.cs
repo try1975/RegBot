@@ -31,6 +31,8 @@
             this.lbDevices = new System.Windows.Forms.ListBox();
             this.tbCurrentDevice = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbProxy = new System.Windows.Forms.TextBox();
             this.btnWebShow = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbIpWeb = new System.Windows.Forms.ComboBox();
@@ -38,24 +40,28 @@
             this.cmbCountry = new System.Windows.Forms.ComboBox();
             this.lbTimeZones = new System.Windows.Forms.ListBox();
             this.lbLocale = new System.Windows.Forms.ListBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tbProxy = new System.Windows.Forms.TextBox();
+            this.pnlProfiles = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbDevices
             // 
             this.lbDevices.FormattingEnabled = true;
-            this.lbDevices.Location = new System.Drawing.Point(18, 117);
+            this.lbDevices.ItemHeight = 20;
+            this.lbDevices.Location = new System.Drawing.Point(24, 67);
+            this.lbDevices.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lbDevices.Name = "lbDevices";
-            this.lbDevices.Size = new System.Drawing.Size(222, 225);
+            this.lbDevices.Size = new System.Drawing.Size(331, 344);
             this.lbDevices.TabIndex = 0;
             // 
             // tbCurrentDevice
             // 
-            this.tbCurrentDevice.Location = new System.Drawing.Point(17, 94);
+            this.tbCurrentDevice.Location = new System.Drawing.Point(23, 32);
+            this.tbCurrentDevice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbCurrentDevice.Name = "tbCurrentDevice";
-            this.tbCurrentDevice.Size = new System.Drawing.Size(222, 20);
+            this.tbCurrentDevice.Size = new System.Drawing.Size(331, 26);
             this.tbCurrentDevice.TabIndex = 1;
             // 
             // groupBox1
@@ -67,20 +73,33 @@
             this.groupBox1.Controls.Add(this.cmbIpWeb);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(711, 77);
+            this.groupBox1.Size = new System.Drawing.Size(1066, 118);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Проверка отпечатка браузера";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(658, 37);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(129, 20);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Текущий прокси";
+            // 
+            // tbProxy
+            // 
+            this.tbProxy.Location = new System.Drawing.Point(658, 63);
+            this.tbProxy.Name = "tbProxy";
+            this.tbProxy.Size = new System.Drawing.Size(332, 26);
+            this.tbProxy.TabIndex = 5;
+            // 
             // btnWebShow
             // 
-            this.btnWebShow.Location = new System.Drawing.Point(309, 35);
-            this.btnWebShow.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnWebShow.Location = new System.Drawing.Point(464, 54);
             this.btnWebShow.Name = "btnWebShow";
-            this.btnWebShow.Size = new System.Drawing.Size(117, 26);
+            this.btnWebShow.Size = new System.Drawing.Size(176, 40);
             this.btnWebShow.TabIndex = 4;
             this.btnWebShow.Text = "Показать сайт";
             this.btnWebShow.UseVisualStyleBackColor = true;
@@ -88,10 +107,9 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 24);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(22, 37);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(103, 13);
+            this.label1.Size = new System.Drawing.Size(156, 20);
             this.label1.TabIndex = 1;
             this.label1.Text = "Сайт для проверки";
             // 
@@ -106,43 +124,43 @@
             "https://whoer.net/",
             "https://panopticlick.eff.org/",
             "https://arh.antoinevastel.com/bots/areyouheadless"});
-            this.cmbIpWeb.Location = new System.Drawing.Point(18, 39);
-            this.cmbIpWeb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbIpWeb.Location = new System.Drawing.Point(27, 60);
             this.cmbIpWeb.Name = "cmbIpWeb";
-            this.cmbIpWeb.Size = new System.Drawing.Size(270, 21);
+            this.cmbIpWeb.Size = new System.Drawing.Size(403, 28);
             this.cmbIpWeb.TabIndex = 0;
             this.cmbIpWeb.Text = "https://yandex.ru/internet/";
             // 
             // lblCountry
             // 
             this.lblCountry.AutoSize = true;
-            this.lblCountry.Location = new System.Drawing.Point(277, 79);
-            this.lblCountry.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCountry.Location = new System.Drawing.Point(413, 9);
             this.lblCountry.Name = "lblCountry";
-            this.lblCountry.Size = new System.Drawing.Size(43, 13);
+            this.lblCountry.Size = new System.Drawing.Size(65, 20);
             this.lblCountry.TabIndex = 18;
             this.lblCountry.Text = "Страна";
             // 
             // cmbCountry
             // 
             this.cmbCountry.FormattingEnabled = true;
-            this.cmbCountry.Location = new System.Drawing.Point(279, 94);
-            this.cmbCountry.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbCountry.Location = new System.Drawing.Point(415, 32);
             this.cmbCountry.Name = "cmbCountry";
-            this.cmbCountry.Size = new System.Drawing.Size(109, 21);
+            this.cmbCountry.Size = new System.Drawing.Size(162, 28);
             this.cmbCountry.TabIndex = 19;
             // 
             // lbTimeZones
             // 
             this.lbTimeZones.FormattingEnabled = true;
-            this.lbTimeZones.Location = new System.Drawing.Point(279, 117);
+            this.lbTimeZones.ItemHeight = 20;
+            this.lbTimeZones.Location = new System.Drawing.Point(415, 67);
+            this.lbTimeZones.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lbTimeZones.Name = "lbTimeZones";
-            this.lbTimeZones.Size = new System.Drawing.Size(222, 225);
+            this.lbTimeZones.Size = new System.Drawing.Size(331, 344);
             this.lbTimeZones.TabIndex = 20;
             // 
             // lbLocale
             // 
             this.lbLocale.FormattingEnabled = true;
+            this.lbLocale.ItemHeight = 20;
             this.lbLocale.Items.AddRange(new object[] {
             "ar",
             "am",
@@ -198,46 +216,49 @@
             "vi",
             "zh_CN",
             "zh_TW"});
-            this.lbLocale.Location = new System.Drawing.Point(539, 117);
+            this.lbLocale.Location = new System.Drawing.Point(805, 67);
+            this.lbLocale.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lbLocale.Name = "lbLocale";
-            this.lbLocale.Size = new System.Drawing.Size(93, 225);
+            this.lbLocale.Size = new System.Drawing.Size(138, 344);
             this.lbLocale.TabIndex = 21;
             // 
-            // label2
+            // pnlProfiles
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(439, 24);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Текущий прокси";
+            this.pnlProfiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlProfiles.Location = new System.Drawing.Point(0, 546);
+            this.pnlProfiles.Name = "pnlProfiles";
+            this.pnlProfiles.Size = new System.Drawing.Size(1066, 251);
+            this.pnlProfiles.TabIndex = 22;
             // 
-            // tbProxy
+            // panel1
             // 
-            this.tbProxy.Location = new System.Drawing.Point(439, 41);
-            this.tbProxy.Margin = new System.Windows.Forms.Padding(2);
-            this.tbProxy.Name = "tbProxy";
-            this.tbProxy.Size = new System.Drawing.Size(223, 20);
-            this.tbProxy.TabIndex = 5;
+            this.panel1.Controls.Add(this.tbCurrentDevice);
+            this.panel1.Controls.Add(this.lbDevices);
+            this.panel1.Controls.Add(this.lbLocale);
+            this.panel1.Controls.Add(this.cmbCountry);
+            this.panel1.Controls.Add(this.lbTimeZones);
+            this.panel1.Controls.Add(this.lblCountry);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 118);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1066, 428);
+            this.panel1.TabIndex = 23;
             // 
             // FingerprintControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lbLocale);
-            this.Controls.Add(this.lbTimeZones);
-            this.Controls.Add(this.lblCountry);
-            this.Controls.Add(this.cmbCountry);
+            this.Controls.Add(this.pnlProfiles);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.tbCurrentDevice);
-            this.Controls.Add(this.lbDevices);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FingerprintControl";
-            this.Size = new System.Drawing.Size(711, 518);
+            this.Size = new System.Drawing.Size(1066, 797);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -255,5 +276,7 @@
         private System.Windows.Forms.ListBox lbLocale;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbProxy;
+        private System.Windows.Forms.Panel pnlProfiles;
+        private System.Windows.Forms.Panel panel1;
     }
 }

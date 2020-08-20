@@ -5,6 +5,7 @@ using PuppeteerService;
 using ScenarioApp.Controls;
 using ScenarioApp.Controls.Interfaces;
 using ScenarioApp.Data;
+using ScenarioContext;
 using System;
 using System.Configuration;
 using System.IO;
@@ -16,21 +17,27 @@ namespace ScenarioApp.Ninject
     {
         public override void Load()
         {
+            var startupPath = Application.StartupPath;
+            var chromiumPath = startupPath;
+            chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-706915\\chrome-win\\chrome.exe");
+
             Bind<ScenarioMain>().To<ScenarioMain>().InSingletonScope();
             Bind<IScenarioControl>().To<ScenarioControl>().InSingletonScope();
             Bind<IAccountDataLoader>().To<AccountDataLoader>().InSingletonScope();
             Bind<IDataSettings>().To<DataSettings>().InSingletonScope();
 
-            var chromiumPath = Environment.CurrentDirectory;
             var userAgentGenerator = new UserAgentProvider();
-            var proxyStore = new ProxyStore.Service.ProxyStore(Path.Combine(Application.StartupPath, ConfigurationManager.AppSettings["DbPath"]), Application.StartupPath);
+            Bind<IUserAgentProvider>().ToConstant(userAgentGenerator);
+            var proxyStore = new ProxyStore.Service.ProxyStore(Path.Combine(startupPath, ConfigurationManager.AppSettings["DbPath"]), startupPath);
+            Bind<IProxyStore>().ToConstant(proxyStore);
+
             Bind<IChromiumSettings>().To<ChromiumSettings>().InTransientScope()/*.InSingletonScope()*/
-                .WithConstructorArgument(nameof(chromiumPath), chromiumPath)
-                .WithConstructorArgument(nameof(userAgentGenerator), userAgentGenerator)
-                .WithConstructorArgument(nameof(proxyStore), proxyStore);
+                .WithConstructorArgument(nameof(chromiumPath), chromiumPath);
+                //.WithConstructorArgument(nameof(userAgentGenerator), userAgentGenerator)
+                //.WithConstructorArgument(nameof(proxyStore), proxyStore);
             
             Bind<ISelectPersonControl>().To<SelectPersonControl>().InSingletonScope();
-            Bind<ISmsServices>().To<SmsServices>().InSingletonScope().WithConstructorArgument("path", Environment.CurrentDirectory);
+            Bind<ISmsServices>().To<SmsServices>().InSingletonScope().WithConstructorArgument("path", startupPath);
 
             Bind<IRegBotControl>().To<RegBotControl>();
 
@@ -50,10 +57,20 @@ namespace ScenarioApp.Ninject
             Bind<IGenerateAccountDataControl>().To<GenerateAccountDataControl>();
             Bind<ICaptchaControl>().To<CaptchaControl>();
             Bind<ISmsServiceControl>().To<SmsServiceControl>();
-            Bind<IProxyControl>().To<ProxyControl>().InTransientScope()
-                .WithConstructorArgument(nameof(proxyStore), proxyStore);
-            Bind<IFingerprintControl>().To<FingerprintControl>().InTransientScope()
-                .WithConstructorArgument(nameof(proxyStore), proxyStore);
+
+
+            Bind<IBrowserProfileControl>().To<BrowserProfileControl>().InTransientScope();
+            Bind<IBrowserProfileService>().To<BrowserProfileService>().InSingletonScope()
+                .WithConstructorArgument("chromiumPath", chromiumPath)
+                .WithConstructorArgument("profilesPath", Path.Combine(startupPath, "Profiles"));
+
+            Bind<IBrowserProfilesControl>().To<BrowserProfilesControl>().InTransientScope();
+            
+
+            Bind<IProxyControl>().To<ProxyControl>().InTransientScope();
+            //.WithConstructorArgument(nameof(proxyStore), proxyStore);
+            Bind<IFingerprintControl>().To<FingerprintControl>().InTransientScope();
+                //.WithConstructorArgument(nameof(proxyStore), proxyStore);
         }
     }
 }
