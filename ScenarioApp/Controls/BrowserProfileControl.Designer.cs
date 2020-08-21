@@ -43,11 +43,18 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.tbUserAgent = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbLanguage = new System.Windows.Forms.ComboBox();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.cbCountry = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -186,10 +193,111 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Идентификатор браузера";
             // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.cbLanguage);
+            this.panel6.Controls.Add(this.label5);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel6.Location = new System.Drawing.Point(0, 275);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(698, 50);
+            this.panel6.TabIndex = 5;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(15, 16);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(48, 20);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Язык";
+            // 
+            // cbLanguage
+            // 
+            this.cbLanguage.FormattingEnabled = true;
+            this.cbLanguage.Items.AddRange(new object[] {
+            "ar",
+            "am",
+            "bg",
+            "bn",
+            "ca",
+            "cs",
+            "da",
+            "de",
+            "el",
+            "en",
+            "en_GB",
+            "en_US",
+            "es",
+            "es_419",
+            "et",
+            "fa",
+            "fi",
+            "fil",
+            "fr",
+            "gu",
+            "he",
+            "hi",
+            "hr",
+            "hu",
+            "id",
+            "it",
+            "ja",
+            "kn",
+            "ko",
+            "lt",
+            "lv",
+            "ml",
+            "mr",
+            "ms",
+            "nl",
+            "no",
+            "pl",
+            "pt_BR",
+            "pt_PT",
+            "ro",
+            "ru",
+            "sk",
+            "sl",
+            "sr",
+            "sv",
+            "sw",
+            "ta",
+            "te",
+            "th",
+            "tr",
+            "uk",
+            "vi",
+            "zh_CN",
+            "zh_TW"});
+            this.cbLanguage.Location = new System.Drawing.Point(229, 13);
+            this.cbLanguage.Name = "cbLanguage";
+            this.cbLanguage.Size = new System.Drawing.Size(424, 28);
+            this.cbLanguage.TabIndex = 3;
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.cbCountry);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel7.Location = new System.Drawing.Point(0, 325);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(698, 50);
+            this.panel7.TabIndex = 6;
+            // 
+            // cbCountry
+            // 
+            this.cbCountry.FormattingEnabled = true;
+            this.cbCountry.Location = new System.Drawing.Point(229, 13);
+            this.cbCountry.Name = "cbCountry";
+            this.cbCountry.Size = new System.Drawing.Size(424, 28);
+            this.cbCountry.TabIndex = 3;
+            // 
             // BrowserProfileControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panel7);
+            this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel2);
@@ -206,6 +314,9 @@
             this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
+            this.panel7.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -227,5 +338,10 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.TextBox tbUserAgent;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cbLanguage;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.ComboBox cbCountry;
     }
 }

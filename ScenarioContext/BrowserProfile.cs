@@ -18,6 +18,7 @@ namespace ScenarioContext
         public string Folder { get; set; }
         public string UserAgent { get; set; }
         public string StartUrl { get; set; }
+        public string Language { get; set; }
 
         public async Task<Browser> ProfileStart(string chromiumPath, string profilesPath)
         {
@@ -25,6 +26,8 @@ namespace ScenarioContext
             
             var args = new List<string>();
             if (!string.IsNullOrEmpty(UserAgent)) args.Add($@"--user-agent=""{UserAgent}""");
+            if (!string.IsNullOrEmpty(Language)) args.Add($"--lang={Language}");
+            args.Add("--disable-webgl"); args.Add("--disable-3d- apis");
 
             var lanchOptions = new LaunchOptions
             {
