@@ -15,6 +15,8 @@ namespace ScenarioContext
         string UserAgent { get; set; }
         string StartUrl { get; set; }
         string Language { get; set; }
+        string TimezoneCountry { get; set; }
+        string Timezone { get; set; }
 
         Task<Browser> ProfileStart(string chromiumPath, string profilesPaths);
     }

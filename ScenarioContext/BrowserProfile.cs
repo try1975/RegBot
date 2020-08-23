@@ -19,6 +19,8 @@ namespace ScenarioContext
         public string UserAgent { get; set; }
         public string StartUrl { get; set; }
         public string Language { get; set; }
+        public string TimezoneCountry { get; set; }
+        public string Timezone { get; set; }
 
         public async Task<Browser> ProfileStart(string chromiumPath, string profilesPath)
         {
@@ -27,7 +29,7 @@ namespace ScenarioContext
             var args = new List<string>();
             if (!string.IsNullOrEmpty(UserAgent)) args.Add($@"--user-agent=""{UserAgent}""");
             if (!string.IsNullOrEmpty(Language)) args.Add($"--lang={Language}");
-            args.Add("--disable-webgl"); args.Add("--disable-3d- apis");
+            args.Add("--disable-webgl"); args.Add("--disable-3d-apis");
 
             var lanchOptions = new LaunchOptions
             {
@@ -43,7 +45,8 @@ namespace ScenarioContext
             _browser =  await Puppeteer.LaunchAsync(lanchOptions);
             _browser.Disconnected += Browser_Disconnected;
             var page = (await _browser.PagesAsync())[0];
-            if(!string.IsNullOrEmpty(StartUrl)) await page.GoToAsync(StartUrl, _navigationOptions);
+            if (!string.IsNullOrEmpty(Timezone)) await page.EmulateTimezoneAsync(Timezone);
+            if (!string.IsNullOrEmpty(StartUrl)) await page.GoToAsync(StartUrl, _navigationOptions);
             return _browser;
         }
 

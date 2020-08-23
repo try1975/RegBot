@@ -35,19 +35,20 @@
             this.tbFolder = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnOk = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.tbStartUrl = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.tbUserAgent = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
             this.cbLanguage = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.cbCountry = new System.Windows.Forms.ComboBox();
+            this.cbTimezoneCountry = new System.Windows.Forms.ComboBox();
+            this.cbTimezone = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -121,16 +122,6 @@
             this.panel3.Size = new System.Drawing.Size(698, 75);
             this.panel3.TabIndex = 2;
             // 
-            // btnOk
-            // 
-            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(383, 20);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(126, 41);
-            this.btnOk.TabIndex = 0;
-            this.btnOk.Text = "Сохранить";
-            this.btnOk.UseVisualStyleBackColor = true;
-            // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -140,6 +131,16 @@
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "Отменить";
             this.btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // btnOk
+            // 
+            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnOk.Location = new System.Drawing.Point(383, 20);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(126, 41);
+            this.btnOk.TabIndex = 0;
+            this.btnOk.Text = "Сохранить";
+            this.btnOk.UseVisualStyleBackColor = true;
             // 
             // panel4
             // 
@@ -151,6 +152,13 @@
             this.panel4.Size = new System.Drawing.Size(698, 50);
             this.panel4.TabIndex = 3;
             // 
+            // tbStartUrl
+            // 
+            this.tbStartUrl.Location = new System.Drawing.Point(229, 13);
+            this.tbStartUrl.Name = "tbStartUrl";
+            this.tbStartUrl.Size = new System.Drawing.Size(424, 26);
+            this.tbStartUrl.TabIndex = 2;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -159,13 +167,6 @@
             this.label3.Size = new System.Drawing.Size(146, 20);
             this.label3.TabIndex = 0;
             this.label3.Text = "Начальный адрес";
-            // 
-            // tbStartUrl
-            // 
-            this.tbStartUrl.Location = new System.Drawing.Point(229, 13);
-            this.tbStartUrl.Name = "tbStartUrl";
-            this.tbStartUrl.Size = new System.Drawing.Size(424, 26);
-            this.tbStartUrl.TabIndex = 2;
             // 
             // panel5
             // 
@@ -202,15 +203,6 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(698, 50);
             this.panel6.TabIndex = 5;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 16);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(48, 20);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Язык";
             // 
             // cbLanguage
             // 
@@ -275,22 +267,40 @@
             this.cbLanguage.Size = new System.Drawing.Size(424, 28);
             this.cbLanguage.TabIndex = 3;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(15, 16);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(48, 20);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Язык";
+            // 
             // panel7
             // 
-            this.panel7.Controls.Add(this.cbCountry);
+            this.panel7.Controls.Add(this.cbTimezone);
+            this.panel7.Controls.Add(this.cbTimezoneCountry);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 325);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(698, 50);
+            this.panel7.Size = new System.Drawing.Size(698, 89);
             this.panel7.TabIndex = 6;
             // 
-            // cbCountry
+            // cbTimezoneCountry
             // 
-            this.cbCountry.FormattingEnabled = true;
-            this.cbCountry.Location = new System.Drawing.Point(229, 13);
-            this.cbCountry.Name = "cbCountry";
-            this.cbCountry.Size = new System.Drawing.Size(424, 28);
-            this.cbCountry.TabIndex = 3;
+            this.cbTimezoneCountry.FormattingEnabled = true;
+            this.cbTimezoneCountry.Location = new System.Drawing.Point(229, 13);
+            this.cbTimezoneCountry.Name = "cbTimezoneCountry";
+            this.cbTimezoneCountry.Size = new System.Drawing.Size(424, 28);
+            this.cbTimezoneCountry.TabIndex = 3;
+            // 
+            // cbTimezone
+            // 
+            this.cbTimezone.FormattingEnabled = true;
+            this.cbTimezone.Location = new System.Drawing.Point(229, 47);
+            this.cbTimezone.Name = "cbTimezone";
+            this.cbTimezone.Size = new System.Drawing.Size(424, 28);
+            this.cbTimezone.TabIndex = 4;
             // 
             // BrowserProfileControl
             // 
@@ -342,6 +352,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cbLanguage;
         private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.ComboBox cbCountry;
+        private System.Windows.Forms.ComboBox cbTimezoneCountry;
+        private System.Windows.Forms.ComboBox cbTimezone;
     }
 }
