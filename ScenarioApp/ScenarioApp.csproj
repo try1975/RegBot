@@ -221,11 +221,25 @@
     <Compile Include="Controls\Interfaces\IFingerprintControl.cs" />
     <Compile Include="Controls\Interfaces\IForumSearchControl.cs" />
     <Compile Include="Controls\Interfaces\IGenerateAccountDataControl.cs" />
+    <Compile Include="Controls\Interfaces\IIpInfoControl.cs" />
+    <Compile Include="Controls\Interfaces\IOneProxyControl.cs" />
     <Compile Include="Controls\Interfaces\IProxyControl.cs" />
     <Compile Include="Controls\Interfaces\IRegBotControl.cs" />
     <Compile Include="Controls\Interfaces\ISelectPersonControl.cs" />
     <Compile Include="Controls\Interfaces\ISendMailControl.cs" />
     <Compile Include="Controls\Interfaces\ISmsServiceControl.cs" />
+    <Compile Include="Controls\IpInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\IpInfoControl.Designer.cs">
+      <DependentUpon>IpInfoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OneProxyControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\OneProxyControl.Designer.cs">
+      <DependentUpon>OneProxyControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ProxyControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -378,6 +392,12 @@
     <EmbeddedResource Include="Controls\BrowserProfilesControl.resx">
       <DependentUpon>BrowserProfilesControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\IpInfoControl.resx">
+      <DependentUpon>IpInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OneProxyControl.resx">
+      <DependentUpon>OneProxyControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\PostVkControl.resx">
       <DependentUpon>PostVkControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -468,6 +488,14 @@
     <ProjectReference Include="..\Gmail.Bot\Gmail.Bot.csproj">
       <Project>{6a78cf28-6c28-4090-a414-329fbe8a91f0}</Project>
       <Name>Gmail.Bot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ip2location\Ip2location.csproj">
+      <Project>{D198493D-A76F-45BA-9DFC-6E98521527F3}</Project>
+      <Name>Ip2location</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IpCommon\IpCommon.csproj">
+      <Project>{5E69E172-EC31-47BA-AB3A-0901BABDF608}</Project>
+      <Name>IpCommon</Name>
     </ProjectReference>
     <ProjectReference Include="..\MailRu.Bot\MailRu.Bot.csproj">
       <Project>{f1c872d7-cf9e-4e7f-ad2f-e821b67e1afa}</Project>

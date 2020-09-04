@@ -29,8 +29,8 @@ namespace ScenarioContext
             catch (Exception exception)
             {
                 Log.Error(exception);
-                _browserProfiles = new List<BrowserProfile>();
             }
+            if (_browserProfiles == null) _browserProfiles = new List<BrowserProfile>();
             if (!_browserProfiles.Any())
             {
                 _browserProfiles.Add(new BrowserProfile { Name = Path.GetRandomFileName(), Folder = Path.GetRandomFileName() });

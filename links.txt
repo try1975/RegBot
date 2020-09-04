@@ -77,6 +77,7 @@ https://github.com/apify/proxy-chain
 https://best-proxies.ru/proxylist/free/
 https://habr.com/ru/post/506356/
 https://github.com/Snawoot/dumbproxy#using-http-over-tls-proxy
+https://chromium.googlesource.com/chromium/src/+/HEAD/net/docs/proxy.md#SOCKSv4-proxy-scheme
 
 fingerprint
 https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra

@@ -1,5 +1,7 @@
 ﻿using Common.Classes;
 using Common.Service.Interfaces;
+using Ip2location;
+using IpCommon;
 using Ninject.Modules;
 using PuppeteerService;
 using ScenarioApp.Controls;
@@ -70,7 +72,11 @@ namespace ScenarioApp.Ninject
             Bind<IProxyControl>().To<ProxyControl>().InTransientScope();
             //.WithConstructorArgument(nameof(proxyStore), proxyStore);
             Bind<IFingerprintControl>().To<FingerprintControl>().InTransientScope();
-                //.WithConstructorArgument(nameof(proxyStore), proxyStore);
+            //.WithConstructorArgument(nameof(proxyStore), proxyStore);
+
+            Bind<IIpInfoService>().To<Ip2LocationApi>().InSingletonScope();
+            Bind<IIpInfoControl>().To<IpInfoControl>().InTransientScope();
+            Bind<IOneProxyControl>().To<OneProxyControl>().InTransientScope();
         }
     }
 }

@@ -14,6 +14,8 @@ namespace ScenarioApp.Controls
         private IBrowserProfile _browserProfile;
         private readonly IDictionary<string, string> _timezoneCountries;
         private IDictionary<string, string> _timezones;
+        private readonly IIpInfoControl _ipInfoControl;
+        private readonly IOneProxyControl _oneProxyControl;
 
         public IBrowserProfile BrowserProfile
         {
@@ -42,9 +44,22 @@ namespace ScenarioApp.Controls
             }
         }
 
-        public BrowserProfileControl()
+        public BrowserProfileControl(IIpInfoControl ipInfoControl, IOneProxyControl oneProxyControl)
         {
+            _ipInfoControl = ipInfoControl;
+            _oneProxyControl = oneProxyControl;
+
             InitializeComponent();
+
+            var control = (Control)_ipInfoControl;
+            control.Dock = DockStyle.Fill;
+            pnlIpInfo.Controls.Clear();
+            pnlIpInfo.Controls.Add(control);
+
+            control = (Control)_oneProxyControl;
+            control.Dock = DockStyle.Fill;
+            pnlOneProxy.Controls.Clear();
+            pnlOneProxy.Controls.Add(control);
 
             _timezoneCountries = TZNames.GetCountryNames("ru");
             cbTimezoneCountry.DataSource = new BindingSource(_timezoneCountries, null);
@@ -53,9 +68,8 @@ namespace ScenarioApp.Controls
 
             btnOk.Click += BtnOk_Click;
             cbTimezoneCountry.SelectedIndexChanged += CbTimezoneCountry_SelectedIndexChanged;
+            btnSetByIpInfo.Click += BtnSetByIpInfo_Click;
         }
-
-
 
         private void BtnOk_Click(object sender, EventArgs e)
         {
@@ -68,21 +82,12 @@ namespace ScenarioApp.Controls
             if (cbTimezoneCountry.SelectedItem != null)
             {
                 _browserProfile.TimezoneCountry = ((KeyValuePair<string, string>)cbTimezoneCountry.SelectedItem).Key;
-                
+
                 if (cbTimezone.SelectedItem != null)
                 {
                     _browserProfile.Timezone = ((KeyValuePair<string, string>)cbTimezone.SelectedItem).Key;
                 }
             }
-        }
-        private void CbTimezoneCountry_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-
-        }
-
-        private void CbTimezoneCountry_SelectedValueChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void CbTimezoneCountry_SelectedIndexChanged(object sender, EventArgs e)
@@ -94,6 +99,24 @@ namespace ScenarioApp.Controls
                 cbTimezone.DataSource = new BindingSource(_timezones, null);
                 cbTimezone.DisplayMember = "Value";
                 cbTimezone.ValueMember = "Key";
+            }
+        }
+
+        private void BtnSetByIpInfo_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(_ipInfoControl.Language))
+            {
+                cbLanguage.SelectedIndex = cbLanguage.FindStringExact(_ipInfoControl.Language.ToLower());
+            }
+            if (!string.IsNullOrEmpty(_ipInfoControl.TimezoneCountry))
+            {
+                var timezoneCountry = new KeyValuePair<string, string>(_ipInfoControl.TimezoneCountry, _timezoneCountries[_ipInfoControl.TimezoneCountry]);
+                cbTimezoneCountry.SelectedItem = timezoneCountry;
+                if (!string.IsNullOrEmpty(_ipInfoControl.Timezone))
+                {
+                    var timezone = new KeyValuePair<string, string>(_ipInfoControl.Timezone, _timezones[_ipInfoControl.Timezone]);
+                    cbTimezone.SelectedItem = timezone;
+                }
             }
         }
 
