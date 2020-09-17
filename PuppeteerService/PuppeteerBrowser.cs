@@ -12,11 +12,11 @@ namespace PuppeteerService
     {
         public static async Task<Browser> GetBrowser(string chromiumPath, bool headless, IEnumerable<string> args = null)
         {
-            if (string.IsNullOrEmpty(chromiumPath)) chromiumPath = Environment.CurrentDirectory;
-            var extensionWebRTCPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-706915\\chrome-win\\", "extensions\\webrtc");
-            chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-706915\\chrome-win\\chrome.exe");
+            var extensionWebRTCPath = Path.Combine(Path.GetDirectoryName(chromiumPath), "extensions\\webrtc");
+            //if (string.IsNullOrEmpty(chromiumPath)) chromiumPath = Environment.CurrentDirectory;
+            //var extensionWebRTCPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-706915\\chrome-win\\", "extensions\\webrtc");
+            //chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-706915\\chrome-win\\chrome.exe");
 
-            //chromiumPath = Path.Combine(chromiumPath, ".local-chromium\\Win64-662092\\chrome-win\\chrome.exe");
             var options = new LaunchOptions
             {
                 Headless = headless,

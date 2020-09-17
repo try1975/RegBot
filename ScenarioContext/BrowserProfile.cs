@@ -1,4 +1,6 @@
-﻿using PuppeteerSharp;
+﻿using Common.Service;
+using Common.Service.Interfaces;
+using PuppeteerSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +23,12 @@ namespace ScenarioContext
         public string Language { get; set; }
         public string TimezoneCountry { get; set; }
         public string Timezone { get; set; }
+        public ProxyRecord ProxyRecord { get; set; }
+
+        public BrowserProfile()
+        {
+            ProxyRecord = new ProxyRecord();
+        }
 
         public async Task<Browser> ProfileStart(string chromiumPath, string profilesPath)
         {
@@ -29,6 +37,10 @@ namespace ScenarioContext
             var args = new List<string>();
             if (!string.IsNullOrEmpty(UserAgent)) args.Add($@"--user-agent=""{UserAgent}""");
             if (!string.IsNullOrEmpty(Language)) args.Add($"--lang={Language}");
+
+            var proxyArg = ProxyRecord.GetProxyArg();
+            if(!string.IsNullOrEmpty(proxyArg)) args.Add(proxyArg);
+
             args.Add("--disable-webgl"); args.Add("--disable-3d-apis");
             /*
              --proxy-server=host:port
@@ -80,6 +92,10 @@ namespace ScenarioContext
             _browser =  await Puppeteer.LaunchAsync(lanchOptions);
             _browser.Disconnected += Browser_Disconnected;
             var page = (await _browser.PagesAsync())[0];
+            if (!string.IsNullOrEmpty(proxyArg) && !string.IsNullOrEmpty(ProxyRecord.Username) && !string.IsNullOrEmpty(ProxyRecord.Password))
+            {
+                await page.AuthenticateAsync(new Credentials { Username = ProxyRecord.Username, Password = ProxyRecord.Password });
+            }
             if (!string.IsNullOrEmpty(Timezone)) await page.EmulateTimezoneAsync(Timezone);
             if (!string.IsNullOrEmpty(StartUrl)) await page.GoToAsync(StartUrl, _navigationOptions);
             return _browser;

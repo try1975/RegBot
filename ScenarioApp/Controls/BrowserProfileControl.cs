@@ -41,6 +41,7 @@ namespace ScenarioApp.Controls
                         cbTimezone.SelectedIndex = idxTimezone;
                     }
                 }
+                _oneProxyControl.SetProxyRecord(_browserProfile.ProxyRecord);
             }
         }
 
@@ -69,6 +70,16 @@ namespace ScenarioApp.Controls
             btnOk.Click += BtnOk_Click;
             cbTimezoneCountry.SelectedIndexChanged += CbTimezoneCountry_SelectedIndexChanged;
             btnSetByIpInfo.Click += BtnSetByIpInfo_Click;
+
+            _oneProxyControl.ProxyValueUpdated += _oneProxyControl_ProxyValueUpdated;
+        }
+
+        private void _oneProxyControl_ProxyValueUpdated(object sender, EventArgs e)
+        {
+            _ipInfoControl.Ip = ((IOneProxyControl)sender).ProxyRecord.Host;
+            _ipInfoControl.TimezoneCountry = "";
+            _ipInfoControl.Timezone = "";
+            _ipInfoControl.Language = "";
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
@@ -88,6 +99,7 @@ namespace ScenarioApp.Controls
                     _browserProfile.Timezone = ((KeyValuePair<string, string>)cbTimezone.SelectedItem).Key;
                 }
             }
+            _oneProxyControl.ProxyRecord.CopyDataTo(_browserProfile.ProxyRecord);
         }
 
         private void CbTimezoneCountry_SelectedIndexChanged(object sender, EventArgs e)
@@ -112,7 +124,7 @@ namespace ScenarioApp.Controls
             {
                 var timezoneCountry = new KeyValuePair<string, string>(_ipInfoControl.TimezoneCountry, _timezoneCountries[_ipInfoControl.TimezoneCountry]);
                 cbTimezoneCountry.SelectedItem = timezoneCountry;
-                if (!string.IsNullOrEmpty(_ipInfoControl.Timezone))
+                if (!string.IsNullOrEmpty(_ipInfoControl.Timezone) && _timezones.ContainsKey(_ipInfoControl.Timezone))
                 {
                     var timezone = new KeyValuePair<string, string>(_ipInfoControl.Timezone, _timezones[_ipInfoControl.Timezone]);
                     cbTimezone.SelectedItem = timezone;

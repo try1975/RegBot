@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using Common.Service;
+using log4net;
 using Newtonsoft.Json;
 using PuppeteerSharp;
 using System;
@@ -24,7 +25,7 @@ namespace ScenarioContext
             _profilesJsonPath = Path.Combine(_profilesPath, "profiles.json");
             try
             {
-               _browserProfiles = JsonConvert.DeserializeObject<List<BrowserProfile>>(File.ReadAllText(_profilesJsonPath));
+                _browserProfiles = JsonConvert.DeserializeObject<List<BrowserProfile>>(File.ReadAllText(_profilesJsonPath));
             }
             catch (Exception exception)
             {
@@ -33,7 +34,12 @@ namespace ScenarioContext
             if (_browserProfiles == null) _browserProfiles = new List<BrowserProfile>();
             if (!_browserProfiles.Any())
             {
-                _browserProfiles.Add(new BrowserProfile { Name = Path.GetRandomFileName(), Folder = Path.GetRandomFileName() });
+                _browserProfiles.Add(new BrowserProfile
+                {
+                    Name = Path.GetRandomFileName(),
+                    Folder = Path.GetRandomFileName(),
+                    ProxyRecord = new ProxyRecord()
+                });
             }
         }
 
@@ -55,7 +61,15 @@ namespace ScenarioContext
             if (_browserProfile == null) return;
             _browserProfiles.Remove(_browserProfile);
             var directoryInfo = new DirectoryInfo(Path.Combine(_profilesPath, _browserProfile.Folder));
-            directoryInfo.Delete(recursive: true);
+            try
+            {
+                directoryInfo.Delete(recursive: true);
+            }
+            catch (Exception exception)
+            {
+                Log.Error($"{exception}");
+            }
+            
         }
 
         public Task<Browser> StartProfile(string folder)

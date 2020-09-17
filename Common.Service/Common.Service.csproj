@@ -47,6 +47,7 @@
     <Compile Include="CountryGroup.cs" />
     <Compile Include="EnumLocalizeAttribute.cs" />
     <Compile Include="Enums\CountryCode.cs" />
+    <Compile Include="Enums\ProxyProtocol.cs" />
     <Compile Include="Enums\ServiceCode.cs" />
     <Compile Include="Interfaces\IAccountData.cs" />
     <Compile Include="Interfaces\IAccountDataGenerator.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Interfaces\ISmsService.cs" />
     <Compile Include="Interfaces\ISmsServices.cs" />
     <Compile Include="Interfaces\IUserAgentProvider.cs" />
+    <Compile Include="ProxyRecord.cs" />
     <Compile Include="ServiceDomains.cs" />
     <Compile Include="SmsServiceInfo.cs" />
     <Compile Include="LoggingHandler.cs" />

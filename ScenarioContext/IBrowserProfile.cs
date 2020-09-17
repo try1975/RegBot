@@ -1,4 +1,6 @@
-﻿using PuppeteerService;
+﻿using Common.Service;
+using Common.Service.Interfaces;
+using PuppeteerService;
 using PuppeteerSharp;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,7 @@ namespace ScenarioContext
         string Language { get; set; }
         string TimezoneCountry { get; set; }
         string Timezone { get; set; }
+        ProxyRecord ProxyRecord { get; set; }
 
         Task<Browser> ProfileStart(string chromiumPath, string profilesPaths);
     }

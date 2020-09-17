@@ -54,9 +54,17 @@ namespace PuppeteerService
             if (!string.IsNullOrEmpty(Proxy))
             {
                 Log.Debug($"{nameof(Proxy)}: {Proxy}");
-                string proxy;
-                if (Proxy.Contains("@")) proxy = Proxy.Split('@')[1]; else proxy = Proxy;
-                args.Add($"--proxy-server={proxy}");
+                var proxy = string.Empty;
+                var idxComma = Proxy.IndexOf(',');
+                var proxyProtocol = string.Empty;
+                if (idxComma >= 0)
+                {
+                    proxy = Proxy.Substring(0, idxComma);
+                    proxyProtocol = Proxy.Substring(idxComma + 1).Trim().ToLower();
+                    if (proxyProtocol.StartsWith("socks")) proxyProtocol = $@"{proxyProtocol}://"; else proxyProtocol = string.Empty;
+                }
+                if (proxy.Contains("@")) proxy = proxy.Split('@')[1];
+                args.Add($"--proxy-server={proxyProtocol}{proxy}");
             }
             if (_userAgentProvider != null)
             {

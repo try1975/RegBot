@@ -38,13 +38,15 @@ namespace ScenarioApp.Controls
         private long BytesReceived { get; set; }
         private readonly string connectionString;
         private readonly ISmsServices _smsServices;
+        private readonly IOneProxyControl _oneProxyControl;
         #endregion
 
-        public RegBotControl(ISmsServices smsServices)
+        public RegBotControl(ISmsServices smsServices, IOneProxyControl oneProxyControl)
         {
             InitializeComponent();
 
             _smsServices = smsServices;
+            _oneProxyControl = oneProxyControl;
             GetRandomAccountData(CountryCode.RU);
 
             cmbCountry.DataSource = CountryItem.GetCountryItems();
@@ -70,6 +72,11 @@ namespace ScenarioApp.Controls
             dgvItems.FilterStringChanged += DgvItems_FilterStringChanged;
             dgvItems.SortStringChanged += DgvItems_SortStringChanged;
             dgvItems.UserDeletingRow += DgvItems_UserDeletingRow;
+
+            var control = (Control)_oneProxyControl;
+            control.Dock = DockStyle.Fill;
+            pnlOneProxy.Controls.Clear();
+            pnlOneProxy.Controls.Add(control);
         }
 
         private async void FormLoad()
@@ -245,6 +252,7 @@ namespace ScenarioApp.Controls
                 }
                 accountData = StoreAccountData(accountData);
                 var chromiumSettings = CompositionRoot.Resolve<IChromiumSettings>();
+                chromiumSettings.Proxy = $"{_oneProxyControl.ProxyRecord}";
                 switch (serviceCode)
                 {
                     case ServiceCode.MailRu:

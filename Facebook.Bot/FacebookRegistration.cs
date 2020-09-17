@@ -25,7 +25,8 @@ namespace Facebook.Bot
 
         public FacebookRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings) : base(data, smsService, chromiumSettings)
         {
-            _chromiumSettings.Proxy = _chromiumSettings.GetProxy(ServiceCode.Facebook);
+            var proxy = _chromiumSettings.GetProxy(ServiceCode.Facebook);
+            if (!string.IsNullOrEmpty(proxy)) _chromiumSettings.Proxy = proxy;
         }
 
         #region infra
@@ -168,7 +169,7 @@ namespace Facebook.Bot
             var eRecaptcha = await page.QuerySelectorAsync("#captcha_response");
             if (eRecaptcha != null)
             {
-                var targets = page.Browser.Targets();
+                //var targets = page.Browser.Targets();
                 var anticaptchaScriptText = File.ReadAllText(Path.GetFullPath(".\\Data\\init.js"));
                 anticaptchaScriptText = anticaptchaScriptText.Replace("YOUR-ANTI-CAPTCHA-API-KEY", AntiCaptchaOnlineApi.GetApiKeyAnticaptcha());
                 await page.EvaluateExpressionAsync(anticaptchaScriptText);

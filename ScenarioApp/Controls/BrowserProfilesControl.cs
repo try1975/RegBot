@@ -1,4 +1,5 @@
-﻿using ScenarioApp.Controls.Interfaces;
+﻿using log4net;
+using ScenarioApp.Controls.Interfaces;
 using ScenarioApp.Forms;
 using ScenarioContext;
 using System;
@@ -10,6 +11,7 @@ namespace ScenarioApp.Controls
 {
     public partial class BrowserProfilesControl : UserControl, IBrowserProfilesControl
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(BrowserProfilesControl));
         private readonly IBrowserProfileService _browserProfilesService;
         private readonly IBrowserProfileControl _browserProfileControl;
         private readonly BindingSource bindingSource;
@@ -101,7 +103,16 @@ namespace ScenarioApp.Controls
         {
             if (string.IsNullOrEmpty(Folder)) return;
             var browserProfile = browserProfiles.FirstOrDefault(z => z.Folder.Equals(Folder));
-            if (browserProfile != null) await _browserProfilesService.StartProfile(browserProfile.Folder);
+            try
+            {
+                if (browserProfile != null) await _browserProfilesService.StartProfile(browserProfile.Folder);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"{exception}");
+                Log.Error($"{exception}");
+            }
+            
         }
 
         private void BindingSource_CurrentChanged(object sender, EventArgs e)

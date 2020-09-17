@@ -36,6 +36,7 @@ namespace Ip2location
                 if (!response.IsSuccessStatusCode) return null;
                 var result = await response.Content.ReadAsStringAsync();
                 Log.Debug($"{nameof(GetIp2LocationInfo)}... {result}");
+                if (result.Contains("Invalid IP address")) return null;
                 return JsonConvert.DeserializeObject<Ip2LocationInfo>(result);
             }
         }

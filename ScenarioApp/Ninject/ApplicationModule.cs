@@ -1,4 +1,5 @@
-﻿using Common.Classes;
+﻿using CheckHost;
+using Common.Classes;
 using Common.Service.Interfaces;
 using Ip2location;
 using IpCommon;
@@ -75,6 +76,7 @@ namespace ScenarioApp.Ninject
             //.WithConstructorArgument(nameof(proxyStore), proxyStore);
 
             Bind<IIpInfoService>().To<Ip2LocationApi>().InSingletonScope();
+            //Bind<IIpInfoService>().To <CheckHostApi>().InSingletonScope();
             Bind<IIpInfoControl>().To<IpInfoControl>().InTransientScope();
             Bind<IOneProxyControl>().To<OneProxyControl>().InTransientScope();
         }
