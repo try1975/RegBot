@@ -25,7 +25,7 @@ namespace ScenarioContext
             _profilesJsonPath = Path.Combine(_profilesPath, "profiles.json");
             try
             {
-                _browserProfiles = JsonConvert.DeserializeObject<List<BrowserProfile>>(File.ReadAllText(_profilesJsonPath));
+                _browserProfiles = JsonConvert.DeserializeObject<List<BrowserProfile>>(File.ReadAllText(_profilesJsonPath, System.Text.Encoding.UTF8));
             }
             catch (Exception exception)
             {
@@ -53,7 +53,7 @@ namespace ScenarioContext
         public IEnumerable<IBrowserProfile> GetBrowserProfiles() => _browserProfiles;
 
 
-        public void SaveProfiles() => File.WriteAllText(_profilesJsonPath, JsonConvert.SerializeObject(_browserProfiles));
+        public void SaveProfiles() => File.WriteAllText(_profilesJsonPath, JsonConvert.SerializeObject(_browserProfiles), System.Text.Encoding.UTF8);
 
         public void RemoveByFolder(string folder)
         {
