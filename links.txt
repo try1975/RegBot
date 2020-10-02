@@ -141,3 +141,13 @@ https://github.com/tc39/proposal-record-tuple
 
 chromium user data dir
 https://stackoverflow.com/questions/46908441/how-to-pass-userdatadir-profile-folder-to-puppeteer
+
+fingerprint
+https://habr.com/ru/company/selectel/blog/521550/
+https://www.technadu.com/browser-fingerprinting/102454/
+https://brave.com/whats-brave-done-for-my-privacy-lately-episode3/
+https://fingerprintjs.com/demo
+https://hal.inria.fr/hal-01527580/document
+https://www.technadu.com/webrtc/99645/ WebRTC
+https://habr.com/ru/company/jugru/blog/487294/
+https://www.technadu.com/vpn-tor-virtual-machine-internet-anonymity/8760/

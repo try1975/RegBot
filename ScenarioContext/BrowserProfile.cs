@@ -10,7 +10,9 @@ namespace ScenarioContext
 {
     public class BrowserProfile: IBrowserProfile
     {
+        #region Fields&Properties
         private Browser _browser;
+        private string _webSocketEndpoint;
         protected static readonly NavigationOptions _navigationOptions = new NavigationOptions
         {
             WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Load/*, WaitUntilNavigation.Networkidle2*/ }
@@ -24,6 +26,8 @@ namespace ScenarioContext
         public string TimezoneCountry { get; set; }
         public string Timezone { get; set; }
         public ProxyRecord ProxyRecord { get; set; }
+        public int RemoteDebuggingPort { get; set; }
+        #endregion
 
         public BrowserProfile()
         {
@@ -37,6 +41,7 @@ namespace ScenarioContext
             var args = new List<string>();
             if (!string.IsNullOrEmpty(UserAgent)) args.Add($@"--user-agent=""{UserAgent}""");
             if (!string.IsNullOrEmpty(Language)) args.Add($"--lang={Language}");
+            if(RemoteDebuggingPort>0) args.Add($"--remote-debugging-port={RemoteDebuggingPort}");
 
             var proxyArg = ProxyRecord.GetProxyArg();
             if(!string.IsNullOrEmpty(proxyArg)) args.Add(proxyArg);
@@ -90,7 +95,10 @@ namespace ScenarioContext
             };
            
             _browser =  await Puppeteer.LaunchAsync(lanchOptions);
-            _browser.Disconnected += Browser_Disconnected;
+            _webSocketEndpoint = _browser.WebSocketEndpoint;
+            //await Puppeteer.ConnectAsync(new ConnectOptions());
+            //_browser.Disconnected += Browser_Disconnected;
+            _browser.Closed += _browser_Closed;
             var page = (await _browser.PagesAsync())[0];
             if (!string.IsNullOrEmpty(proxyArg) && !string.IsNullOrEmpty(ProxyRecord.Username) && !string.IsNullOrEmpty(ProxyRecord.Password))
             {
@@ -99,6 +107,11 @@ namespace ScenarioContext
             if (!string.IsNullOrEmpty(Timezone)) await page.EmulateTimezoneAsync(Timezone);
             if (!string.IsNullOrEmpty(StartUrl)) await page.GoToAsync(StartUrl, _navigationOptions);
             return _browser;
+        }
+
+        private void _browser_Closed(object sender, EventArgs e)
+        {
+            _browser = null;
         }
 
         private void Browser_Disconnected(object sender, EventArgs e)
