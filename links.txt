@@ -151,3 +151,6 @@ https://hal.inria.fr/hal-01527580/document
 https://www.technadu.com/webrtc/99645/ WebRTC
 https://habr.com/ru/company/jugru/blog/487294/
 https://www.technadu.com/vpn-tor-virtual-machine-internet-anonymity/8760/
+
+fakes
+https://github.com/danielmiessler/SecLists

@@ -37,6 +37,7 @@ static async disguisePage(page, {
     minHeight = 1024,
     disguiseFlags =[],
 } = {})
+
 {
     const FINGERPRINT = getBrowserFingerprint(browserUniqueID || uuid.v4());
     logger.info(`fingerprint-webgl-vendor-${FINGERPRINT.WEBGL_VENDOR}`);

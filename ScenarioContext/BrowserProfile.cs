@@ -32,6 +32,7 @@ namespace ScenarioContext
         public BrowserProfile()
         {
             ProxyRecord = new ProxyRecord();
+            RemoteDebuggingPort = 9222;
         }
 
         public async Task<Browser> ProfileStart(string chromiumPath, string profilesPath)
