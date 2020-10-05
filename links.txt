@@ -108,6 +108,13 @@ https://antoinevastel.com/javascript/2019/06/10/monitor-js-execution.html
 https://github.com/antoinevastel/blog-post-monitor-js
 https://antoinevastel.com/bots
 https://antoinevastel.com/browser%20fingerprinting/2019/02/19/canvas-fingerprint-on-the-web.html
+https://amiunique.org/
+https://multilogin.com/blog/
+https://github.com/antoinevastel
+https://github.com/DIVERSIFY-project/amiunique
+https://github.com/joue-quroi/canvas-fingerprint-blocker/blob/master/firefox/data/inject.js
+http://f.vision/
+https://fingerprintjs.com/demo
 
 BAS fingerprint
 https://fingerprints.bablosoft.com/#capabilities
@@ -121,6 +128,7 @@ https://fingerprints.bablosoft.com/canvas
 https://wiki.bablosoft.com/doku.php?id=ru:perfectcanvas
 https://fingerprints.bablosoft.com/audio
 https://github.com/fingerprintjs/fingerprintjs2
+https://fingerprints.bablosoft.com/prepare?version=4&tags=Firefox&key=SO2sCBnfsjxSDzzr6A83OrttoiHevEcXpzRfFknygdWlZCZg2WTfnRFwqp2uoCox&time_limit=60%20days
 
 
 headless detect

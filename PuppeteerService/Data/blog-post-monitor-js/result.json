@@ -1,0 +1,130 @@
+{
+  '': [
+    { name: 'window.localStorage', value: '{}' },
+    { name: 'window.localStorage', value: '{}' },
+    { name: 'window.localStorage', value: '{}' },
+    { name: 'window.sessionStorage', value: '{}' },
+    { name: 'window.sessionStorage', value: '{}' },
+    { name: 'window.sessionStorage', value: '{}' }
+  ],
+  'https://code.jquery.com/jquery-1.11.3.min.js': [],
+  'https://ipleak.com/tmp/js/5e121f119fe2f5a9e21b236835f66479.js': [],
+  'https://ipleak.com/full-report/': [],
+  'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js': [
+    { name: 'window.localStorage', value: '{}' },
+    { name: 'getItem', args: 'goog_pem_mod', value: 'null' },
+    { name: 'setItem', args: 'goog_pem_mod,501' },
+    { name: 'window.localStorage', value: '{"goog_pem_mod":"501"}' },
+    { name: 'window.localStorage', value: '{"goog_pem_mod":"501"}' },
+    { name: 'window.localStorage', value: '{"goog_pem_mod":"501"}' },
+    { name: 'window.localStorage', value: '{"goog_pem_mod":"501"}' },
+    { name: 'window.localStorage', value: '{"goog_pem_mod":"501"}' },
+    { name: 'window.localStorage', value: '{"goog_pem_mod":"501"}' },
+    { name: 'getItem', args: 'google_experiment_mod47', value: 'null' },
+    { name: 'setItem', args: 'google_experiment_mod47,10' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod47":"10","goog_pem_mod":"501"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod47', value: '10' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod47":"10","goog_pem_mod":"501"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod47', value: '10' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod47":"10","goog_pem_mod":"501"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod51', value: 'null' },
+    { name: 'setItem', args: 'google_experiment_mod51,657' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod47":"10","google_experiment_mod51":"657","goog_pem_mod":"501"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod34', value: 'null' },
+    { name: 'setItem', args: 'google_experiment_mod34,353' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod47":"10","goog_pem_mod":"501","google_experiment_mod51":"657","google_experiment_mod34":"353"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod34', value: '353' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod47":"10","goog_pem_mod":"501","google_experiment_mod51":"657","google_experiment_mod34":"353"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod50', value: 'null' },
+    { name: 'setItem', args: 'google_experiment_mod50,350' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod47":"10","goog_pem_mod":"501","google_experiment_mod50":"350","google_experiment_mod51":"657","google_experiment_mod34":"353"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod36', value: 'null' },
+    { name: 'setItem', args: 'google_experiment_mod36,237' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod36":"237","google_experiment_mod47":"10","goog_pem_mod":"501","google_experiment_mod50":"350","google_experiment_mod51":"657","google_experiment_mod34":"353"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod36', value: '237' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod36":"237","google_experiment_mod47":"10","goog_pem_mod":"501","google_experiment_mod50":"350","google_experiment_mod51":"657","google_experiment_mod34":"353"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod37', value: 'null' },
+    { name: 'setItem', args: 'google_experiment_mod37,242' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod36":"237","google_experiment_mod37":"242","google_experiment_mod47":"10","goog_pem_mod":"501","google_experiment_mod50":"350","google_experiment_mod51":"657","google_experiment_mod34":"353"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod37', value: '242' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod36":"237","google_experiment_mod37":"242","google_experiment_mod47":"10","goog_pem_mod":"501","google_experiment_mod50":"350","google_experiment_mod51":"657","google_experiment_mod34":"353"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod44', value: 'null' },
+    { name: 'setItem', args: 'google_experiment_mod44,355' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod37":"242","goog_pem_mod":"501","google_experiment_mod36":"237","google_experiment_mod47":"10","google_experiment_mod44":"355","google_experiment_mod50":"350","google_experiment_mod51":"657","google_experiment_mod34":"353"}'
+    },
+    { name: 'getItem', args: 'google_experiment_mod44', value: '355' },
+    { name: 'createElement', args: 'script', value: '{}' },
+    {
+      name: 'getElementsByTagName',
+      args: 'script',
+      value: '{"0":{},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{},"9":{},"10":{}}'
+    },
+    {
+      name: 'getElementsByTagName',
+      args: 'INS',
+      value: '{"0":{},"1":{}}'
+    },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod37":"242","goog_pem_mod":"501","google_experiment_mod36":"237","google_experiment_mod47":"10","google_experiment_mod44":"355","google_experiment_mod50":"350","google_experiment_mod51":"657","google_experiment_mod34":"353"}'
+    },
+    { name: 'getItem', args: 'google_adsense_settings', value: 'null' },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod37":"242","goog_pem_mod":"501","google_experiment_mod36":"237","google_experiment_mod47":"10","google_experiment_mod44":"355","google_experiment_mod50":"350","google_experiment_mod51":"657","google_experiment_mod34":"353"}'
+    },
+    { name: 'getItem', args: 'google_adsense_settings', value: 'null' },
+    { name: 'createElement', args: 'script', value: '{}' },
+    {
+      name: 'getElementsByTagName',
+      args: 'script',
+      value: '{"0":{},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{},"9":{},"10":{},"11":{}}'
+    },
+    {
+      name: 'getElementsByTagName',
+      args: 'INS',
+      value: '{"0":{},"1":{}}'
+    },
+    {
+      name: 'window.localStorage',
+      value: '{"google_experiment_mod37":"242","goog_pem_mod":"501","google_experiment_mod36":"237","google_experiment_mod47":"10","google_experiment_mod44":"355","google_experiment_mod50":"350","google_experiment_mod51":"657","google_experiment_mod34":"353"}'
+    },
+    { name: 'getItem', args: 'google_adsense_settings', value: 'null' }
+  ],
+  'https://pagead2.googlesyndication.com/pagead/js/r20200923/r20190131/show_ads_impl.js': []
+}

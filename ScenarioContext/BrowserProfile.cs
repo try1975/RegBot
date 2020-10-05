@@ -101,12 +101,25 @@ namespace ScenarioContext
             //_browser.Disconnected += Browser_Disconnected;
             _browser.Closed += _browser_Closed;
             var page = (await _browser.PagesAsync())[0];
+            //await page.SetRequestInterceptionAsync(true);
+            //page.Request += Page_Request;
+
+            //var headers = new Dictionary<string, string>();
+            //headers["RtttU"] = " you site";
+            //headers["Accept"] = "text/html";
+            //await page.SetExtraHttpHeadersAsync(headers);
             if (!string.IsNullOrEmpty(proxyArg) && !string.IsNullOrEmpty(ProxyRecord.Username) && !string.IsNullOrEmpty(ProxyRecord.Password))
             {
                 await page.AuthenticateAsync(new Credentials { Username = ProxyRecord.Username, Password = ProxyRecord.Password });
             }
             if (!string.IsNullOrEmpty(Timezone)) await page.EmulateTimezoneAsync(Timezone);
+            await page.EvaluateExpressionAsync("window.navigator.__defineGetter__('plugins', () => '');");
+            await page.EvaluateExpressionOnNewDocumentAsync("window.navigator.__defineGetter__('plugins', () => '');");
+            await page.EvaluateFunctionOnNewDocumentAsync
+
             if (!string.IsNullOrEmpty(StartUrl)) await page.GoToAsync(StartUrl, _navigationOptions);
+
+
             return _browser;
         }
 

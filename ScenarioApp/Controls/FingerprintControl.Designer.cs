@@ -123,7 +123,8 @@
             "https://whatismytimezone.com/",
             "https://whoer.net/",
             "https://panopticlick.eff.org/",
-            "https://arh.antoinevastel.com/bots/areyouheadless"});
+            "https://arh.antoinevastel.com/bots/areyouheadless",
+            "https://amiunique.org/"});
             this.cmbIpWeb.Location = new System.Drawing.Point(27, 60);
             this.cmbIpWeb.Name = "cmbIpWeb";
             this.cmbIpWeb.Size = new System.Drawing.Size(403, 28);
