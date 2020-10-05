@@ -1,0 +1,28 @@
+﻿(function () {
+    var refs = {};;
+    var aliases = {};
+    aliases["window.navigator.userAgent"] = eval("window.navigator.userAgent");
+    aliases["window.navigator"] = eval("window.navigator");
+    aliases["window.navigator.language"] = eval("window.navigator.language");
+    aliases["window.navigator.languages"] = eval("window.navigator.languages");
+    aliases["window.navigator.geolocation"] = eval("window.navigator.geolocation");
+    aliases["window.navigator.webkitTemporaryStorage"] = eval("window.navigator.webkitTemporaryStorage");
+    aliases["window.navigator.webkitPersistentStorage"] = eval("window.navigator.webkitPersistentStorage");
+    aliases["window.navigator.getBattery"] = eval("window.navigator.getBattery");
+    aliases["window.navigator.sendBeacon"] = eval("window.navigator.sendBeacon");
+    aliases["window.navigator.getGamepads"] = eval("window.navigator.getGamepads");
+    aliases["window.navigator.javaEnabled"] = eval("window.navigator.javaEnabled");
+    aliases["window.navigator.vibrate"] = eval("window.navigator.vibrate");
+    aliases["window.navigator.permissions"] = eval("window.navigator.permissions");
+    aliases["window.navigator.credentials"] = eval("window.navigator.credentials");
+    aliases["window.navigator.mediaDevices"] = eval("window.navigator.mediaDevices");
+    aliases["window.navigator.serviceWorker"] = eval("window.navigator.serviceWorker");
+    aliases["window.navigator.storage"] = eval("window.navigator.storage");
+    aliases["window.navigator.presentation"] = eval("window.navigator.presentation");
+    aliases["window.navigator.requestMediaKeySystemAccess"] = eval("window.navigator.requestMediaKeySystemAccess");
+    aliases["window.navigator.getUserMedia"] = eval("window.navigator.getUserMedia");
+    aliases["window.navigator.webkitGetUserMedia"] = eval("window.navigator.webkitGetUserMedia");
+    aliases["window.navigator.registerProtocolHandler"] = eval("window.navigator.registerProtocolHandler");
+    aliases["window.navigator.unregisterProtocolHandler"] = eval("window.navigator.unregisterProtocolHandler");
+    aliases["window.navigator.requestMIDIAccess"] = eval("window.navigator.requestMIDIAccess");;
+})();

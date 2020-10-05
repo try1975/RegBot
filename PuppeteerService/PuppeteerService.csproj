@@ -137,9 +137,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Data\fingerprint.json" />
+    <None Include="Data\Fingerprint202009281121.json" />
+    <None Include="Data\Fingerprint202009281132.json" />
+    <None Include="Data\FingerprintBAS.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\FingerprintBAS.js" />
     <Content Include="Data\puppeteer-bot.js.js" />
     <Content Include="UserAgents.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -92,13 +92,41 @@ namespace ScenarioContext
             _browser =  await Puppeteer.LaunchAsync(lanchOptions);
             _browser.Disconnected += Browser_Disconnected;
             var page = (await _browser.PagesAsync())[0];
+            //await page.SetRequestInterceptionAsync(true);
+            //page.Request += Page_Request;
+
+            //var headers = new Dictionary<string, string>();
+            //headers["RtttU"] = " you site";
+            //headers["Accept"] = "text/html";
+            //await page.SetExtraHttpHeadersAsync(headers);
             if (!string.IsNullOrEmpty(proxyArg) && !string.IsNullOrEmpty(ProxyRecord.Username) && !string.IsNullOrEmpty(ProxyRecord.Password))
             {
                 await page.AuthenticateAsync(new Credentials { Username = ProxyRecord.Username, Password = ProxyRecord.Password });
             }
             if (!string.IsNullOrEmpty(Timezone)) await page.EmulateTimezoneAsync(Timezone);
+            await page.EvaluateExpressionAsync("window.navigator.__defineGetter__('plugins', () => '');");
+            await page.EvaluateExpressionOnNewDocumentAsync("window.navigator.__defineGetter__('plugins', () => '');");
+            await page.EvaluateFunctionOnNewDocumentAsync
+
             if (!string.IsNullOrEmpty(StartUrl)) await page.GoToAsync(StartUrl, _navigationOptions);
+
+
             return _browser;
+        }
+
+        private void Page_Request(object sender, RequestEventArgs e)
+        {
+            var request = e.Request;
+            // Do nothing in case of non-navigation requests.
+            if (!request.IsNavigationRequest)
+            {
+                request.ContinueAsync();
+                return;
+            }
+            // Add a new header for navigation request.
+            var headers = request.Headers;
+            headers["Accept"] = "text/html";
+            request.ContinueAsync();
         }
 
         private void Browser_Disconnected(object sender, EventArgs e)
