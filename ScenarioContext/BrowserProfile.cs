@@ -113,11 +113,12 @@ namespace ScenarioContext
                 await page.AuthenticateAsync(new Credentials { Username = ProxyRecord.Username, Password = ProxyRecord.Password });
             }
             if (!string.IsNullOrEmpty(Timezone)) await page.EmulateTimezoneAsync(Timezone);
-            await page.EvaluateExpressionAsync("window.navigator.__defineGetter__('plugins', () => '');");
-            await page.EvaluateExpressionOnNewDocumentAsync("window.navigator.__defineGetter__('plugins', () => '');");
-            await page.EvaluateFunctionOnNewDocumentAsync
+            //await page.EvaluateExpressionAsync("window.navigator.__defineGetter__('plugins', () => '');");
+            await page.EvaluateExpressionOnNewDocumentAsync("window.navigator.__defineGetter__('plugins', () => []);");
+            //await page.EvaluateExpressionOnNewDocumentAsync(File.ReadAllText(@"C:\Projects\RegBot\Fingerprint.Classes\JavaScript1.js"));
 
-            if (!string.IsNullOrEmpty(StartUrl)) await page.GoToAsync(StartUrl, _navigationOptions);
+
+            //if (!string.IsNullOrEmpty(StartUrl)) await page.GoToAsync(StartUrl, _navigationOptions);
 
 
             return _browser;

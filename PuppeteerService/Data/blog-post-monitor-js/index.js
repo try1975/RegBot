@@ -4,7 +4,11 @@ var fs = require('fs');
 //const detectFingerprinting = require('./inject').detectFingerprinting;
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: false });
+  //const browser = await puppeteer.launch({ headless: false });
+  const browserWSEndpoint = 'ws://127.0.0.1:9222/devtools/browser/71a04b60-6ffc-4428-a770-1216ab32db66';
+  // Use the endpoint to reestablish a connection
+  const browser = await puppeteer.connect({browserWSEndpoint});
+
     const page = await browser.newPage();
     // In your puppeteer script, assuming the preload.js file is in same folder of our script
     //const preloadFile = fs.readFileSync('./inject.js', 'utf8');
