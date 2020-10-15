@@ -69,6 +69,10 @@
       <Project>{F45C44CF-2C70-4683-A36A-1154E2408F53}</Project>
       <Name>Common.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Fingerprint.Classes\Fingerprint.Classes.csproj">
+      <Project>{8983D256-F53A-4C6C-8F37-51046684A3CF}</Project>
+      <Name>Fingerprint.Classes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PuppeteerService\PuppeteerService.csproj">
       <Project>{D0103587-CA50-4EB7-BED4-99E2277F9001}</Project>
       <Name>PuppeteerService</Name>

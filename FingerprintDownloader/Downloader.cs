@@ -37,7 +37,7 @@ namespace FingerprintDownloader
             {
                 var path = Path.Combine(_fingerprintFolder, Path.GetRandomFileName());
                 var strFingerprint = await response.Content.ReadAsStringAsync();
-                var fingerprint = JsonConvert.DeserializeObject<Fingerprint>(strFingerprint, new JsonSerializerSettings
+                var fingerprint = JsonConvert.DeserializeObject<Fingerprint.Classes.Fingerprint>(strFingerprint, new JsonSerializerSettings
                 {
                     MissingMemberHandling = MissingMemberHandling.Ignore,
                     NullValueHandling = NullValueHandling.Ignore

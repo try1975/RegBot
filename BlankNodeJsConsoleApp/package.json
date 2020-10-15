@@ -1,0 +1,9 @@
+{
+  "name": "blank-node-js-console-app",
+  "version": "0.0.0",
+  "description": "BlankNodeJsConsoleApp",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  }
+}

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Fingerprint.Classes;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -16,11 +17,18 @@ namespace FingerprintToDb
                 {
                     services.AddLogging(configure => configure.AddConsole());
                     services.AddTransient<FingerprintToDbApplication>();
+                    services.AddSingleton<FingerprintStore>();
                 })
                 .ConfigureAppConfiguration((context, builder) =>
                 {
                     builder.AddJsonFile("FingerprintToDb.json", optional: false);
                 })
+                //.ConfigureLogging(logging =>
+                //{
+                //    logging.ClearProviders();
+                //    logging.AddConsole();
+                //    //logging.
+                //})
                 .UseConsoleLifetime();
 
             var host = builder.Build();
@@ -30,7 +38,7 @@ namespace FingerprintToDb
                 try
                 {
                     var myService = services.GetRequiredService<FingerprintToDbApplication>();
-                    var result = await myService.Run();
+                    var result = await  myService.Run();
                     Console.WriteLine(result);
                 }
                 catch (Exception exeption)

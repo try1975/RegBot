@@ -52,7 +52,6 @@ namespace ScenarioContext
 
         public IEnumerable<IBrowserProfile> GetBrowserProfiles() => _browserProfiles;
 
-
         public void SaveProfiles() => File.WriteAllText(_profilesJsonPath, JsonConvert.SerializeObject(_browserProfiles), System.Text.Encoding.UTF8);
 
         public void RemoveByFolder(string folder)

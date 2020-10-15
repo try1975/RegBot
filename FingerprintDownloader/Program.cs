@@ -31,7 +31,7 @@ namespace FingerprintDownloader
                 var services = serviceScope.ServiceProvider;
 
                 var configuration = services.GetRequiredService<IConfiguration>();
-                var threadCount = Int32.Parse(configuration["ThreadCount"]);
+                var threadCount = int.Parse(configuration["ThreadCount"]);
 
                 var myService = services.GetRequiredService<Downloader>();
                 for (int i = 0; i < threadCount; i++)

@@ -78,6 +78,7 @@ https://best-proxies.ru/proxylist/free/
 https://habr.com/ru/post/506356/
 https://github.com/Snawoot/dumbproxy#using-http-over-tls-proxy
 https://chromium.googlesource.com/chromium/src/+/HEAD/net/docs/proxy.md#SOCKSv4-proxy-scheme
+https://proxys.io/ru
 
 fingerprint
 https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra
@@ -115,6 +116,7 @@ https://github.com/DIVERSIFY-project/amiunique
 https://github.com/joue-quroi/canvas-fingerprint-blocker/blob/master/firefox/data/inject.js
 http://f.vision/
 https://fingerprintjs.com/demo
+https://habr.com/ru/company/oleg-bunin/blog/321294/
 
 BAS fingerprint
 https://fingerprints.bablosoft.com/#capabilities
@@ -159,6 +161,12 @@ https://hal.inria.fr/hal-01527580/document
 https://www.technadu.com/webrtc/99645/ WebRTC
 https://habr.com/ru/company/jugru/blog/487294/
 https://www.technadu.com/vpn-tor-virtual-machine-internet-anonymity/8760/
+https://ipleak.com/full-report/
 
 fakes
 https://github.com/danielmiessler/SecLists
+
+facebook
+https://cpa.rip/facebook/facebook-api-ban/
+https://cpa.rip/services/dont-farm-facebook-account/
+https://cpa.rip/facebook/canvas-webgl-webrtc-2/

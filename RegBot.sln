@@ -75,11 +75,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyTester", "ProxyTester\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckHost", "CheckHost\CheckHost.csproj", "{52A82C5B-E372-4662-854C-1D570CEFD334}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FingerprintDownloader", "FingerprintDownloader\FingerprintDownloader.csproj", "{876608B5-61BF-4F93-9261-AA2F0BA5C555}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FingerprintDownloader", "FingerprintDownloader\FingerprintDownloader.csproj", "{876608B5-61BF-4F93-9261-AA2F0BA5C555}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FingerprintToDb", "FingerprintToDb\FingerprintToDb.csproj", "{AA22D981-28D6-4E49-808B-489C86640313}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FingerprintToDb", "FingerprintToDb\FingerprintToDb.csproj", "{AA22D981-28D6-4E49-808B-489C86640313}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingerprint.Classes", "Fingerprint.Classes\Fingerprint.Classes.csproj", "{8983D256-F53A-4C6C-8F37-51046684A3CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fingerprint.Classes", "Fingerprint.Classes\Fingerprint.Classes.csproj", "{8983D256-F53A-4C6C-8F37-51046684A3CF}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "BlankNodeJsConsoleApp", "BlankNodeJsConsoleApp\BlankNodeJsConsoleApp.njsproj", "{20E930B8-013B-4EDA-B47E-3E07B9C340F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CallNodeJsFromCore", "CallNodeJsFromCore\CallNodeJsFromCore.csproj", "{75F1B22C-CA44-47BB-AF28-34277B3F4F08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -203,6 +207,14 @@ Global
 		{8983D256-F53A-4C6C-8F37-51046684A3CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8983D256-F53A-4C6C-8F37-51046684A3CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8983D256-F53A-4C6C-8F37-51046684A3CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20E930B8-013B-4EDA-B47E-3E07B9C340F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20E930B8-013B-4EDA-B47E-3E07B9C340F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20E930B8-013B-4EDA-B47E-3E07B9C340F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20E930B8-013B-4EDA-B47E-3E07B9C340F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75F1B22C-CA44-47BB-AF28-34277B3F4F08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75F1B22C-CA44-47BB-AF28-34277B3F4F08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75F1B22C-CA44-47BB-AF28-34277B3F4F08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75F1B22C-CA44-47BB-AF28-34277B3F4F08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -242,6 +254,8 @@ Global
 		{876608B5-61BF-4F93-9261-AA2F0BA5C555} = {06643A4E-1B31-4DDF-A313-9083C5AE23CF}
 		{AA22D981-28D6-4E49-808B-489C86640313} = {06643A4E-1B31-4DDF-A313-9083C5AE23CF}
 		{8983D256-F53A-4C6C-8F37-51046684A3CF} = {06643A4E-1B31-4DDF-A313-9083C5AE23CF}
+		{20E930B8-013B-4EDA-B47E-3E07B9C340F1} = {06643A4E-1B31-4DDF-A313-9083C5AE23CF}
+		{75F1B22C-CA44-47BB-AF28-34277B3F4F08} = {06643A4E-1B31-4DDF-A313-9083C5AE23CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BFA7B51-BBAA-46FB-A909-78364E794607}

@@ -271,3 +271,4 @@ __pycache__/
 /ScenarioContext/Profiles/profiles.json
 /RegBot/PuppeteerService/Data/blog-post-monitor-js/*.*
 /FingerprintDownloader/Custom.json
+/FingerprintToDb/FingerprintToDb.json

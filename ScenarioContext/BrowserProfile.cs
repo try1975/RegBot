@@ -1,5 +1,9 @@
 ﻿using Common.Service;
 using Common.Service.Interfaces;
+using Fingerprint.Classes;
+using log4net;
+using log4net.Repository.Hierarchy;
+using Newtonsoft.Json;
 using PuppeteerSharp;
 using System;
 using System.Collections.Generic;
@@ -8,9 +12,10 @@ using System.Threading.Tasks;
 
 namespace ScenarioContext
 {
-    public class BrowserProfile: IBrowserProfile
+    public class BrowserProfile : IBrowserProfile
     {
         #region Fields&Properties
+        private static readonly ILog Log = LogManager.GetLogger(typeof(BrowserProfile));
         private Browser _browser;
         private string _webSocketEndpoint;
         protected static readonly NavigationOptions _navigationOptions = new NavigationOptions
@@ -27,25 +32,34 @@ namespace ScenarioContext
         public string Timezone { get; set; }
         public ProxyRecord ProxyRecord { get; set; }
         public int RemoteDebuggingPort { get; set; }
+
+        private Fingerprint.Classes.Fingerprint _fingerprint {get;set;}
+
         #endregion
 
         public BrowserProfile()
         {
             ProxyRecord = new ProxyRecord();
-            RemoteDebuggingPort = 9222;
+            RemoteDebuggingPort = 0;
+        }
+        private Fingerprint.Classes.Fingerprint GetFingerprint(string profilesPath)
+        {
+            var path = Path.Combine(profilesPath, Folder, "fingerprint.json");
+            if (!File.Exists(path)) return null;
+            return JsonConvert.DeserializeObject<Fingerprint.Classes.Fingerprint>(File.ReadAllText(path));
         }
 
         public async Task<Browser> ProfileStart(string chromiumPath, string profilesPath)
         {
             if (_browser != null) return _browser;
-            
+            _fingerprint = GetFingerprint(profilesPath);
             var args = new List<string>();
             if (!string.IsNullOrEmpty(UserAgent)) args.Add($@"--user-agent=""{UserAgent}""");
             if (!string.IsNullOrEmpty(Language)) args.Add($"--lang={Language}");
-            if(RemoteDebuggingPort>0) args.Add($"--remote-debugging-port={RemoteDebuggingPort}");
+            if (RemoteDebuggingPort > 0) args.Add($"--remote-debugging-port={RemoteDebuggingPort}");
 
             var proxyArg = ProxyRecord.GetProxyArg();
-            if(!string.IsNullOrEmpty(proxyArg)) args.Add(proxyArg);
+            if (!string.IsNullOrEmpty(proxyArg)) args.Add(proxyArg);
 
             args.Add("--disable-webgl"); args.Add("--disable-3d-apis");
             /*
@@ -83,45 +97,133 @@ namespace ScenarioContext
                 Load https://* URLs using the HTTP proxy "proxy1:80". And load http://*
                 URLs using the SOCKS v4 proxy "baz:1080".
              */
-
+            //var viewPortOptions = new ViewPortOptions { IsLandscape = true };
+            if (_fingerprint != null)
+            {
+                //viewPortOptions = new ViewPortOptions();
+                //viewPortOptions.Height = _fingerprint.height;
+                //viewPortOptions.Width = _fingerprint.width;
+                //viewPortOptions.DeviceScaleFactor = 1.5;
+                args.Add($"--window-size={_fingerprint.width},{_fingerprint.height}");
+            }
             var lanchOptions = new LaunchOptions
             {
                 Headless = false,
                 ExecutablePath = chromiumPath,
-                DefaultViewport = new ViewPortOptions { IsLandscape = true },
+                //DefaultViewport = viewPortOptions,
                 IgnoreHTTPSErrors = true,
                 SlowMo = 10,
                 UserDataDir = Path.Combine(profilesPath, Folder),
                 Args = args.ToArray()
             };
-           
-            _browser =  await Puppeteer.LaunchAsync(lanchOptions);
+
+            _browser = await Puppeteer.LaunchAsync(lanchOptions);
+
+            //_browser.TargetCreated += _browser_TargetCreated;
+            //_browser.TargetChanged += _browser_TargetChanged;
+
             _webSocketEndpoint = _browser.WebSocketEndpoint;
             //await Puppeteer.ConnectAsync(new ConnectOptions());
             //_browser.Disconnected += Browser_Disconnected;
             _browser.Closed += _browser_Closed;
             var page = (await _browser.PagesAsync())[0];
+            await page.SetRequestInterceptionAsync(true);
+            //page.Console += Page_Console;
+            //await page.SetViewportAsync();
             //await page.SetRequestInterceptionAsync(true);
             //page.Request += Page_Request;
 
-            //var headers = new Dictionary<string, string>();
-            //headers["RtttU"] = " you site";
-            //headers["Accept"] = "text/html";
-            //await page.SetExtraHttpHeadersAsync(headers);
+            var headers = new Dictionary<string, string>();
+            headers["RtttU"] = " you site";
+            headers["Accept"] = "text/html";
+            await page.SetExtraHttpHeadersAsync(headers);
             if (!string.IsNullOrEmpty(proxyArg) && !string.IsNullOrEmpty(ProxyRecord.Username) && !string.IsNullOrEmpty(ProxyRecord.Password))
             {
                 await page.AuthenticateAsync(new Credentials { Username = ProxyRecord.Username, Password = ProxyRecord.Password });
             }
             if (!string.IsNullOrEmpty(Timezone)) await page.EmulateTimezoneAsync(Timezone);
-            //await page.EvaluateExpressionAsync("window.navigator.__defineGetter__('plugins', () => '');");
-            await page.EvaluateExpressionOnNewDocumentAsync("window.navigator.__defineGetter__('plugins', () => []);");
+            //await page.EvaluateExpressionAsync("window.navigator.__defineGetter__('platform', () => 'Linux armv8l');");
+            //await page.EvaluateExpressionOnNewDocumentAsync("window.navigator.__defineGetter__('plugins', () => []);");
+            //await page.EvaluateExpressionOnNewDocumentAsync("window.navigator.__defineGetter__('platform', () => 'Linux armv8l');");
             //await page.EvaluateExpressionOnNewDocumentAsync(File.ReadAllText(@"C:\Projects\RegBot\Fingerprint.Classes\JavaScript1.js"));
-
-
-            //if (!string.IsNullOrEmpty(StartUrl)) await page.GoToAsync(StartUrl, _navigationOptions);
-
+            RunScriptOnPage(page);
+            if (!string.IsNullOrEmpty(StartUrl)) await page.GoToAsync(StartUrl, _navigationOptions);
+            //var session = await page.Target.CreateCDPSessionAsync();
+            //await session.SendAsync("Emulation.setPageScaleFactor", new { pageScaleFactor= 4 });
 
             return _browser;
+        }
+
+        private void Page_Console(object sender, ConsoleEventArgs e)
+        {
+            Log.Info($"Console message - {e.Message}");
+        }
+
+        private async void _browser_TargetChanged(object sender, TargetChangedArgs e)
+        {
+            try
+            {
+                var page = await e.Target.PageAsync();
+                if (page != null)
+                {
+                    RunScriptOnPage(page);
+                }
+            }
+            catch { }
+        }
+
+        private async void _browser_TargetCreated(object sender, TargetChangedArgs e)
+        {
+            try
+            {
+                var page = await e.Target.PageAsync();
+                if (page != null)
+                {
+                    RunScriptOnPage(page);
+                }
+            }
+            catch { }
+        }
+
+        private async void RunScriptOnPage(Page page)
+        {
+            return;
+            if (_fingerprint == null) return;
+            #region navigator.platfrom
+            var navigatorplatform = _fingerprint.attr?.navigatorplatform;
+            //await page.EvaluateExpressionOnNewDocumentAsync($"window.navigator.__defineGetter__('platform', () => '{navigatorplatform}');");
+
+            await page.EvaluateFunctionOnNewDocumentAsync(
+                @"(platform) => {
+                    Object.defineProperties(navigator, {
+                    platform:
+                        {
+                            get() { return platform; }
+                        },
+                    });
+                }", navigatorplatform); 
+            #endregion
+
+            var navigatorhardwareConcurrency = _fingerprint.attr?.navigatorhardwareConcurrency;
+            //await page.EvaluateExpressionOnNewDocumentAsync($"window.navigator.__defineGetter__('hardwareConcurrency', () => '{navigatorhardwareConcurrency}');");
+
+            var screenheight = _fingerprint.attr?.screenheight;
+            if (screenheight.HasValue) await page.EvaluateExpressionOnNewDocumentAsync($"window.screen.__defineGetter__('height', () => '{screenheight}');");
+            var screenwidth = _fingerprint.attr?.screenwidth;
+            if (screenwidth.HasValue) await page.EvaluateExpressionOnNewDocumentAsync($"window.screen.__defineGetter__('width', () => '{screenwidth}');");
+
+            var overrideNavigatorLanguages = @"Object.defineProperty(navigator, 'languages', {
+                                                  get: function() {
+                                                    return ['en-US', 'en', 'bn'];
+                                                  };
+                                                });";
+            await page.EvaluateExpressionOnNewDocumentAsync(overrideNavigatorLanguages);
+
+            //navigatorhardwareConcurrency = 18;
+            //await page.EvaluateFunctionOnNewDocumentAsync(@"(hardwareConcurrency) => {
+            //        window.navigator.__defineGetter__('hardwareConcurrency', () => hardwareConcurrency);
+            //        }", navigatorhardwareConcurrency);
+
         }
 
         private void _browser_Closed(object sender, EventArgs e)

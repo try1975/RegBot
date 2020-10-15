@@ -117,7 +117,7 @@ namespace ScenarioApp.Controls
             {
                 // Get a collection (or create, if doesn't exist)
                 var col = db.GetCollection<IAccountData>("AccountsData");
-                col.Delete(x => x.Id == id);
+                col.Delete(id);
             }
         }
 

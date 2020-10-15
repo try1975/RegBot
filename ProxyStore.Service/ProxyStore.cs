@@ -117,7 +117,7 @@ namespace ProxyStore.Service
             using (var db = new LiteDatabase(_connectionString))
             {
                 var col = db.GetCollection<IProxyData>(CollectionName);
-                return col.Delete(x => x.Id == id) == 1 ? true : false;
+                return col.Delete(id);
             }
         }
 
