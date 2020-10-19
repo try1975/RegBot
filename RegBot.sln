@@ -83,7 +83,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fingerprint.Classes", "Fing
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "BlankNodeJsConsoleApp", "BlankNodeJsConsoleApp\BlankNodeJsConsoleApp.njsproj", "{20E930B8-013B-4EDA-B47E-3E07B9C340F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CallNodeJsFromCore", "CallNodeJsFromCore\CallNodeJsFromCore.csproj", "{75F1B22C-CA44-47BB-AF28-34277B3F4F08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CallNodeJsFromCore", "CallNodeJsFromCore\CallNodeJsFromCore.csproj", "{75F1B22C-CA44-47BB-AF28-34277B3F4F08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ig.Bot", "Ig.Bot\Ig.Bot.csproj", "{A7A495D3-82B7-4DAD-9315-544BD7742CD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -215,6 +217,10 @@ Global
 		{75F1B22C-CA44-47BB-AF28-34277B3F4F08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75F1B22C-CA44-47BB-AF28-34277B3F4F08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75F1B22C-CA44-47BB-AF28-34277B3F4F08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7A495D3-82B7-4DAD-9315-544BD7742CD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7A495D3-82B7-4DAD-9315-544BD7742CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7A495D3-82B7-4DAD-9315-544BD7742CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7A495D3-82B7-4DAD-9315-544BD7742CD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -256,6 +262,7 @@ Global
 		{8983D256-F53A-4C6C-8F37-51046684A3CF} = {06643A4E-1B31-4DDF-A313-9083C5AE23CF}
 		{20E930B8-013B-4EDA-B47E-3E07B9C340F1} = {06643A4E-1B31-4DDF-A313-9083C5AE23CF}
 		{75F1B22C-CA44-47BB-AF28-34277B3F4F08} = {06643A4E-1B31-4DDF-A313-9083C5AE23CF}
+		{A7A495D3-82B7-4DAD-9315-544BD7742CD3} = {2FB54F5D-8C42-4451-A235-279D2E6AD95D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BFA7B51-BBAA-46FB-A909-78364E794607}

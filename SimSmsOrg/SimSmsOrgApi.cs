@@ -64,7 +64,10 @@ namespace SimSmsOrg
             //_services[ServiceCode.Vk] = "vk";
             _services[ServiceCode.Ok] = "mg";
             //_services[ServiceCode.Ok] = "ok";
-
+            _services[ServiceCode.Instagram] = "ig";
+            _services[ServiceCode.Twitter] = "tw";
+            _services[ServiceCode.Telegram] = "tg";
+            //http://simsms.org/new_theme_api.html
 
 
             CountryParams[CountryCode.RU] = "0";
@@ -155,6 +158,9 @@ namespace SimSmsOrg
             _servicesAlt[ServiceCode.Facebook] = "opt2";
             _servicesAlt[ServiceCode.Vk] = "opt4";
             _servicesAlt[ServiceCode.Ok] = "opt4";
+            _servicesAlt[ServiceCode.Instagram] = "opt16";
+            _servicesAlt[ServiceCode.Twitter] = "opt41";
+            _servicesAlt[ServiceCode.Telegram] = "opt29";
 
             foreach (CountryCode countryCode in Enum.GetValues(typeof(CountryCode)))
             {

@@ -54,6 +54,10 @@ namespace OnlineSimRu
             _services[ServiceCode.Facebook] = "facebook";
             _services[ServiceCode.Vk] = "VKcom";
             _services[ServiceCode.Ok] = "Odklru";
+            _services[ServiceCode.Instagram] = "instagram";
+            _services[ServiceCode.Twitter] = "7";
+            _services[ServiceCode.Telegram] = "telegram";
+            //https://onlinesim.ru/docs/api/ru#getservice
         }
 
         #region OnlineSim API

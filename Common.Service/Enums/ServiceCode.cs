@@ -8,6 +8,9 @@
         Other,
         Facebook,
         Vk,
-        Ok
+        Ok,
+        Instagram,
+        Twitter,
+        Telegram
     }
 }

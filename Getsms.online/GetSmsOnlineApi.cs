@@ -53,6 +53,10 @@ namespace GetSmsOnline
             _services[ServiceCode.Facebook] = "fb";
             _services[ServiceCode.Vk] = "vk";
             _services[ServiceCode.Ok] = "ok";
+            _services[ServiceCode.Instagram] = "ig";
+            _services[ServiceCode.Twitter] = "tw";
+            _services[ServiceCode.Telegram] = "tg";
+            //https://getsms.online/ru/api.html
             #endregion
         }
 

@@ -493,6 +493,10 @@
       <Project>{6a78cf28-6c28-4090-a414-329fbe8a91f0}</Project>
       <Name>Gmail.Bot</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ig.Bot\Ig.Bot.csproj">
+      <Project>{a7a495d3-82b7-4dad-9315-544bd7742cd3}</Project>
+      <Name>Ig.Bot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ip2location\Ip2location.csproj">
       <Project>{D198493D-A76F-45BA-9DFC-6E98521527F3}</Project>
       <Name>Ip2location</Name>

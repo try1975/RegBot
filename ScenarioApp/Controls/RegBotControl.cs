@@ -10,6 +10,7 @@ using MailRu.Bot;
 using Newtonsoft.Json;
 using NickBuhro.Translit;
 using Ok.Bot;
+using Ig.Bot;
 using PuppeteerService;
 using PuppeteerSharp;
 using ScenarioApp.Controls.Interfaces;
@@ -66,6 +67,7 @@ namespace ScenarioApp.Controls
             btnFacebook.Click += BtnFacebook_Click;
             btnVk.Click += BtnVk_Click;
             btnOk.Click += BtnOk_Click;
+            btnInstagram.Click += BtnInstagram_Click;
             btnGenerateEn.Click += BtnGenerateEn_Click;
             btnGenerateRu.Click += BtnGenerateRu_Click;
 
@@ -145,7 +147,7 @@ namespace ScenarioApp.Controls
             if (accountData.Sex == SexCode.Female) rbFemale.Checked = true;
         }
 
-        private IAccountData CreateEmailAccountDataFromUi()
+        private IAccountData CreateAccountDataFromUi()
         {
             return new EmailAccountData
             {
@@ -244,7 +246,7 @@ namespace ScenarioApp.Controls
                 }
                 textBox1.AppendText($@"{Enum.GetName(typeof(ServiceCode), serviceCode)} start... - {DateTime.Now} {Environment.NewLine}");
                 IBot iBot = null;
-                var accountData = CreateEmailAccountDataFromUi();
+                var accountData = CreateAccountDataFromUi();
                 if (string.IsNullOrEmpty(accountData.AccountName))
                 {
                     accountData.AccountName = Transliteration.CyrillicToLatin($"{accountData.Firstname.ToLower()}.{accountData.Lastname.ToLower()}", Language.Russian);
@@ -276,6 +278,9 @@ namespace ScenarioApp.Controls
                         break;
                     case ServiceCode.Ok:
                         iBot = new OkRegistration(accountData, smsService, chromiumSettings);
+                        break;
+                    case ServiceCode.Instagram:
+                        iBot = new InstagramRegistration(accountData, smsService, chromiumSettings);
                         break;
                 }
                 if (countryCode == null) countryCode = ((CountryItem)cmbCountry.SelectedItem).CountryCode;
@@ -321,7 +326,8 @@ namespace ScenarioApp.Controls
         {
             if (cbSmsAuto.Checked && cbCountryAuto.Checked) return null;
             var smsServiceInfoCondition = new SmsServiceInfoCondition { ServiceCode = serviceCode };
-            if (!cbCountryAuto.Checked) {
+            if (!cbCountryAuto.Checked)
+            {
                 smsServiceInfoCondition.CountryCodes = new List<CountryCode>
                 {
                     ((CountryItem)cmbCountry.SelectedItem).CountryCode
@@ -394,6 +400,13 @@ namespace ScenarioApp.Controls
             var smsServiceInfoCondition = GetSmsServiceInfoCondition(ServiceCode.Ok);
             if (smsServiceInfoCondition != null) TryRegister(await _smsServices.GetServiceInfoList(smsServiceInfoCondition));
             else await Demo(ServiceCode.Ok, byPhone: true);
+        }
+
+        private async void BtnInstagram_Click(object sender, EventArgs e)
+        {
+            var smsServiceInfoCondition = GetSmsServiceInfoCondition(ServiceCode.Instagram);
+            if (smsServiceInfoCondition != null) TryRegister(await _smsServices.GetServiceInfoList(smsServiceInfoCondition));
+            else await Demo(ServiceCode.Instagram, byPhone: true);
         }
 
         private void BtnGenerateEn_Click(object sender, EventArgs e)

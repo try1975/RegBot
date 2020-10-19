@@ -110,6 +110,9 @@ namespace ScenarioApp.Controls
             if (rbFacebook.Checked) serviceCode = ServiceCode.Facebook;
             if (rbVk.Checked) serviceCode = ServiceCode.Vk;
             if (rbOk.Checked) serviceCode = ServiceCode.Ok;
+            if (rbIg.Checked) serviceCode = ServiceCode.Instagram;
+            if (rbTw.Checked) serviceCode = ServiceCode.Twitter;
+            if (rbTg.Checked) serviceCode = ServiceCode.Telegram;
             return serviceCode;
         }
 

@@ -1,40 +1,25 @@
 ﻿using Common.Service.Enums;
-using System;
+using System.Collections.Generic;
 
 namespace Common.Service
 {
     public static class ServiceDomains
     {
-        public static string GetDomain(ServiceCode serviceCode)
+        public static Dictionary<ServiceCode, string> domains;
+        static ServiceDomains()
         {
-            var domain = string.Empty;
-            switch (serviceCode)
-            {
-                case ServiceCode.MailRu:
-                    domain = "mail.ru";
-                    break;
-                case ServiceCode.Yandex:
-                    domain = "yandex.ru";
-                    break;
-                case ServiceCode.Gmail:
-                    domain = "gmail.com";
-                    break;
-                case ServiceCode.Other:
-                    break;
-                case ServiceCode.Facebook:
-                    domain = "facebook.com";
-                    break;
-                case ServiceCode.Vk:
-                    domain = "vk.com";
-                    break;
-                case ServiceCode.Ok:
-                    domain = "ok.ru";
-                    break;
-                default:
-                    new Exception($"No domain for serviceCode {serviceCode} in {nameof(ServiceDomains)}");
-                    break;
-            }
-            return domain;
+            domains = new Dictionary<ServiceCode, string>() {
+                { ServiceCode.MailRu, "mail.ru" },
+                { ServiceCode.Yandex, "yandex.ru" },
+                { ServiceCode.Gmail, "gmail.com" },
+                { ServiceCode.Other, string.Empty },
+                { ServiceCode.Facebook, "facebook.com" },
+                { ServiceCode.Vk, "vk.com" },
+                { ServiceCode.Instagram, "instagram.com" },
+                { ServiceCode.Twitter, "twitter.com" },
+                { ServiceCode.Telegram, "telegram.org" }
+            };
         }
+        public static string GetDomain(ServiceCode serviceCode) => domains.TryGetValue(serviceCode, out string domain) ? domain : string.Empty;
     }
 }

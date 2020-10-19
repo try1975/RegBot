@@ -37,6 +37,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel3 = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.pnlOneProxy = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.btnGenerateRu = new System.Windows.Forms.Button();
@@ -69,7 +70,7 @@
             this.lblCountry = new System.Windows.Forms.Label();
             this.cmbCountry = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.pnlOneProxy = new System.Windows.Forms.Panel();
+            this.btnInstagram = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -146,9 +147,9 @@
             // 
             this.panel3.Controls.Add(this.textBox1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(3, 377);
+            this.panel3.Location = new System.Drawing.Point(3, 467);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1423, 424);
+            this.panel3.Size = new System.Drawing.Size(1423, 334);
             this.panel3.TabIndex = 5;
             // 
             // textBox1
@@ -158,8 +159,16 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(1423, 424);
+            this.textBox1.Size = new System.Drawing.Size(1423, 334);
             this.textBox1.TabIndex = 1;
+            // 
+            // pnlOneProxy
+            // 
+            this.pnlOneProxy.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlOneProxy.Location = new System.Drawing.Point(3, 347);
+            this.pnlOneProxy.Name = "pnlOneProxy";
+            this.pnlOneProxy.Size = new System.Drawing.Size(1423, 120);
+            this.pnlOneProxy.TabIndex = 2;
             // 
             // panel1
             // 
@@ -169,7 +178,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1423, 274);
+            this.panel1.Size = new System.Drawing.Size(1423, 344);
             this.panel1.TabIndex = 3;
             // 
             // panel6
@@ -190,7 +199,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(428, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(711, 274);
+            this.panel6.Size = new System.Drawing.Size(711, 344);
             this.panel6.TabIndex = 26;
             // 
             // btnGenerateRu
@@ -308,6 +317,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.btnInstagram);
             this.panel5.Controls.Add(this.btnOk);
             this.panel5.Controls.Add(this.btnYandexPhone);
             this.panel5.Controls.Add(this.btnMailRuEmail);
@@ -319,7 +329,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(428, 274);
+            this.panel5.Size = new System.Drawing.Size(428, 344);
             this.panel5.TabIndex = 25;
             // 
             // btnOk
@@ -405,7 +415,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox1.Location = new System.Drawing.Point(1139, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(284, 274);
+            this.groupBox1.Size = new System.Drawing.Size(284, 344);
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Телефон";
@@ -479,13 +489,14 @@
             this.tabControl1.Size = new System.Drawing.Size(1437, 837);
             this.tabControl1.TabIndex = 3;
             // 
-            // pnlOneProxy
+            // btnInstagram
             // 
-            this.pnlOneProxy.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlOneProxy.Location = new System.Drawing.Point(3, 277);
-            this.pnlOneProxy.Name = "pnlOneProxy";
-            this.pnlOneProxy.Size = new System.Drawing.Size(1423, 100);
-            this.pnlOneProxy.TabIndex = 2;
+            this.btnInstagram.Location = new System.Drawing.Point(20, 262);
+            this.btnInstagram.Name = "btnInstagram";
+            this.btnInstagram.Size = new System.Drawing.Size(189, 48);
+            this.btnInstagram.TabIndex = 30;
+            this.btnInstagram.Text = "instagram.com";
+            this.btnInstagram.UseVisualStyleBackColor = true;
             // 
             // RegBotControl
             // 
@@ -556,5 +567,6 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.CheckBox cbCountryAuto;
         private System.Windows.Forms.Panel pnlOneProxy;
+        private System.Windows.Forms.Button btnInstagram;
     }
 }
