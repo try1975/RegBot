@@ -33,7 +33,7 @@ namespace ScenarioContext
         public ProxyRecord ProxyRecord { get; set; }
         public int RemoteDebuggingPort { get; set; }
 
-        private Fingerprint.Classes.Fingerprint _fingerprint {get;set;}
+        private Fingerprint.Classes.Fingerprint _fingerprint { get; set; }
 
         #endregion
 
@@ -61,56 +61,59 @@ namespace ScenarioContext
             var proxyArg = ProxyRecord.GetProxyArg();
             if (!string.IsNullOrEmpty(proxyArg)) args.Add(proxyArg);
 
-            args.Add("--disable-webgl"); args.Add("--disable-3d-apis");
+            args.Add("--disable-webgl");
+            args.Add("--disable-3d-apis");
+            #region proxy info
             /*
-             --proxy-server=host:port
-          Specify the HTTP/SOCKS4/SOCKS5 proxy server to use for requests.  This overrides any environment variables or settings picked via the options dialog.  An individual
-          proxy server is specified using the format:
+                 --proxy-server=host:port
+              Specify the HTTP/SOCKS4/SOCKS5 proxy server to use for requests.  This overrides any environment variables or settings picked via the options dialog.  An individual
+              proxy server is specified using the format:
 
-            [<proxy-scheme>://]<proxy-host>[:<proxy-port>]
+                [<proxy-scheme>://]<proxy-host>[:<proxy-port>]
 
-          Where <proxy-scheme> is the protocol of the proxy server, and is one of:
+              Where <proxy-scheme> is the protocol of the proxy server, and is one of:
 
-            "http", "socks", "socks4", "socks5".
+                "http", "socks", "socks4", "socks5".
 
-          If the <proxy-scheme> is omitted, it defaults to "http". Also note that "socks" is equivalent to "socks5".
+              If the <proxy-scheme> is omitted, it defaults to "http". Also note that "socks" is equivalent to "socks5".
 
-          Examples:
+              Examples:
 
-            --proxy-server="foopy:99"
-                Use the HTTP proxy "foopy:99" to load all URLs.
+                --proxy-server="foopy:99"
+                    Use the HTTP proxy "foopy:99" to load all URLs.
 
-            --proxy-server="socks://foobar:1080"
-                Use the SOCKS v5 proxy "foobar:1080" to load all URLs.
+                --proxy-server="socks://foobar:1080"
+                    Use the SOCKS v5 proxy "foobar:1080" to load all URLs.
 
-            --proxy-server="sock4://foobar:1080"
-                Use the SOCKS v4 proxy "foobar:1080" to load all URLs.
+                --proxy-server="sock4://foobar:1080"
+                    Use the SOCKS v4 proxy "foobar:1080" to load all URLs.
 
-            --proxy-server="socks5://foobar:66"
-                Use the SOCKS v5 proxy "foobar:66" to load all URLs.
+                --proxy-server="socks5://foobar:66"
+                    Use the SOCKS v5 proxy "foobar:66" to load all URLs.
 
-          It is also possible to specify a separate proxy server for different URL types, by prefixing the proxy server specifier with a URL specifier:
+              It is also possible to specify a separate proxy server for different URL types, by prefixing the proxy server specifier with a URL specifier:
 
-          Example:
+              Example:
 
-            --proxy-server="https=proxy1:80;http=socks4://baz:1080"
-                Load https://* URLs using the HTTP proxy "proxy1:80". And load http://*
-                URLs using the SOCKS v4 proxy "baz:1080".
-             */
-            //var viewPortOptions = new ViewPortOptions { IsLandscape = true };
+                --proxy-server="https=proxy1:80;http=socks4://baz:1080"
+                    Load https://* URLs using the HTTP proxy "proxy1:80". And load http://*
+                    URLs using the SOCKS v4 proxy "baz:1080".
+                 */
+            #endregion
+            var viewPortOptions = new ViewPortOptions { IsLandscape = true };
             if (_fingerprint != null)
             {
-                //viewPortOptions = new ViewPortOptions();
-                //viewPortOptions.Height = _fingerprint.height;
-                //viewPortOptions.Width = _fingerprint.width;
-                //viewPortOptions.DeviceScaleFactor = 1.5;
+                viewPortOptions = new ViewPortOptions();
+                viewPortOptions.Height = _fingerprint.height;
+                viewPortOptions.Width = _fingerprint.width;
+                viewPortOptions.DeviceScaleFactor = _fingerprint.attr.windowdevicePixelRatio;
                 args.Add($"--window-size={_fingerprint.width},{_fingerprint.height}");
             }
             var lanchOptions = new LaunchOptions
             {
                 Headless = false,
                 ExecutablePath = chromiumPath,
-                //DefaultViewport = viewPortOptions,
+                DefaultViewport = viewPortOptions,
                 IgnoreHTTPSErrors = true,
                 SlowMo = 10,
                 UserDataDir = Path.Combine(profilesPath, Folder),
@@ -119,33 +122,30 @@ namespace ScenarioContext
 
             _browser = await Puppeteer.LaunchAsync(lanchOptions);
 
-            //_browser.TargetCreated += _browser_TargetCreated;
-            //_browser.TargetChanged += _browser_TargetChanged;
+            _browser.TargetCreated += Browser_TargetCreated;
+            _browser.TargetChanged += Browser_TargetChanged;
 
             _webSocketEndpoint = _browser.WebSocketEndpoint;
             //await Puppeteer.ConnectAsync(new ConnectOptions());
-            //_browser.Disconnected += Browser_Disconnected;
-            _browser.Closed += _browser_Closed;
+            _browser.Disconnected += Browser_Disconnected;
+            _browser.Closed += Browser_Closed;
             var page = (await _browser.PagesAsync())[0];
-            await page.SetRequestInterceptionAsync(true);
+            //await page.SetRequestInterceptionAsync(true);
             //page.Console += Page_Console;
             //await page.SetViewportAsync();
             //await page.SetRequestInterceptionAsync(true);
             //page.Request += Page_Request;
 
-            var headers = new Dictionary<string, string>();
-            headers["RtttU"] = " you site";
-            headers["Accept"] = "text/html";
-            await page.SetExtraHttpHeadersAsync(headers);
+            //var headers = new Dictionary<string, string>();
+            //headers["RtttU"] = " you site";
+            //headers["Accept"] = "text/html";
+            //await page.SetExtraHttpHeadersAsync(headers);
             if (!string.IsNullOrEmpty(proxyArg) && !string.IsNullOrEmpty(ProxyRecord.Username) && !string.IsNullOrEmpty(ProxyRecord.Password))
             {
                 await page.AuthenticateAsync(new Credentials { Username = ProxyRecord.Username, Password = ProxyRecord.Password });
             }
             if (!string.IsNullOrEmpty(Timezone)) await page.EmulateTimezoneAsync(Timezone);
-            //await page.EvaluateExpressionAsync("window.navigator.__defineGetter__('platform', () => 'Linux armv8l');");
-            //await page.EvaluateExpressionOnNewDocumentAsync("window.navigator.__defineGetter__('plugins', () => []);");
-            //await page.EvaluateExpressionOnNewDocumentAsync("window.navigator.__defineGetter__('platform', () => 'Linux armv8l');");
-            //await page.EvaluateExpressionOnNewDocumentAsync(File.ReadAllText(@"C:\Projects\RegBot\Fingerprint.Classes\JavaScript1.js"));
+
             RunScriptOnPage(page);
             if (!string.IsNullOrEmpty(StartUrl)) await page.GoToAsync(StartUrl, _navigationOptions);
             //var session = await page.Target.CreateCDPSessionAsync();
@@ -153,43 +153,13 @@ namespace ScenarioContext
 
             return _browser;
         }
-
-        private void Page_Console(object sender, ConsoleEventArgs e)
-        {
-            Log.Info($"Console message - {e.Message}");
-        }
-
-        private async void _browser_TargetChanged(object sender, TargetChangedArgs e)
-        {
-            try
-            {
-                var page = await e.Target.PageAsync();
-                if (page != null)
-                {
-                    RunScriptOnPage(page);
-                }
-            }
-            catch { }
-        }
-
-        private async void _browser_TargetCreated(object sender, TargetChangedArgs e)
-        {
-            try
-            {
-                var page = await e.Target.PageAsync();
-                if (page != null)
-                {
-                    RunScriptOnPage(page);
-                }
-            }
-            catch { }
-        }
-
+        
         private async void RunScriptOnPage(Page page)
         {
-            return;
             if (_fingerprint == null) return;
+
             #region navigator.platfrom
+
             var navigatorplatform = _fingerprint.attr?.navigatorplatform;
             //await page.EvaluateExpressionOnNewDocumentAsync($"window.navigator.__defineGetter__('platform', () => '{navigatorplatform}');");
 
@@ -201,7 +171,7 @@ namespace ScenarioContext
                             get() { return platform; }
                         },
                     });
-                }", navigatorplatform); 
+                }", navigatorplatform);
             #endregion
 
             var navigatorhardwareConcurrency = _fingerprint.attr?.navigatorhardwareConcurrency;
@@ -224,9 +194,45 @@ namespace ScenarioContext
             //        window.navigator.__defineGetter__('hardwareConcurrency', () => hardwareConcurrency);
             //        }", navigatorhardwareConcurrency);
 
+            //await page.EvaluateExpressionAsync("window.navigator.__defineGetter__('platform', () => 'Linux armv8l');");
+            //await page.EvaluateExpressionOnNewDocumentAsync("window.navigator.__defineGetter__('plugins', () => []);");
+            //await page.EvaluateExpressionOnNewDocumentAsync("window.navigator.__defineGetter__('platform', () => 'Linux armv8l');");
+            //await page.EvaluateExpressionOnNewDocumentAsync(File.ReadAllText(@"C:\Projects\RegBot\Fingerprint.Classes\JavaScript1.js"));
+
         }
 
-        private void _browser_Closed(object sender, EventArgs e)
+        private void Page_Console(object sender, ConsoleEventArgs e)
+        {
+            Log.Info($"Console message - {e.Message}");
+        }
+
+        private async void Browser_TargetChanged(object sender, TargetChangedArgs e)
+        {
+            try
+            {
+                var page = await e.Target.PageAsync();
+                if (page != null)
+                {
+                    RunScriptOnPage(page);
+                }
+            }
+            catch { }
+        }
+
+        private async void Browser_TargetCreated(object sender, TargetChangedArgs e)
+        {
+            try
+            {
+                var page = await e.Target.PageAsync();
+                if (page != null)
+                {
+                    RunScriptOnPage(page);
+                }
+            }
+            catch { }
+        }
+
+        private void Browser_Closed(object sender, EventArgs e)
         {
             _browser = null;
         }
