@@ -30,6 +30,7 @@ using System.Windows.Forms;
 using Vk.Bot;
 using Yandex.Bot;
 using Tw.Bot;
+using ScenarioContext;
 
 namespace ScenarioApp.Controls
 {
@@ -41,14 +42,16 @@ namespace ScenarioApp.Controls
         private readonly string connectionString;
         private readonly ISmsServices _smsServices;
         private readonly IOneProxyControl _oneProxyControl;
+        private readonly IBrowserProfileService _browserProfileService;
         #endregion
 
-        public RegBotControl(ISmsServices smsServices, IOneProxyControl oneProxyControl)
+        public RegBotControl(ISmsServices smsServices, IOneProxyControl oneProxyControl, IBrowserProfileService browserProfileService)
         {
             InitializeComponent();
 
             _smsServices = smsServices;
             _oneProxyControl = oneProxyControl;
+            _browserProfileService = browserProfileService;
             GetRandomAccountData(CountryCode.RU);
 
             cmbCountry.DataSource = CountryItem.GetCountryItems();
@@ -285,7 +288,8 @@ namespace ScenarioApp.Controls
                         iBot = new InstagramRegistration(accountData, smsService, chromiumSettings);
                         break;
                     case ServiceCode.Twitter:
-                        iBot = new TwitterRegistration(accountData, smsService, chromiumSettings);
+                        //iBot = new TwitterRegistration(accountData, smsService, chromiumSettings);
+                        iBot = new TwitterRegistration(accountData, smsService, _browserProfileService);
                         break;
                 }
                 if (countryCode == null) countryCode = ((CountryItem)cmbCountry.SelectedItem).CountryCode;

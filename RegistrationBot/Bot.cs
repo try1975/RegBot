@@ -7,6 +7,7 @@ using PuppeteerService;
 using PuppeteerSharp;
 using PuppeteerSharp.Input;
 using PuppeteerSharp.Mobile;
+using ScenarioContext;
 using System;
 using System.Threading.Tasks;
 
@@ -19,6 +20,8 @@ namespace RegistrationBot
         protected readonly IAccountData _data;
         protected readonly ISmsService _smsService;
         protected readonly IChromiumSettings _chromiumSettings;
+        protected readonly IBrowserProfileService _browserProfileService;
+        protected string _folder { get; private set; }
         protected string _requestId;
         protected string _countryPrefix;
         protected static readonly TypeOptions _typeOptions = new TypeOptions { Delay = 50 };
@@ -26,15 +29,26 @@ namespace RegistrationBot
         {
             WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Load/*, WaitUntilNavigation.Networkidle2*/ }
         };
+
         #endregion
 
-        protected Bot(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings)
+        private Bot(IAccountData data, ISmsService smsService)
         {
             _data = data;
             _data.Domain = ServiceDomains.GetDomain(GetServiceCode());
             _smsService = smsService;
+        }
+
+        protected Bot(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings) : this(data, smsService)
+        {
             _chromiumSettings = chromiumSettings;
             _chromiumSettings.ServiceCode = GetServiceCode();
+        }
+
+        protected Bot(IAccountData data, ISmsService smsService, IBrowserProfileService browserProfileService, string folder) : this(data, smsService)
+        {
+            _browserProfileService = browserProfileService;
+            _folder = folder;
         }
 
         public async Task<IAccountData> Registration(CountryCode countryCode)
@@ -43,8 +57,26 @@ namespace RegistrationBot
             {
                 _countryPrefix = PhoneServiceStore.CountryPrefixes[countryCode];
                 if (!string.IsNullOrEmpty(await SmsServiceInit(countryCode))) return _data;
-                using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
-                using (var page = await PageInit(browser)) await StartRegistration(page);
+                if (_chromiumSettings != null)
+                {
+                    using (var browser = await PuppeteerBrowser.GetBrowser(_chromiumSettings.GetPath(), _chromiumSettings.GetHeadless(), _chromiumSettings.GetArgs()))
+                    using (var page = await PageInit(browser)) await StartRegistration(page);
+                }
+                else if (!string.IsNullOrEmpty(_folder))
+                {
+                    using (var browser = await _browserProfileService.StartProfile(_folder))
+                    using (var page = await PageInit(browser)) await StartRegistration(page);
+                }
+                else
+                {
+                    var browserProfile = _browserProfileService.GetNew();
+                    _folder = browserProfile.Folder;
+                    browserProfile.Name += $"{_data.Domain}: {_data.AccountName}/{_data.Password}";
+                    _browserProfileService.Add(browserProfile);
+                    _browserProfileService.SaveProfiles();
+                    using (var browser = await _browserProfileService.StartProfile(_folder))
+                    using (var page = await PageInit(browser)) await StartRegistration(page);
+                }
             }
             catch (Exception exception)
             {
@@ -98,7 +130,7 @@ namespace RegistrationBot
             //    await page.EmulateAsync(Puppeteer.Devices[deviceDescriptorName]);
             //}
             #endregion
-            await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
+            if (_chromiumSettings != null) await PuppeteerBrowser.Authenticate(page, _chromiumSettings.Proxy);
             await page.GoToAsync(GetRegistrationUrl(), _navigationOptions);
             return page;
         }

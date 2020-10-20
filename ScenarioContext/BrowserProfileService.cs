@@ -48,7 +48,15 @@ namespace ScenarioContext
             _browserProfiles.Add((BrowserProfile)browserProfile);
             return browserProfile.Folder;
         }
-        public IBrowserProfile GetNew() => new BrowserProfile { Folder = Path.GetRandomFileName() };
+        public IBrowserProfile GetNew()
+        {
+            var folder = Path.GetRandomFileName();
+            var browserProfile = new BrowserProfile { Folder = folder };
+            var path = Path.Combine(_profilesPath, folder);
+            Directory.CreateDirectory(path);
+            // copy fingerprint
+            return browserProfile;
+        }
 
         public IEnumerable<IBrowserProfile> GetBrowserProfiles() => _browserProfiles;
 
@@ -68,7 +76,7 @@ namespace ScenarioContext
             {
                 Log.Error($"{exception}");
             }
-            
+
         }
 
         public Task<Browser> StartProfile(string folder)

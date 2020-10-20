@@ -12,7 +12,7 @@ namespace ScenarioApp.Controls
     public partial class BrowserProfilesControl : UserControl, IBrowserProfilesControl
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(BrowserProfilesControl));
-        private readonly IBrowserProfileService _browserProfilesService;
+        private readonly IBrowserProfileService _browserProfileService;
         private readonly IBrowserProfileControl _browserProfileControl;
         private readonly BindingSource bindingSource;
         private readonly IEnumerable<IBrowserProfile> browserProfiles;
@@ -28,9 +28,9 @@ namespace ScenarioApp.Controls
             }
         }
 
-        public BrowserProfilesControl(IBrowserProfileService browserProfilesService, IBrowserProfileControl browserProfileControl)
+        public BrowserProfilesControl(IBrowserProfileService browserProfileService, IBrowserProfileControl browserProfileControl)
         {
-            _browserProfilesService = browserProfilesService;
+            _browserProfileService = browserProfileService;
             _browserProfileControl = browserProfileControl;
 
             InitializeComponent();
@@ -41,7 +41,7 @@ namespace ScenarioApp.Controls
 
             label1.Text = nameof(BrowserProfilesControl);
 
-            browserProfiles = _browserProfilesService.GetBrowserProfiles();
+            browserProfiles = _browserProfileService.GetBrowserProfiles();
             bindingSource = new BindingSource
             {
                 DataSource = browserProfiles
@@ -56,14 +56,14 @@ namespace ScenarioApp.Controls
 
         private void BtnNewBrowserProfile_Click(object sender, EventArgs e)
         {
-            IBrowserProfile browserProfile = _browserProfilesService.GetNew();
+            IBrowserProfile browserProfile = _browserProfileService.GetNew();
             var childForm = new ChildForm();
             _browserProfileControl.SetData(browserProfile);
             childForm.AddControlToWorkArea((Control)_browserProfileControl);
             if (childForm.ShowDialog() == DialogResult.OK)
             {
-                _browserProfilesService.Add(browserProfile);
-                _browserProfilesService.SaveProfiles();
+                _browserProfileService.Add(browserProfile);
+                _browserProfileService.SaveProfiles();
                 bindingSource.ResetBindings(false);
                 //datagridview1.Update();
                 //datagridview1.Refresh();
@@ -81,7 +81,7 @@ namespace ScenarioApp.Controls
                 childForm.AddControlToWorkArea((Control)_browserProfileControl);
                 if (childForm.ShowDialog() == DialogResult.OK)
                 {
-                    _browserProfilesService.SaveProfiles();
+                    _browserProfileService.SaveProfiles();
                     bindingSource.ResetBindings(false);
                 }
             }
@@ -94,8 +94,8 @@ namespace ScenarioApp.Controls
             if (browserProfile == null) return;
             var confirmResult = MessageBox.Show($"Вы уверены, что хотите удалить профиль {browserProfile.Name} ??", "Подтвердите удаление!!", MessageBoxButtons.YesNo);
             if (confirmResult != DialogResult.Yes) return;
-            _browserProfilesService.RemoveByFolder(browserProfile.Folder);
-            _browserProfilesService.SaveProfiles();
+            _browserProfileService.RemoveByFolder(browserProfile.Folder);
+            _browserProfileService.SaveProfiles();
             bindingSource.ResetBindings(false);
         }
 
@@ -105,7 +105,7 @@ namespace ScenarioApp.Controls
             var browserProfile = browserProfiles.FirstOrDefault(z => z.Folder.Equals(Folder));
             try
             {
-                if (browserProfile != null) await _browserProfilesService.StartProfile(browserProfile.Folder);
+                if (browserProfile != null) await _browserProfileService.StartProfile(browserProfile.Folder);
             }
             catch (Exception exception)
             {

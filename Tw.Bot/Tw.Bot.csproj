@@ -66,6 +66,10 @@
       <Project>{a09103d8-91c1-4e52-8bf4-4eb693d46c40}</Project>
       <Name>RegistrationBot</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ScenarioContext\ScenarioContext.csproj">
+      <Project>{769BE3EC-6D20-4D3D-A340-8E8F9D22593B}</Project>
+      <Name>ScenarioContext</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

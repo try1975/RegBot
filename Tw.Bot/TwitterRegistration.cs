@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
 using PuppeteerSharp.Input;
+using ScenarioContext;
 using System;
 using System.Threading.Tasks;
 
@@ -22,6 +23,9 @@ namespace Tw.Bot
         {
             _chromiumSettings.Proxy = _chromiumSettings.GetProxy(ServiceCode.Ok);
         }
+
+        public TwitterRegistration(IAccountData data, ISmsService smsService, IBrowserProfileService browserProfileService, string folder = "") : base(data, smsService, browserProfileService, folder)
+        { }
 
         protected override ServiceCode GetServiceCode() => ServiceCode.Twitter;
         protected override string GetRegistrationUrl() => RegistrationUrl;
