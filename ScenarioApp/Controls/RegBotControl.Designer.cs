@@ -71,6 +71,7 @@
             this.cmbCountry = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.btnInstagram = new System.Windows.Forms.Button();
+            this.btnTwitter = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -317,6 +318,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.btnTwitter);
             this.panel5.Controls.Add(this.btnInstagram);
             this.panel5.Controls.Add(this.btnOk);
             this.panel5.Controls.Add(this.btnYandexPhone);
@@ -498,6 +500,15 @@
             this.btnInstagram.Text = "instagram.com";
             this.btnInstagram.UseVisualStyleBackColor = true;
             // 
+            // btnTwitter
+            // 
+            this.btnTwitter.Location = new System.Drawing.Point(214, 262);
+            this.btnTwitter.Name = "btnTwitter";
+            this.btnTwitter.Size = new System.Drawing.Size(189, 48);
+            this.btnTwitter.TabIndex = 31;
+            this.btnTwitter.Text = "twitter.com";
+            this.btnTwitter.UseVisualStyleBackColor = true;
+            // 
             // RegBotControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -568,5 +579,6 @@
         private System.Windows.Forms.CheckBox cbCountryAuto;
         private System.Windows.Forms.Panel pnlOneProxy;
         private System.Windows.Forms.Button btnInstagram;
+        private System.Windows.Forms.Button btnTwitter;
     }
 }

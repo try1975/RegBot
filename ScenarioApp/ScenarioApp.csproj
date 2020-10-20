@@ -541,6 +541,10 @@
       <Project>{be0efc1b-f2b3-4a83-8647-2d14b53dd4ad}</Project>
       <Name>SimSmsOrg</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tw.Bot\Tw.Bot.csproj">
+      <Project>{84047731-7061-4FAB-9665-B9FB70FC6EBB}</Project>
+      <Name>Tw.Bot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Vk.Bot\Vk.Bot.csproj">
       <Project>{6c3fa7e0-1f96-4e49-958b-78dfbc7f0926}</Project>
       <Name>Vk.Bot</Name>

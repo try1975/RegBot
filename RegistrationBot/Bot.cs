@@ -65,7 +65,7 @@ namespace RegistrationBot
             }
             PhoneNumberRequest phoneNumberRequest = null;
             phoneNumberRequest = await _smsService.GetPhoneNumber(countryCode, GetServiceCode());
-            phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
+            //phoneNumberRequest = new PhoneNumberRequest { Id = "444", Phone = "79163848169" };
             if (phoneNumberRequest == null)
             {
                 _data.ErrMsg = BotMessages.NoPhoneNumberMessage;

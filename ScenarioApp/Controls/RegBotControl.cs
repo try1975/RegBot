@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vk.Bot;
 using Yandex.Bot;
+using Tw.Bot;
 
 namespace ScenarioApp.Controls
 {
@@ -68,6 +69,7 @@ namespace ScenarioApp.Controls
             btnVk.Click += BtnVk_Click;
             btnOk.Click += BtnOk_Click;
             btnInstagram.Click += BtnInstagram_Click;
+            btnTwitter.Click += BtnTwitter_Click;
             btnGenerateEn.Click += BtnGenerateEn_Click;
             btnGenerateRu.Click += BtnGenerateRu_Click;
 
@@ -282,6 +284,9 @@ namespace ScenarioApp.Controls
                     case ServiceCode.Instagram:
                         iBot = new InstagramRegistration(accountData, smsService, chromiumSettings);
                         break;
+                    case ServiceCode.Twitter:
+                        iBot = new TwitterRegistration(accountData, smsService, chromiumSettings);
+                        break;
                 }
                 if (countryCode == null) countryCode = ((CountryItem)cmbCountry.SelectedItem).CountryCode;
                 if (iBot != null)
@@ -407,6 +412,13 @@ namespace ScenarioApp.Controls
             var smsServiceInfoCondition = GetSmsServiceInfoCondition(ServiceCode.Instagram);
             if (smsServiceInfoCondition != null) TryRegister(await _smsServices.GetServiceInfoList(smsServiceInfoCondition));
             else await Demo(ServiceCode.Instagram, byPhone: true);
+        }
+
+        private async void BtnTwitter_Click(object sender, EventArgs e)
+        {
+            var smsServiceInfoCondition = GetSmsServiceInfoCondition(ServiceCode.Twitter);
+            if (smsServiceInfoCondition != null) TryRegister(await _smsServices.GetServiceInfoList(smsServiceInfoCondition));
+            else await Demo(ServiceCode.Twitter, byPhone: true);
         }
 
         private void BtnGenerateEn_Click(object sender, EventArgs e)

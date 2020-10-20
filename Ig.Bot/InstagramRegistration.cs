@@ -2,10 +2,12 @@
 using Common.Service.Enums;
 using Common.Service.Interfaces;
 using log4net;
+using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
 using PuppeteerSharp.Input;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -40,9 +42,10 @@ namespace Ig.Bot
             if (!string.IsNullOrEmpty(_data.ErrMsg)) return;
             await FillBirtDate(page);
             if (!string.IsNullOrEmpty(_data.ErrMsg)) return;
+            await FillSms(page);
+            await page.WaitForNavigationAsync();
+            _data.Success = true;
         }
-
-        
 
         private async Task FillPhone(Page page)
         {
@@ -65,35 +68,69 @@ namespace Ig.Bot
             await eUsername.TypeAsync(_data.AccountName, _typeOptions);
 
             var ePassword = await page.QuerySelectorAsync("input[name='password'");
-            await eUsername.ClickAsync();
-            await eUsername.TypeAsync(_data.Password, _typeOptions);
+            await ePassword.ClickAsync();
+            await ePassword.TypeAsync(_data.Password, _typeOptions);
 
-            //var eBirthday = await page.QuerySelectorAsync("input#field_birthday");
-            //await eBirthday.ClickAsync();
-
-            //var eYear = await page.QuerySelectorAsync("select.ui-datepicker-year");
-            //await eYear.ClickAsync();
-            //await eYear.SelectAsync($"{_data.BirthDate.Year}");
-
-            //var eMonth = await page.QuerySelectorAsync("select.ui-datepicker-month");
-            //await eMonth.ClickAsync();
-            //await eMonth.SelectAsync($"{_data.BirthDate.Month - 1}");
-
-            //var eDays = await page.QuerySelectorAllAsync("a.ui-state-default:not(.ui-priority-secondary)");
-            //await eDays[_data.BirthDate.Day - 1].ClickAsync();
-
-            //await page.WaitForTimeoutAsync(500);
-            //var eSex = await page.QuerySelectorAllAsync("span.btn-group_i_t");
-            //if (_data.Sex == SexCode.Male) { await eSex[0].ClickAsync(); }
-            //if (_data.Sex == SexCode.Female) { await eSex[1].ClickAsync(); await eSex[1].ClickAsync(); }
             await page.WaitForTimeoutAsync(500);
             await ClickSubmit(page);
+            await page.WaitForTimeoutAsync(1000);
         }
 
         private async Task FillBirtDate(Page page)
         {
             if (!string.IsNullOrEmpty(_data.ErrMsg)) return;
+            try
+            {
+                var elements = await page.QuerySelectorAllAsync("select[title]");
+                var eMonth = elements[0];
+                await eMonth.SelectAsync($"{_data.BirthDate.Month}");
+                await page.WaitForTimeoutAsync(500);
+
+                var eDay = elements[1];
+                await eDay.SelectAsync($"{_data.BirthDate.Day}");
+                await page.WaitForTimeoutAsync(500);
+
+                var eYear = elements[2];
+                await eYear.SelectAsync($"{_data.BirthDate.Year}");
+                await page.WaitForTimeoutAsync(1000);
+
+                var buttons = await page.QuerySelectorAllAsync("button[type='button']");
+                await buttons[1].ClickAsync();
+                await page.WaitForTimeoutAsync(1000);
+            }
+            catch (Exception exception)
+            {
+                Log.Error($"{exception}");
+                _data.ErrMsg = $"{exception}";
+            }
         }
+
+        private async Task FillSms(Page page)
+        {
+            if (!string.IsNullOrEmpty(_data.ErrMsg)) return;
+            
+            var eSmsInput = await page.WaitForSelectorAsync("input[name='confirmationCode']");
+            if (eSmsInput != null)
+            {
+                var phoneNumberValidation = await _smsService.GetSmsValidation(_requestId);
+                Log.Info($"phoneNumberValidation: {JsonConvert.SerializeObject(phoneNumberValidation)}");
+                if (phoneNumberValidation != null)
+                {
+                    await _smsService.SetSmsValidationSuccess(_requestId);
+                    // enter sms code
+                    await eSmsInput.TypeAsync(phoneNumberValidation.Code, _typeOptions);
+                    var buttons = await page.QuerySelectorAsync("button[type='button']");
+                    await buttons.ClickAsync();
+                    await page.WaitForTimeoutAsync(500);
+                }
+                else
+                {
+                    _data.ErrMsg = BotMessages.PhoneNumberNotRecieveSms;
+                    await _smsService.SetNumberFail(_requestId);
+                }
+            }
+        }
+
         private static async Task ClickSubmit(Page page)
         {
             var elSignUp = await page.QuerySelectorAsync("button[type=submit]");
