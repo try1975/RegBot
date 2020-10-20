@@ -485,6 +485,10 @@
       <Project>{dd86ee13-6653-491d-8726-b20692c3445c}</Project>
       <Name>Facebook.Bot</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Fingerprint.Classes\Fingerprint.Classes.csproj">
+      <Project>{8983d256-f53a-4c6c-8f37-51046684a3cf}</Project>
+      <Name>Fingerprint.Classes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Getsms.online\GetSmsOnline.csproj">
       <Project>{1d1e05c8-006d-4bb8-88c1-96b6a23e1110}</Project>
       <Name>GetSmsOnline</Name>

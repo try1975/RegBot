@@ -1,29 +1,34 @@
 ﻿using LiteDB;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Fingerprint.Classes
 {
-    public class FingerprintStore
+    public class FingerprintStore : IFingerprintStore
     {
-        private readonly ILogger<FingerprintStore> _logger;
-        //private readonly Logger<FingerprintStore> _liteLogger;
+       // private readonly ILogger<FingerprintStore> _logger;
         private readonly string _connectionString;
-        private readonly string _collectionName;
-        public FingerprintStore(ILogger<FingerprintStore> logger, IConfiguration configuration)
+        private readonly string _collectionName = nameof(Fingerprint);
+        private readonly Random  rnd = new Random();
+
+        //public FingerprintStore(ILogger<FingerprintStore> logger, IConfiguration configuration)
+        //{
+        //    _logger = logger;
+        //    _connectionString = configuration["connectionString"];
+        //}
+
+        public FingerprintStore(string connectionString)
         {
-            _logger = logger;
-            //_liteLogger = new Logger(level: Logger.QUERY, _liteLogger_Logging);
-            _connectionString = configuration["connectionString"];
-            _collectionName = nameof(Fingerprint);
+            _connectionString = connectionString;
         }
 
-        private void _liteLogger_Logging(string message)
+        public Fingerprint GetRandom()
         {
-            _logger.LogInformation(message);
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var col = db.GetCollection<Fingerprint>(_collectionName);
+                var offset = rnd.Next(0, col.Count());
+                return col.Query().Limit(1).Offset(offset).SingleOrDefault();
+            }
         }
 
         public Fingerprint StoreData(Fingerprint fingerprint)

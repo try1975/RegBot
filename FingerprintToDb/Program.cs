@@ -13,15 +13,15 @@ namespace FingerprintToDb
         static async Task<int> Main(string[] args)
         {
             var builder = Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    builder.AddJsonFile("FingerprintToDb.json", optional: false);
+                })
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddLogging(configure => configure.AddConsole());
                     services.AddTransient<FingerprintToDbApplication>();
                     services.AddSingleton<FingerprintStore>();
-                })
-                .ConfigureAppConfiguration((context, builder) =>
-                {
-                    builder.AddJsonFile("FingerprintToDb.json", optional: false);
                 })
                 //.ConfigureLogging(logging =>
                 //{

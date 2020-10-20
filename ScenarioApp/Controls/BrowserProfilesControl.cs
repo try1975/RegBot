@@ -64,10 +64,8 @@ namespace ScenarioApp.Controls
             {
                 _browserProfileService.Add(browserProfile);
                 _browserProfileService.SaveProfiles();
-                bindingSource.ResetBindings(false);
-                //datagridview1.Update();
-                //datagridview1.Refresh();
             }
+            bindingSource.ResetBindings(false);
         }
 
         private void BtnEditBrowserProfile_Click(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 ﻿using CheckHost;
 using Common.Classes;
 using Common.Service.Interfaces;
+using Fingerprint.Classes;
 using Ip2location;
 using IpCommon;
 using Ninject.Modules;
@@ -33,6 +34,8 @@ namespace ScenarioApp.Ninject
             Bind<IUserAgentProvider>().ToConstant(userAgentGenerator);
             var proxyStore = new ProxyStore.Service.ProxyStore(Path.Combine(startupPath, ConfigurationManager.AppSettings["DbPath"]), startupPath);
             Bind<IProxyStore>().ToConstant(proxyStore);
+            var fingerprintStore = new FingerprintStore(Path.Combine(startupPath, ConfigurationManager.AppSettings["FingerprintDbPath"]));
+            Bind<IFingerprintStore>().ToConstant(fingerprintStore);
 
             Bind<IChromiumSettings>().To<ChromiumSettings>().InTransientScope()/*.InSingletonScope()*/
                 .WithConstructorArgument(nameof(chromiumPath), chromiumPath);

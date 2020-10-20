@@ -1,4 +1,5 @@
 ﻿using Common.Service;
+using Fingerprint.Classes;
 using log4net;
 using Newtonsoft.Json;
 using PuppeteerSharp;
@@ -17,11 +18,13 @@ namespace ScenarioContext
         private readonly List<BrowserProfile> _browserProfiles;
         private readonly string _chromiumPath;
         private readonly string _profilesPath;
+        private readonly IFingerprintStore _fingerprintStore;
 
-        public BrowserProfileService(string chromiumPath, string profilesPath)
+        public BrowserProfileService(string chromiumPath, string profilesPath, IFingerprintStore fingerprintStore)
         {
             _chromiumPath = chromiumPath;
             _profilesPath = profilesPath;
+            _fingerprintStore = fingerprintStore;
             _profilesJsonPath = Path.Combine(_profilesPath, "profiles.json");
             try
             {
@@ -55,6 +58,13 @@ namespace ScenarioContext
             var path = Path.Combine(_profilesPath, folder);
             Directory.CreateDirectory(path);
             // copy fingerprint
+            path = Path.Combine(path, "fingerprint.json");
+            var fingerprint = _fingerprintStore.GetRandom();
+            if (fingerprint != null)
+            {
+                browserProfile.UserAgent = fingerprint.ua;
+                File.WriteAllText(path, JsonConvert.SerializeObject(fingerprint));
+            }
             return browserProfile;
         }
 
