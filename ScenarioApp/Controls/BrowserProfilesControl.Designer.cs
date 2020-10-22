@@ -32,10 +32,11 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnDeleteBrowserProfile = new System.Windows.Forms.Button();
             this.btnEditBrowserProfile = new System.Windows.Forms.Button();
             this.btnBrowserProfileStart = new System.Windows.Forms.Button();
             this.btnNewBrowserProfile = new System.Windows.Forms.Button();
-            this.btnDeleteBrowserProfile = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -62,7 +63,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(978, 335);
+            this.dataGridView1.Size = new System.Drawing.Size(1181, 335);
             this.dataGridView1.TabIndex = 1;
             // 
             // panel1
@@ -71,11 +72,12 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 100);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(978, 335);
+            this.panel1.Size = new System.Drawing.Size(1181, 335);
             this.panel1.TabIndex = 2;
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnRefresh);
             this.panel2.Controls.Add(this.btnDeleteBrowserProfile);
             this.panel2.Controls.Add(this.btnEditBrowserProfile);
             this.panel2.Controls.Add(this.btnBrowserProfileStart);
@@ -84,8 +86,17 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(978, 100);
+            this.panel2.Size = new System.Drawing.Size(1181, 100);
             this.panel2.TabIndex = 3;
+            // 
+            // btnDeleteBrowserProfile
+            // 
+            this.btnDeleteBrowserProfile.Location = new System.Drawing.Point(623, 32);
+            this.btnDeleteBrowserProfile.Name = "btnDeleteBrowserProfile";
+            this.btnDeleteBrowserProfile.Size = new System.Drawing.Size(171, 44);
+            this.btnDeleteBrowserProfile.TabIndex = 4;
+            this.btnDeleteBrowserProfile.Text = "Удалить профиль";
+            this.btnDeleteBrowserProfile.UseVisualStyleBackColor = true;
             // 
             // btnEditBrowserProfile
             // 
@@ -114,14 +125,14 @@
             this.btnNewBrowserProfile.Text = "Новый профиль";
             this.btnNewBrowserProfile.UseVisualStyleBackColor = true;
             // 
-            // btnDeleteBrowserProfile
+            // btnRefresh
             // 
-            this.btnDeleteBrowserProfile.Location = new System.Drawing.Point(623, 32);
-            this.btnDeleteBrowserProfile.Name = "btnDeleteBrowserProfile";
-            this.btnDeleteBrowserProfile.Size = new System.Drawing.Size(171, 44);
-            this.btnDeleteBrowserProfile.TabIndex = 4;
-            this.btnDeleteBrowserProfile.Text = "Удалить профиль";
-            this.btnDeleteBrowserProfile.UseVisualStyleBackColor = true;
+            this.btnRefresh.Location = new System.Drawing.Point(971, 32);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(165, 44);
+            this.btnRefresh.TabIndex = 5;
+            this.btnRefresh.Text = "Обновить";
+            this.btnRefresh.UseVisualStyleBackColor = true;
             // 
             // BrowserProfilesControl
             // 
@@ -130,7 +141,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Name = "BrowserProfilesControl";
-            this.Size = new System.Drawing.Size(978, 435);
+            this.Size = new System.Drawing.Size(1181, 435);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
@@ -149,5 +160,6 @@
         private System.Windows.Forms.Button btnBrowserProfileStart;
         private System.Windows.Forms.Button btnEditBrowserProfile;
         private System.Windows.Forms.Button btnDeleteBrowserProfile;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }

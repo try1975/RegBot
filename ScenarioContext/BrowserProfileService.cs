@@ -13,12 +13,14 @@ namespace ScenarioContext
 {
     public class BrowserProfileService : IBrowserProfileService
     {
+        #region fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(BrowserProfileService));
         private readonly string _profilesJsonPath;
         private readonly List<BrowserProfile> _browserProfiles;
         private readonly string _chromiumPath;
         private readonly string _profilesPath;
-        private readonly IFingerprintStore _fingerprintStore;
+        private readonly IFingerprintStore _fingerprintStore; 
+        #endregion
 
         public BrowserProfileService(string chromiumPath, string profilesPath, IFingerprintStore fingerprintStore)
         {
@@ -51,6 +53,7 @@ namespace ScenarioContext
             _browserProfiles.Add((BrowserProfile)browserProfile);
             return browserProfile.Folder;
         }
+        
         public IBrowserProfile GetNew()
         {
             var folder = Path.GetRandomFileName();

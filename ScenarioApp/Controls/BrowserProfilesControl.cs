@@ -38,6 +38,7 @@ namespace ScenarioApp.Controls
             btnEditBrowserProfile.Click += BtnEditBrowserProfile_Click;
             btnDeleteBrowserProfile.Click += BtnDeleteBrowserProfile_Click;
             btnBrowserProfileStart.Click += BtnBrowserProfileStart_Click;
+            btnRefresh.Click += BtnRefresh_Click;
 
             label1.Text = nameof(BrowserProfilesControl);
 
@@ -52,8 +53,6 @@ namespace ScenarioApp.Controls
             BindingSource_CurrentChanged(bindingSource, null);
         }
 
-
-
         private void BtnNewBrowserProfile_Click(object sender, EventArgs e)
         {
             IBrowserProfile browserProfile = _browserProfileService.GetNew();
@@ -65,7 +64,7 @@ namespace ScenarioApp.Controls
                 _browserProfileService.Add(browserProfile);
                 _browserProfileService.SaveProfiles();
             }
-            bindingSource.ResetBindings(false);
+            RefreshData();
         }
 
         private void BtnEditBrowserProfile_Click(object sender, EventArgs e)
@@ -80,7 +79,7 @@ namespace ScenarioApp.Controls
                 if (childForm.ShowDialog() == DialogResult.OK)
                 {
                     _browserProfileService.SaveProfiles();
-                    bindingSource.ResetBindings(false);
+                    RefreshData();
                 }
             }
         }
@@ -94,7 +93,7 @@ namespace ScenarioApp.Controls
             if (confirmResult != DialogResult.Yes) return;
             _browserProfileService.RemoveByFolder(browserProfile.Folder);
             _browserProfileService.SaveProfiles();
-            bindingSource.ResetBindings(false);
+            RefreshData();
         }
 
         private async void BtnBrowserProfileStart_Click(object sender, EventArgs e)
@@ -112,6 +111,11 @@ namespace ScenarioApp.Controls
             }
             
         }
+        
+        private void BtnRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
 
         private void BindingSource_CurrentChanged(object sender, EventArgs e)
         {
@@ -120,5 +124,9 @@ namespace ScenarioApp.Controls
             Folder = browserProfile.Folder;
         }
 
+        private void RefreshData()
+        {
+            bindingSource.ResetBindings(false);
+        }
     }
 }
