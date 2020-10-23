@@ -220,6 +220,10 @@
       <Project>{d3429939-a8bf-4b4b-bfcd-18a3f6c69bc9}</Project>
       <Name>ScenarioService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ScenarioContext\ScenarioContext.csproj">
+      <Project>{769BE3EC-6D20-4D3D-A340-8E8F9D22593B}</Project>
+      <Name>ScenarioContext</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimSmsOrg\SimSmsOrg.csproj">
       <Project>{BE0EFC1B-F2B3-4A83-8647-2D14B53DD4AD}</Project>
       <Name>SimSmsOrg</Name>

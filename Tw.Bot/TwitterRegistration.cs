@@ -25,7 +25,8 @@ namespace Tw.Bot
         }
 
         public TwitterRegistration(IAccountData data, ISmsService smsService, IBrowserProfileService browserProfileService, string folder = "") : base(data, smsService, browserProfileService, folder)
-        { }
+        { 
+        }
 
         protected override ServiceCode GetServiceCode() => ServiceCode.Twitter;
         protected override string GetRegistrationUrl() => RegistrationUrl;

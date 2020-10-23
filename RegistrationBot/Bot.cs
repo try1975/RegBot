@@ -64,6 +64,7 @@ namespace RegistrationBot
                 }
                 else if (!string.IsNullOrEmpty(_folder))
                 {
+                    _browserProfileService.AddToName(_folder, $" {_data.Domain}: {_data.AccountName}/{_data.Password}");
                     using (var browser = await _browserProfileService.StartProfile(_folder))
                     using (var page = await PageInit(browser)) await StartRegistration(page);
                 }

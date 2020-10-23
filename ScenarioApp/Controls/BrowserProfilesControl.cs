@@ -4,6 +4,7 @@ using ScenarioApp.Forms;
 using ScenarioContext;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -56,15 +57,21 @@ namespace ScenarioApp.Controls
         private void BtnNewBrowserProfile_Click(object sender, EventArgs e)
         {
             IBrowserProfile browserProfile = _browserProfileService.GetNew();
+            _browserProfileService.Add(browserProfile);
+            
             var childForm = new ChildForm();
             _browserProfileControl.SetData(browserProfile);
             childForm.AddControlToWorkArea((Control)_browserProfileControl);
+            
             if (childForm.ShowDialog() == DialogResult.OK)
             {
-                _browserProfileService.Add(browserProfile);
                 _browserProfileService.SaveProfiles();
+                RefreshData();
             }
-            RefreshData();
+            else
+            {
+                _browserProfileService.RemoveByFolder(browserProfile.Folder);
+            }
         }
 
         private void BtnEditBrowserProfile_Click(object sender, EventArgs e)

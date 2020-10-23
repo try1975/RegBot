@@ -98,5 +98,11 @@ namespace ScenarioContext
             if (browserProfile != null) return browserProfile.ProfileStart(_chromiumPath, _profilesPath);
             return null;
         }
+
+        public void AddToName(string folder, string text)
+        {
+            var browserProfile = _browserProfiles.FirstOrDefault(z => z.Folder.Equals(folder));
+            if (browserProfile != null) browserProfile.Name += text;
+        }
     }
 }

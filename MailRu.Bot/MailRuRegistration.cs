@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
 using PuppeteerSharp.Mobile;
+using ScenarioContext;
 using System;
 using System.IO;
 using System.Linq;
@@ -26,6 +27,9 @@ namespace MailRu.Bot
         {
             _chromiumSettings.Proxy = _chromiumSettings.GetProxy(GetServiceCode());
         }
+
+        public MailRuRegistration(IAccountData data, ISmsService smsService, IBrowserProfileService browserProfileService, string folder = "") : base(data, smsService, browserProfileService, folder)
+        { }
 
         #region infra
         protected override ServiceCode GetServiceCode() => ServiceCode.MailRu;

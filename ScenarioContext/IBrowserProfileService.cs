@@ -11,6 +11,7 @@ namespace ScenarioContext
         string Add(IBrowserProfile browserProfile);
         IBrowserProfile GetNew();
         void RemoveByFolder(string folder);
+        void AddToName(string folder, string text);
         Task<Browser> StartProfile(string folder);
     }
 }

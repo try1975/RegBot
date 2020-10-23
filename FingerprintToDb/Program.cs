@@ -21,7 +21,7 @@ namespace FingerprintToDb
                 {
                     services.AddLogging(configure => configure.AddConsole());
                     services.AddTransient<FingerprintToDbApplication>();
-                    services.AddSingleton<FingerprintStore>();
+                    services.AddSingleton<IFingerprintStore>(new FingerprintStore(hostContext.Configuration["connectionString"]));
                 })
                 //.ConfigureLogging(logging =>
                 //{

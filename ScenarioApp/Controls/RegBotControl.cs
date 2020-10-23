@@ -93,6 +93,11 @@ namespace ScenarioApp.Controls
             cmbSmsService.DisplayMember = "Text";
             cmbSmsService.SelectedIndex = 0;
 
+            var browserProfileItems = BrowserProfileItem.GetItems(_browserProfileService);
+            cmbBrowserProfile.DataSource = browserProfileItems;
+            cmbBrowserProfile.DisplayMember = "Text";
+            cmbBrowserProfile.SelectedIndex = 0;
+
             var browserFetcher = new BrowserFetcher();
             browserFetcher.DownloadProgressChanged += OnDownloadProgressChanged;
             GetBrowserLastVersion(browserFetcher);
@@ -243,6 +248,9 @@ namespace ScenarioApp.Controls
         {
             try
             {
+                var useChromiumSettings = cmbBrowserProfile.SelectedIndex == 0;
+                var folder = ((BrowserProfileItem)cmbBrowserProfile.SelectedItem).Folder;
+
                 ISmsService smsService = null;
                 if (byPhone)
                 {
@@ -264,6 +272,7 @@ namespace ScenarioApp.Controls
                 {
                     case ServiceCode.MailRu:
                         iBot = new MailRuRegistration(accountData, smsService, chromiumSettings);
+                        //iBot = new MailRuRegistration(accountData, smsService, _browserProfileService);
                         break;
                     case ServiceCode.Yandex:
                         iBot = new YandexRegistration(accountData, smsService, chromiumSettings);
@@ -285,11 +294,14 @@ namespace ScenarioApp.Controls
                         iBot = new OkRegistration(accountData, smsService, chromiumSettings);
                         break;
                     case ServiceCode.Instagram:
-                        iBot = new InstagramRegistration(accountData, smsService, chromiumSettings);
+                        iBot = useChromiumSettings ?
+                            new InstagramRegistration(accountData, smsService, chromiumSettings) :
+                            new InstagramRegistration(accountData, smsService, _browserProfileService, folder);
                         break;
                     case ServiceCode.Twitter:
-                        //iBot = new TwitterRegistration(accountData, smsService, chromiumSettings);
-                        iBot = new TwitterRegistration(accountData, smsService, _browserProfileService);
+                        iBot = useChromiumSettings ?
+                            new TwitterRegistration(accountData, smsService, chromiumSettings) :
+                            new TwitterRegistration(accountData, smsService, _browserProfileService, folder);
                         break;
                 }
                 if (countryCode == null) countryCode = ((CountryItem)cmbCountry.SelectedItem).CountryCode;

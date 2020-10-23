@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowserProfile.cs" />
+    <Compile Include="BrowserProfileItem.cs" />
     <Compile Include="BrowserProfileService.cs" />
     <Compile Include="IBrowserProfileService.cs" />
     <Compile Include="IBrowserProfile.cs" />

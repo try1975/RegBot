@@ -13,10 +13,10 @@ namespace FingerprintToDb
     {
         private readonly ILogger<FingerprintToDbApplication> _logger;
         private readonly List<string> _fingerprintsFolders;
-        private readonly FingerprintStore _fingerprintStore;
+        private readonly IFingerprintStore _fingerprintStore;
         private const string _fingerprintsFoldersKey = "FingerprintsFolders";
 
-        public FingerprintToDbApplication(ILogger<FingerprintToDbApplication> logger, IConfiguration configuration, FingerprintStore fingerprintStore)
+        public FingerprintToDbApplication(ILogger<FingerprintToDbApplication> logger, IConfiguration configuration, IFingerprintStore fingerprintStore)
         {
             _logger = logger;
             _fingerprintsFolders = configuration.GetSection(_fingerprintsFoldersKey).Get<List<string>>();

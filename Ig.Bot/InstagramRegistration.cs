@@ -6,8 +6,8 @@ using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
 using PuppeteerSharp.Input;
+using ScenarioContext;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -23,6 +23,10 @@ namespace Ig.Bot
         public InstagramRegistration(IAccountData data, ISmsService smsService, IChromiumSettings chromiumSettings) : base(data, smsService, chromiumSettings)
         {
             _chromiumSettings.Proxy = _chromiumSettings.GetProxy(ServiceCode.Ok);
+        }
+
+        public InstagramRegistration(IAccountData data, ISmsService smsService, IBrowserProfileService browserProfileService, string folder = "") : base(data, smsService, browserProfileService, folder)
+        {
         }
 
         protected override ServiceCode GetServiceCode() => ServiceCode.Instagram;
