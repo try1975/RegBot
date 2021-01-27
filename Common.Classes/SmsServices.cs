@@ -71,6 +71,12 @@ namespace Common.Classes
                     .Where(z => smsServiceInfoCondition.CountryCodes.Contains(z.CountryCode))
                     .ToList();
             }
+            if ((smsServiceInfoCondition.SmsServiceCodes != null) && smsServiceInfoCondition.SmsServiceCodes.Any())
+            {
+                smsServiceInfoList = smsServiceInfoList
+                    .Where(z => smsServiceInfoCondition.SmsServiceCodes.Contains(z.SmsServiceCode))
+                    .ToList();
+            }
             return smsServiceInfoList;
         }
 

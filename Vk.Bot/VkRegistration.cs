@@ -5,7 +5,6 @@ using log4net;
 using Newtonsoft.Json;
 using PuppeteerService;
 using PuppeteerSharp;
-using System;
 using System.Threading.Tasks;
 
 namespace Vk.Bot
@@ -42,7 +41,7 @@ namespace Vk.Bot
             await page.ClickAsync($"div#join_country_row li[title*='(+{_countryPrefix})']");
 
             await page.TypeAsync("input#join_phone", _data.Phone.Substring(_countryPrefix.Length + 1), _typeOptions);
-            await page.ClickAsync("div#join_accept_terms_checkbox div.checkbox");
+            //await page.ClickAsync("div#join_accept_terms_checkbox div.checkbox");
 
             await page.ClickAsync("div#join_phone_submit button");
 

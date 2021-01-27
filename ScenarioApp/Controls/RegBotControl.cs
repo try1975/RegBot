@@ -354,6 +354,13 @@ namespace ScenarioApp.Controls
                     ((CountryItem)cmbCountry.SelectedItem).CountryCode
                 };
             }
+            if (!cbSmsAuto.Checked)
+            {
+                smsServiceInfoCondition.SmsServiceCodes = new List<SmsServiceCode> 
+                { 
+                    ((SmsServiceItem)cmbSmsService.SelectedItem).SmsServiceCode
+                };
+            }
             return smsServiceInfoCondition;
         }
 

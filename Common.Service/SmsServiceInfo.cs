@@ -18,5 +18,6 @@ namespace Common.Service
     {
         public ServiceCode ServiceCode { get; set; }
         public List<CountryCode> CountryCodes { get; set; }
+        public List<SmsServiceCode> SmsServiceCodes { get; set; }
     }
 }
