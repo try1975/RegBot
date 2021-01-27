@@ -15,6 +15,7 @@ namespace Common.Service
                 { ServiceCode.Other, string.Empty },
                 { ServiceCode.Facebook, "facebook.com" },
                 { ServiceCode.Vk, "vk.com" },
+                { ServiceCode.Ok, "ok.ru" },
                 { ServiceCode.Instagram, "instagram.com" },
                 { ServiceCode.Twitter, "twitter.com" },
                 { ServiceCode.Telegram, "telegram.org" }

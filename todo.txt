@@ -1,4 +1,4 @@
-Sms-activate.ru
+Sms-activate.ru https://sms-activate.ru/ru/api2//
 Sms-area.org
 Sms-reg.com
 Smska.net

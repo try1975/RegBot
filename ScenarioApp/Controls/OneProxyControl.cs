@@ -14,6 +14,7 @@ namespace ScenarioApp.Controls
         public OneProxyControl()
         {
             InitializeComponent();
+            ProxyRecord = new ProxyRecord();
             cbProxyProtocol.TextChanged += CbProxyProtocol_TextChanged;
             cbProxyProtocol.SelectedIndexChanged += CbProxyProtocol_SelectedIndexChanged;
             tbHost.TextChanged += TbHost_TextChanged;
@@ -35,6 +36,7 @@ namespace ScenarioApp.Controls
         {
             if (Enum.TryParse<ProxyProtocol>(cbProxyProtocol.Text.ToUpper(), out ProxyProtocol proxyProtocol))
             {
+                if (ProxyRecord == null) return;
                 if (ProxyRecord.ProxyProtocol != proxyProtocol) ProxyRecord.ProxyProtocol = proxyProtocol;
             }
         }
