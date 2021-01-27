@@ -16,6 +16,7 @@ namespace SimSmsOrg
 {
     public class SimSmsOrgApi : ISmsService
     {
+        private const string BaseUrl = "https://simsms1.org";
         #region private fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(SimSmsOrgApi));
 
@@ -40,7 +41,8 @@ namespace SimSmsOrg
 
         public SimSmsOrgApi()
         {
-            var baseUrl = $"https://simsms.org/stubs/handler_api.php?api_key={_apiKeySimSmsOrg}";
+
+            var baseUrl = $"{BaseUrl}/stubs/handler_api.php?api_key={_apiKeySimSmsOrg}";
             _apiHttpClient = new HttpClient(new LoggingHandler());
             _apiHttpClient.DefaultRequestHeaders.Accept.Clear();
             _apiHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -50,7 +52,7 @@ namespace SimSmsOrg
             _endpointSetStatus = $"{baseUrl}&action=setStatus";
             _endpointGetStatus = $"{baseUrl}&action=getStatus";
 
-            var baseUrl2 = $"https://simsms.org/priemnik.php?apikey={_apiKeySimSmsOrg}";
+            var baseUrl2 = $"{BaseUrl}/priemnik.php?apikey={_apiKeySimSmsOrg}";
             _endpointGetNumberCount = $"{baseUrl2}&metod=get_count_new";
             _endpointGetNumberPrice = $"{baseUrl2}&metod=get_service_price";
 
@@ -67,7 +69,7 @@ namespace SimSmsOrg
             _services[ServiceCode.Instagram] = "ig";
             _services[ServiceCode.Twitter] = "tw";
             _services[ServiceCode.Telegram] = "tg";
-            //http://simsms.org/new_theme_api.html
+            //$"{BaseUrl}/new_theme_api.html"
 
 
             CountryParams[CountryCode.RU] = "0";
