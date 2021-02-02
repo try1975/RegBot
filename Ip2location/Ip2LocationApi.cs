@@ -24,7 +24,7 @@ namespace Ip2location
             _apiHttpClient.DefaultRequestHeaders.Accept.Clear();
             _apiHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             //https://api.ip2location.com/v2/?ip=88.150.236.115&key=demo&package=WS11&addon=country,time_zone_info&lang=ru
-            if (string.IsNullOrEmpty(_apiKeyIp2Location)) _apiKeyIp2Location = "demo"; //2G8NSHAJW3
+            if (string.IsNullOrEmpty(_apiKeyIp2Location)) _apiKeyIp2Location = "demo";
             var baseUrl = $"https://api.ip2location.com/v2/?key={_apiKeyIp2Location}&package=WS11&addon=country,time_zone_info&format=json";
             _endpointGetInfo = baseUrl;
         }
