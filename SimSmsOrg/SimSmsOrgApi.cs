@@ -16,7 +16,7 @@ namespace SimSmsOrg
 {
     public class SimSmsOrgApi : ISmsService
     {
-        private const string BaseUrl = "https://simsms1.org";
+        private const string BaseUrl = "https://simsms4.org";
         #region private fields
         private static readonly ILog Log = LogManager.GetLogger(typeof(SimSmsOrgApi));
 
